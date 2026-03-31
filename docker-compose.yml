@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: yslingshot
+      MYSQL_USER: yslingshot
+      MYSQL_PASSWORD: goWnJ40eALjKe6D
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    image: wordpress:php8.1-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: yslingshot
+      WORDPRESS_DB_USER: yslingshot
+      WORDPRESS_DB_PASSWORD: goWnJ40eALjKe6D
+      WORDPRESS_TABLE_PREFIX: wp_
+
+volumes:
+  db_data:

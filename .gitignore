@@ -1,0 +1,9 @@
+# Migration backups (huge files)
+wp-content/ai1wm-backups/
+
+# DB dumps
+*.sql
+dump.sql
+
+# OS
+.DS_Store
