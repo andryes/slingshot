@@ -77,6 +77,43 @@ $blog_news = new WP_Query($args_news);
 
 
 
+			<!-- ========================
+			     AI HERO – Figma Redesign
+			     ======================== -->
+			<div class="ai-hero-section">
+				<!-- Decorative background sphere blobs -->
+				<div class="ai-hero-blob ai-hero-blob-1"></div>
+				<div class="ai-hero-blob ai-hero-blob-2"></div>
+				<div class="ai-hero-blob ai-hero-blob-3"></div>
+
+				<div class="ai-hero-inner">
+					<!-- Left: Text Content -->
+					<div class="ai-hero-content">
+						<div class="ai-hero-breadcrumb">
+							<span>SERVICES</span>
+							<span class="ai-hero-breadcrumb-sep">/</span>
+							<span>AI</span>
+						</div>
+						<h1 class="ai-hero-heading">AI is Reshaping Business. Be the One Who Leads.</h1>
+						<p class="ai-hero-subtext">Slingshot helps forward-thinking teams adopt AI that drives real business impact — from strategy and use cases to prototypes and deployed solutions.</p>
+						<a href="/contact/" class="ai-hero-cta-btn">Book a call <span class="ai-hero-cta-arrow">&#8594;</span></a>
+					</div>
+
+					<!-- Right: Person photos (side by side, matching Figma) -->
+					<div class="ai-hero-photos-wrap">
+						<div class="ai-hero-photo-grid">
+							<div class="ai-hero-photo ai-hero-photo-left">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-person-1.jpg" alt="Slingshot team collaborating on AI"/>
+							</div>
+							<div class="ai-hero-photo ai-hero-photo-right">
+								<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-person-2.jpg" alt="Slingshot engineer working on AI solution"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /AI HERO -->
+
 			<div class="hero-block">
 				<div class="hero-block-bg row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
 				<div class="hero-block-bg-bottom row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
