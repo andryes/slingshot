@@ -1,0 +1,179 @@
+/* ─── Slingshot Footer ──────────────────────────────── */
+:root {
+    --sl-footer-bg:      #282828;
+    --sl-footer-card-bg: #282828;
+    --sl-footer-font:    'Plus Jakarta Sans', sans-serif;
+}
+
+.sl-footer {
+    background: #f5f5f5;
+    font-family: var(--sl-footer-font);
+    padding: 24px 24px 0;
+}
+
+/* ── Card wrapper ───────────────────────────────────── */
+.sl-footer-card {
+    background: var(--sl-footer-card-bg);
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+}
+
+/* ── Main grid ──────────────────────────────────────── */
+.sl-footer-main {
+    padding: 64px 56px 56px;
+}
+.sl-footer-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr 1fr 260px;
+    gap: 48px;
+    align-items: start;
+}
+
+/* ── Contact col ────────────────────────────────────── */
+.sl-footer-contact {
+    display: flex; flex-direction: column;
+    gap: 14px; margin-bottom: 28px;
+}
+.sl-footer-contact-link {
+    font-size: 15px;
+    color: rgba(255,255,255,.85);
+    text-decoration: none; line-height: 1.5;
+    transition: color .2s;
+}
+.sl-footer-contact-link:hover { color: #fff; }
+.sl-contact-email {
+    font-size: 17px; font-weight: 500;
+    color: #fff;
+}
+.sl-contact-phone {
+    font-size: 22px; font-weight: 500;
+    color: #fff; letter-spacing: .01em;
+}
+.sl-footer-address {
+    font-size: 14px; color: rgba(255,255,255,.6);
+    cursor: default; line-height: 1.6;
+}
+.sl-footer-address:hover { color: rgba(255,255,255,.6); }
+
+/* Social icons */
+.sl-footer-social { display: flex; gap: 12px; margin-bottom: 28px; }
+.sl-footer-social-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,.25);
+    color: rgba(255,255,255,.75);
+    transition: border-color .2s, color .2s;
+}
+.sl-footer-social-link:hover {
+    border-color: rgba(255,255,255,.6);
+    color: #fff;
+}
+
+/* SOC2 badge */
+.sl-footer-badge {
+    display: flex; align-items: center; gap: 12px;
+}
+.sl-footer-soc2-text {
+    display: flex; flex-direction: column;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    line-height: 1.5;
+}
+
+/* ── Column headings ────────────────────────────────── */
+.sl-footer-col-heading {
+    font-size: 13px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.9);
+    margin: 0 0 24px;
+}
+
+/* ── 2-column link grids ────────────────────────────── */
+.sl-footer-links-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+}
+
+/* ── Nav links ──────────────────────────────────────── */
+.sl-footer-links {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.sl-footer-links a {
+    font-size: 14px; color: rgba(255,255,255,.55);
+    text-decoration: none; line-height: 1.4;
+    transition: color .2s;
+}
+.sl-footer-links a:hover { color: #fff; }
+
+/* ── Newsletter card ────────────────────────────────── */
+.sl-footer-newsletter-card {
+    background: rgba(255,255,255,.07);
+    border-radius: 16px;
+    padding: 28px 24px;
+}
+.sl-footer-newsletter-desc {
+    font-size: 17px; font-weight: 600; line-height: 1.5;
+    color: #fff;
+    margin: 0 0 24px;
+}
+.sl-footer-newsletter-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; color: #282828;
+    border-radius: 100px;
+    padding: 13px 28px;
+    font-size: 15px; font-weight: 700;
+    font-family: var(--sl-footer-font);
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+    width: 100%; justify-content: center;
+    box-sizing: border-box;
+}
+.sl-footer-newsletter-btn:hover { background: rgba(255,255,255,.9); transform: translateY(-1px); }
+
+/* ── Copyright bar ──────────────────────────────────── */
+.sl-footer-bar {
+    padding: 24px 56px;
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+.sl-footer-bar-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: rgba(255,255,255,.4);
+}
+.sl-footer-legal { display: flex; align-items: center; gap: 12px; }
+.sl-footer-legal a {
+    color: rgba(255,255,255,.4); text-decoration: none;
+    transition: color .2s;
+}
+.sl-footer-legal a:hover { color: rgba(255,255,255,.75); }
+.sl-footer-divider { color: rgba(255,255,255,.25); }
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .sl-footer-inner {
+        grid-template-columns: 220px 1fr 1fr;
+        grid-template-rows: auto auto;
+    }
+    .sl-footer-newsletter-col {
+        grid-column: 1 / -1;
+    }
+    .sl-footer-newsletter-card {
+        max-width: 400px;
+    }
+}
+@media (max-width: 768px) {
+    .sl-footer { padding: 16px 16px 0; }
+    .sl-footer-main { padding: 48px 28px 40px; }
+    .sl-footer-bar  { padding: 20px 28px; }
+    .sl-footer-inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+    .sl-footer-newsletter-col { grid-column: auto; }
+    .sl-footer-newsletter-card { max-width: 100%; }
+    .sl-footer-bar-inner { flex-direction: column; gap: 12px; text-align: center; }
+}

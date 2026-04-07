@@ -54,13 +54,6 @@ $img_dir = get_stylesheet_directory_uri() . '/img';
 
 <div class="home-page-wrapper">
 
-    <!-- ── Announcement Bar ─────────────────────── -->
-    <div class="home-announcement-bar">
-        <span class="ann-label">Upcoming Event: Sep 20, 2025</span>
-        Louisville IA Exchange and TechFest
-        <a href="#" class="ann-register">Register →</a>
-    </div>
-
     <!-- ── Hero ─────────────────────────────────── -->
     <section class="home-hero-section">
         <div class="hp-blob hp-blob-1"></div>
@@ -448,44 +441,56 @@ $img_dir = get_stylesheet_directory_uri() . '/img';
         </div>
     </section>
 
+    <!-- ── Newsletter ───────────────────────────── -->
+    <section class="home-newsletter-section">
+        <div class="home-newsletter-inner">
+            <div class="home-newsletter-content">
+                <p class="home-newsletter-label">Newsletter</p>
+                <h2 class="home-newsletter-title">Stay in the Loop</h2>
+                <p class="home-newsletter-desc">Get the latest news from Slingshot with our bi-weekly newsletter — AI trends, product updates, and team insights.</p>
+            </div>
+            <form class="home-newsletter-form" onsubmit="return false;">
+                <div class="home-newsletter-input-wrap">
+                    <input type="email" class="home-newsletter-input" placeholder="Enter your email address" aria-label="Email address">
+                    <button type="submit" class="home-newsletter-btn">Subscribe &rarr;</button>
+                </div>
+                <p class="home-newsletter-fine">No spam, ever. Unsubscribe any time.</p>
+            </form>
+        </div>
+    </section>
+
     <!-- ── CTA ───────────────────────────────────── -->
     <section class="home-cta-section">
         <div class="home-cta-inner">
 
             <!-- Mascot illustration -->
             <div class="home-cta-mascot">
+                <?php
+                $mascot_path = get_stylesheet_directory() . '/img/cta-mascot.png';
+                $mascot_url  = get_stylesheet_directory_uri() . '/img/cta-mascot.png';
+                if ( file_exists( $mascot_path ) ) : ?>
+                    <img src="<?php echo esc_url( $mascot_url ); ?>" alt="Slingshot mascot" width="380" height="420">
+                <?php else : ?>
+                <!-- TODO: Export mascot from Figma (node 8930-23258) and save to img/cta-mascot.png -->
                 <svg class="home-cta-mascot-svg" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Rocket body -->
                     <ellipse cx="140" cy="290" rx="55" ry="16" fill="rgba(75,35,176,.12)"/>
-                    <!-- Flame -->
                     <path d="M120 260 C115 275 125 285 140 290 C155 285 165 275 160 260 C150 268 130 268 120 260Z" fill="#FF8C42"/>
                     <path d="M128 262 C124 272 132 280 140 283 C148 280 156 272 152 262 C146 268 134 268 128 262Z" fill="#FFD166"/>
-                    <!-- Rocket body -->
                     <rect x="108" y="140" width="64" height="120" rx="32" fill="#4B23B0"/>
-                    <!-- Rocket tip -->
                     <ellipse cx="140" cy="140" rx="32" ry="32" fill="#6D44B7"/>
                     <path d="M108 168 C108 140 172 140 172 168" fill="#6D44B7"/>
-                    <!-- Window -->
                     <circle cx="140" cy="165" r="18" fill="#fff" opacity=".15"/>
                     <circle cx="140" cy="165" r="12" fill="#fff" opacity=".25"/>
-                    <!-- Eyes / face -->
                     <circle cx="133" cy="142" r="5" fill="#fff"/>
                     <circle cx="147" cy="142" r="5" fill="#fff"/>
                     <circle cx="134" cy="143" r="2.5" fill="#1B1060"/>
                     <circle cx="148" cy="143" r="2.5" fill="#1B1060"/>
-                    <!-- Ears / horns -->
                     <path d="M108 155 C96 140 90 130 100 122 C108 130 108 145 108 155Z" fill="#5D2DBF"/>
                     <path d="M172 155 C184 140 190 130 180 122 C172 130 172 145 172 155Z" fill="#5D2DBF"/>
-                    <!-- Wings -->
                     <path d="M108 220 C90 210 76 220 80 236 C88 232 100 228 108 230Z" fill="#23B7B4"/>
                     <path d="M172 220 C190 210 204 220 200 236 C192 232 180 228 172 230Z" fill="#23B7B4"/>
-                    <!-- Stars -->
-                    <circle cx="64" cy="100" r="3" fill="#FFD166" opacity=".6"/>
-                    <circle cx="220" cy="80" r="2" fill="#FFD166" opacity=".5"/>
-                    <circle cx="50" cy="200" r="2" fill="#fff" opacity=".4"/>
-                    <circle cx="230" cy="180" r="3" fill="#23B7B4" opacity=".5"/>
-                    <circle cx="80" cy="60" r="2" fill="#fff" opacity=".35"/>
                 </svg>
+                <?php endif; ?>
             </div>
 
             <div class="home-cta-card">

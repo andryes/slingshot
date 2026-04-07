@@ -660,12 +660,70 @@
 }
 .home-cta-btn:hover { background: rgba(255,255,255,.9); color: #2A1878; transform: translateY(-2px); }
 
+/* ─── Newsletter ─────────────────────────────────── */
+.home-newsletter-section {
+    background: linear-gradient(140deg, #0F0B28 0%, #1A1060 50%, #0F0B28 100%);
+    padding: 96px 48px;
+    font-family: var(--hp-font);
+}
+.home-newsletter-inner {
+    max-width: 1240px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+}
+.home-newsletter-label {
+    font-size: 13px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--hp-teal); margin: 0 0 16px;
+}
+.home-newsletter-title {
+    font-size: clamp(30px, 3.5vw, 44px);
+    font-weight: 800; color: #fff;
+    letter-spacing: -.03em; line-height: 1.1;
+    margin: 0 0 20px;
+}
+.home-newsletter-desc {
+    font-size: 16px; color: rgba(255,255,255,.65);
+    line-height: 1.7; margin: 0;
+}
+.home-newsletter-form { display: flex; flex-direction: column; gap: 12px; }
+.home-newsletter-input-wrap {
+    display: flex; gap: 0;
+    background: rgba(255,255,255,.07);
+    border: 1.5px solid rgba(255,255,255,.15);
+    border-radius: 100px;
+    overflow: hidden;
+}
+.home-newsletter-input {
+    flex: 1; background: transparent;
+    border: none; outline: none;
+    padding: 16px 24px;
+    font-size: 15px; color: #fff;
+    font-family: var(--hp-font);
+}
+.home-newsletter-input::placeholder { color: rgba(255,255,255,.4); }
+.home-newsletter-btn {
+    background: var(--hp-teal); color: #fff;
+    border: none; border-radius: 100px;
+    padding: 14px 28px; margin: 4px;
+    font-size: 15px; font-weight: 700;
+    font-family: var(--hp-font);
+    cursor: pointer; white-space: nowrap;
+    transition: background .2s, transform .2s;
+}
+.home-newsletter-btn:hover { background: #1da8a5; transform: translateY(-1px); }
+.home-newsletter-fine {
+    font-size: 13px; color: rgba(255,255,255,.35);
+    margin: 0; padding-left: 24px;
+}
+
 /* ─── Responsive ─────────────────────────────────── */
 @media (max-width: 1100px) {
     .home-hero-inner,
     .home-services-inner { grid-template-columns: 1fr; gap: 48px; }
     .home-about-inner { grid-template-columns: 1fr; }
     .home-cta-inner { grid-template-columns: 1fr; }
+    .home-newsletter-inner { grid-template-columns: 1fr; gap: 40px; }
     .work-card { flex: 0 0 calc(50% - 12px); }
     .home-events-cards,
     .home-blog-cards { grid-template-columns: repeat(2, 1fr); }
@@ -678,6 +736,7 @@
     .home-about-section,
     .home-events-section,
     .home-blog-section,
+    .home-newsletter-section,
     .home-cta-section { padding: 64px 24px; }
     .home-logos-strip-wrapper { padding: 0 24px; }
     .home-services-grid { grid-template-columns: 1fr; }
