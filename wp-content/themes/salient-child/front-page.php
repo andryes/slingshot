@@ -12,7 +12,7 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.1'
+	array(), '1.6'
 );
 wp_enqueue_script(
 	'hp-script',
@@ -117,21 +117,21 @@ $default_services = [
 	],
 	[
 		'title' => 'Artificial<br>Intelligence',
-		'desc'  => '',
+		'desc'  => 'Embed intelligence into your products and workflows before your competitors do.',
 		'url'   => '/ai',
 		'style' => 'dark',
 		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="7" stroke="rgba(255,255,255,.85)" stroke-width="2"/><path d="M20 6V11M20 29V34M6 20H11M29 20H34M9.4 9.4l3.5 3.5M27.1 27.1l3.5 3.5M30.6 9.4l-3.5 3.5M12.9 27.1l-3.5 3.5" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/></svg>',
 	],
 	[
 		'title' => 'Teams',
-		'desc'  => '',
+		'desc'  => 'Senior engineers and product leaders embedded in your team—no ramp-up, just results.',
 		'url'   => '/teams',
-		'style' => 'light',
-		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="13" r="5" stroke="#4B23B0" stroke-width="2"/><circle cx="27" cy="13" r="5" stroke="#4B23B0" stroke-width="2"/><path d="M6 33c0-5.523 4.477-10 10-10h8c5.523 0 10 4.477 10 10" stroke="#4B23B0" stroke-width="2" stroke-linecap="round"/></svg>',
+		'style' => 'dark',
+		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="13" r="5" stroke="rgba(255,255,255,.85)" stroke-width="2"/><circle cx="27" cy="13" r="5" stroke="rgba(255,255,255,.85)" stroke-width="2"/><path d="M6 33c0-5.523 4.477-10 10-10h8c5.523 0 10 4.477 10 10" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/></svg>',
 	],
 	[
 		'title' => 'Product',
-		'desc'  => '',
+		'desc'  => 'From zero to launch—strategy, design, and engineering for founders who move fast.',
 		'url'   => '/product',
 		'style' => 'dark',
 		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="24" height="24" rx="4" stroke="rgba(255,255,255,.85)" stroke-width="2"/><path d="M14 20h12M14 14h12M14 26h6" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/></svg>',

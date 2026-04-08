@@ -7,7 +7,7 @@
     --hp-purple2: #4B23B0;
     --hp-teal:    #23B7B4;
     --hp-white:   #FFFFFF;
-    --hp-light:   #F5F5F7;
+    --hp-light:   #F3F2F8;
     --hp-font:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -258,7 +258,7 @@
 .home-services-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
+    grid-auto-rows: 1fr;
     gap: 14px;
 }
 .service-card {
@@ -274,9 +274,7 @@
 /* Featured (Consulting) */
 .service-card.featured {
     background: #fff;
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    min-height: 280px;
+    min-height: 200px;
     justify-content: space-between;
 }
 .service-card.dark {
@@ -487,7 +485,7 @@
 
 /* ─── Events ─────────────────────────────────────── */
 .home-events-section {
-    background: #fff;
+    background: var(--hp-light);
     padding: 100px 48px;
     font-family: var(--hp-font);
     overflow: hidden;
@@ -758,4 +756,51 @@
     .home-logos-strip { gap: 20px; }
     .home-about-left { padding: 32px; }
     .home-about-right { padding: 32px; }
+}
+
+/* ─── Homepage Header Overrides ──────────────────── */
+
+/* Transparent header over the hero */
+.home #header-outer,
+.home #header-outer.transparent-header {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+}
+.home #header-outer.scrolled,
+.home #header-outer.shadow-on-scroll {
+    background: rgba(10,7,36,.92) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Nav link color — white on dark hero */
+.home #header-outer #top nav > ul > li > a,
+.home #header-outer .sf-menu > li > a {
+    color: rgba(255,255,255,.85) !important;
+    font-family: var(--hp-font) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+.home #header-outer #top nav > ul > li > a:hover,
+.home #header-outer .sf-menu > li > a:hover {
+    color: #fff !important;
+}
+
+/* "Let's talk →" CTA button in the right-aligned nav */
+.home #header-outer .right-aligned-menu-items li a {
+    background: rgba(255,255,255,.12) !important;
+    color: #fff !important;
+    border: 1.5px solid rgba(255,255,255,.55) !important;
+    border-radius: 100px !important;
+    padding: 9px 22px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    font-family: var(--hp-font) !important;
+    transition: background .2s !important;
+    display: inline-block !important;
+    box-shadow: none !important;
+}
+.home #header-outer .right-aligned-menu-items li a:hover {
+    background: rgba(255,255,255,.25) !important;
 }
