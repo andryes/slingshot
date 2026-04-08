@@ -625,8 +625,8 @@
     gap: 64px; align-items: center;
 }
 .home-cta-mascot { display: flex; justify-content: center; align-items: center; }
-.home-cta-mascot img { max-width: 320px; width: 100%; }
-.home-cta-mascot-svg { max-width: 280px; width: 100%; }
+.home-cta-mascot img { width: 100%; }
+.home-cta-mascot-svg { width: 100%; }
 .home-cta-card {
     background: linear-gradient(140deg, #2A1878 0%, #4B23B0 100%);
     border-radius: 28px; padding: 56px;

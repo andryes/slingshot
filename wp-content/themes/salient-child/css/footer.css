@@ -11,6 +11,11 @@
     padding: 24px 24px 0;
 }
 
+.sl-footer ul li {
+    list-style: none;
+    list-style-position: unset;
+}
+
 /* ── Card wrapper ───────────────────────────────────── */
 .sl-footer-card {
     background: var(--sl-footer-card-bg);
