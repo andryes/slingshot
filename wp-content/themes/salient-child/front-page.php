@@ -12,12 +12,12 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.6'
+	array(), '1.18'
 );
 wp_enqueue_script(
 	'hp-script',
 	get_stylesheet_directory_uri() . '/js/home.js',
-	array('jquery'), '1.1', true
+	array('jquery'), '1.5', true
 );
 
 get_header();
@@ -35,7 +35,7 @@ function hp_setting( $field, $default = '' ) {
 	if ( ! function_exists( 'rwmb_meta' ) ) {
 		return $default;
 	}
-	$val = rwmb_meta( $field, [ 'object_type' => 'setting' ], 'slingshot_home' );
+	$val = call_user_func( 'rwmb_meta', $field, [ 'object_type' => 'setting' ], 'slingshot_home' );
 	return ( $val !== '' && $val !== null && $val !== false ) ? $val : $default;
 }
 
@@ -51,7 +51,7 @@ function hp_image_url( $field, $default = '', $size = 'large' ) {
 	if ( ! function_exists( 'rwmb_meta' ) ) {
 		return $default;
 	}
-	$id = rwmb_meta( $field, [ 'object_type' => 'setting' ], 'slingshot_home' );
+	$id = call_user_func( 'rwmb_meta', $field, [ 'object_type' => 'setting' ], 'slingshot_home' );
 	if ( ! $id ) {
 		return $default;
 	}
@@ -79,6 +79,22 @@ $work_query = new WP_Query( array(
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
 /* ── Settings values ─────────────────────────────── */
+
+// Header
+$header_logo = hp_image_url( 'home_header_logo', '' );
+$header_logo_alt = hp_setting( 'home_header_logo_alt', 'Slingshot' );
+$header_cta_text = hp_setting( 'home_header_cta_text', "Let's talk" );
+$header_cta_url  = hp_setting( 'home_header_cta_url', '/contact' );
+$header_mobile_menu_label = hp_setting( 'home_header_mobile_menu_label', 'Menu' );
+$home_logo_url = $header_logo;
+if ( ! $home_logo_url && function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
+	$logo_id = get_theme_mod( 'custom_logo' );
+	$home_logo_url = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
+}
+if ( ! $home_logo_url ) {
+	$home_logo_url = '/wp-content/uploads/2020/05/logo-light1x.png';
+}
+$home_menu_location = has_nav_menu( 'top_nav' ) ? 'top_nav' : ( has_nav_menu( 'main-menu' ) ? 'main-menu' : '' );
 
 // Hero
 $hero_title      = hp_setting( 'home_hero_title',     'For Big Kids &amp; Daredevils' );
@@ -164,13 +180,77 @@ if ( empty( $stats ) ) {
 // Events
 $events_title   = hp_setting( 'home_events_title',   'Join the Conversation' );
 $events_desc    = hp_setting( 'home_events_desc',    "We don't just build, we share. Explore upcoming events for leaders building in AI, product, and tech strategy." );
+$events_cta_text = hp_setting( 'home_events_cta_text', 'All Events' );
 $events_cta_url = hp_setting( 'home_events_cta_url', '/events' );
+$events_register_text = hp_setting( 'home_events_register_text', 'Register' );
 $events_raw     = hp_setting( 'home_events', [] );
 $events         = is_array( $events_raw ) ? $events_raw : [];
+$events_fallback_raw = hp_setting( 'home_events_fallback', [] );
+$events_fallback     = is_array( $events_fallback_raw ) ? $events_fallback_raw : [];
+if ( empty( $events_fallback ) ) {
+	$events_fallback = [
+		[
+			'image_url'      => $img_dir . '/hero-person-1.jpg',
+			'tag'            => 'Conference',
+			'title'          => 'Louisville IA Exchange and TechFest',
+			'date_location'  => 'October 21, 2025 · Louisville, KY',
+			'url'            => '#',
+		],
+		[
+			'image_url'      => $img_dir . '/hero-person-2.jpg',
+			'tag'            => 'Conference',
+			'title'          => 'Louisville IA Exchange and TechFest',
+			'date_location'  => 'October 21, 2025 · Louisville, KY',
+			'url'            => '#',
+		],
+		[
+			'bg_style'       => 'background:linear-gradient(135deg,#2A1878,#4B23B0);',
+			'tag'            => 'Workshop',
+			'title'          => 'AI Product Development Bootcamp',
+			'date_location'  => 'November 14, 2025 · Online',
+			'url'            => '#',
+		],
+	];
+}
 
 // Blog
-$blog_title = hp_setting( 'home_blog_title', 'Insights That Move Business Forward' );
-$blog_desc  = hp_setting( 'home_blog_desc',  'Get actionable ideas on software strategy, AI adoption, and scaling product delivery—straight from the minds of our team.' );
+$blog_title    = hp_setting( 'home_blog_title', 'Insights That Move Business Forward' );
+$blog_desc     = hp_setting( 'home_blog_desc',  'Get actionable ideas on software strategy, AI adoption, and scaling product delivery—straight from the minds of our team.' );
+$blog_cta_text = hp_setting( 'home_blog_cta_text', 'All Insights' );
+$blog_cta_url  = hp_setting( 'home_blog_cta_url', '/blog' );
+$blog_fallback_raw = hp_setting( 'home_blog_fallback', [] );
+$blog_fallback     = is_array( $blog_fallback_raw ) ? $blog_fallback_raw : [];
+if ( empty( $blog_fallback ) ) {
+	$blog_fallback = [
+		[
+			'url'        => '#',
+			'badge_text' => 'VIDEO',
+			'tag'        => 'AI',
+			'title'      => '"AI is enterprise-ready and simplifies development"',
+			'desc'       => 'Davis Galeana (CEO & President of Slingshot) shares how AI is transforming enterprise software development.',
+		],
+		[
+			'url'      => '#',
+			'bg_style' => 'background:linear-gradient(135deg,#1a3560,#2d5080);',
+			'tag'      => 'Innovation',
+			'title'    => 'How AI has rewired the hackathon',
+			'desc'     => 'Exploring how artificial intelligence is transforming the way teams approach hackathons and rapid prototyping.',
+		],
+		[
+			'url'      => '#',
+			'bg_style' => 'background:linear-gradient(135deg,#1a4530,#2d6045);',
+			'tag'      => 'Product',
+			'title'    => '4 Ways to Jumpstart real AI product development',
+			'desc'     => 'Practical strategies to move from AI ideation to a working product faster than you think.',
+		],
+	];
+}
+
+// Work
+$work_title        = hp_setting( 'home_work_title', 'From Solution<br>to Success Stories' );
+$work_cta_text     = hp_setting( 'home_work_cta_text', 'All Work' );
+$work_cta_url      = hp_setting( 'home_work_cta_url', '/work' );
+$work_empty_notice = hp_setting( 'home_work_empty_notice', '' );
 
 // CTA
 $cta_mascot   = hp_image_url( 'home_cta_mascot', '' );
@@ -181,16 +261,61 @@ $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
 ?>
 
 <style>
-/* Push content below fixed Salient header */
-@media (min-width: 1000px) {
-    .home-page-wrapper { margin-top: 0; }
-    body #header-space { display: none !important; }
-    .home-hero-section { padding-top: 0; }
-    .home-hero-inner { padding-top: 110px; }
+/* Hide theme header on home, custom header is rendered below */
+body.home #header-outer,
+body.home #header-space {
+    display: none !important;
 }
 </style>
 
 <div class="home-page-wrapper">
+    <header class="home-site-header" id="homeSiteHeader">
+        <div class="home-site-header-inner">
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="home-site-logo" aria-label="Home">
+                <?php if ( $home_logo_url ) : ?>
+                    <img src="<?php echo esc_url( $home_logo_url ); ?>" alt="<?php echo esc_attr( $header_logo_alt ); ?>">
+                <?php else : ?>
+                    <span class="home-site-logo-text"><?php echo esc_html( strtolower( get_bloginfo( 'name' ) ) ); ?></span>
+                <?php endif; ?>
+            </a>
+
+            <nav class="home-site-nav" aria-label="Primary">
+                <?php
+                if ( $home_menu_location ) {
+                    wp_nav_menu( [
+                        'theme_location' => $home_menu_location,
+                        'container'      => false,
+                        'menu_class'     => 'home-site-menu',
+                        'fallback_cb'    => false,
+                    ] );
+                }
+                ?>
+            </nav>
+
+            <a href="<?php echo esc_url( $header_cta_url ); ?>" class="home-site-header-cta">
+                <?php echo esc_html( $header_cta_text ); ?> &rarr;
+            </a>
+
+            <button class="home-site-menu-toggle" id="homeMenuToggle" aria-expanded="false" aria-controls="homeMobileMenu">
+                <span><?php echo esc_html( $header_mobile_menu_label ); ?></span>
+            </button>
+        </div>
+        <div class="home-mobile-menu" id="homeMobileMenu">
+            <?php
+            if ( $home_menu_location ) {
+                wp_nav_menu( [
+                    'theme_location' => $home_menu_location,
+                    'container'      => false,
+                    'menu_class'     => 'home-mobile-menu-list',
+                    'fallback_cb'    => false,
+                ] );
+            }
+            ?>
+            <a href="<?php echo esc_url( $header_cta_url ); ?>" class="home-mobile-menu-cta">
+                <?php echo esc_html( $header_cta_text ); ?> &rarr;
+            </a>
+        </div>
+    </header>
 
     <!-- ── Hero ─────────────────────────────────── -->
     <section class="home-hero-section">
@@ -299,8 +424,8 @@ $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
         <div class="home-work-inner">
 
             <div class="home-section-header">
-                <h2 class="home-section-title">From Solution<br>to Success Stories</h2>
-                <a href="/work" class="home-section-link">All Work &rarr;</a>
+                <h2 class="home-section-title"><?php echo wp_kses_post( $work_title ); ?></h2>
+                <a href="<?php echo esc_url( $work_cta_url ); ?>" class="home-section-link"><?php echo esc_html( $work_cta_text ); ?> &rarr;</a>
             </div>
 
             <div class="home-work-carousel">
@@ -331,54 +456,27 @@ $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
                         <?php endwhile; wp_reset_postdata(); ?>
 
                     <?php else : ?>
-                        <!-- Static fallback cards -->
-                        <a href="#" class="work-card">
-                            <div class="work-card-image" style="background:linear-gradient(135deg,#e8e8f5,#cccce8);"></div>
-                            <div class="work-card-body">
-                                <div class="work-card-tags"><span class="work-card-tag">AI</span><span class="work-card-tag">Product</span><span class="work-card-tag">Mobile</span></div>
-                                <h3 class="work-card-title">Horizon Engage</h3>
-                                <p class="work-card-desc">Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.</p>
-                            </div>
-                        </a>
-                        <a href="#" class="work-card">
-                            <div class="work-card-image" style="background:linear-gradient(135deg,#1a2560,#2d3a80);"></div>
-                            <div class="work-card-body">
-                                <div class="work-card-tags"><span class="work-card-tag">AI</span><span class="work-card-tag">Product</span><span class="work-card-tag">Mobile</span></div>
-                                <h3 class="work-card-title">Southeast Christian Church</h3>
-                                <p class="work-card-desc">Built a scalable platform to serve thousands of members with digital tools for events and community.</p>
-                            </div>
-                        </a>
-                        <a href="#" class="work-card">
-                            <div class="work-card-image" style="background:linear-gradient(135deg,#1a4560,#2d7090);"></div>
-                            <div class="work-card-body">
-                                <div class="work-card-tags"><span class="work-card-tag">AI</span><span class="work-card-tag">Product</span><span class="work-card-tag">Mobile</span></div>
-                                <h3 class="work-card-title">Connected Caregiver</h3>
-                                <p class="work-card-desc">Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.</p>
-                            </div>
-                        </a>
-                        <a href="#" class="work-card">
-                            <div class="work-card-image" style="background:linear-gradient(135deg,#2a1060,#4a20a0);"></div>
-                            <div class="work-card-body">
-                                <div class="work-card-tags"><span class="work-card-tag">Consulting</span><span class="work-card-tag">Product</span></div>
-                                <h3 class="work-card-title">FormCredit Mid-America</h3>
-                                <p class="work-card-desc">Modernized agricultural lending with a streamlined digital platform for loan officers and farmers.</p>
-                            </div>
-                        </a>
+                        <?php if ( $work_empty_notice ) : ?>
+                            <p class="home-work-empty-notice"><?php echo esc_html( $work_empty_notice ); ?></p>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                 </div><!-- #workTrack -->
 
-                <div class="home-work-nav">
-                    <button class="carousel-nav-btn" id="workPrev" aria-label="Previous">
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                            <path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                    <button class="carousel-nav-btn" id="workNext" aria-label="Next">
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                            <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
+                <div class="home-carousel-footer">
+                    <div class="home-carousel-progress"><span id="workProgress"></span></div>
+                    <div class="home-work-nav">
+                        <button class="carousel-nav-btn" id="workPrev" aria-label="Previous">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-nav-btn" id="workNext" aria-label="Next">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div><!-- .home-work-carousel -->
 
@@ -425,80 +523,81 @@ $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
                 <h2 class="home-events-title"><?php echo esc_html( $events_title ); ?></h2>
                 <div class="home-events-meta">
                     <p class="home-events-desc"><?php echo esc_html( $events_desc ); ?></p>
-                    <a href="<?php echo esc_url( $events_cta_url ); ?>" class="home-section-link">All Events &rarr;</a>
+                    <a href="<?php echo esc_url( $events_cta_url ); ?>" class="home-section-link"><?php echo esc_html( $events_cta_text ); ?> &rarr;</a>
                 </div>
             </div>
 
-            <?php if ( ! empty( $events ) ) : ?>
-            <div class="home-events-cards">
-                <?php foreach ( $events as $ev ) :
-                    $ev_url   = esc_url( $ev['url'] ?? '#' );
-                    $ev_tag   = esc_html( $ev['tag'] ?? '' );
-                    $ev_title = esc_html( $ev['title'] ?? '' );
-                    $ev_date  = esc_html( $ev['date_location'] ?? '' );
-                    $ev_img_id = $ev['image'] ?? '';
-                    $ev_img_url = $ev_img_id ? wp_get_attachment_image_url( $ev_img_id, 'medium_large' ) : '';
-                ?>
-                <a href="<?php echo $ev_url; ?>" class="event-card">
-                    <div class="event-card-image">
-                        <?php if ( $ev_img_url ) : ?>
-                            <img src="<?php echo esc_url( $ev_img_url ); ?>" alt="<?php echo $ev_title; ?>" loading="lazy">
-                        <?php endif; ?>
+            <div class="home-events-carousel">
+                <div class="home-events-cards" id="eventsTrack">
+                    <?php if ( ! empty( $events ) ) : ?>
+                        <?php foreach ( $events as $ev ) :
+                            $ev_url   = esc_url( $ev['url'] ?? '#' );
+                            $ev_tag   = esc_html( $ev['tag'] ?? '' );
+                            $ev_title = esc_html( $ev['title'] ?? '' );
+                            $ev_date  = esc_html( $ev['date_location'] ?? '' );
+                            $ev_img_id = $ev['image'] ?? '';
+                            $ev_img_url = $ev_img_id ? wp_get_attachment_image_url( $ev_img_id, 'medium_large' ) : '';
+                        ?>
+                        <a href="<?php echo $ev_url; ?>" class="event-card">
+                            <div class="event-card-image">
+                                <?php if ( $ev_img_url ) : ?>
+                                    <img src="<?php echo esc_url( $ev_img_url ); ?>" alt="<?php echo $ev_title; ?>" loading="lazy">
+                                <?php endif; ?>
+                            </div>
+                            <div class="event-card-body">
+                                <div class="event-card-info">
+                                    <?php if ( $ev_tag ) : ?><span class="event-card-tag"><?php echo $ev_tag; ?></span><?php endif; ?>
+                                    <h3 class="event-card-title"><?php echo $ev_title; ?></h3>
+                                    <?php if ( $ev_date ) : ?><p class="event-card-date"><?php echo $ev_date; ?></p><?php endif; ?>
+                                </div>
+                                <span class="event-register-btn"><?php echo esc_html( $events_register_text ); ?> &rarr;</span>
+                            </div>
+                        </a>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <?php foreach ( $events_fallback as $ev ) :
+                            $ev_url = esc_url( $ev['url'] ?? '#' );
+                            $ev_tag = esc_html( $ev['tag'] ?? '' );
+                            $ev_title = esc_html( $ev['title'] ?? '' );
+                            $ev_date = esc_html( $ev['date_location'] ?? '' );
+                            $ev_img_id = $ev['image'] ?? '';
+                            $ev_img_url = $ev_img_id ? wp_get_attachment_image_url( $ev_img_id, 'medium_large' ) : ( $ev['image_url'] ?? '' );
+                            $ev_bg_style = esc_attr( $ev['bg_style'] ?? '' );
+                        ?>
+                        <a href="<?php echo $ev_url; ?>" class="event-card">
+                            <div class="event-card-image"<?php echo $ev_bg_style ? ' style="' . $ev_bg_style . '"' : ''; ?>>
+                                <?php if ( $ev_img_url ) : ?>
+                                    <img src="<?php echo esc_url( $ev_img_url ); ?>" alt="<?php echo esc_attr( $ev_title ); ?>" loading="lazy">
+                                <?php endif; ?>
+                            </div>
+                            <div class="event-card-body">
+                                <div class="event-card-info">
+                                    <?php if ( $ev_tag ) : ?><span class="event-card-tag"><?php echo $ev_tag; ?></span><?php endif; ?>
+                                    <h3 class="event-card-title"><?php echo $ev_title; ?></h3>
+                                    <?php if ( $ev_date ) : ?><p class="event-card-date"><?php echo $ev_date; ?></p><?php endif; ?>
+                                </div>
+                                <span class="event-register-btn"><?php echo esc_html( $events_register_text ); ?> &rarr;</span>
+                            </div>
+                        </a>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="home-carousel-footer">
+                    <div class="home-carousel-progress"><span id="eventsProgress"></span></div>
+                    <div class="home-work-nav">
+                        <button class="carousel-nav-btn" id="eventsPrev" aria-label="Previous">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-nav-btn" id="eventsNext" aria-label="Next">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="event-card-body">
-                        <div class="event-card-info">
-                            <?php if ( $ev_tag ) : ?><span class="event-card-tag"><?php echo $ev_tag; ?></span><?php endif; ?>
-                            <h3 class="event-card-title"><?php echo $ev_title; ?></h3>
-                            <?php if ( $ev_date ) : ?><p class="event-card-date"><?php echo $ev_date; ?></p><?php endif; ?>
-                        </div>
-                        <span class="event-register-btn">Register &rarr;</span>
-                    </div>
-                </a>
-                <?php endforeach; ?>
+                </div>
             </div>
-            <?php else : ?>
-            <!-- Static fallback when no events have been added yet -->
-            <div class="home-events-cards">
-                <a href="#" class="event-card">
-                    <div class="event-card-image">
-                        <img src="<?php echo esc_url( $img_dir ); ?>/hero-person-1.jpg" alt="Louisville IA Exchange and TechFest" loading="lazy">
-                    </div>
-                    <div class="event-card-body">
-                        <div class="event-card-info">
-                            <span class="event-card-tag">Conference</span>
-                            <h3 class="event-card-title">Louisville IA Exchange and TechFest</h3>
-                            <p class="event-card-date">October 21, 2025 &middot; Louisville, KY</p>
-                        </div>
-                        <span class="event-register-btn">Register &rarr;</span>
-                    </div>
-                </a>
-                <a href="#" class="event-card">
-                    <div class="event-card-image">
-                        <img src="<?php echo esc_url( $img_dir ); ?>/hero-person-2.jpg" alt="Louisville IA Exchange and TechFest" loading="lazy">
-                    </div>
-                    <div class="event-card-body">
-                        <div class="event-card-info">
-                            <span class="event-card-tag">Conference</span>
-                            <h3 class="event-card-title">Louisville IA Exchange and TechFest</h3>
-                            <p class="event-card-date">October 21, 2025 &middot; Louisville, KY</p>
-                        </div>
-                        <span class="event-register-btn">Register &rarr;</span>
-                    </div>
-                </a>
-                <a href="#" class="event-card">
-                    <div class="event-card-image" style="background:linear-gradient(135deg,#2A1878,#4B23B0);"></div>
-                    <div class="event-card-body">
-                        <div class="event-card-info">
-                            <span class="event-card-tag">Workshop</span>
-                            <h3 class="event-card-title">AI Product Development Bootcamp</h3>
-                            <p class="event-card-date">November 14, 2025 &middot; Online</p>
-                        </div>
-                        <span class="event-register-btn">Register &rarr;</span>
-                    </div>
-                </a>
-            </div>
-            <?php endif; ?>
-
         </div>
     </section>
 
@@ -510,67 +609,82 @@ $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
                 <h2 class="home-blog-title"><?php echo wp_kses_post( nl2br( esc_html( $blog_title ) ) ); ?></h2>
                 <div class="home-blog-meta">
                     <p class="home-blog-desc"><?php echo esc_html( $blog_desc ); ?></p>
-                    <a href="/blog" class="home-section-link">All Insights &rarr;</a>
+                    <a href="<?php echo esc_url( $blog_cta_url ); ?>" class="home-section-link"><?php echo esc_html( $blog_cta_text ); ?> &rarr;</a>
                 </div>
             </div>
 
-            <div class="home-blog-cards">
-                <?php if ( $blog_query->have_posts() ) : ?>
-                    <?php while ( $blog_query->have_posts() ) : $blog_query->the_post(); ?>
-                        <a href="<?php the_permalink(); ?>" class="blog-card">
-                            <div class="blog-card-image">
-                                <?php if ( has_post_thumbnail() ) : ?>
-                                    <?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
+            <div class="home-blog-carousel">
+                <div class="home-blog-cards" id="blogTrack">
+                    <?php if ( $blog_query->have_posts() ) : ?>
+                        <?php while ( $blog_query->have_posts() ) : $blog_query->the_post(); ?>
+                            <a href="<?php the_permalink(); ?>" class="blog-card">
+                                <div class="blog-card-image">
+                                    <?php if ( has_post_thumbnail() ) : ?>
+                                        <?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
+                                    <?php endif; ?>
+                                    <?php if ( get_post_format() === 'video' ) : ?>
+                                        <span class="blog-card-badge">VIDEO</span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="blog-card-body">
+                                    <div class="blog-card-tags">
+                                        <?php
+                                        $cats = get_the_category();
+                                        if ( $cats ) :
+                                            foreach ( array_slice( $cats, 0, 2 ) as $cat ) :
+                                        ?>
+                                            <span class="blog-card-tag"><?php echo esc_html( $cat->name ); ?></span>
+                                        <?php endforeach; endif; ?>
+                                    </div>
+                                    <h3 class="blog-card-title"><?php the_title(); ?></h3>
+                                    <p class="blog-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?></p>
+                                </div>
+                            </a>
+                        <?php endwhile; wp_reset_postdata(); ?>
+                    <?php else : ?>
+                        <?php foreach ( $blog_fallback as $item ) :
+                            $item_url = esc_url( $item['url'] ?? '#' );
+                            $item_tag = esc_html( $item['tag'] ?? '' );
+                            $item_title = esc_html( $item['title'] ?? '' );
+                            $item_desc = esc_html( $item['desc'] ?? '' );
+                            $item_badge = esc_html( $item['badge_text'] ?? '' );
+                            $item_img_id = $item['image'] ?? '';
+                            $item_img_url = $item_img_id ? wp_get_attachment_image_url( $item_img_id, 'medium_large' ) : '';
+                            $item_bg_style = esc_attr( $item['bg_style'] ?? '' );
+                        ?>
+                        <a href="<?php echo $item_url; ?>" class="blog-card">
+                            <div class="blog-card-image"<?php echo $item_bg_style ? ' style="' . $item_bg_style . '"' : ''; ?>>
+                                <?php if ( $item_img_url ) : ?>
+                                    <img src="<?php echo esc_url( $item_img_url ); ?>" alt="<?php echo esc_attr( $item_title ); ?>" loading="lazy">
                                 <?php endif; ?>
-                                <?php if ( get_post_format() === 'video' ) : ?>
-                                    <span class="blog-card-badge">VIDEO</span>
+                                <?php if ( $item_badge ) : ?>
+                                    <span class="blog-card-badge"><?php echo $item_badge; ?></span>
                                 <?php endif; ?>
                             </div>
                             <div class="blog-card-body">
-                                <div class="blog-card-tags">
-                                    <?php
-                                    $cats = get_the_category();
-                                    if ( $cats ) :
-                                        foreach ( array_slice( $cats, 0, 2 ) as $cat ) :
-                                    ?>
-                                        <span class="blog-card-tag"><?php echo esc_html( $cat->name ); ?></span>
-                                    <?php endforeach; endif; ?>
-                                </div>
-                                <h3 class="blog-card-title"><?php the_title(); ?></h3>
-                                <p class="blog-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?></p>
+                                <div class="blog-card-tags"><?php if ( $item_tag ) : ?><span class="blog-card-tag"><?php echo $item_tag; ?></span><?php endif; ?></div>
+                                <h3 class="blog-card-title"><?php echo $item_title; ?></h3>
+                                <p class="blog-card-desc"><?php echo $item_desc; ?></p>
                             </div>
                         </a>
-                    <?php endwhile; wp_reset_postdata(); ?>
-
-                <?php else : ?>
-                    <!-- Static fallback -->
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <span class="blog-card-badge">VIDEO</span>
-                        </div>
-                        <div class="blog-card-body">
-                            <div class="blog-card-tags"><span class="blog-card-tag">AI</span></div>
-                            <h3 class="blog-card-title">"AI is enterprise-ready and simplifies development"</h3>
-                            <p class="blog-card-desc">Davis Galeana (CEO &amp; President of Slingshot) shares how AI is transforming enterprise software development.</p>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image" style="background:linear-gradient(135deg,#1a3560,#2d5080);"></div>
-                        <div class="blog-card-body">
-                            <div class="blog-card-tags"><span class="blog-card-tag">Innovation</span></div>
-                            <h3 class="blog-card-title">How AI has rewired the hackathon</h3>
-                            <p class="blog-card-desc">Exploring how artificial intelligence is transforming the way teams approach hackathons and rapid prototyping.</p>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image" style="background:linear-gradient(135deg,#1a4530,#2d6045);"></div>
-                        <div class="blog-card-body">
-                            <div class="blog-card-tags"><span class="blog-card-tag">Product</span></div>
-                            <h3 class="blog-card-title">4 Ways to Jumpstart real AI product development</h3>
-                            <p class="blog-card-desc">Practical strategies to move from AI ideation to a working product faster than you think.</p>
-                        </div>
-                    </a>
-                <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="home-carousel-footer">
+                    <div class="home-carousel-progress"><span id="blogProgress"></span></div>
+                    <div class="home-work-nav">
+                        <button class="carousel-nav-btn" id="blogPrev" aria-label="Previous">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-nav-btn" id="blogNext" aria-label="Next">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>

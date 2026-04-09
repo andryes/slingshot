@@ -29,9 +29,22 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	$sp = [ 'settings_pages' => [ 'slingshot_home' ] ];
 
+	// ── Header ───────────────────────────────────────────────────────────
+	$meta_boxes[] = $sp + [
+		'title'  => '1 · Header',
+		'id'     => 'home_header_mb',
+		'fields' => [
+			[ 'id' => 'home_header_logo', 'name' => 'Header logo (light)', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'home_header_logo_alt', 'name' => 'Header logo alt text', 'type' => 'text', 'std' => 'Slingshot' ],
+			[ 'id' => 'home_header_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'home_header_cta_url',  'name' => 'CTA URL',   'type' => 'url',  'std' => '/contact' ],
+			[ 'id' => 'home_header_mobile_menu_label', 'name' => 'Mobile menu label', 'type' => 'text', 'std' => 'Menu' ],
+		],
+	];
+
 	// ── Hero ─────────────────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '1 · Hero',
+		'title'  => '2 · Hero',
 		'id'     => 'home_hero',
 		'fields' => [
 			[ 'id' => 'home_hero_title',      'name' => 'Heading',             'type' => 'text',         'std' => 'For Big Kids &amp; Daredevils' ],
@@ -45,7 +58,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	// ── Logos strip ──────────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '2 · Logos Strip',
+		'title'  => '3 · Logos Strip',
 		'id'     => 'home_logos_mb',
 		'fields' => [
 			[
@@ -64,7 +77,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	// ── Services section ─────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '3 · Services Section',
+		'title'  => '4 · Services Section',
 		'id'     => 'home_services_mb',
 		'fields' => [
 			[ 'id' => 'home_services_label',    'name' => 'Label',    'type' => 'text',     'std' => 'What We Do' ],
@@ -101,7 +114,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	// ── About / Stats ────────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '4 · About &amp; Stats',
+		'title'  => '5 · About &amp; Stats',
 		'id'     => 'home_about_mb',
 		'fields' => [
 			[ 'id' => 'home_about_image',    'name' => 'Photo',        'type' => 'single_image', 'force_delete' => false ],
@@ -125,14 +138,28 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
+	// ── Work portfolio section ───────────────────────────────────────────
+	$meta_boxes[] = $sp + [
+		'title'  => '6 · Work Portfolio Section',
+		'id'     => 'home_work_mb',
+		'fields' => [
+			[ 'id' => 'home_work_title',        'name' => 'Section heading', 'type' => 'text', 'std' => 'From Solution<br>to Success Stories' ],
+			[ 'id' => 'home_work_cta_text',     'name' => 'CTA label',       'type' => 'text', 'std' => 'All Work' ],
+			[ 'id' => 'home_work_cta_url',      'name' => 'CTA URL',         'type' => 'url',  'std' => '/work' ],
+			[ 'id' => 'home_work_empty_notice', 'name' => 'Fallback text when no portfolio items (optional)', 'type' => 'text', 'std' => '' ],
+		],
+	];
+
 	// ── Events section ───────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '5 · Events Section',
+		'title'  => '7 · Events Section',
 		'id'     => 'home_events_mb',
 		'fields' => [
 			[ 'id' => 'home_events_title',   'name' => 'Section heading', 'type' => 'text',     'std' => 'Join the Conversation' ],
 			[ 'id' => 'home_events_desc',    'name' => 'Description',     'type' => 'textarea', 'std' => "We don't just build, we share. Explore upcoming events for leaders building in AI, product, and tech strategy." ],
+			[ 'id' => 'home_events_cta_text','name' => 'All Events label','type' => 'text',     'std' => 'All Events' ],
 			[ 'id' => 'home_events_cta_url', 'name' => 'All Events URL',  'type' => 'url',      'std' => '/events' ],
+			[ 'id' => 'home_events_register_text', 'name' => 'Register label', 'type' => 'text', 'std' => 'Register' ],
 			[
 				'id'         => 'home_events',
 				'name'       => 'Event cards',
@@ -148,22 +175,56 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 					[ 'id' => 'url',           'name' => 'Link URL',         'type' => 'url' ],
 				],
 			],
+			[
+				'id'         => 'home_events_fallback',
+				'name'       => 'Fallback cards (used when no Event cards exist)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add fallback card',
+				'fields'     => [
+					[ 'id' => 'image',         'name' => 'Photo',            'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'tag',           'name' => 'Tag',              'type' => 'text' ],
+					[ 'id' => 'title',         'name' => 'Title',            'type' => 'text' ],
+					[ 'id' => 'date_location', 'name' => 'Date & location',  'type' => 'text' ],
+					[ 'id' => 'url',           'name' => 'Link URL',         'type' => 'url' ],
+				],
+			],
 		],
 	];
 
 	// ── Blog / Insights section ──────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '6 · Blog / Insights Section',
+		'title'  => '8 · Blog / Insights Section',
 		'id'     => 'home_blog_mb',
 		'fields' => [
 			[ 'id' => 'home_blog_title', 'name' => 'Heading',     'type' => 'text',     'std' => 'Insights That Move Business Forward' ],
 			[ 'id' => 'home_blog_desc',  'name' => 'Description', 'type' => 'textarea', 'std' => 'Get actionable ideas on software strategy, AI adoption, and scaling product delivery—straight from the minds of our team.' ],
+			[ 'id' => 'home_blog_cta_text', 'name' => 'CTA label', 'type' => 'text',     'std' => 'All Insights' ],
+			[ 'id' => 'home_blog_cta_url',  'name' => 'CTA URL',   'type' => 'url',      'std' => '/blog' ],
+			[
+				'id'         => 'home_blog_fallback',
+				'name'       => 'Fallback cards (used when no Blog posts exist)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add fallback card',
+				'fields'     => [
+					[ 'id' => 'tag',        'name' => 'Tag',           'type' => 'text' ],
+					[ 'id' => 'title',      'name' => 'Title',         'type' => 'text' ],
+					[ 'id' => 'desc',       'name' => 'Description',   'type' => 'textarea' ],
+					[ 'id' => 'url',        'name' => 'Link URL',      'type' => 'url' ],
+					[ 'id' => 'badge_text', 'name' => 'Badge text',    'type' => 'text' ],
+					[ 'id' => 'image',      'name' => 'Photo',         'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'bg_style',   'name' => 'Background CSS (optional if no image)', 'type' => 'text' ],
+				],
+			],
 		],
 	];
 
 	// ── CTA section ──────────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
-		'title'  => '7 · CTA Section',
+		'title'  => '9 · CTA Section',
 		'id'     => 'home_cta_mb',
 		'fields' => [
 			[ 'id' => 'home_cta_mascot',   'name' => 'Mascot image',  'type' => 'single_image', 'force_delete' => false ],

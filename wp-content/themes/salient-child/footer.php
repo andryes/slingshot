@@ -3,7 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $child_uri = get_stylesheet_directory_uri();
-wp_enqueue_style( 'slingshot-footer', $child_uri . '/css/footer.css', [], '1.1' );
+wp_enqueue_style( 'slingshot-footer', $child_uri . '/css/footer.css', [], '1.2' );
 ?>
 
 <footer class="sl-footer">
