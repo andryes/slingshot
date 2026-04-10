@@ -12,6 +12,7 @@ wp_enqueue_style(
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
 wp_enqueue_style( 'consulting-style', get_stylesheet_directory_uri() . '/css/consulting.css', array(), '1.0' );
 wp_enqueue_script( 'consulting-script', get_stylesheet_directory_uri() . '/js/consulting.js', array( 'jquery' ), '1.1', true );
+wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
 get_header();
 
@@ -37,7 +38,18 @@ $blog_query = new WP_Query(
 
 <style id="dynamic-css-inline-css" type="text/css">
     body{overflow:visible}.no-rgba #header-space{display:none;}@media only screen and (max-width:999px){body #header-space[data-header-mobile-fixed="1"]{display:none;}#header-outer[data-mobile-fixed="false"]{position:absolute;}}@media only screen and (min-width:1000px){#header-space{display:none;}.nectar-slider-wrap.first-section,.parallax_slider_outer.first-section,.full-width-content.first-section{margin-top:0!important;}body #page-header-bg,body #page-header-wrap{height:142px;}body #search-outer{z-index:100000;}}
+    body.page-template-page-consulting #header-outer,
+    body.page-template-page-consulting #header-space { display:none !important; }
 </style>
+
+<?php
+slingshot_render_redesign_header(
+	array(
+		'variant' => 'light',
+		'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_hero_cta_url', '/contact/?looking=Consulting' ) ),
+	)
+);
+?>
 
 <div class="consulting-page-wrapper">
 
@@ -192,8 +204,19 @@ $blog_query = new WP_Query(
                     <?php
                     $logos = slingshot_lp_consulting_clients();
                     foreach ( array_merge( $logos, $logos ) as $row ) :
+                        $name = (string) ( $row['name'] ?? '' );
+                        $img  = ! empty( $row['image'] ) ? slingshot_lp_attachment_url( $row['image'], '', 'large' ) : '';
+                        if ( ! $img ) {
+                            $img = slingshot_client_logo_url( $name );
+                        }
                         ?>
-                    <span class="logo-item"><?php echo esc_html( $row['name'] ); ?></span>
+                    <span class="logo-item">
+                        <?php if ( $img ) : ?>
+                            <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ? $name : 'Client logo' ); ?>" loading="lazy">
+                        <?php else : ?>
+                            <?php echo esc_html( $name ); ?>
+                        <?php endif; ?>
+                    </span>
                     <?php endforeach; ?>
                 </div>
             </div>

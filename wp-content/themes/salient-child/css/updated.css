@@ -49,7 +49,7 @@
     max-width: 1250px;
     height: 100%;
     max-height: max-content;
-    padding: 0 20px 100px 20px;
+    padding: 64px 20px 74px 20px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -188,7 +188,7 @@
     width: 100%;
     /* max-width: 1920px; */
     margin: 0 auto;
-    padding: 100px 20px;
+    padding: 74px 20px;
     background: linear-gradient(68.82deg, #6D44B7 0%, #23B7B4 125.3%);
 }
 .capabilities-block {
@@ -298,7 +298,7 @@
     height: 100%;
     max-height: max-content;
     margin: 0 auto;
-    padding: 100px 20px;
+    padding: 74px 20px;
     background-image: url("../img/bg-white-rose.png");
     background-size: cover;
     background-position: center;
@@ -458,7 +458,7 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
     max-width: 1920px;
     height: max-content;
     margin: 0 auto;
-    padding: 100px 20px;
+    padding: 74px 20px;
     background: rgba(255, 255, 255, 1);
 }
 .answers-block {
@@ -587,9 +587,9 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
     width: 100%;
     /* max-width: 1920px; */
     height: 100%;
-    max-height: 406px;
+    max-height: none;
     margin: 0 auto;
-    padding: 120px 0;
+    padding: 88px 0;
     background-image: url('../img/bg-contact-block.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -897,8 +897,11 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
     overflow: hidden;
     background: linear-gradient(145deg, #060d1e 0%, #0c1433 30%, #120a2d 62%, #190432 100%);
     padding-top: 0;
-    padding-bottom: 80px;
-    min-height: 100vh;
+    max-width: 1240px;
+    margin: 88px auto 0;
+    border-radius: 22px;
+    padding-bottom: 0;
+    min-height: 0;
 }
 
 /* ---- Decorative sphere blobs ---- */
@@ -936,10 +939,10 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
 .ai-hero-inner {
     position: relative;
     z-index: 10;
-    max-width: 1260px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 142px 40px 80px;  /* top = fixed header offset */
-    min-height: 100vh;
+    padding: 58px 56px 56px;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1078,14 +1081,16 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
 
 @media (max-width: 900px) {
     .ai-hero-section {
-        padding-top: 100px;
-        padding-bottom: 60px;
+        padding-top: 0;
+        padding-bottom: 0;
         min-height: auto;
+        margin-top: 80px;
+        border-radius: 16px;
     }
     .ai-hero-inner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 50px 24px 40px;
+        padding: 34px 24px 34px;
         gap: 40px;
     }
     .ai-hero-content {
@@ -1113,7 +1118,7 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
 /* ---- Responsive: mobile ---- */
 @media (max-width: 600px) {
     .ai-hero-section {
-        padding-top: 80px;
+        margin-top: 72px;
     }
     .ai-hero-heading {
         font-size: 30px !important;
@@ -1138,4 +1143,13 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
         font-size: 15px;
         padding: 13px 26px;
     }
+}
+
+/* Match redesign typography system */
+.page-template-page-ai #ajax-content-wrap h1,
+.page-template-page-ai #ajax-content-wrap h2,
+.page-template-page-ai #ajax-content-wrap h3,
+.page-template-page-ai #ajax-content-wrap h4,
+.page-template-page-ai #ajax-content-wrap a {
+    font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif !important;
 }

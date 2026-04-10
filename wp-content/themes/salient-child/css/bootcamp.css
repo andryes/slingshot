@@ -6,6 +6,8 @@
 .bootcamp-page-wrapper {
     font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif;
     overflow-x: hidden;
+    background: #f3f2f8;
+    padding-top: 20px;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -15,8 +17,11 @@
     position: relative;
     overflow: hidden;
     background: linear-gradient(145deg, #060d1e 0%, #0c1433 30%, #120a2d 62%, #190432 100%);
-    padding-bottom: 80px;
-    min-height: 100vh;
+    max-width: 1240px;
+    margin: 88px auto 0;
+    border-radius: 22px;
+    padding-bottom: 0;
+    min-height: 0;
 }
 
 /* Blobs */
@@ -48,10 +53,10 @@
 .boot-hero-inner {
     position: relative;
     z-index: 10;
-    max-width: 1260px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 160px 40px 80px;
-    min-height: 100vh;
+    padding: 58px 56px 56px;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -188,7 +193,7 @@
 ═══════════════════════════════════════════════════════════ */
 .boot-why-section {
     background: #fff;
-    padding: 100px 40px;
+    padding: 74px 40px;
 }
 .boot-why-inner {
     max-width: 1240px;
@@ -297,8 +302,8 @@
    3. STATS
 ═══════════════════════════════════════════════════════════ */
 .boot-stats-section {
-    background: #f7f8fc;
-    padding: 100px 40px;
+    background: #f3f2f8;
+    padding: 74px 40px;
 }
 .boot-stats-inner {
     max-width: 1240px;
@@ -376,7 +381,7 @@
 ═══════════════════════════════════════════════════════════ */
 .boot-curriculum-section {
     background: #fff;
-    padding: 100px 40px;
+    padding: 74px 40px;
 }
 .boot-curriculum-inner {
     max-width: 1240px;
@@ -610,8 +615,8 @@
    5. HOW IT WORKS
 ═══════════════════════════════════════════════════════════ */
 .boot-how-section {
-    background: #f7f8fc;
-    padding: 100px 40px;
+    background: #f3f2f8;
+    padding: 74px 40px;
 }
 .boot-how-inner {
     max-width: 1080px;
@@ -704,7 +709,7 @@
    7. TRUSTED CLIENTS
 ═══════════════════════════════════════════════════════════ */
 .boot-clients-section {
-    background: #f7f8fc;
+    background: #f3f2f8;
     padding: 60px 40px;
 }
 .boot-clients-inner {
@@ -732,16 +737,19 @@
    9. CTA SECTION
 ═══════════════════════════════════════════════════════════ */
 .boot-cta-section {
-    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
-    padding: 80px 40px;
+    background: transparent;
+    padding: 64px 40px 88px;
 }
 .boot-cta-inner {
-    max-width: 1000px;
+    max-width: 1240px;
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 60px;
+    border-radius: 22px;
+    padding: 54px 56px;
+    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
 }
 .boot-cta-mascot { flex-shrink: 0; }
 .boot-cta-mascot-svg { width: 140px; height: 160px; }
@@ -830,11 +838,11 @@
 }
 
 @media (max-width: 900px) {
-    .boot-hero { min-height: auto; padding-bottom: 60px; }
+    .boot-hero { min-height: auto; padding-bottom: 0; margin-top: 80px; border-radius: 16px; }
     .boot-hero-inner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 120px 24px 60px;
+        padding: 34px 24px 34px;
         gap: 48px;
         min-height: auto;
     }
@@ -861,7 +869,7 @@
     .boot-how-step { max-width: 320px; }
     .boot-how-connector { width: 2px; height: 30px; margin: 0; align-self: center; background: linear-gradient(180deg, #6D44B7, #23B7B4); }
 
-    .boot-cta-inner { flex-direction: column; gap: 30px; text-align: center; }
+    .boot-cta-inner { flex-direction: column; gap: 30px; text-align: center; padding: 38px 28px; border-radius: 16px; }
     .boot-cta-card { align-items: center; }
     .boot-cta-title { font-size: 30px !important; }
     .boot-cta-mascot-svg { width: 100px; height: 120px; }
@@ -882,4 +890,13 @@
     .boot-cta-section { padding: 60px 24px; }
     .boot-cta-actions { flex-direction: column; align-items: center; width: 100%; }
     .boot-cta-btn-primary, .boot-cta-btn-ghost { width: 100%; justify-content: center; }
+}
+
+/* Match redesign typography system */
+.bootcamp-page-wrapper h1,
+.bootcamp-page-wrapper h2,
+.bootcamp-page-wrapper h3,
+.bootcamp-page-wrapper h4,
+.bootcamp-page-wrapper a {
+    font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif !important;
 }

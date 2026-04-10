@@ -4,8 +4,16 @@ Template Name: Artificial Intelligence
  * Content: Appearance → AI Page (Meta Box).
  */
 
+wp_enqueue_style(
+	'ai-jakarta',
+	'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
+	array(),
+	null
+);
 wp_enqueue_style( 'ai-style', get_stylesheet_directory_uri() . '/css/updated.css', array(), '1.1' );
+wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
 wp_enqueue_script( 'ai-script', get_stylesheet_directory_uri() . '/js/updated.js', array( 'jquery' ), '1.1', true );
+wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
 get_header();
 
@@ -44,7 +52,17 @@ $tools     = is_array( $tools_raw ) ? slingshot_lp_filter_group(
 
 <style id="dynamic-css-inline-css" type="text/css">
     body{overflow:visible}.no-rgba #header-space{display:none;}@media only screen and (max-width:999px){body #header-space[data-header-mobile-fixed="1"]{display:none;}#header-outer[data-mobile-fixed="false"]{position:absolute;}}@media only screen and (min-width:1000px){#header-space{display:none;}.nectar-slider-wrap.first-section,.parallax_slider_outer.first-section,.full-width-content.first-section{margin-top:0!important;}body #page-header-bg,body #page-header-wrap{height:142px;}body #search-outer{z-index:100000;}}
+    body.page-template-page-ai #header-outer,
+    body.page-template-page-ai #header-space { display:none !important; }
 </style>
+<?php
+slingshot_render_redesign_header(
+	array(
+		'variant' => 'light',
+		'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_hero_cta_url', '/contact/' ) ),
+	)
+);
+?>
         <div class="bg-color-stripe"></div>
 		<div id="ajax-content-wrap">
 

@@ -6,6 +6,8 @@
 .consulting-page-wrapper {
     font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif;
     overflow-x: hidden;
+    background: #f3f2f8;
+    padding: 20px 0 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -15,8 +17,11 @@
     position: relative;
     overflow: hidden;
     background: linear-gradient(145deg, #060d1e 0%, #0c1433 30%, #120a2d 62%, #190432 100%);
-    padding-bottom: 80px;
-    min-height: 100vh;
+    max-width: 1240px;
+    margin: 88px auto 0;
+    border-radius: 22px;
+    padding-bottom: 0;
+    min-height: 0;
 }
 
 /* Blobs */
@@ -48,10 +53,10 @@
 .con-hero-inner {
     position: relative;
     z-index: 10;
-    max-width: 1260px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 160px 40px 80px;
-    min-height: 100vh;
+    padding: 58px 56px 56px;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -141,8 +146,8 @@
    2. STATS SECTION
 ═══════════════════════════════════════════════════════════ */
 .con-stats-section {
-    background: #f7f8fc;
-    padding: 100px 40px;
+    background: transparent;
+    padding: 64px 40px;
 }
 .con-stats-inner {
     max-width: 1240px;
@@ -234,7 +239,7 @@
 ═══════════════════════════════════════════════════════════ */
 .con-help-section {
     background: #fff;
-    padding: 100px 40px;
+    padding: 74px 40px;
 }
 .con-help-inner {
     max-width: 1240px;
@@ -416,7 +421,7 @@
    4. EVENTS  (overrides for con context)
 ═══════════════════════════════════════════════════════════ */
 .con-events-section {
-    background: #f7f8fc;
+    background: #f3f2f8;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -444,23 +449,26 @@
    6. BLOG (override bg)
 ═══════════════════════════════════════════════════════════ */
 .con-blog-section {
-    background: #f7f8fc !important;
+    background: #f3f2f8 !important;
 }
 
 /* ═══════════════════════════════════════════════════════════
    7. CTA SECTION
 ═══════════════════════════════════════════════════════════ */
 .con-cta-section {
-    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
-    padding: 80px 40px;
+    background: transparent;
+    padding: 64px 40px 88px;
 }
 .con-cta-inner {
-    max-width: 1000px;
+    max-width: 1240px;
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 60px;
+    border-radius: 22px;
+    padding: 54px 56px;
+    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
 }
 .con-cta-mascot { flex-shrink: 0; }
 .con-cta-mascot-svg { width: 140px; height: 160px; }
@@ -522,11 +530,11 @@
 }
 
 @media (max-width: 900px) {
-    .con-hero { min-height: auto; padding-bottom: 60px; }
+    .con-hero { min-height: auto; padding-bottom: 0; margin-top: 80px; border-radius: 16px; }
     .con-hero-inner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 120px 24px 60px;
+        padding: 34px 24px 34px;
         gap: 40px;
         min-height: auto;
     }
@@ -545,7 +553,7 @@
     .con-help-body { grid-template-columns: 1fr; gap: 40px; }
     .con-help-right { position: static; }
 
-    .con-cta-inner { flex-direction: column; gap: 30px; text-align: center; }
+    .con-cta-inner { flex-direction: column; gap: 30px; text-align: center; padding: 38px 28px; border-radius: 16px; }
     .con-cta-card { align-items: center; }
     .con-cta-title { font-size: 30px !important; }
     .con-cta-mascot-svg { width: 100px; height: 120px; }
@@ -560,4 +568,13 @@
     .con-help-heading { font-size: 30px !important; }
     .con-clients-section { padding: 40px 24px; }
     .con-cta-section { padding: 60px 24px; }
+}
+
+/* Match redesign typography system */
+.consulting-page-wrapper h1,
+.consulting-page-wrapper h2,
+.consulting-page-wrapper h3,
+.consulting-page-wrapper h4,
+.consulting-page-wrapper a {
+    font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif !important;
 }

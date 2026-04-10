@@ -17,7 +17,7 @@ wp_enqueue_style(
 wp_enqueue_script(
 	'hp-script',
 	get_stylesheet_directory_uri() . '/js/home.js',
-	array('jquery'), '1.5', true
+	array('jquery'), '1.6', true
 );
 
 get_header();
@@ -358,7 +358,21 @@ body.home #header-space {
         <div class="home-logos-strip-wrapper">
             <div class="home-logos-strip">
                 <?php foreach ( $logos as $logo ) : ?>
-                    <span class="logo-item"><?php echo esc_html( $logo['text'] ?? '' ); ?></span>
+                    <?php
+                    $logo_text = (string) ( $logo['text'] ?? '' );
+                    $logo_img_id = ! empty( $logo['image'] ) ? (int) $logo['image'] : 0;
+                    $logo_img_url = $logo_img_id ? wp_get_attachment_image_url( $logo_img_id, 'full' ) : '';
+                    if ( ! $logo_img_url ) {
+                        $logo_img_url = slingshot_client_logo_url( $logo_text );
+                    }
+                    ?>
+                    <span class="logo-item">
+                        <?php if ( $logo_img_url ) : ?>
+                            <img src="<?php echo esc_url( $logo_img_url ); ?>" alt="<?php echo esc_attr( $logo_text ? $logo_text : 'Client logo' ); ?>" loading="lazy">
+                        <?php else : ?>
+                            <?php echo esc_html( $logo_text ); ?>
+                        <?php endif; ?>
+                    </span>
                 <?php endforeach; ?>
             </div>
         </div>
