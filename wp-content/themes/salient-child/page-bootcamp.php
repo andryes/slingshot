@@ -1,29 +1,37 @@
 <?php
 /*
 Template Name: Bootcamp
-*/
+ * Content: Appearance → Bootcamp Page (Meta Box).
+ */
 
 wp_enqueue_style(
-    'bootcamp-jakarta',
-    'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
-    array(), null
+	'bootcamp-jakarta',
+	'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
+	array(), null
 );
-wp_enqueue_style( 'home-style',       get_stylesheet_directory_uri() . '/css/home.css',       array(), '1.1' );
-wp_enqueue_style( 'bootcamp-style',   get_stylesheet_directory_uri() . '/css/bootcamp.css',   array(), '1.0' );
-wp_enqueue_script( 'bootcamp-script', get_stylesheet_directory_uri() . '/js/bootcamp.js', array('jquery'), '1.0', true );
+wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
+wp_enqueue_style( 'bootcamp-style', get_stylesheet_directory_uri() . '/css/bootcamp.css', array(), '1.0' );
+wp_enqueue_script( 'bootcamp-script', get_stylesheet_directory_uri() . '/js/bootcamp.js', array( 'jquery' ), '1.0', true );
 
 get_header();
 
+$opt     = SLINGSHOT_OPT_BOOTCAMP;
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
-/* — Blog posts — */
-$blog_query = new WP_Query( array(
-    'post_type'      => 'post',
-    'post_status'    => 'publish',
-    'posts_per_page' => 3,
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-) );
+$blog_n = (int) slingshot_lp_setting( $opt, 'boot_blog_posts', 3 );
+$blog_n = max( 1, min( 12, $blog_n ) );
+
+$blog_query = new WP_Query(
+	array(
+		'post_type'      => 'post',
+		'post_status'    => 'publish',
+		'posts_per_page' => $blog_n,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	)
+);
+
+$curriculum = slingshot_lp_bootcamp_curriculum();
 ?>
 
 <style id="dynamic-css-inline-css" type="text/css">
@@ -32,9 +40,6 @@ $blog_query = new WP_Query( array(
 
 <div class="bootcamp-page-wrapper">
 
-    <!-- ════════════════════════════════════
-         1. HERO
-    ════════════════════════════════════ -->
     <section class="boot-hero">
         <div class="boot-hero-blob boot-hero-blob-1"></div>
         <div class="boot-hero-blob boot-hero-blob-2"></div>
@@ -43,446 +48,240 @@ $blog_query = new WP_Query( array(
         <div class="boot-hero-inner">
             <div class="boot-hero-content">
                 <div class="boot-hero-breadcrumb">
-                    <span>SERVICES</span>
+                    <span><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_bc_parent', 'SERVICES' ) ); ?></span>
                     <span class="boot-hero-sep">/</span>
-                    <span>BOOTCAMP</span>
+                    <span><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_bc_leaf', 'BOOTCAMP' ) ); ?></span>
                 </div>
-                <h1 class="boot-hero-heading">AI Bootcamp<br>for Teams</h1>
-                <p class="boot-hero-subtext">Hands-on, practitioner-led training that turns your team into confident AI builders — in days, not months.</p>
+                <h1 class="boot-hero-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_hero_heading', "AI Bootcamp\nfor Teams" ) ) ); ?></h1>
+                <p class="boot-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_subtext', 'Hands-on, practitioner-led training that turns your team into confident AI builders — in days, not months.' ) ); ?></p>
                 <div class="boot-hero-actions">
-                    <a href="/contact/?looking=Bootcamp" class="boot-hero-btn boot-hero-btn-primary">Book a Bootcamp <span>&#8594;</span></a>
-                    <a href="#boot-curriculum" class="boot-hero-btn boot-hero-btn-ghost">See the Curriculum</a>
+                    <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-hero-btn boot-hero-btn-primary"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_primary_text', 'Book a Bootcamp' ) ); ?> <span>&#8594;</span></a>
+                    <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_hero_secondary_url', '#boot-curriculum' ) ); ?>" class="boot-hero-btn boot-hero-btn-ghost"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_secondary_text', 'See the Curriculum' ) ); ?></a>
                 </div>
             </div>
 
             <div class="boot-hero-visual">
                 <div class="boot-hero-card-stack">
-                    <div class="boot-hero-card boot-hero-card-1">
-                        <div class="boot-hero-card-icon">
-                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="14" fill="rgba(255,255,255,0.12)"/><path d="M9 14l3.5 3.5L19 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
+                    <?php foreach ( slingshot_lp_bootcamp_hero_cards() as $hci => $hc ) : ?>
+                    <div class="boot-hero-card boot-hero-card-<?php echo esc_attr( (string) ( $hci + 1 ) ); ?>">
+                        <div class="boot-hero-card-icon"><?php echo $hc['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
                         <div>
-                            <div class="boot-hero-card-title">Led by AI Practitioners</div>
-                            <div class="boot-hero-card-sub">Real projects, real experience</div>
+                            <div class="boot-hero-card-title"><?php echo esc_html( $hc['title'] ); ?></div>
+                            <div class="boot-hero-card-sub"><?php echo esc_html( $hc['subtitle'] ); ?></div>
                         </div>
                     </div>
-                    <div class="boot-hero-card boot-hero-card-2">
-                        <div class="boot-hero-card-icon">
-                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="14" fill="rgba(255,255,255,0.12)"/><path d="M8 18V12l6-4 6 4v6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="11" y="14" width="6" height="4" rx="1" stroke="#fff" stroke-width="2"/></svg>
-                        </div>
-                        <div>
-                            <div class="boot-hero-card-title">Leave with Results</div>
-                            <div class="boot-hero-card-sub">Working prototypes from day one</div>
-                        </div>
-                    </div>
-                    <div class="boot-hero-card boot-hero-card-3">
-                        <div class="boot-hero-card-icon">
-                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="14" fill="rgba(255,255,255,0.12)"/><circle cx="10" cy="11" r="3" stroke="#fff" stroke-width="2"/><circle cx="18" cy="11" r="3" stroke="#fff" stroke-width="2"/><path d="M5 20c0-2.761 2.239-5 5-5h8c2.761 0 5 2.239 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                        </div>
-                        <div>
-                            <div class="boot-hero-card-title">Cross-functional Impact</div>
-                            <div class="boot-hero-card-sub">Built for whole teams, not just devs</div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         2. WHY TEAMS CHOOSE
-    ════════════════════════════════════ -->
     <section class="boot-why-section">
         <div class="boot-why-inner">
             <div class="boot-why-header">
-                <p class="boot-why-eyebrow">Why It Works</p>
-                <h2 class="boot-why-heading">Why Teams Choose<br>Slingshot's AI Bootcamps</h2>
-                <p class="boot-why-desc">Most AI training stays theoretical. Ours doesn't. Every bootcamp is built around your team's real goals — with outcomes you can ship.</p>
+                <p class="boot-why-eyebrow"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_why_eyebrow', 'Why It Works' ) ); ?></p>
+                <h2 class="boot-why-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_why_heading', "Why Teams Choose\nSlingshot's AI Bootcamps" ) ) ); ?></h2>
+                <p class="boot-why-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_why_desc', "Most AI training stays theoretical. Ours doesn't. Every bootcamp is built around your team's real goals — with outcomes you can ship." ) ); ?></p>
             </div>
 
             <div class="boot-why-cards">
-                <div class="boot-why-card">
-                    <div class="boot-why-card-icon boot-why-card-icon-purple">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#6D44B7" fill-opacity=".12"/><path d="M12 24V18l6-4 6 4v6" stroke="#6D44B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="15" y="18" width="6" height="6" rx="1" stroke="#6D44B7" stroke-width="2"/><circle cx="18" cy="12" r="2" stroke="#6D44B7" stroke-width="2"/></svg>
+                <?php foreach ( slingshot_lp_bootcamp_why_cards() as $wc ) : ?>
+                <div class="boot-why-card<?php echo ( isset( $wc['style'] ) && 'featured' === $wc['style'] ) ? ' boot-why-card-featured' : ''; ?>">
+                    <div class="boot-why-card-icon <?php echo ( isset( $wc['style'] ) && 'featured' === $wc['style'] ) ? 'boot-why-card-icon-teal' : 'boot-why-card-icon-purple'; ?>">
+                        <?php echo $wc['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                     </div>
-                    <h3 class="boot-why-card-title">Led by AI Practitioners</h3>
-                    <p class="boot-why-card-text">Our instructors aren't academics — they're engineers and product leads who've shipped AI in production. Every lesson draws from real-world experience.</p>
+                    <h3 class="boot-why-card-title"><?php echo esc_html( $wc['title'] ); ?></h3>
+                    <p class="boot-why-card-text"><?php echo esc_html( $wc['text'] ); ?></p>
+                    <?php if ( ! empty( $wc['badge'] ) && isset( $wc['style'] ) && 'featured' === $wc['style'] ) : ?>
+                    <div class="boot-why-card-badge"><?php echo esc_html( $wc['badge'] ); ?></div>
+                    <?php endif; ?>
                 </div>
-
-                <div class="boot-why-card boot-why-card-featured">
-                    <div class="boot-why-card-icon boot-why-card-icon-teal">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#23B7B4" fill-opacity=".12"/><path d="M10 26l4-8 4 4 4-10 4 8" stroke="#23B7B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <h3 class="boot-why-card-title">Leave with Results</h3>
-                    <p class="boot-why-card-text">Participants don't just learn concepts — they build working AI prototypes during the program, so your team leaves with something tangible on day one.</p>
-                    <div class="boot-why-card-badge">Most Popular</div>
-                </div>
-
-                <div class="boot-why-card">
-                    <div class="boot-why-card-icon boot-why-card-icon-purple">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#6D44B7" fill-opacity=".12"/><circle cx="14" cy="14" r="4" stroke="#6D44B7" stroke-width="2"/><circle cx="22" cy="14" r="4" stroke="#6D44B7" stroke-width="2"/><path d="M8 28c0-3.314 2.686-6 6-6h8c3.314 0 6 2.686 6 6" stroke="#6D44B7" stroke-width="2" stroke-linecap="round"/></svg>
-                    </div>
-                    <h3 class="boot-why-card-title">Cross-functional Impact</h3>
-                    <p class="boot-why-card-text">Designed for mixed teams — engineers, PMs, designers, and business leads — so AI adoption becomes an organization-wide capability, not just a dev skill.</p>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         3. STATS / OUTCOMES
-    ════════════════════════════════════ -->
     <section class="boot-stats-section">
         <div class="boot-stats-inner">
             <div class="boot-stats-content">
-                <h2 class="boot-stats-heading">Training That<br>Moves the Needle</h2>
-                <p class="boot-stats-desc">Slingshot has helped companies across industries build real AI capabilities. Our bootcamps are the fastest path from curiosity to production-ready results.</p>
-                <a href="/work/" class="boot-stats-cta">See Our Work <span>&#8594;</span></a>
+                <h2 class="boot-stats-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_stats_heading', "Training That\nMoves the Needle" ) ) ); ?></h2>
+                <p class="boot-stats-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_stats_desc', 'Slingshot has helped companies across industries build real AI capabilities. Our bootcamps are the fastest path from curiosity to production-ready results.' ) ); ?></p>
+                <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_stats_cta_url', '/work/' ) ); ?>" class="boot-stats-cta"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_stats_cta_text', 'See Our Work' ) ); ?> <span>&#8594;</span></a>
             </div>
             <div class="boot-stats-grid">
+                <?php foreach ( slingshot_lp_bootcamp_stats() as $st ) : ?>
                 <div class="boot-stat">
-                    <span class="boot-stat-num">500+</span>
-                    <span class="boot-stat-label">Professionals trained</span>
+                    <span class="boot-stat-num"><?php echo esc_html( $st['number'] ); ?></span>
+                    <span class="boot-stat-label"><?php echo esc_html( $st['label'] ); ?></span>
                 </div>
-                <div class="boot-stat">
-                    <span class="boot-stat-num">40+</span>
-                    <span class="boot-stat-label">Enterprise clients</span>
-                </div>
-                <div class="boot-stat">
-                    <span class="boot-stat-num">15+</span>
-                    <span class="boot-stat-label">Industries served</span>
-                </div>
-                <div class="boot-stat">
-                    <span class="boot-stat-num">92%</span>
-                    <span class="boot-stat-label">Satisfaction rate</span>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         4. CURRICULUM
-    ════════════════════════════════════ -->
     <section class="boot-curriculum-section" id="boot-curriculum">
         <div class="boot-curriculum-inner">
             <div class="boot-curriculum-header">
-                <p class="boot-curriculum-eyebrow">What You'll Cover</p>
-                <h2 class="boot-curriculum-heading">A Curriculum Built<br>for Real-World AI</h2>
-                <p class="boot-curriculum-desc">Choose the track that fits your team's goals — or let us build a custom program around your specific use cases.</p>
+                <p class="boot-curriculum-eyebrow"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_curriculum_eyebrow', "What You'll Cover" ) ); ?></p>
+                <h2 class="boot-curriculum-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_curriculum_heading', "A Curriculum Built\nfor Real-World AI" ) ) ); ?></h2>
+                <p class="boot-curriculum-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_curriculum_desc', "Choose the track that fits your team's goals — or let us build a custom program around your specific use cases." ) ); ?></p>
             </div>
 
             <div class="boot-curriculum-body">
-                <!-- Tab nav -->
                 <div class="boot-tabs">
-                    <button class="boot-tab active" data-tab="foundations">AI Foundations</button>
-                    <button class="boot-tab" data-tab="product">AI for Product Teams</button>
-                    <button class="boot-tab" data-tab="engineering">AI Engineering</button>
-                    <button class="boot-tab" data-tab="custom">Custom Program</button>
+                    <?php foreach ( $curriculum as $ti => $tab ) : ?>
+                    <button type="button" class="boot-tab<?php echo 0 === $ti ? ' active' : ''; ?>" data-tab="<?php echo esc_attr( $tab['tab_id'] ); ?>"><?php echo esc_html( $tab['tab_label'] ); ?></button>
+                    <?php endforeach; ?>
                 </div>
 
-                <!-- Tab panels -->
                 <div class="boot-tab-panels">
-                    <div class="boot-tab-panel active" id="boot-tab-foundations">
+                    <?php foreach ( $curriculum as $ti => $tab ) : ?>
+                    <?php
+                    $layout = isset( $tab['panel_layout'] ) ? $tab['panel_layout'] : 'modules';
+                    $mods   = isset( $tab['modules'] ) && is_array( $tab['modules'] ) ? $tab['modules'] : [];
+                    ?>
+                    <div class="boot-tab-panel<?php echo 0 === $ti ? ' active' : ''; ?>" id="boot-tab-<?php echo esc_attr( $tab['tab_id'] ); ?>">
                         <div class="boot-tab-panel-grid">
                             <div class="boot-tab-info">
-                                <div class="boot-tab-badge">2 Days · On-site or Remote</div>
-                                <h3>AI Foundations</h3>
-                                <p>The starting point for any team new to AI. Learn the core concepts, tools, and thinking frameworks needed to work confidently in an AI-enabled world.</p>
+                                <div class="boot-tab-badge"><?php echo esc_html( $tab['badge'] ); ?></div>
+                                <h3><?php echo esc_html( $tab['title'] ); ?></h3>
+                                <p><?php echo esc_html( $tab['intro'] ); ?></p>
                                 <ul>
-                                    <li>How large language models work (no PhD required)</li>
-                                    <li>Prompt engineering & AI communication patterns</li>
-                                    <li>Evaluating AI tools for your business context</li>
-                                    <li>Ethics, bias, and responsible AI use</li>
-                                    <li>Hands-on exercises with real AI platforms</li>
+                                    <?php foreach ( slingshot_lp_bullet_lines( $tab['bullets'] ?? '' ) as $li ) : ?>
+                                    <li><?php echo esc_html( $li ); ?></li>
+                                    <?php endforeach; ?>
                                 </ul>
-                                <a href="/contact/?looking=AI+Bootcamp+Foundations" class="boot-tab-cta">Book This Track <span>&#8594;</span></a>
+                                <a href="<?php echo slingshot_lp_h_attr( $tab['cta_url'] ?? '#' ); ?>" class="boot-tab-cta"><?php echo esc_html( $tab['cta_text'] ?? '' ); ?> <span>&#8594;</span></a>
                             </div>
-                            <div class="boot-tab-visual">
-                                <div class="boot-module-cards">
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 1</span>
-                                        <span class="boot-module-name">Understanding AI &amp; LLMs</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 1</span>
-                                        <span class="boot-module-name">Prompt Engineering Workshop</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 2</span>
-                                        <span class="boot-module-name">Tool Evaluation &amp; Selection</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 2</span>
-                                        <span class="boot-module-name">Build Your First AI Workflow</span>
-                                    </div>
-                                    <div class="boot-module boot-module-capstone">
-                                        <span class="boot-module-day">Capstone</span>
-                                        <span class="boot-module-name">Team Prototype Presentation</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="boot-tab-panel" id="boot-tab-product">
-                        <div class="boot-tab-panel-grid">
-                            <div class="boot-tab-info">
-                                <div class="boot-tab-badge">3 Days · On-site or Remote</div>
-                                <h3>AI for Product Teams</h3>
-                                <p>Built for PMs, designers, and business leads who need to identify where AI creates value and how to spec AI-powered features their engineering teams can build.</p>
-                                <ul>
-                                    <li>AI opportunity mapping for your product</li>
-                                    <li>Writing AI feature specs and user stories</li>
-                                    <li>Designing AI-augmented user experiences</li>
-                                    <li>Measuring AI feature success</li>
-                                    <li>Working with engineering on AI integration</li>
-                                </ul>
-                                <a href="/contact/?looking=AI+Bootcamp+Product" class="boot-tab-cta">Book This Track <span>&#8594;</span></a>
-                            </div>
-                            <div class="boot-tab-visual">
-                                <div class="boot-module-cards">
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 1</span>
-                                        <span class="boot-module-name">AI Product Strategy</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 1</span>
-                                        <span class="boot-module-name">Opportunity Discovery Workshop</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 2</span>
-                                        <span class="boot-module-name">UX &amp; Design for AI</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 2</span>
-                                        <span class="boot-module-name">Feature Spec Writing Lab</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 3</span>
-                                        <span class="boot-module-name">Prototype &amp; Roadmap Presentation</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="boot-tab-panel" id="boot-tab-engineering">
-                        <div class="boot-tab-panel-grid">
-                            <div class="boot-tab-info">
-                                <div class="boot-tab-badge">3 Days · On-site or Remote</div>
-                                <h3>AI Engineering</h3>
-                                <p>For software engineers ready to build with AI — from integrating LLM APIs to building agents, RAG pipelines, and production-grade AI features.</p>
-                                <ul>
-                                    <li>LLM API integration (OpenAI, Claude, Gemini)</li>
-                                    <li>RAG: retrieval-augmented generation patterns</li>
-                                    <li>Building and orchestrating AI agents</li>
-                                    <li>Evaluating and testing AI outputs</li>
-                                    <li>Production deployment and cost management</li>
-                                </ul>
-                                <a href="/contact/?looking=AI+Bootcamp+Engineering" class="boot-tab-cta">Book This Track <span>&#8594;</span></a>
-                            </div>
-                            <div class="boot-tab-visual">
-                                <div class="boot-module-cards">
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 1</span>
-                                        <span class="boot-module-name">LLM APIs &amp; Prompt Engineering</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 1</span>
-                                        <span class="boot-module-name">RAG Architecture Deep Dive</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 2</span>
-                                        <span class="boot-module-name">Agent Design &amp; Orchestration</span>
-                                    </div>
-                                    <div class="boot-module">
-                                        <span class="boot-module-day">Day 2</span>
-                                        <span class="boot-module-name">Evals, Testing &amp; Guardrails</span>
-                                    </div>
-                                    <div class="boot-module boot-module-capstone">
-                                        <span class="boot-module-day">Day 3</span>
-                                        <span class="boot-module-name">Ship an AI Feature End-to-End</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="boot-tab-panel" id="boot-tab-custom">
-                        <div class="boot-tab-panel-grid">
-                            <div class="boot-tab-info">
-                                <div class="boot-tab-badge">Custom Duration &amp; Format</div>
-                                <h3>Custom Program</h3>
-                                <p>Have a specific challenge or use case in mind? We'll design a bootcamp program around your team's exact context — your industry, your stack, your goals.</p>
-                                <ul>
-                                    <li>Discovery call to understand your team's needs</li>
-                                    <li>Tailored curriculum and exercises</li>
-                                    <li>Pre-built around your actual data and systems</li>
-                                    <li>Flexible format: on-site, remote, or hybrid</li>
-                                    <li>Ongoing follow-up coaching available</li>
-                                </ul>
-                                <a href="/contact/?looking=AI+Bootcamp+Custom" class="boot-tab-cta">Talk to Us <span>&#8594;</span></a>
-                            </div>
-                            <div class="boot-tab-visual boot-tab-visual-custom">
+                            <div class="boot-tab-visual<?php echo 'custom' === $layout ? ' boot-tab-visual-custom' : ''; ?>">
+                                <?php if ( 'custom' === $layout ) : ?>
                                 <div class="boot-custom-card">
                                     <div class="boot-custom-icon">
                                         <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="rgba(109,68,183,0.1)"/><path d="M16 32V24l8-6 8 6v8" stroke="#6D44B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="20" y="24" width="8" height="8" rx="1.5" stroke="#6D44B7" stroke-width="2.5"/><path d="M24 16v-4M18 18l-3-3M30 18l3-3" stroke="#23B7B4" stroke-width="2" stroke-linecap="round"/></svg>
                                     </div>
-                                    <p class="boot-custom-text">Every industry is different. Every team is different. Let's build something that actually fits.</p>
-                                    <a href="/contact/?looking=AI+Bootcamp+Custom" class="boot-custom-btn">Schedule a Discovery Call &rarr;</a>
+                                    <p class="boot-custom-text"><?php echo esc_html( $tab['custom_text'] ?? '' ); ?></p>
+                                    <a href="<?php echo slingshot_lp_h_attr( $tab['custom_url'] ?? '#' ); ?>" class="boot-custom-btn"><?php echo wp_kses_post( $tab['custom_btn'] ?? '' ); ?></a>
                                 </div>
+                                <?php else : ?>
+                                <div class="boot-module-cards">
+                                    <?php foreach ( $mods as $mi => $mod ) : ?>
+                                        <?php
+                                        if ( empty( $mod['day'] ) && empty( $mod['name'] ) ) {
+                                            continue;
+                                        }
+                                        $cap_class = '';
+                                        $day_s     = (string) ( $mod['day'] ?? '' );
+                                        $name_s    = (string) ( $mod['name'] ?? '' );
+                                        if ( stripos( $day_s, 'capstone' ) !== false || stripos( $name_s, 'End-to-End' ) !== false ) {
+                                            $cap_class = ' boot-module-capstone';
+                                        }
+                                        ?>
+                                    <div class="boot-module<?php echo esc_attr( $cap_class ); ?>">
+                                        <span class="boot-module-day"><?php echo esc_html( $mod['day'] ?? '' ); ?></span>
+                                        <span class="boot-module-name"><?php echo esc_html( $mod['name'] ?? '' ); ?></span>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         5. HOW IT WORKS
-    ════════════════════════════════════ -->
     <section class="boot-how-section">
         <div class="boot-how-inner">
             <div class="boot-how-header">
-                <p class="boot-how-eyebrow">The Process</p>
-                <h2 class="boot-how-heading">How It Works</h2>
+                <p class="boot-how-eyebrow"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_how_eyebrow', 'The Process' ) ); ?></p>
+                <h2 class="boot-how-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_how_heading', 'How It Works' ) ); ?></h2>
             </div>
             <div class="boot-how-steps">
-                <div class="boot-how-step">
-                    <div class="boot-how-step-num">01</div>
-                    <div class="boot-how-step-content">
-                        <h3>Assess</h3>
-                        <p>We start with a discovery call to understand your team's current AI knowledge, your tech environment, and the outcomes you're aiming for.</p>
-                    </div>
-                </div>
+                <?php foreach ( slingshot_lp_bootcamp_how_steps() as $si => $step ) : ?>
+                    <?php if ( $si > 0 ) : ?>
                 <div class="boot-how-connector"></div>
+                    <?php endif; ?>
                 <div class="boot-how-step">
-                    <div class="boot-how-step-num">02</div>
+                    <div class="boot-how-step-num"><?php echo esc_html( $step['num'] ?? '' ); ?></div>
                     <div class="boot-how-step-content">
-                        <h3>Design</h3>
-                        <p>We tailor the curriculum, exercises, and real-world scenarios to match your team's role and business context — nothing generic.</p>
+                        <h3><?php echo esc_html( $step['title'] ?? '' ); ?></h3>
+                        <p><?php echo esc_html( $step['text'] ?? '' ); ?></p>
                     </div>
                 </div>
-                <div class="boot-how-connector"></div>
-                <div class="boot-how-step">
-                    <div class="boot-how-step-num">03</div>
-                    <div class="boot-how-step-content">
-                        <h3>Learn &amp; Build</h3>
-                        <p>Hands-on sessions where your team learns concepts and immediately applies them — building real AI tools and workflows throughout.</p>
-                    </div>
-                </div>
-                <div class="boot-how-connector"></div>
-                <div class="boot-how-step">
-                    <div class="boot-how-step-num">04</div>
-                    <div class="boot-how-step-content">
-                        <h3>Embed</h3>
-                        <p>Participants leave with working prototypes, playbooks, and optionally access to Slingshot coaches for ongoing support as they implement.</p>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         6. UPCOMING BOOTCAMPS (Events)
-    ════════════════════════════════════ -->
     <section class="home-events-section boot-events-section">
         <div class="home-events-inner">
             <div class="home-events-header">
-                <h2 class="home-events-title">Upcoming Bootcamps</h2>
+                <h2 class="home-events-title"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_events_title', 'Upcoming Bootcamps' ) ); ?></h2>
                 <div class="home-events-meta">
-                    <p class="home-events-desc">Join one of our public cohorts or bring a private bootcamp to your team. New dates added regularly.</p>
-                    <a href="/events" class="home-section-link">All Events &rarr;</a>
+                    <p class="home-events-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_events_desc', 'Join one of our public cohorts or bring a private bootcamp to your team. New dates added regularly.' ) ); ?></p>
+                    <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_events_all_text', 'All Events →' ) ); ?></a>
                 </div>
             </div>
             <div class="home-events-cards">
-                <a href="#" class="event-card">
-                    <div class="event-card-image" style="background:linear-gradient(135deg,#1B1060,#6D44B7);"></div>
+                <?php foreach ( slingshot_lp_bootcamp_events_cards() as $ev ) : ?>
+                    <?php
+                    $ev_url = ! empty( $ev['url'] ) ? $ev['url'] : '#';
+                    $img_u  = ! empty( $ev['image'] ) ? slingshot_lp_attachment_url( $ev['image'], '', 'large' ) : '';
+                    $reg    = ! empty( $ev['register_label'] ) ? $ev['register_label'] : 'Register →';
+                    ?>
+                <a href="<?php echo slingshot_lp_h_attr( $ev_url ); ?>" class="event-card">
+                    <div class="event-card-image"<?php echo ! empty( $ev['image_bg_css'] ) ? ' style="background:' . esc_attr( $ev['image_bg_css'] ) . ';"' : ''; ?>>
+                        <?php if ( $img_u && empty( $ev['image_bg_css'] ) ) : ?>
+                        <img src="<?php echo esc_url( $img_u ); ?>" alt="<?php echo esc_attr( $ev['title'] ?? '' ); ?>" loading="lazy">
+                        <?php endif; ?>
+                    </div>
                     <div class="event-card-body">
                         <div class="event-card-info">
-                            <span class="event-card-tag">AI Foundations</span>
-                            <h3 class="event-card-title">AI Foundations Bootcamp — Public Cohort</h3>
-                            <p class="event-card-date">May 14–15, 2025 &middot; Online</p>
+                            <span class="event-card-tag"><?php echo esc_html( $ev['tag'] ?? '' ); ?></span>
+                            <h3 class="event-card-title"><?php echo esc_html( $ev['title'] ?? '' ); ?></h3>
+                            <p class="event-card-date"><?php echo esc_html( $ev['date_location'] ?? '' ); ?></p>
                         </div>
-                        <span class="event-register-btn">Register &rarr;</span>
+                        <span class="event-register-btn"><?php echo esc_html( $reg ); ?></span>
                     </div>
                 </a>
-                <a href="#" class="event-card">
-                    <div class="event-card-image" style="background:linear-gradient(135deg,#0d6e6b,#23B7B4);"></div>
-                    <div class="event-card-body">
-                        <div class="event-card-info">
-                            <span class="event-card-tag">AI Engineering</span>
-                            <h3 class="event-card-title">AI Engineering Bootcamp — Louisville, KY</h3>
-                            <p class="event-card-date">June 4–6, 2025 &middot; Louisville, KY</p>
-                        </div>
-                        <span class="event-register-btn">Register &rarr;</span>
-                    </div>
-                </a>
-                <a href="#" class="event-card">
-                    <div class="event-card-image" style="background:linear-gradient(135deg,#2A1878,#4B23B0);"></div>
-                    <div class="event-card-body">
-                        <div class="event-card-info">
-                            <span class="event-card-tag">Custom</span>
-                            <h3 class="event-card-title">Private Bootcamp — Bring It to Your Team</h3>
-                            <p class="event-card-date">Flexible dates &middot; On-site or Remote</p>
-                        </div>
-                        <span class="event-register-btn">Contact Us &rarr;</span>
-                    </div>
-                </a>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         7. TRUSTED CLIENTS
-    ════════════════════════════════════ -->
     <section class="boot-clients-section">
         <div class="boot-clients-inner">
-            <p class="boot-clients-label">Teams We've Trained</p>
+            <p class="boot-clients-label"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_clients_label', "Teams We've Trained" ) ); ?></p>
             <div class="home-logos-strip-wrapper">
                 <div class="home-logos-strip">
-                    <span class="logo-item">Churchill Downs</span>
-                    <span class="logo-item">Schneider Electric</span>
-                    <span class="logo-item">MetLife</span>
-                    <span class="logo-item">Univ. of Louisville</span>
-                    <span class="logo-item">HealthRev</span>
-                    <span class="logo-item">Paysign</span>
-                    <span class="logo-item">ProjectTeam</span>
-                    <span class="logo-item">Zoeller</span>
-                    <span class="logo-item">Equibase</span>
-                    <span class="logo-item">Connected Caregiver</span>
-                    <!-- duplicate for seamless loop -->
-                    <span class="logo-item">Churchill Downs</span>
-                    <span class="logo-item">Schneider Electric</span>
-                    <span class="logo-item">MetLife</span>
-                    <span class="logo-item">Univ. of Louisville</span>
-                    <span class="logo-item">HealthRev</span>
-                    <span class="logo-item">Paysign</span>
-                    <span class="logo-item">ProjectTeam</span>
-                    <span class="logo-item">Zoeller</span>
-                    <span class="logo-item">Equibase</span>
-                    <span class="logo-item">Connected Caregiver</span>
+                    <?php
+                    $blogos = slingshot_lp_bootcamp_clients();
+                    foreach ( array_merge( $blogos, $blogos ) as $row ) :
+                        ?>
+                    <span class="logo-item"><?php echo esc_html( $row['name'] ); ?></span>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         8. INSIGHTS (Blog)
-    ════════════════════════════════════ -->
     <section class="home-blog-section boot-blog-section">
         <div class="home-blog-inner">
             <div class="home-blog-header">
-                <h2 class="home-blog-title">AI Insights for<br>Modern Teams</h2>
+                <h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_blog_title', "AI Insights for\nModern Teams" ) ) ); ?></h2>
                 <div class="home-blog-meta">
-                    <p class="home-blog-desc">Practical thinking on AI adoption, team enablement, and what it really takes to build AI capabilities inside an organization.</p>
-                    <a href="/blog" class="home-section-link">All Insights &rarr;</a>
+                    <p class="home-blog-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_blog_desc', 'Practical thinking on AI adoption, team enablement, and what it really takes to build AI capabilities inside an organization.' ) ); ?></p>
+                    <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_blog_cta_text', 'All Insights →' ) ); ?></a>
                 </div>
             </div>
             <div class="home-blog-cards">
                 <?php if ( $blog_query->have_posts() ) : ?>
-                    <?php while ( $blog_query->have_posts() ) : $blog_query->the_post(); ?>
+                    <?php
+                    while ( $blog_query->have_posts() ) :
+                        $blog_query->the_post();
+                        ?>
                         <a href="<?php the_permalink(); ?>" class="blog-card">
                             <div class="blog-card-image">
                                 <?php if ( has_post_thumbnail() ) : ?>
@@ -495,15 +294,19 @@ $blog_query = new WP_Query( array(
                                     $cats = get_the_category();
                                     if ( $cats ) :
                                         foreach ( array_slice( $cats, 0, 2 ) as $cat ) :
-                                    ?>
+                                            ?>
                                         <span class="blog-card-tag"><?php echo esc_html( $cat->name ); ?></span>
-                                    <?php endforeach; endif; ?>
+                                            <?php
+                                        endforeach;
+endif;
+                                    ?>
                                 </div>
                                 <h3 class="blog-card-title"><?php the_title(); ?></h3>
-                                <p class="blog-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?></p>
+                                <p class="blog-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20, '...' ) ); ?></p>
                             </div>
                         </a>
-                    <?php endwhile; wp_reset_postdata(); ?>
+                    <?php endwhile; ?>
+                    <?php wp_reset_postdata(); ?>
                 <?php else : ?>
                     <a href="#" class="blog-card">
                         <div class="blog-card-image"></div>
@@ -517,9 +320,6 @@ $blog_query = new WP_Query( array(
         </div>
     </section>
 
-    <!-- ════════════════════════════════════
-         9. CTA
-    ════════════════════════════════════ -->
     <section class="boot-cta-section">
         <div class="boot-cta-inner">
             <div class="boot-cta-mascot">
@@ -547,16 +347,16 @@ $blog_query = new WP_Query( array(
                 </svg>
             </div>
             <div class="boot-cta-card">
-                <h2 class="boot-cta-title">Ready to Train<br>Your Team?</h2>
-                <p class="boot-cta-desc">Whether you want a public cohort spot or a private bootcamp built around your team — we'll make it happen fast.</p>
+                <h2 class="boot-cta-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_cta_title', "Ready to Train\nYour Team?" ) ) ); ?></h2>
+                <p class="boot-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_cta_desc', "Whether you want a public cohort spot or a private bootcamp built around your team — we'll make it happen fast." ) ); ?></p>
                 <div class="boot-cta-actions">
-                    <a href="/contact/?looking=Bootcamp" class="boot-cta-btn-primary">Book a Bootcamp &rarr;</a>
-                    <a href="/contact/?looking=Bootcamp+Custom" class="boot-cta-btn-ghost">Talk to Us First</a>
+                    <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_cta_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-cta-btn-primary"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_cta_primary_text', 'Book a Bootcamp →' ) ); ?></a>
+                    <a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_cta_secondary_url', '/contact/?looking=Bootcamp+Custom' ) ); ?>" class="boot-cta-btn-ghost"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_cta_secondary_text', 'Talk to Us First' ) ); ?></a>
                 </div>
             </div>
         </div>
     </section>
 
-</div><!-- .bootcamp-page-wrapper -->
+</div>
 
 <?php get_footer(); ?>
