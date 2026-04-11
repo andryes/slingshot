@@ -863,6 +863,96 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
         text-align: center;
     }
 }
+/* ─── AI CTA Section ──────────────────────────────── */
+.ai-cta-section {
+    background: transparent;
+    padding: 64px 40px 88px;
+}
+.ai-cta-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+}
+.home-cta-mascot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home-cta-mascot img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+}
+.ai-cta-card {
+    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
+    border-radius: 28px;
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    position: relative;
+    overflow: hidden;
+}
+.ai-cta-card::before {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+    top: -100px; right: -60px;
+}
+.ai-cta-title {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 38px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-transform: none !important;
+    line-height: 1.2 !important;
+    position: relative;
+}
+.ai-cta-desc {
+    font-size: 17px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.75);
+    margin: 0 !important;
+    max-width: 500px;
+    position: relative;
+}
+.ai-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #1B1060 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 30px;
+    border-radius: 50px;
+    text-decoration: none !important;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+.ai-cta-btn:hover {
+    background: #eef2ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    color: #1B1060 !important;
+}
+@media (max-width: 900px) {
+    .ai-cta-inner { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .ai-cta-card { align-items: center; padding: 38px 28px; border-radius: 16px; }
+    .ai-cta-title { font-size: 30px !important; }
+    .home-cta-mascot img { max-width: 200px; }
+}
+
 /* Hide old WPBakery hero container on AI page */
 /* Hide old WPBakery hero on AI page */
 .page-template-page-ai .container-wrap {
@@ -895,7 +985,7 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
 .ai-hero-section {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(145deg, #060d1e 0%, #0c1433 30%, #120a2d 62%, #190432 100%);
+    background: linear-gradient(145deg, #060e26 0%, #0c1e52 30%, #091840 62%, #060f28 100%);
     padding-top: 0;
     max-width: 1240px;
     margin: 88px auto 0;
@@ -921,7 +1011,7 @@ body.material .nectar-button.has-icon span.innovations-block-see-more {
 .ai-hero-blob-2 {
     width: 380px;
     height: 380px;
-    background: radial-gradient(circle at 50% 50%, #6d44b7 0%, rgba(58,29,122,0) 70%);
+    background: radial-gradient(circle at 50% 50%, #1e5ab8 0%, rgba(18,56,140,0) 70%);
     bottom: -100px;
     right: 28%;
     opacity: 0.5;

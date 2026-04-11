@@ -153,7 +153,7 @@ slingshot_render_redesign_header(
 			<div class="capabilities-block-bg">
 				<div class="capabilities-block">
 					<div class="capabilities-title">
-						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cap_title', 'Capabilities' ) ); ?></h2>
+						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cap_title', 'AI Capabilities' ) ); ?></h2>
 					</div>
 					<div class="capabilities-content">
 						<?php
@@ -176,7 +176,7 @@ slingshot_render_redesign_header(
 			<div class="tools-block-bg">
 				<div class="tools-block">
 					<div class="tools-title">
-						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_tools_title', 'Trusted tools & platforms' ) ); ?></h2>
+						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_tools_title', 'Trusted Platforms We Build With' ) ); ?></h2>
 					</div>
 				</div>
 				<div class="tools-content marquee">
@@ -198,7 +198,7 @@ slingshot_render_redesign_header(
 			<div class="innovations-block-bg">
 				<div class="innovations-block">
 					<div class="innovations-title">
-						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_blog_title', 'Insights & innovations' ) ); ?></h2>
+						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_blog_title', 'Insights That Move Business Forward' ) ); ?></h2>
 						<a class="contact-block-button" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_blog_cta_url', '/blog/' ) ); ?>" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff">
 							<?php echo esc_html( slingshot_lp_setting( $opt, 'ai_blog_cta_text', 'See more' ) ); ?>
 							<i class="icon-button-arrow see-more"></i>
@@ -241,7 +241,7 @@ slingshot_render_redesign_header(
 			<div class="answers-block-bg">
 				<div class="answers-block">
 					<div class="answers-title">
-					<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_faq_title', 'Still wondering about AI? We’ve got answers' ) ); ?></h2>
+					<h2><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'ai_faq_title', "Still wondering\nif AI is right for you?" ) ) ); ?></h2>
 				</div>
 					<div class="answers-content">
 					<?php foreach ( slingshot_lp_ai_faq_items() as $faq ) : ?>
@@ -261,15 +261,50 @@ slingshot_render_redesign_header(
 			</div>
 
 
-			<div class="contact-block-bg">
-				<div class="contact-block-content">
-					<h2 style="color: #ffffff;text-align: center" class="vc_custom_heading vc_do_custom_heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cta_title', 'Ready to Get Started?' ) ); ?></h2>
-					<a class="contact-block-button" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_cta_btn_url', '/contact/' ) ); ?>" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff">
-						<span><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cta_btn_text', "Let's Go!" ) ); ?></span>
-						<i style="color: #FFFFFF;" class="icon-button-arrow"></i>
-					</a>
+			<section class="ai-cta-section">
+				<div class="ai-cta-inner">
+					<div class="home-cta-mascot">
+						<?php
+						// 1. Try the image from the settings page
+						// 2. Fall back to the file in /img
+						// 3. Fall back to the inline SVG placeholder
+						$mascot_from_settings = $cta_mascot;
+						$mascot_file_path     = get_stylesheet_directory() . '/img/cta-mascot.png';
+						$mascot_file_url      = get_stylesheet_directory_uri() . '/img/cta-mascot.png';
+
+						if ( $mascot_from_settings ) : ?>
+							<img src="<?php echo esc_url( $mascot_from_settings ); ?>" alt="Slingshot mascot">
+						<?php elseif ( file_exists( $mascot_file_path ) ) : ?>
+							<img src="<?php echo esc_url( $mascot_file_url ); ?>" alt="Slingshot mascot">
+						<?php else : ?>
+						<!-- TODO: Export mascot from Figma (node 8930-23258) and save to img/cta-mascot.png or upload via Home Page settings -->
+						<svg class="home-cta-mascot-svg" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<ellipse cx="140" cy="290" rx="55" ry="16" fill="rgba(75,35,176,.12)"/>
+							<path d="M120 260 C115 275 125 285 140 290 C155 285 165 275 160 260 C150 268 130 268 120 260Z" fill="#FF8C42"/>
+							<path d="M128 262 C124 272 132 280 140 283 C148 280 156 272 152 262 C146 268 134 268 128 262Z" fill="#FFD166"/>
+							<rect x="108" y="140" width="64" height="120" rx="32" fill="#4B23B0"/>
+							<ellipse cx="140" cy="140" rx="32" ry="32" fill="#6D44B7"/>
+							<path d="M108 168 C108 140 172 140 172 168" fill="#6D44B7"/>
+							<circle cx="140" cy="165" r="18" fill="#fff" opacity=".15"/>
+							<circle cx="140" cy="165" r="12" fill="#fff" opacity=".25"/>
+							<circle cx="133" cy="142" r="5" fill="#fff"/>
+							<circle cx="147" cy="142" r="5" fill="#fff"/>
+							<circle cx="134" cy="143" r="2.5" fill="#1B1060"/>
+							<circle cx="148" cy="143" r="2.5" fill="#1B1060"/>
+							<path d="M108 155 C96 140 90 130 100 122 C108 130 108 145 108 155Z" fill="#5D2DBF"/>
+							<path d="M172 155 C184 140 190 130 180 122 C172 130 172 145 172 155Z" fill="#5D2DBF"/>
+							<path d="M108 220 C90 210 76 220 80 236 C88 232 100 228 108 230Z" fill="#23B7B4"/>
+							<path d="M172 220 C190 210 204 220 200 236 C192 232 180 228 172 230Z" fill="#23B7B4"/>
+						</svg>
+						<?php endif; ?>
+					</div>
+					<div class="ai-cta-card">
+						<h2 class="ai-cta-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'ai_cta_title', "Start Smart. Move Fast.\nBuild What Matters" ) ) ); ?></h2>
+						<p class="ai-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cta_desc', "Let's turn AI into something real, valuable, and aligned to your business." ) ); ?></p>
+						<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_cta_btn_url', '/contact/' ) ); ?>" class="ai-cta-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cta_btn_text', 'Book a Free AI Discussion →' ) ); ?></a>
+					</div>
 				</div>
-			</div>
+			</section>
 		</div>
 
 <?php get_footer(); ?>

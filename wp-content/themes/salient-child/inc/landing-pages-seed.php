@@ -4,7 +4,7 @@
  * After seed, front-end and admin read values from the database.
  */
 
-define( 'SLINGSHOT_LP_SEED_VERSION', 1 );
+define( 'SLINGSHOT_LP_SEED_VERSION', 4 );
 define( 'SLINGSHOT_LP_SEED_OPTION', 'slingshot_lp_landing_seed_version' );
 
 /**
@@ -15,7 +15,7 @@ function slingshot_lp_build_consulting_option() {
 		'con_hero_bc_parent'   => 'SERVICES',
 		'con_hero_bc_leaf'     => 'CONSULTING',
 		'con_hero_heading'     => 'Strategic Technology Consulting',
-		'con_hero_subtext'     => 'We bring deep technical expertise, cross-functional teams, and product thinking to every engagement — so you get outcomes, not just output.',
+		'con_hero_subtext'     => 'Expert guidance to solve challenges, modernize systems, and align tech with your business goals.',
 		'con_hero_cta_text'    => 'Book a call',
 		'con_hero_cta_url'     => '/contact/?looking=Consulting',
 		'con_hero_img_a'       => '',
@@ -44,8 +44,8 @@ function slingshot_lp_build_consulting_option() {
 		'con_blog_cta_url'     => '/blog',
 		'con_blog_posts'       => 3,
 		'con_cta_title'        => "Let's Build What's Next",
-		'con_cta_desc'         => "Whether you're exploring a new direction or ready to accelerate — let's talk about how Slingshot can help you get there.",
-		'con_cta_btn_text'     => 'Book a Strategy Call →',
+		'con_cta_desc'         => 'Whether you need a smarter product, a faster team, or a modernized platform. Slingshot is the partner to help you move.',
+		'con_cta_btn_text'     => 'Start the Conversation →',
 		'con_cta_btn_url'      => '/contact/?looking=Consulting',
 	];
 }
@@ -56,10 +56,11 @@ function slingshot_lp_build_consulting_option() {
 function slingshot_lp_build_bootcamp_option() {
 	return [
 		'boot_hero_bc_parent'     => 'SERVICES',
+		'boot_hero_bc_mid'        => 'AI',
 		'boot_hero_bc_leaf'       => 'BOOTCAMP',
-		'boot_hero_heading'       => "AI Bootcamp\nfor Teams",
-		'boot_hero_subtext'       => 'Hands-on, practitioner-led training that turns your team into confident AI builders — in days, not months.',
-		'boot_hero_primary_text'  => 'Book a Bootcamp',
+		'boot_hero_heading'       => "Hands-On\nAI Bootcamps",
+		'boot_hero_subtext'       => "Two immersive one-day bootcamps designed to help your team stop experimenting and start delivering with AI. Whether you're building multi-agent systems or launching faster with AI tools, you'll leave with real progress, not just notes.",
+		'boot_hero_primary_text'  => 'Send Request',
 		'boot_hero_primary_url'   => '/contact/?looking=Bootcamp',
 		'boot_hero_secondary_text'=> 'See the Curriculum',
 		'boot_hero_secondary_url' => '#boot-curriculum',
@@ -92,9 +93,9 @@ function slingshot_lp_build_bootcamp_option() {
 		'boot_blog_cta_text'      => 'All Insights →',
 		'boot_blog_cta_url'       => '/blog',
 		'boot_blog_posts'         => 3,
-		'boot_cta_title'          => "Ready to Train\nYour Team?",
-		'boot_cta_desc'           => "Whether you want a public cohort spot or a private bootcamp built around your team — we'll make it happen fast.",
-		'boot_cta_primary_text'   => 'Book a Bootcamp →',
+		'boot_cta_title'          => "Bring a Bootcamp\nto Your Org",
+		'boot_cta_desc'           => "Want to upskill your team in AI, fast? We offer private sessions tailored to your company's goals and team mix.",
+		'boot_cta_primary_text'   => 'Request a Private Bootcamp →',
 		'boot_cta_primary_url'    => '/contact/?looking=Bootcamp',
 		'boot_cta_secondary_text' => 'Talk to Us First',
 		'boot_cta_secondary_url'  => '/contact/?looking=Bootcamp+Custom',
@@ -139,19 +140,20 @@ function slingshot_lp_build_ai_option() {
 		'ai_impact_cta_text'   => 'Get Started Now',
 		'ai_impact_cta_url'    => '/contact/?looking=Artificial+Intelligence',
 		'ai_steps'             => $steps,
-		'ai_cap_title'         => 'Capabilities',
+		'ai_cap_title'         => 'AI Capabilities',
 		'ai_capabilities'      => $caps,
-		'ai_tools_title'       => 'Trusted tools & platforms',
+		'ai_tools_title'       => 'Trusted Platforms We Build With',
 		'ai_tools_logos'       => [],
-		'ai_blog_title'        => 'Insights & innovations',
-		'ai_blog_cta_text'     => 'See more',
+		'ai_blog_title'        => 'Insights That Move Business Forward',
+		'ai_blog_cta_text'     => 'All Insights →',
 		'ai_blog_cta_url'      => '/blog/',
 		'ai_blog_category'     => 'artificial-intelligence',
 		'ai_blog_posts'        => 10,
-		'ai_faq_title'         => 'Still wondering about AI? We’ve got answers',
+		'ai_faq_title'         => "Still wondering\nif AI is right for you?",
 		'ai_faq_items'         => slingshot_lp_default_ai_faq(),
-		'ai_cta_title'         => 'Ready to Get Started?',
-		'ai_cta_btn_text'      => "Let's Go!",
+		'ai_cta_title'         => "Start Smart. Move Fast.\nBuild What Matters",
+		'ai_cta_desc'          => "Let's turn AI into something real, valuable, and aligned to your business.",
+		'ai_cta_btn_text'      => 'Book a Free AI Discussion →',
 		'ai_cta_btn_url'       => '/contact/',
 	];
 }

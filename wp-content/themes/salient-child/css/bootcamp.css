@@ -16,7 +16,7 @@
 .boot-hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(145deg, #060d1e 0%, #0c1433 30%, #120a2d 62%, #190432 100%);
+    background: linear-gradient(145deg, #060e26 0%, #0c1e52 30%, #091840 62%, #060f28 100%);
     max-width: 1240px;
     margin: 88px auto 0;
     border-radius: 22px;
@@ -32,7 +32,7 @@
 }
 .boot-hero-blob-1 {
     width: 560px; height: 560px;
-    background: radial-gradient(circle at 40% 40%, #4B23B0 0%, rgba(75,35,176,0) 70%);
+    background: radial-gradient(circle at 40% 40%, #1a52a8 0%, rgba(13,52,140,0) 70%);
     top: -180px; right: 0%;
     opacity: 0.55;
 }
@@ -44,7 +44,7 @@
 }
 .boot-hero-blob-3 {
     width: 280px; height: 280px;
-    background: radial-gradient(circle at 50% 50%, #6d44b7 0%, rgba(58,29,122,0) 70%);
+    background: radial-gradient(circle at 50% 50%, #1e5ab5 0%, rgba(18,56,130,0) 70%);
     top: 30%; right: 35%;
     opacity: 0.4;
 }
@@ -743,21 +743,40 @@
 .boot-cta-inner {
     max-width: 1240px;
     margin: 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
     align-items: center;
-    justify-content: space-between;
-    gap: 60px;
-    border-radius: 22px;
-    padding: 54px 56px;
-    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
 }
-.boot-cta-mascot { flex-shrink: 0; }
-.boot-cta-mascot-svg { width: 140px; height: 160px; }
+.home-cta-mascot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home-cta-mascot img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+}
 .boot-cta-card {
+    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
+    border-radius: 28px;
+    padding: 56px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 18px;
+    position: relative;
+    overflow: hidden;
+}
+.boot-cta-card::before {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+    top: -100px; right: -60px;
 }
 .boot-cta-title {
     font-family: 'Poppins', sans-serif !important;
@@ -869,10 +888,10 @@
     .boot-how-step { max-width: 320px; }
     .boot-how-connector { width: 2px; height: 30px; margin: 0; align-self: center; background: linear-gradient(180deg, #6D44B7, #23B7B4); }
 
-    .boot-cta-inner { flex-direction: column; gap: 30px; text-align: center; padding: 38px 28px; border-radius: 16px; }
-    .boot-cta-card { align-items: center; }
+    .boot-cta-inner { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .boot-cta-card { align-items: center; padding: 38px 28px; border-radius: 16px; }
     .boot-cta-title { font-size: 30px !important; }
-    .boot-cta-mascot-svg { width: 100px; height: 120px; }
+    .home-cta-mascot img { max-width: 200px; }
     .boot-cta-actions { justify-content: center; }
 }
 

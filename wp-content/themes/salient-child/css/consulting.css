@@ -16,7 +16,7 @@
 .con-hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(145deg, #060d1e 0%, #0c1433 30%, #120a2d 62%, #190432 100%);
+    background: linear-gradient(145deg, #0d0630 0%, #1d0d58 30%, #180838 62%, #0e051e 100%);
     max-width: 1240px;
     margin: 88px auto 0;
     border-radius: 22px;
@@ -462,21 +462,40 @@
 .con-cta-inner {
     max-width: 1240px;
     margin: 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
     align-items: center;
-    justify-content: space-between;
-    gap: 60px;
-    border-radius: 22px;
-    padding: 54px 56px;
-    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
 }
-.con-cta-mascot { flex-shrink: 0; }
-.con-cta-mascot-svg { width: 140px; height: 160px; }
+.home-cta-mascot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home-cta-mascot img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+}
 .con-cta-card {
+    background: linear-gradient(135deg, #1B1060 0%, #3B1E9A 50%, #4B23B0 100%);
+    border-radius: 28px;
+    padding: 56px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 18px;
+    position: relative;
+    overflow: hidden;
+}
+.con-cta-card::before {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+    top: -100px; right: -60px;
 }
 .con-cta-title {
     font-family: 'Poppins', sans-serif !important;
@@ -553,10 +572,10 @@
     .con-help-body { grid-template-columns: 1fr; gap: 40px; }
     .con-help-right { position: static; }
 
-    .con-cta-inner { flex-direction: column; gap: 30px; text-align: center; padding: 38px 28px; border-radius: 16px; }
-    .con-cta-card { align-items: center; }
+    .con-cta-inner { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .con-cta-card { align-items: center; padding: 38px 28px; border-radius: 16px; }
     .con-cta-title { font-size: 30px !important; }
-    .con-cta-mascot-svg { width: 100px; height: 120px; }
+    .home-cta-mascot img { max-width: 200px; }
 }
 
 @media (max-width: 600px) {
