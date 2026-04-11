@@ -36,6 +36,39 @@ add_filter( 'mb_settings_pages', function ( $pages ) {
 		'capability'  => 'manage_options',
 		'icon_url'    => 'dashicons-art',
 	];
+	// Teams pages
+	$pages[] = [
+		'id'          => 'slingshot_teams_page',
+		'option_name' => SLINGSHOT_OPT_TEAMS,
+		'menu_title'  => 'Teams — Generic',
+		'parent'      => 'themes.php',
+		'capability'  => 'manage_options',
+		'icon_url'    => 'dashicons-groups',
+	];
+	$pages[] = [
+		'id'          => 'slingshot_teams_dedicated_page',
+		'option_name' => SLINGSHOT_OPT_TEAMS_DEDICATED,
+		'menu_title'  => 'Teams — Dedicated',
+		'parent'      => 'themes.php',
+		'capability'  => 'manage_options',
+		'icon_url'    => 'dashicons-groups',
+	];
+	$pages[] = [
+		'id'          => 'slingshot_teams_staffaug_page',
+		'option_name' => SLINGSHOT_OPT_TEAMS_STAFFAUG,
+		'menu_title'  => 'Teams — Staff Aug',
+		'parent'      => 'themes.php',
+		'capability'  => 'manage_options',
+		'icon_url'    => 'dashicons-groups',
+	];
+	$pages[] = [
+		'id'          => 'slingshot_teams_whitepaper_page',
+		'option_name' => SLINGSHOT_OPT_TEAMS_WHITEPAPER,
+		'menu_title'  => 'Teams — Whitepaper',
+		'parent'      => 'themes.php',
+		'capability'  => 'manage_options',
+		'icon_url'    => 'dashicons-media-document',
+	];
 	return $pages;
 } );
 
@@ -555,6 +588,493 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ai_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ai_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
 			[ 'id' => 'ai_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+		],
+	];
+
+	// ── Teams settings pages vars ─────────────────────────────
+	$teams_sp    = [ 'settings_pages' => [ 'slingshot_teams_page' ] ];
+	$ded_sp      = [ 'settings_pages' => [ 'slingshot_teams_dedicated_page' ] ];
+	$staug_sp    = [ 'settings_pages' => [ 'slingshot_teams_staffaug_page' ] ];
+	$wp_sp       = [ 'settings_pages' => [ 'slingshot_teams_whitepaper_page' ] ];
+
+	$skill_fields = [
+		[ 'id' => 'skill_name', 'name' => 'Skill name', 'type' => 'text' ],
+	];
+
+	$testimonial_fields = [
+		[ 'id' => 'photo', 'name' => 'Photo', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'name', 'name' => 'Name', 'type' => 'text' ],
+		[ 'id' => 'title', 'name' => 'Title / Company', 'type' => 'text' ],
+		[ 'id' => 'quote', 'name' => 'Quote', 'type' => 'textarea', 'rows' => 4 ],
+		[ 'id' => 'company_logo', 'name' => 'Company logo', 'type' => 'single_image', 'force_delete' => false ],
+	];
+
+	$role_fields = [
+		[ 'id' => 'photo', 'name' => 'Photo', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'name', 'name' => 'Name', 'type' => 'text' ],
+		[ 'id' => 'role', 'name' => 'Role title', 'type' => 'text' ],
+		[ 'id' => 'location', 'name' => 'Location', 'type' => 'text' ],
+	];
+
+	$feature_card_fields = [
+		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
+		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+	];
+
+	$whitepaper_section_fields = [
+		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'title', 'name' => 'Section title', 'type' => 'text' ],
+		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+	];
+
+	// ── Teams Generic ────────────────────────────────────────
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Hero',
+		'id'     => 'lp_teams_hero',
+		'fields' => [
+			[ 'id' => 'teams_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'SERVICES' ],
+			[ 'id' => 'teams_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'TEAMS' ],
+			[ 'id' => 'teams_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'teams_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
+			[ 'id' => 'teams_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Book a call' ],
+			[ 'id' => 'teams_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Teams' ],
+			[ 'id' => 'teams_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'teams_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Intro block',
+		'id'     => 'lp_teams_intro',
+		'fields' => [
+			[ 'id' => 'teams_intro_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'teams_intro_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_intro_tagline', 'name' => 'Tagline (bold label)', 'type' => 'text', 'std' => 'Two Models, One Strategic Partner' ],
+			[ 'id' => 'teams_intro_img', 'name' => 'Side image', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Model Cards (Dedicated Teams / Staff Aug)',
+		'id'     => 'lp_teams_models',
+		'fields' => [
+			[ 'id' => 'teams_model_ded_tag', 'name' => 'Dedicated Teams — tag', 'type' => 'text', 'std' => 'Dedicated Teams' ],
+			[ 'id' => 'teams_model_ded_heading', 'name' => 'Dedicated Teams — heading', 'type' => 'text' ],
+			[ 'id' => 'teams_model_ded_desc', 'name' => 'Dedicated Teams — description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_model_ded_cta_text', 'name' => 'Dedicated Teams — CTA label', 'type' => 'text', 'std' => 'Learn more' ],
+			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'url', 'std' => '/teams/dedicated/' ],
+			[ 'id' => 'teams_model_ded_img', 'name' => 'Dedicated Teams — image', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'teams_model_aug_tag', 'name' => 'Staff Aug — tag', 'type' => 'text', 'std' => 'Staff Augmentation' ],
+			[ 'id' => 'teams_model_aug_heading', 'name' => 'Staff Aug — heading', 'type' => 'text' ],
+			[ 'id' => 'teams_model_aug_desc', 'name' => 'Staff Aug — description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_model_aug_cta_text', 'name' => 'Staff Aug — CTA label', 'type' => 'text', 'std' => 'Learn more' ],
+			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'url', 'std' => '/teams/staff-augmentation/' ],
+			[ 'id' => 'teams_model_aug_img', 'name' => 'Staff Aug — image', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Where We Work (map section)',
+		'id'     => 'lp_teams_map',
+		'fields' => [
+			[ 'id' => 'teams_map_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Where Our Teams Work' ],
+			[ 'id' => 'teams_map_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_map_img', 'name' => 'Map / Globe image', 'type' => 'single_image', 'force_delete' => false ],
+			[
+				'id'         => 'teams_map_logos',
+				'name'       => 'Partner logos',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add logo',
+				'fields'     => [
+					[ 'id' => 'name', 'name' => 'Partner name', 'type' => 'text' ],
+					[ 'id' => 'logo', 'name' => 'Logo image', 'type' => 'single_image', 'force_delete' => false ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Skills & Capabilities',
+		'id'     => 'lp_teams_skills',
+		'fields' => [
+			[ 'id' => 'teams_skills_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Strategic Skills & Capabilities' ],
+			[ 'id' => 'teams_skills_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[
+				'id'         => 'teams_skills_categories',
+				'name'       => 'Skill categories',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add category',
+				'fields'     => [
+					[ 'id' => 'category_name', 'name' => 'Category name', 'type' => 'text' ],
+					[
+						'id'         => 'skills',
+						'name'       => 'Skills (one per item)',
+						'type'       => 'group',
+						'clone'      => true,
+						'sort_clone' => true,
+						'add_button' => '+ Add skill',
+						'fields'     => $skill_fields,
+					],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Client Insights',
+		'id'     => 'lp_teams_clients',
+		'fields' => [
+			[ 'id' => 'teams_clients_label', 'name' => 'Label', 'type' => 'text', 'std' => 'Teams & Staffing Client Insights' ],
+			[
+				'id'         => 'teams_clients_logos',
+				'name'       => 'Client names (marquee)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add',
+				'fields'     => $logo_text_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Blog',
+		'id'     => 'lp_teams_blog',
+		'fields' => [
+			[ 'id' => 'teams_blog_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'teams_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_blog_cta_text', 'name' => 'Link label', 'type' => 'text', 'std' => 'All Insights →' ],
+			[ 'id' => 'teams_blog_cta_url', 'name' => 'Link URL', 'type' => 'url', 'std' => '/blog' ],
+			[ 'id' => 'teams_blog_posts', 'name' => 'Number of posts', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
+		],
+	];
+
+	$meta_boxes[] = $teams_sp + [
+		'title'  => 'Teams · Bottom CTA',
+		'id'     => 'lp_teams_cta',
+		'fields' => [
+			[ 'id' => 'teams_cta_title', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'teams_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
+			[ 'id' => 'teams_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+		],
+	];
+
+	// ── Teams Dedicated ──────────────────────────────────────
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Hero',
+		'id'     => 'lp_ded_hero',
+		'fields' => [
+			[ 'id' => 'ded_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'TEAMS' ],
+			[ 'id' => 'ded_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'DEDICATED TEAMS' ],
+			[ 'id' => 'ded_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'ded_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
+			[ 'id' => 'ded_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Build Your Team' ],
+			[ 'id' => 'ded_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Dedicated+Teams' ],
+			[ 'id' => 'ded_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'ded_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Why Choose section',
+		'id'     => 'lp_ded_why',
+		'fields' => [
+			[ 'id' => 'ded_why_eyebrow', 'name' => 'Eyebrow', 'type' => 'text', 'std' => 'Why Us' ],
+			[ 'id' => 'ded_why_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'ded_why_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[
+				'id'         => 'ded_why_cards',
+				'name'       => 'Feature cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => $feature_card_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · What You Get',
+		'id'     => 'lp_ded_get',
+		'fields' => [
+			[ 'id' => 'ded_get_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'What You Get' ],
+			[ 'id' => 'ded_get_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ded_get_team_img', 'name' => 'Team photo', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'ded_get_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Build Your Team' ],
+			[ 'id' => 'ded_get_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Dedicated+Teams' ],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Cross-sell Staff Aug card',
+		'id'     => 'lp_ded_crosssell',
+		'fields' => [
+			[ 'id' => 'ded_crosssell_tag', 'name' => 'Tag', 'type' => 'text', 'std' => 'Staff Augmentation' ],
+			[ 'id' => 'ded_crosssell_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'ded_crosssell_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ded_crosssell_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Learn More' ],
+			[ 'id' => 'ded_crosssell_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/teams/staff-augmentation/' ],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Testimonials',
+		'id'     => 'lp_ded_testimonials',
+		'fields' => [
+			[ 'id' => 'ded_test_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Client Testimonials' ],
+			[
+				'id'         => 'ded_test_items',
+				'name'       => 'Testimonials',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add testimonial',
+				'fields'     => $testimonial_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Where We Work',
+		'id'     => 'lp_ded_map',
+		'fields' => [
+			[ 'id' => 'ded_map_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Where Our Teams Work' ],
+			[ 'id' => 'ded_map_img', 'name' => 'Map / Globe image', 'type' => 'single_image', 'force_delete' => false ],
+			[
+				'id'         => 'ded_map_logos',
+				'name'       => 'Partner logos',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add logo',
+				'fields'     => [
+					[ 'id' => 'name', 'name' => 'Partner name', 'type' => 'text' ],
+					[ 'id' => 'logo', 'name' => 'Logo image', 'type' => 'single_image', 'force_delete' => false ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Skills & Capabilities',
+		'id'     => 'lp_ded_skills',
+		'fields' => [
+			[ 'id' => 'ded_skills_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Strategic Skills & Capabilities' ],
+			[
+				'id'         => 'ded_skills_categories',
+				'name'       => 'Skill categories',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add category',
+				'fields'     => [
+					[ 'id' => 'category_name', 'name' => 'Category name', 'type' => 'text' ],
+					[
+						'id'         => 'skills',
+						'name'       => 'Skills',
+						'type'       => 'group',
+						'clone'      => true,
+						'sort_clone' => true,
+						'add_button' => '+ Add skill',
+						'fields'     => $skill_fields,
+					],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Client Insights strip',
+		'id'     => 'lp_ded_clients',
+		'fields' => [
+			[ 'id' => 'ded_clients_label', 'name' => 'Label', 'type' => 'text', 'std' => 'Teams & Staffing Client Insights' ],
+			[
+				'id'         => 'ded_clients_logos',
+				'name'       => 'Client names (marquee)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add',
+				'fields'     => $logo_text_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Blog',
+		'id'     => 'lp_ded_blog',
+		'fields' => [
+			[ 'id' => 'ded_blog_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'ded_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ded_blog_cta_text', 'name' => 'Link label', 'type' => 'text', 'std' => 'All Insights →' ],
+			[ 'id' => 'ded_blog_cta_url', 'name' => 'Link URL', 'type' => 'url', 'std' => '/blog' ],
+			[ 'id' => 'ded_blog_posts', 'name' => 'Number of posts', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
+		],
+	];
+
+	$meta_boxes[] = $ded_sp + [
+		'title'  => 'Dedicated · Bottom CTA',
+		'id'     => 'lp_ded_cta',
+		'fields' => [
+			[ 'id' => 'ded_cta_title', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'ded_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ded_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
+			[ 'id' => 'ded_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+		],
+	];
+
+	// ── Teams Staff Augmentation ─────────────────────────────
+	$meta_boxes[] = $staug_sp + [
+		'title'  => 'Staff Aug · Hero',
+		'id'     => 'lp_staug_hero',
+		'fields' => [
+			[ 'id' => 'staug_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'TEAMS' ],
+			[ 'id' => 'staug_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'STAFF AUGMENTATION' ],
+			[ 'id' => 'staug_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'staug_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
+			[ 'id' => 'staug_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Scale Your Team' ],
+			[ 'id' => 'staug_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Staff+Aug' ],
+			[ 'id' => 'staug_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'staug_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $staug_sp + [
+		'title'  => 'Staff Aug · What We Offer',
+		'id'     => 'lp_staug_offer',
+		'fields' => [
+			[ 'id' => 'staug_offer_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'What We Offer' ],
+			[
+				'id'         => 'staug_offer_cards',
+				'name'       => 'Offer cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => $feature_card_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $staug_sp + [
+		'title'  => 'Staff Aug · Why Slingshot Delivers',
+		'id'     => 'lp_staug_why',
+		'fields' => [
+			[ 'id' => 'staug_why_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'staug_why_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'staug_why_img', 'name' => 'Side image', 'type' => 'single_image', 'force_delete' => false ],
+			[
+				'id'         => 'staug_why_points',
+				'name'       => 'Points',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add point',
+				'fields'     => [
+					[ 'id' => 'title', 'name' => 'Point title', 'type' => 'text' ],
+					[ 'id' => 'desc', 'name' => 'Point description', 'type' => 'textarea', 'rows' => 2 ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $staug_sp + [
+		'title'  => 'Staff Aug · Roles We Have Staffed',
+		'id'     => 'lp_staug_roles',
+		'fields' => [
+			[ 'id' => 'staug_roles_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Roles We Have Staffed' ],
+			[ 'id' => 'staug_roles_view_all_text', 'name' => 'View all label', 'type' => 'text', 'std' => 'View All' ],
+			[ 'id' => 'staug_roles_view_all_url', 'name' => 'View all URL', 'type' => 'url' ],
+			[
+				'id'         => 'staug_roles_items',
+				'name'       => 'Role cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add role',
+				'fields'     => $role_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $staug_sp + [
+		'title'  => 'Staff Aug · Testimonials',
+		'id'     => 'lp_staug_testimonials',
+		'fields' => [
+			[ 'id' => 'staug_test_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Client Testimonials' ],
+			[
+				'id'         => 'staug_test_items',
+				'name'       => 'Testimonials',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add testimonial',
+				'fields'     => $testimonial_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $staug_sp + [
+		'title'  => 'Staff Aug · Bottom CTA',
+		'id'     => 'lp_staug_cta',
+		'fields' => [
+			[ 'id' => 'staug_cta_title', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'staug_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'staug_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
+			[ 'id' => 'staug_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+		],
+	];
+
+	// ── Teams Whitepaper ─────────────────────────────────────
+	$meta_boxes[] = $wp_sp + [
+		'title'  => 'Whitepaper · Hero',
+		'id'     => 'lp_wp_hero',
+		'fields' => [
+			[ 'id' => 'wp_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'TEAMS' ],
+			[ 'id' => 'wp_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'WHITEPAPER' ],
+			[ 'id' => 'wp_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'wp_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
+			[ 'id' => 'wp_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Download Now' ],
+			[ 'id' => 'wp_hero_cta_url', 'name' => 'CTA URL (anchor)', 'type' => 'text', 'std' => '#wp-download' ],
+			[ 'id' => 'wp_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'wp_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $wp_sp + [
+		'title'  => 'Whitepaper · What to Expect sections',
+		'id'     => 'lp_wp_sections',
+		'fields' => [
+			[ 'id' => 'wp_sections_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'What to Expect in This Whitepaper' ],
+			[
+				'id'         => 'wp_sections_items',
+				'name'       => 'Sections',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add section',
+				'fields'     => $whitepaper_section_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $wp_sp + [
+		'title'  => 'Whitepaper · Download block',
+		'id'     => 'lp_wp_download',
+		'fields' => [
+			[ 'id' => 'wp_dl_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Download The Whitepaper' ],
+			[ 'id' => 'wp_dl_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'wp_dl_cover_img', 'name' => 'Cover / record image', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'wp_dl_file_url', 'name' => 'PDF download URL', 'type' => 'url' ],
+			[ 'id' => 'wp_dl_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Download Free Guide' ],
+			[ 'id' => 'wp_dl_gravity_form_id', 'name' => 'Gravity Form ID (optional)', 'type' => 'number', 'min' => 0 ],
 		],
 	];
 

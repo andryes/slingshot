@@ -7,6 +7,12 @@ define( 'SLINGSHOT_OPT_CONSULTING', 'slingshot_consulting_page' );
 define( 'SLINGSHOT_OPT_BOOTCAMP', 'slingshot_bootcamp_page' );
 define( 'SLINGSHOT_OPT_AI', 'slingshot_ai_page' );
 
+// Teams section pages
+define( 'SLINGSHOT_OPT_TEAMS', 'slingshot_teams_page' );
+define( 'SLINGSHOT_OPT_TEAMS_DEDICATED', 'slingshot_teams_dedicated_page' );
+define( 'SLINGSHOT_OPT_TEAMS_STAFFAUG', 'slingshot_teams_staffaug_page' );
+define( 'SLINGSHOT_OPT_TEAMS_WHITEPAPER', 'slingshot_teams_whitepaper_page' );
+
 /**
  * @param string $option_name Settings option id.
  * @param string $field       Field id.
