@@ -16,10 +16,9 @@ wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', 
 
 get_header();
 
-$opt     = SLINGSHOT_OPT_TEAMS_DEDICATED;
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
-$blog_n = (int) slingshot_lp_setting( $opt, 'ded_blog_posts', 3 );
+$blog_n = (int) slingshot_pm( 'ded_blog_posts', 3 );
 $blog_n = max( 1, min( 12, $blog_n ) );
 
 $blog_query = new WP_Query( array(
@@ -30,19 +29,19 @@ $blog_query = new WP_Query( array(
 	'order'          => 'DESC',
 ) );
 
-$why_cards    = slingshot_lp_setting( $opt, 'ded_why_cards', [] );
+$why_cards    = slingshot_pm( 'ded_why_cards', [] );
 $why_cards    = is_array( $why_cards ) ? $why_cards : [];
 
-$test_items   = slingshot_lp_setting( $opt, 'ded_test_items', [] );
+$test_items   = slingshot_pm( 'ded_test_items', [] );
 $test_items   = is_array( $test_items ) ? $test_items : [];
 
-$map_logos    = slingshot_lp_setting( $opt, 'ded_map_logos', [] );
+$map_logos    = slingshot_pm( 'ded_map_logos', [] );
 $map_logos    = is_array( $map_logos ) ? $map_logos : [];
 
-$skills_cats  = slingshot_lp_setting( $opt, 'ded_skills_categories', [] );
+$skills_cats  = slingshot_pm( 'ded_skills_categories', [] );
 $skills_cats  = is_array( $skills_cats ) ? $skills_cats : [];
 
-$clients_logos = slingshot_lp_setting( $opt, 'ded_clients_logos', [] );
+$clients_logos = slingshot_pm( 'ded_clients_logos', [] );
 $clients_logos = is_array( $clients_logos ) ? $clients_logos : [];
 ?>
 
@@ -55,8 +54,8 @@ $clients_logos = is_array( $clients_logos ) ? $clients_logos : [];
 <?php
 slingshot_render_redesign_header( array(
 	'variant' => 'light',
-	'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ),
-	'cta_text' => slingshot_lp_setting( $opt, 'ded_hero_cta_text', 'Build Your Team' ),
+	'cta_url' => slingshot_lp_h_attr( slingshot_pm( 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ),
+	'cta_text' => slingshot_pm( 'ded_hero_cta_text', 'Build Your Team' ),
 ) );
 ?>
 
@@ -71,24 +70,24 @@ slingshot_render_redesign_header( array(
 		<div class="teams-hero-inner">
 			<div class="teams-hero-content">
 				<div class="teams-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_hero_bc_parent', 'TEAMS' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'ded_hero_bc_parent', 'TEAMS' ) ); ?></span>
 					<span class="teams-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_hero_bc_leaf', 'DEDICATED TEAMS' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'ded_hero_bc_leaf', 'DEDICATED TEAMS' ) ); ?></span>
 				</div>
-				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_hero_heading', 'Dedicated Teams That Deliver' ) ); ?></h1>
-				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_hero_subtext', 'A fully managed, embedded squad — engineers, a tech lead, and a PM — built around your product.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-hero-btn">
-					<?php echo esc_html( slingshot_lp_setting( $opt, 'ded_hero_cta_text', 'Build Your Team' ) ); ?> <span>&#8594;</span>
+				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_pm( 'ded_hero_heading', 'Dedicated Teams That Deliver' ) ); ?></h1>
+				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'ded_hero_subtext', 'A fully managed, embedded squad — engineers, a tech lead, and a PM — built around your product.' ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-hero-btn">
+					<?php echo esc_html( slingshot_pm( 'ded_hero_cta_text', 'Build Your Team' ) ); ?> <span>&#8594;</span>
 				</a>
 			</div>
 
 			<div class="teams-hero-photos">
 				<div class="teams-hero-photo-grid">
 					<div class="teams-hero-photo teams-hero-photo-a">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'ded_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="Dedicated team">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'ded_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="Dedicated team">
 					</div>
 					<div class="teams-hero-photo teams-hero-photo-b">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'ded_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="Dedicated team member">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'ded_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="Dedicated team member">
 					</div>
 				</div>
 			</div>
@@ -98,11 +97,11 @@ slingshot_render_redesign_header( array(
 	<!-- ═══ WHY CHOOSE ══════════════════════════════════════════ -->
 	<section class="teams-why-section">
 		<div class="teams-why-inner">
-			<?php $why_eyebrow = slingshot_lp_setting( $opt, 'ded_why_eyebrow', 'Why Us' ); if ( $why_eyebrow ) : ?>
+			<?php $why_eyebrow = slingshot_pm( 'ded_why_eyebrow', 'Why Us' ); if ( $why_eyebrow ) : ?>
 			<span class="teams-section-eyebrow"><?php echo esc_html( $why_eyebrow ); ?></span>
 			<?php endif; ?>
-			<h2 class="teams-why-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_why_heading', 'Why Companies Choose Slingshot Teams' ) ); ?></h2>
-			<?php $why_desc = slingshot_lp_setting( $opt, 'ded_why_desc', '' ); if ( $why_desc ) : ?>
+			<h2 class="teams-why-heading"><?php echo esc_html( slingshot_pm( 'ded_why_heading', 'Why Companies Choose Slingshot Teams' ) ); ?></h2>
+			<?php $why_desc = slingshot_pm( 'ded_why_desc', '' ); if ( $why_desc ) : ?>
 			<p class="teams-why-desc"><?php echo esc_html( $why_desc ); ?></p>
 			<?php endif; ?>
 
@@ -126,14 +125,14 @@ slingshot_render_redesign_header( array(
 	<section class="teams-get-section">
 		<div class="teams-get-inner">
 			<div class="teams-get-content">
-				<h2 class="teams-get-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_get_heading', 'What You Get' ) ); ?></h2>
-				<p class="teams-get-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_get_desc', 'A cross-functional, dedicated squad that slots into your workflow and starts shipping in weeks, not months.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ded_get_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-btn-primary">
-					<?php echo esc_html( slingshot_lp_setting( $opt, 'ded_get_cta_text', 'Build Your Team' ) ); ?> &#8594;
+				<h2 class="teams-get-heading"><?php echo esc_html( slingshot_pm( 'ded_get_heading', 'What You Get' ) ); ?></h2>
+				<p class="teams-get-desc"><?php echo esc_html( slingshot_pm( 'ded_get_desc', 'A cross-functional, dedicated squad that slots into your workflow and starts shipping in weeks, not months.' ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_get_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-btn-primary">
+					<?php echo esc_html( slingshot_pm( 'ded_get_cta_text', 'Build Your Team' ) ); ?> &#8594;
 				</a>
 			</div>
 
-			<?php $team_img = slingshot_lp_image_url( $opt, 'ded_get_team_img', '' ); ?>
+			<?php $team_img = slingshot_pm_image( 'ded_get_team_img', '' ); ?>
 			<div class="teams-get-photo<?php echo $team_img ? '' : ' teams-get-photo--placeholder'; ?>">
 				<?php if ( $team_img ) : ?>
 					<img src="<?php echo esc_url( $team_img ); ?>" alt="Dedicated team" loading="lazy">
@@ -157,13 +156,13 @@ slingshot_render_redesign_header( array(
 		<div class="teams-crosssell-strip">
 			<div class="teams-crosssell-inner">
 				<div class="teams-crosssell-card">
-					<span class="teams-crosssell-tag"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_crosssell_tag', 'Staff Augmentation' ) ); ?></span>
+					<span class="teams-crosssell-tag"><?php echo esc_html( slingshot_pm( 'ded_crosssell_tag', 'Staff Augmentation' ) ); ?></span>
 					<div class="teams-crosssell-body">
-						<h3 class="teams-crosssell-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_crosssell_heading', 'Need individual contributors instead?' ) ); ?></h3>
-						<p class="teams-crosssell-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_crosssell_desc', 'If you have an existing team and just need to fill specific skill gaps, our Staff Augmentation model lets you add senior talent in days.' ) ); ?></p>
+						<h3 class="teams-crosssell-heading"><?php echo esc_html( slingshot_pm( 'ded_crosssell_heading', 'Need individual contributors instead?' ) ); ?></h3>
+						<p class="teams-crosssell-desc"><?php echo esc_html( slingshot_pm( 'ded_crosssell_desc', 'If you have an existing team and just need to fill specific skill gaps, our Staff Augmentation model lets you add senior talent in days.' ) ); ?></p>
 					</div>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ded_crosssell_cta_url', '/teams/staff-augmentation/' ) ); ?>" class="teams-crosssell-cta">
-						<?php echo esc_html( slingshot_lp_setting( $opt, 'ded_crosssell_cta_text', 'Learn More →' ) ); ?>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_crosssell_cta_url', '/teams/staff-augmentation/' ) ); ?>" class="teams-crosssell-cta">
+						<?php echo esc_html( slingshot_pm( 'ded_crosssell_cta_text', 'Learn More →' ) ); ?>
 					</a>
 				</div>
 			</div>
@@ -174,7 +173,7 @@ slingshot_render_redesign_header( array(
 	<section class="teams-map-section">
 		<div class="teams-map-inner">
 			<div class="teams-map-content">
-				<h2 class="teams-map-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_map_heading', 'Where Our Teams Work' ) ); ?></h2>
+				<h2 class="teams-map-heading"><?php echo esc_html( slingshot_pm( 'ded_map_heading', 'Where Our Teams Work' ) ); ?></h2>
 
 				<?php if ( ! empty( $map_logos ) ) : ?>
 				<div class="teams-map-logos">
@@ -196,7 +195,7 @@ slingshot_render_redesign_header( array(
 			</div>
 
 			<div class="teams-map-visual">
-				<?php $map_img = slingshot_lp_image_url( $opt, 'ded_map_img', '' ); ?>
+				<?php $map_img = slingshot_pm_image( 'ded_map_img', '' ); ?>
 				<?php if ( $map_img ) : ?>
 					<img src="<?php echo esc_url( $map_img ); ?>" alt="Global team map" loading="lazy">
 				<?php else : ?>
@@ -221,7 +220,7 @@ slingshot_render_redesign_header( array(
 	<?php if ( ! empty( $test_items ) ) : ?>
 	<section class="teams-testimonials-section">
 		<div class="teams-testimonials-inner">
-			<h2 class="teams-testimonials-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_test_heading', 'Client Testimonials' ) ); ?></h2>
+			<h2 class="teams-testimonials-heading"><?php echo esc_html( slingshot_pm( 'ded_test_heading', 'Client Testimonials' ) ); ?></h2>
 			<div class="teams-testimonials-grid">
 				<?php foreach ( $test_items as $t ) :
 					$photo = ! empty( $t['photo'] ) ? slingshot_lp_attachment_url( $t['photo'], '', 'thumbnail' ) : '';
@@ -257,7 +256,7 @@ slingshot_render_redesign_header( array(
 	<section class="teams-skills-section">
 		<div class="teams-skills-inner">
 			<div class="teams-skills-header">
-				<h2 class="teams-skills-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_skills_heading', 'Strategic Skills & Capabilities' ) ); ?></h2>
+				<h2 class="teams-skills-heading"><?php echo esc_html( slingshot_pm( 'ded_skills_heading', 'Strategic Skills & Capabilities' ) ); ?></h2>
 			</div>
 			<div class="teams-skills-grid">
 				<?php foreach ( $skills_cats as $cat ) :
@@ -282,7 +281,7 @@ slingshot_render_redesign_header( array(
 	<?php if ( ! empty( $clients_logos ) ) : ?>
 	<section class="teams-clients-section">
 		<div class="teams-clients-inner">
-			<p class="teams-clients-label"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_clients_label', 'Teams & Staffing Client Insights' ) ); ?></p>
+			<p class="teams-clients-label"><?php echo esc_html( slingshot_pm( 'ded_clients_label', 'Teams & Staffing Client Insights' ) ); ?></p>
 			<div class="home-logos-strip-wrapper">
 				<div class="home-logos-strip">
 					<?php foreach ( array_merge( $clients_logos, $clients_logos ) as $row ) :
@@ -307,10 +306,10 @@ slingshot_render_redesign_header( array(
 	<section class="home-blog-section teams-blog-section">
 		<div class="home-blog-inner">
 			<div class="home-blog-header">
-				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'ded_blog_title', "Insights That Move\nBusiness Forward" ) ) ); ?></h2>
+				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_pm( 'ded_blog_title', "Insights That Move\nBusiness Forward" ) ) ); ?></h2>
 				<div class="home-blog-meta">
-					<p class="home-blog-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_blog_desc', 'Actionable thinking on building high-performing distributed teams.' ) ); ?></p>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ded_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_blog_cta_text', 'All Insights →' ) ); ?></a>
+					<p class="home-blog-desc"><?php echo esc_html( slingshot_pm( 'ded_blog_desc', 'Actionable thinking on building high-performing distributed teams.' ) ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm( 'ded_blog_cta_text', 'All Insights →' ) ); ?></a>
 				</div>
 			</div>
 			<div class="home-blog-cards">
@@ -361,9 +360,9 @@ slingshot_render_redesign_header( array(
 				<?php endif; ?>
 			</div>
 			<div class="teams-cta-card">
-				<h2 class="teams-cta-title"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_cta_title', 'Ready to Build?' ) ); ?></h2>
-				<p class="teams-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_cta_desc', "Tell us what you're building and we'll put together the right team—fast." ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ded_cta_btn_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-cta-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'ded_cta_btn_text', 'Start the Conversation →' ) ); ?></a>
+				<h2 class="teams-cta-title"><?php echo esc_html( slingshot_pm( 'ded_cta_title', 'Ready to Build?' ) ); ?></h2>
+				<p class="teams-cta-desc"><?php echo esc_html( slingshot_pm( 'ded_cta_desc', "Tell us what you're building and we'll put together the right team—fast." ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_cta_btn_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-cta-btn"><?php echo esc_html( slingshot_pm( 'ded_cta_btn_text', 'Start the Conversation →' ) ); ?></a>
 			</div>
 		</div>
 	</section>

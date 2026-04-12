@@ -16,19 +16,18 @@ wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', 
 
 get_header();
 
-$opt     = SLINGSHOT_OPT_TEAMS_STAFFAUG;
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
-$offer_cards  = slingshot_lp_setting( $opt, 'staug_offer_cards', [] );
+$offer_cards  = slingshot_pm( 'staug_offer_cards', [] );
 $offer_cards  = is_array( $offer_cards ) ? $offer_cards : [];
 
-$why_points   = slingshot_lp_setting( $opt, 'staug_why_points', [] );
+$why_points   = slingshot_pm( 'staug_why_points', [] );
 $why_points   = is_array( $why_points ) ? $why_points : [];
 
-$roles        = slingshot_lp_setting( $opt, 'staug_roles_items', [] );
+$roles        = slingshot_pm( 'staug_roles_items', [] );
 $roles        = is_array( $roles ) ? $roles : [];
 
-$test_items   = slingshot_lp_setting( $opt, 'staug_test_items', [] );
+$test_items   = slingshot_pm( 'staug_test_items', [] );
 $test_items   = is_array( $test_items ) ? $test_items : [];
 ?>
 
@@ -41,8 +40,8 @@ $test_items   = is_array( $test_items ) ? $test_items : [];
 <?php
 slingshot_render_redesign_header( array(
 	'variant' => 'light',
-	'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'staug_hero_cta_url', '/contact/?looking=Staff+Aug' ) ),
-	'cta_text' => slingshot_lp_setting( $opt, 'staug_hero_cta_text', 'Scale Your Team' ),
+	'cta_url' => slingshot_lp_h_attr( slingshot_pm( 'staug_hero_cta_url', '/contact/?looking=Staff+Aug' ) ),
+	'cta_text' => slingshot_pm( 'staug_hero_cta_text', 'Scale Your Team' ),
 ) );
 ?>
 
@@ -57,24 +56,24 @@ slingshot_render_redesign_header( array(
 		<div class="teams-hero-inner">
 			<div class="teams-hero-content">
 				<div class="teams-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_hero_bc_parent', 'TEAMS' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'staug_hero_bc_parent', 'TEAMS' ) ); ?></span>
 					<span class="teams-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_hero_bc_leaf', 'STAFF AUGMENTATION' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'staug_hero_bc_leaf', 'STAFF AUGMENTATION' ) ); ?></span>
 				</div>
-				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_hero_heading', 'Scale Smarter with Global Talent' ) ); ?></h1>
-				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_hero_subtext', 'Plug senior engineers and specialists into your team in days. No long recruitment cycles, no quality compromise.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'staug_hero_cta_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-hero-btn">
-					<?php echo esc_html( slingshot_lp_setting( $opt, 'staug_hero_cta_text', 'Scale Your Team' ) ); ?> <span>&#8594;</span>
+				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_pm( 'staug_hero_heading', 'Scale Smarter with Global Talent' ) ); ?></h1>
+				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'staug_hero_subtext', 'Plug senior engineers and specialists into your team in days. No long recruitment cycles, no quality compromise.' ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'staug_hero_cta_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-hero-btn">
+					<?php echo esc_html( slingshot_pm( 'staug_hero_cta_text', 'Scale Your Team' ) ); ?> <span>&#8594;</span>
 				</a>
 			</div>
 
 			<div class="teams-hero-photos">
 				<div class="teams-hero-photo-grid">
 					<div class="teams-hero-photo teams-hero-photo-a">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'staug_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="Global talent">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'staug_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="Global talent">
 					</div>
 					<div class="teams-hero-photo teams-hero-photo-b">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'staug_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="Remote engineer">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'staug_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="Remote engineer">
 					</div>
 				</div>
 			</div>
@@ -84,7 +83,7 @@ slingshot_render_redesign_header( array(
 	<!-- ═══ WHAT WE OFFER ══════════════════════════════════════ -->
 	<section class="teams-offer-section">
 		<div class="teams-offer-inner">
-			<h2 class="teams-offer-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_offer_heading', 'What We Offer' ) ); ?></h2>
+			<h2 class="teams-offer-heading"><?php echo esc_html( slingshot_pm( 'staug_offer_heading', 'What We Offer' ) ); ?></h2>
 
 			<?php if ( ! empty( $offer_cards ) ) : ?>
 			<div class="teams-offer-cards">
@@ -106,8 +105,8 @@ slingshot_render_redesign_header( array(
 	<section class="teams-why-deliver-section">
 		<div class="teams-why-deliver-inner">
 			<div class="teams-why-deliver-content">
-				<h2 class="teams-why-deliver-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_why_heading', 'Why Slingshot Global Talent Delivers' ) ); ?></h2>
-				<p class="teams-why-deliver-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_why_desc', 'Our talent network spans Latin America and Eastern Europe — time-zone-aligned, culturally compatible senior engineers.' ) ); ?></p>
+				<h2 class="teams-why-deliver-heading"><?php echo esc_html( slingshot_pm( 'staug_why_heading', 'Why Slingshot Global Talent Delivers' ) ); ?></h2>
+				<p class="teams-why-deliver-desc"><?php echo esc_html( slingshot_pm( 'staug_why_desc', 'Our talent network spans Latin America and Eastern Europe — time-zone-aligned, culturally compatible senior engineers.' ) ); ?></p>
 
 				<?php if ( ! empty( $why_points ) ) : ?>
 				<ul class="teams-why-points">
@@ -129,7 +128,7 @@ slingshot_render_redesign_header( array(
 			</div>
 
 			<div class="teams-why-deliver-image">
-				<?php $why_img = slingshot_lp_image_url( $opt, 'staug_why_img', '' ); ?>
+				<?php $why_img = slingshot_pm_image( 'staug_why_img', '' ); ?>
 				<?php if ( $why_img ) : ?>
 					<img src="<?php echo esc_url( $why_img ); ?>" alt="Global team" loading="lazy">
 				<?php else : ?>
@@ -159,10 +158,10 @@ slingshot_render_redesign_header( array(
 	<section class="teams-roles-section">
 		<div class="teams-roles-inner">
 			<div class="teams-roles-header">
-				<h2 class="teams-roles-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_roles_heading', 'Roles We Have Staffed' ) ); ?></h2>
+				<h2 class="teams-roles-heading"><?php echo esc_html( slingshot_pm( 'staug_roles_heading', 'Roles We Have Staffed' ) ); ?></h2>
 				<?php
-				$vall_url  = slingshot_lp_setting( $opt, 'staug_roles_view_all_url', '' );
-				$vall_text = slingshot_lp_setting( $opt, 'staug_roles_view_all_text', 'View All' );
+				$vall_url  = slingshot_pm( 'staug_roles_view_all_url', '' );
+				$vall_text = slingshot_pm( 'staug_roles_view_all_text', 'View All' );
 				if ( $vall_url ) : ?>
 				<a href="<?php echo slingshot_lp_h_attr( $vall_url ); ?>" class="teams-roles-view-all"><?php echo esc_html( $vall_text ); ?></a>
 				<?php endif; ?>
@@ -201,7 +200,7 @@ slingshot_render_redesign_header( array(
 	<?php if ( ! empty( $test_items ) ) : ?>
 	<section class="teams-testimonials-section">
 		<div class="teams-testimonials-inner">
-			<h2 class="teams-testimonials-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_test_heading', 'Client Testimonials' ) ); ?></h2>
+			<h2 class="teams-testimonials-heading"><?php echo esc_html( slingshot_pm( 'staug_test_heading', 'Client Testimonials' ) ); ?></h2>
 			<div class="teams-testimonials-grid">
 				<?php foreach ( $test_items as $t ) :
 					$photo = ! empty( $t['photo'] ) ? slingshot_lp_attachment_url( $t['photo'], '', 'thumbnail' ) : '';
@@ -252,9 +251,9 @@ slingshot_render_redesign_header( array(
 				<?php endif; ?>
 			</div>
 			<div class="teams-cta-card">
-				<h2 class="teams-cta-title"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_cta_title', 'Ready to Move Faster?' ) ); ?></h2>
-				<p class="teams-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_cta_desc', "Tell us the roles you need and we'll have qualified candidates in front of you within 48 hours." ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'staug_cta_btn_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-cta-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'staug_cta_btn_text', 'Start the Conversation →' ) ); ?></a>
+				<h2 class="teams-cta-title"><?php echo esc_html( slingshot_pm( 'staug_cta_title', 'Ready to Move Faster?' ) ); ?></h2>
+				<p class="teams-cta-desc"><?php echo esc_html( slingshot_pm( 'staug_cta_desc', "Tell us the roles you need and we'll have qualified candidates in front of you within 48 hours." ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'staug_cta_btn_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-cta-btn"><?php echo esc_html( slingshot_pm( 'staug_cta_btn_text', 'Start the Conversation →' ) ); ?></a>
 			</div>
 		</div>
 	</section>

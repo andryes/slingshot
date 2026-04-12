@@ -1,7 +1,7 @@
 <?php
 /*
 Template Name: Artificial Intelligence
- * Content: Appearance → AI Page (Meta Box).
+ * Content: WordPress post editor.
  */
 
 wp_enqueue_style(
@@ -17,14 +17,13 @@ wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', 
 
 get_header();
 
-$opt     = SLINGSHOT_OPT_AI;
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
-$cat_slug = trim( (string) slingshot_lp_setting( $opt, 'ai_blog_category', 'artificial-intelligence' ) );
+$cat_slug = trim( (string) slingshot_pm( 'ai_blog_category', 'artificial-intelligence' ) );
 if ( $cat_slug === '' ) {
 	$cat_slug = 'artificial-intelligence';
 }
-$blog_n = (int) slingshot_lp_setting( $opt, 'ai_blog_posts', 10 );
+$blog_n = (int) slingshot_pm( 'ai_blog_posts', 10 );
 $blog_n   = max( 1, min( 24, $blog_n ) );
 
 $blog_news = new WP_Query(
@@ -41,7 +40,7 @@ $blog_news = new WP_Query(
 $ai_steps = slingshot_lp_ai_steps();
 $ai_caps  = slingshot_lp_ai_capabilities();
 
-$tools_raw = slingshot_lp_setting( $opt, 'ai_tools_logos', [] );
+$tools_raw = slingshot_pm( 'ai_tools_logos', [] );
 $tools     = is_array( $tools_raw ) ? slingshot_lp_filter_group(
 	$tools_raw,
 	static function ( $row ) {
@@ -59,7 +58,7 @@ $tools     = is_array( $tools_raw ) ? slingshot_lp_filter_group(
 slingshot_render_redesign_header(
 	array(
 		'variant' => 'light',
-		'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_hero_cta_url', '/contact/' ) ),
+		'cta_url' => slingshot_lp_h_attr( slingshot_pm('ai_hero_cta_url', '/contact/' ) ),
 	)
 );
 ?>
@@ -74,22 +73,22 @@ slingshot_render_redesign_header(
 				<div class="ai-hero-inner">
 					<div class="ai-hero-content">
 						<div class="ai-hero-breadcrumb">
-							<span><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_hero_bc_parent', 'SERVICES' ) ); ?></span>
+							<span><?php echo esc_html( slingshot_pm('ai_hero_bc_parent', 'SERVICES' ) ); ?></span>
 							<span class="ai-hero-breadcrumb-sep">/</span>
-							<span><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_hero_bc_leaf', 'AI' ) ); ?></span>
+							<span><?php echo esc_html( slingshot_pm('ai_hero_bc_leaf', 'AI' ) ); ?></span>
 						</div>
-						<h1 class="ai-hero-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_hero_heading', 'AI is Reshaping Business. Be the One Who Leads.' ) ); ?></h1>
-						<p class="ai-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_hero_subtext', 'Slingshot helps forward-thinking teams adopt AI that drives real business impact — from strategy and use cases to prototypes and deployed solutions.' ) ); ?></p>
-						<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_hero_cta_url', '/contact/' ) ); ?>" class="ai-hero-cta-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_hero_cta_text', 'Book a call' ) ); ?> <span class="ai-hero-cta-arrow">&#8594;</span></a>
+						<h1 class="ai-hero-heading"><?php echo esc_html( slingshot_pm('ai_hero_heading', 'AI is Reshaping Business. Be the One Who Leads.' ) ); ?></h1>
+						<p class="ai-hero-subtext"><?php echo esc_html( slingshot_pm('ai_hero_subtext', 'Slingshot helps forward-thinking teams adopt AI that drives real business impact — from strategy and use cases to prototypes and deployed solutions.' ) ); ?></p>
+						<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('ai_hero_cta_url', '/contact/' ) ); ?>" class="ai-hero-cta-btn"><?php echo esc_html( slingshot_pm('ai_hero_cta_text', 'Book a call' ) ); ?> <span class="ai-hero-cta-arrow">&#8594;</span></a>
 					</div>
 
 					<div class="ai-hero-photos-wrap">
 						<div class="ai-hero-photo-grid">
 							<div class="ai-hero-photo ai-hero-photo-left">
-								<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'ai_hero_img_left', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_lp_setting( $opt, 'ai_hero_img_left_alt', 'Slingshot team collaborating on AI' ) ); ?>"/>
+								<img src="<?php echo esc_url( slingshot_pm_image('ai_hero_img_left', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('ai_hero_img_left_alt', 'Slingshot team collaborating on AI' ) ); ?>"/>
 							</div>
 							<div class="ai-hero-photo ai-hero-photo-right">
-								<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'ai_hero_img_right', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_lp_setting( $opt, 'ai_hero_img_right_alt', 'Slingshot engineer working on AI solution' ) ); ?>"/>
+								<img src="<?php echo esc_url( slingshot_pm_image('ai_hero_img_right', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('ai_hero_img_right_alt', 'Slingshot engineer working on AI solution' ) ); ?>"/>
 							</div>
 						</div>
 					</div>
@@ -101,11 +100,11 @@ slingshot_render_redesign_header(
 				<div class="hero-block-bg-bottom row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
 				<div class="hero-block-step">
 					<div class="main-block-step">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'ai_impact_image', $img_dir . '/main-block-article.png' ) ); ?>" alt="<?php echo esc_attr( slingshot_lp_setting( $opt, 'ai_impact_image_alt', '' ) ); ?>"/>
+						<img src="<?php echo esc_url( slingshot_pm_image('ai_impact_image', $img_dir . '/main-block-article.png' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('ai_impact_image_alt', '' ) ); ?>"/>
 						<div class="main-block-step-content">
-							<h2><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'ai_impact_heading', "Where AI makes \n an impact" ) ) ); ?></h2>
-							<span><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_impact_text', 'Harness the power of artificial intelligence to revolutionize your business, elevate your team, and drive bold, measurable impact.' ) ); ?></span>
-							<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_impact_cta_url', '/contact/?looking=Artificial+Intelligence' ) ); ?>"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_impact_cta_text', 'Get Started Now' ) ); ?> <i class="icon-button-arrow see-more"></i></a>
+							<h2><?php echo nl2br( esc_html( slingshot_pm('ai_impact_heading', "Where AI makes \n an impact" ) ) ); ?></h2>
+							<span><?php echo esc_html( slingshot_pm('ai_impact_text', 'Harness the power of artificial intelligence to revolutionize your business, elevate your team, and drive bold, measurable impact.' ) ); ?></span>
+							<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('ai_impact_cta_url', '/contact/?looking=Artificial+Intelligence' ) ); ?>"><?php echo esc_html( slingshot_pm('ai_impact_cta_text', 'Get Started Now' ) ); ?> <i class="icon-button-arrow see-more"></i></a>
 						</div>
 					</div>
 					<div class="block-steps">
@@ -153,7 +152,7 @@ slingshot_render_redesign_header(
 			<div class="capabilities-block-bg">
 				<div class="capabilities-block">
 					<div class="capabilities-title">
-						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cap_title', 'AI Capabilities' ) ); ?></h2>
+						<h2><?php echo esc_html( slingshot_pm('ai_cap_title', 'AI Capabilities' ) ); ?></h2>
 					</div>
 					<div class="capabilities-content">
 						<?php
@@ -176,7 +175,7 @@ slingshot_render_redesign_header(
 			<div class="tools-block-bg">
 				<div class="tools-block">
 					<div class="tools-title">
-						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_tools_title', 'Trusted Platforms We Build With' ) ); ?></h2>
+						<h2><?php echo esc_html( slingshot_pm('ai_tools_title', 'Trusted Platforms We Build With' ) ); ?></h2>
 					</div>
 				</div>
 				<div class="tools-content marquee">
@@ -198,9 +197,9 @@ slingshot_render_redesign_header(
 			<div class="innovations-block-bg">
 				<div class="innovations-block">
 					<div class="innovations-title">
-						<h2><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_blog_title', 'Insights That Move Business Forward' ) ); ?></h2>
-						<a class="contact-block-button" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_blog_cta_url', '/blog/' ) ); ?>" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff">
-							<?php echo esc_html( slingshot_lp_setting( $opt, 'ai_blog_cta_text', 'See more' ) ); ?>
+						<h2><?php echo esc_html( slingshot_pm('ai_blog_title', 'Insights That Move Business Forward' ) ); ?></h2>
+						<a class="contact-block-button" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_pm('ai_blog_cta_url', '/blog/' ) ); ?>" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff">
+							<?php echo esc_html( slingshot_pm('ai_blog_cta_text', 'See more' ) ); ?>
 							<i class="icon-button-arrow see-more"></i>
 						</a>
 					</div>
@@ -231,8 +230,8 @@ slingshot_render_redesign_header(
 						<button type="button" class="prev">‹</button>
 						<button type="button" class="next">›</button>
 					</div>
-					<a class="contact-block-button-mobile" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_blog_cta_url', '/blog/' ) ); ?>" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff">
-						<?php echo esc_html( slingshot_lp_setting( $opt, 'ai_blog_cta_text', 'See more' ) ); ?>
+					<a class="contact-block-button-mobile" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_pm('ai_blog_cta_url', '/blog/' ) ); ?>" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff">
+						<?php echo esc_html( slingshot_pm('ai_blog_cta_text', 'See more' ) ); ?>
 						<i class="icon-button-arrow see-more"></i>
 					</a>
 				</div>
@@ -241,7 +240,7 @@ slingshot_render_redesign_header(
 			<div class="answers-block-bg">
 				<div class="answers-block">
 					<div class="answers-title">
-					<h2><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'ai_faq_title', "Still wondering\nif AI is right for you?" ) ) ); ?></h2>
+					<h2><?php echo nl2br( esc_html( slingshot_pm('ai_faq_title', "Still wondering\nif AI is right for you?" ) ) ); ?></h2>
 				</div>
 					<div class="answers-content">
 					<?php foreach ( slingshot_lp_ai_faq_items() as $faq ) : ?>
@@ -299,9 +298,9 @@ slingshot_render_redesign_header(
 						<?php endif; ?>
 					</div>
 					<div class="ai-cta-card">
-						<h2 class="ai-cta-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'ai_cta_title', "Start Smart. Move Fast.\nBuild What Matters" ) ) ); ?></h2>
-						<p class="ai-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cta_desc', "Let's turn AI into something real, valuable, and aligned to your business." ) ); ?></p>
-						<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'ai_cta_btn_url', '/contact/' ) ); ?>" class="ai-cta-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'ai_cta_btn_text', 'Book a Free AI Discussion →' ) ); ?></a>
+						<h2 class="ai-cta-title"><?php echo nl2br( esc_html( slingshot_pm('ai_cta_title', "Start Smart. Move Fast.\nBuild What Matters" ) ) ); ?></h2>
+						<p class="ai-cta-desc"><?php echo esc_html( slingshot_pm('ai_cta_desc', "Let's turn AI into something real, valuable, and aligned to your business." ) ); ?></p>
+						<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('ai_cta_btn_url', '/contact/' ) ); ?>" class="ai-cta-btn"><?php echo esc_html( slingshot_pm('ai_cta_btn_text', 'Book a Free AI Discussion →' ) ); ?></a>
 					</div>
 				</div>
 			</section>

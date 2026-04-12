@@ -106,6 +106,46 @@ function slingshot_lp_h_attr( $url ) {
 }
 
 /**
+ * Get a post meta field value (Teams pages — post-meta-based).
+ *
+ * @param string $field   Field id.
+ * @param mixed  $default Fallback.
+ * @return mixed
+ */
+function slingshot_pm( $field, $default = '' ) {
+	global $post;
+	$post_id = isset( $post->ID ) ? $post->ID : get_the_ID();
+	if ( function_exists( 'rwmb_meta' ) ) {
+		$val = rwmb_meta( $field, [], $post_id );
+		if ( $val !== '' && $val !== null && $val !== false && $val !== [] ) {
+			return $val;
+		}
+	}
+	$val = get_post_meta( $post_id, $field, true );
+	if ( $val !== '' && $val !== null && $val !== false ) {
+		return $val;
+	}
+	return $default;
+}
+
+/**
+ * Get image URL from a post meta single_image field.
+ *
+ * @param string $field       Field id.
+ * @param string $default_url Fallback URL.
+ * @param string $size        Image size.
+ * @return string
+ */
+function slingshot_pm_image( $field, $default_url = '', $size = 'large' ) {
+	$id = slingshot_pm( $field, 0 );
+	if ( ! $id ) {
+		return $default_url;
+	}
+	$url = wp_get_attachment_image_url( (int) $id, $size );
+	return $url ? $url : $default_url;
+}
+
+/**
  * @param string $text Multiline bullets.
  * @return string[] Non-empty lines.
  */
@@ -225,7 +265,7 @@ function slingshot_lp_default_consulting_help_services() {
  * @return array<int, array<string, mixed>>
  */
 function slingshot_lp_consulting_help_services() {
-	$raw = slingshot_lp_setting( SLINGSHOT_OPT_CONSULTING, 'con_help_services', [] );
+	$raw = slingshot_pm( 'con_help_services' );
 	if ( is_array( $raw ) && $raw ) {
 		$clean = [];
 		foreach ( $raw as $row ) {
@@ -322,7 +362,7 @@ function slingshot_lp_default_bootcamp_curriculum() {
  * @return array<int, array<string, mixed>>
  */
 function slingshot_lp_bootcamp_curriculum() {
-	$raw = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_curriculum_tabs', [] );
+	$raw = slingshot_pm( 'boot_curriculum_tabs' );
 	if ( is_array( $raw ) && $raw ) {
 		$clean = [];
 		foreach ( $raw as $row ) {
@@ -378,7 +418,7 @@ function slingshot_lp_filter_group( $raw, $is_valid_row ) {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_bootcamp_hero_cards() {
-	$raw = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_hero_cards', [] );
+	$raw = slingshot_pm( 'boot_hero_cards' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -417,7 +457,7 @@ function slingshot_lp_default_bootcamp_why_cards() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_bootcamp_why_cards() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_why_cards', [] );
+	$raw   = slingshot_pm( 'boot_why_cards' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -439,7 +479,7 @@ function slingshot_lp_default_bootcamp_stats() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_bootcamp_stats() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_stats_items', [] );
+	$raw   = slingshot_pm( 'boot_stats_items' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -461,7 +501,7 @@ function slingshot_lp_default_bootcamp_how() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_bootcamp_how_steps() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_how_steps', [] );
+	$raw   = slingshot_pm( 'boot_how_steps' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -506,7 +546,7 @@ function slingshot_lp_default_bootcamp_events() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_bootcamp_events_cards() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_events_cards', [] );
+	$raw   = slingshot_pm( 'boot_events_cards' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -528,7 +568,7 @@ function slingshot_lp_default_bootcamp_clients() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_bootcamp_clients() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_BOOTCAMP, 'boot_clients_logos', [] );
+	$raw   = slingshot_pm( 'boot_clients_logos' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -550,7 +590,7 @@ function slingshot_lp_default_consulting_stats() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_consulting_stats() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_CONSULTING, 'con_stats_items', [] );
+	$raw   = slingshot_pm( 'con_stats_items' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -595,7 +635,7 @@ function slingshot_lp_default_consulting_events() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_consulting_events_cards() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_CONSULTING, 'con_events_cards', [] );
+	$raw   = slingshot_pm( 'con_events_cards' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -617,7 +657,7 @@ function slingshot_lp_default_consulting_clients() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_consulting_clients() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_CONSULTING, 'con_clients_logos', [] );
+	$raw   = slingshot_pm( 'con_clients_logos' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -667,7 +707,7 @@ function slingshot_lp_default_ai_steps() {
 
 /** @return array<int, array<string, mixed>> */
 function slingshot_lp_ai_steps() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_AI, 'ai_steps', [] );
+	$raw   = slingshot_pm( 'ai_steps' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -691,7 +731,7 @@ function slingshot_lp_default_ai_capabilities() {
 
 /** @return array<int, array<string, mixed>> */
 function slingshot_lp_ai_capabilities() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_AI, 'ai_capabilities', [] );
+	$raw   = slingshot_pm( 'ai_capabilities' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {
@@ -742,7 +782,7 @@ function slingshot_lp_default_ai_faq() {
 
 /** @return array<int, array<string, string>> */
 function slingshot_lp_ai_faq_items() {
-	$raw   = slingshot_lp_setting( SLINGSHOT_OPT_AI, 'ai_faq_items', [] );
+	$raw   = slingshot_pm( 'ai_faq_items' );
 	$clean = slingshot_lp_filter_group(
 		$raw,
 		static function ( $row ) {

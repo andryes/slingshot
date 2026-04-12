@@ -1,33 +1,13 @@
 <?php
 /**
- * Home Page – Meta Box settings page + field definitions.
- * All sections of front-page.php are editable from Appearance → Home Page.
+ * Home Page – Meta Box field definitions.
+ * All sections of front-page.php are editable from the WordPress post editor for page ID 2.
  */
-
-/* ── Enable required extensions ─────────────────────────────────────────── */
-add_filter( 'mb_aio_extensions', function ( $extensions ) {
-	$extensions[] = 'mb-settings-page';
-	$extensions[] = 'meta-box-group';
-	return array_unique( $extensions );
-} );
-
-/* ── Settings page ───────────────────────────────────────────────────────── */
-add_filter( 'mb_settings_pages', function ( $pages ) {
-	$pages[] = [
-		'id'          => 'slingshot_home',
-		'option_name' => 'slingshot_home',
-		'menu_title'  => 'Home Page',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-admin-home',
-	];
-	return $pages;
-} );
 
 /* ── Fields ──────────────────────────────────────────────────────────────── */
 add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
-	$sp = [ 'settings_pages' => [ 'slingshot_home' ] ];
+	$sp = [ 'post_types' => ['page'], 'include' => [ 'id' => [ (int) get_option('page_on_front') ] ] ];
 
 	// ── Header ───────────────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [

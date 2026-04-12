@@ -1,7 +1,7 @@
 <?php
 /*
 Template Name: Consulting
- * Content: Appearance → Consulting Page (Meta Box).
+ * Content: WordPress post editor.
  */
 
 wp_enqueue_style(
@@ -16,13 +16,12 @@ wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', 
 
 get_header();
 
-$opt     = SLINGSHOT_OPT_CONSULTING;
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
 $services = slingshot_lp_consulting_help_services();
 $first    = $services[0];
 
-$blog_n = (int) slingshot_lp_setting( $opt, 'con_blog_posts', 3 );
+$blog_n = (int) slingshot_pm( 'con_blog_posts', 3 );
 $blog_n = max( 1, min( 12, $blog_n ) );
 
 $blog_query = new WP_Query(
@@ -46,7 +45,7 @@ $blog_query = new WP_Query(
 slingshot_render_redesign_header(
 	array(
 		'variant' => 'light',
-		'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_hero_cta_url', '/contact/?looking=Consulting' ) ),
+		'cta_url' => slingshot_lp_h_attr( slingshot_pm('con_hero_cta_url', '/contact/?looking=Consulting' ) ),
 	)
 );
 ?>
@@ -61,22 +60,22 @@ slingshot_render_redesign_header(
 		<div class="con-hero-inner">
 			<div class="con-hero-content">
 				<div class="con-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'con_hero_bc_parent', 'SERVICES' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm('con_hero_bc_parent', 'SERVICES' ) ); ?></span>
 					<span class="con-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'con_hero_bc_leaf', 'CONSULTING' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm('con_hero_bc_leaf', 'CONSULTING' ) ); ?></span>
 				</div>
-				<h1 class="con-hero-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_hero_heading', 'Strategic Technology Consulting' ) ); ?></h1>
-				<p class="con-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_hero_subtext', 'Expert guidance to solve challenges, modernize systems, and align tech with your business goals.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_hero_cta_url', '/contact/?looking=Consulting' ) ); ?>" class="con-hero-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_hero_cta_text', 'Book a call' ) ); ?> <span>&#8594;</span></a>
+				<h1 class="con-hero-heading"><?php echo esc_html( slingshot_pm('con_hero_heading', 'Strategic Technology Consulting' ) ); ?></h1>
+				<p class="con-hero-subtext"><?php echo esc_html( slingshot_pm('con_hero_subtext', 'Expert guidance to solve challenges, modernize systems, and align tech with your business goals.' ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_hero_cta_url', '/contact/?looking=Consulting' ) ); ?>" class="con-hero-btn"><?php echo esc_html( slingshot_pm('con_hero_cta_text', 'Book a call' ) ); ?> <span>&#8594;</span></a>
 			</div>
 
 			<div class="con-hero-photos">
 				<div class="con-hero-photo-grid">
 					<div class="con-hero-photo con-hero-photo-a">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'con_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_lp_setting( $opt, 'con_hero_img_a_alt', 'Slingshot consulting team' ) ); ?>">
+						<img src="<?php echo esc_url( slingshot_pm_image('con_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_hero_img_a_alt', 'Slingshot consulting team' ) ); ?>">
 					</div>
 					<div class="con-hero-photo con-hero-photo-b">
-						<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'con_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_lp_setting( $opt, 'con_hero_img_b_alt', 'Slingshot strategist at work' ) ); ?>">
+						<img src="<?php echo esc_url( slingshot_pm_image('con_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_hero_img_b_alt', 'Slingshot strategist at work' ) ); ?>">
 					</div>
 				</div>
 			</div>
@@ -86,11 +85,11 @@ slingshot_render_redesign_header(
 	<section class="con-stats-section">
 		<div class="con-stats-inner">
 			<div class="con-stats-photo">
-				<img src="<?php echo esc_url( slingshot_lp_image_url( $opt, 'con_stats_image', $img_dir . '/main-block-article.png' ) ); ?>" alt="<?php echo esc_attr( slingshot_lp_setting( $opt, 'con_stats_image_alt', 'Slingshot team collaborating' ) ); ?>">
+				<img src="<?php echo esc_url( slingshot_pm_image('con_stats_image', $img_dir . '/main-block-article.png' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_stats_image_alt', 'Slingshot team collaborating' ) ); ?>">
 			</div>
 			<div class="con-stats-content">
-				<h2 class="con-stats-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'con_stats_heading', "Built to Solve,\nScale, and Ship" ) ) ); ?></h2>
-				<p class="con-stats-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_stats_desc', 'Harnessing deep technical expertise, cross-functional teams, and product thinking to every engagement, so you get outcomes, not just output.' ) ); ?></p>
+				<h2 class="con-stats-heading"><?php echo nl2br( esc_html( slingshot_pm('con_stats_heading', "Built to Solve,\nScale, and Ship" ) ) ); ?></h2>
+				<p class="con-stats-desc"><?php echo esc_html( slingshot_pm('con_stats_desc', 'Harnessing deep technical expertise, cross-functional teams, and product thinking to every engagement, so you get outcomes, not just output.' ) ); ?></p>
 				<div class="con-stats-grid">
 					<?php foreach ( slingshot_lp_consulting_stats() as $st ) : ?>
 					<div class="con-stat">
@@ -99,14 +98,14 @@ slingshot_render_redesign_header(
 					</div>
 					<?php endforeach; ?>
 				</div>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_stats_cta_url', '/work/' ) ); ?>" class="con-stats-cta"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_stats_cta_text', 'Explore Our Work' ) ); ?> <span>&#8594;</span></a>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_stats_cta_url', '/work/' ) ); ?>" class="con-stats-cta"><?php echo esc_html( slingshot_pm('con_stats_cta_text', 'Explore Our Work' ) ); ?> <span>&#8594;</span></a>
 			</div>
 		</div>
 	</section>
 
 	<section class="con-help-section">
 		<div class="con-help-inner">
-			<h2 class="con-help-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_help_heading', 'How Can We Help?' ) ); ?></h2>
+			<h2 class="con-help-heading"><?php echo esc_html( slingshot_pm('con_help_heading', 'How Can We Help?' ) ); ?></h2>
 
 			<div class="con-help-body">
 				<div class="con-help-left">
@@ -155,10 +154,10 @@ slingshot_render_redesign_header(
 	<section class="home-events-section con-events-section">
 		<div class="home-events-inner">
 			<div class="home-events-header">
-				<h2 class="home-events-title"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_events_title', 'Join the Conversation' ) ); ?></h2>
+				<h2 class="home-events-title"><?php echo esc_html( slingshot_pm('con_events_title', 'Join the Conversation' ) ); ?></h2>
 				<div class="home-events-meta">
-					<p class="home-events-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_events_desc', "We don't just build — we share. Explore upcoming events for leaders navigating technology strategy, AI, and product development." ) ); ?></p>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_events_all_text', 'All Events →' ) ); ?></a>
+					<p class="home-events-desc"><?php echo esc_html( slingshot_pm('con_events_desc', "We don't just build — we share. Explore upcoming events for leaders navigating technology strategy, AI, and product development." ) ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('con_events_all_text', 'All Events →' ) ); ?></a>
 				</div>
 			</div>
 			<div class="home-events-cards">
@@ -198,7 +197,7 @@ slingshot_render_redesign_header(
 
 	<section class="con-clients-section">
 		<div class="con-clients-inner">
-			<p class="con-clients-label"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_clients_label', 'Our Trusted Clients' ) ); ?></p>
+			<p class="con-clients-label"><?php echo esc_html( slingshot_pm('con_clients_label', 'Our Trusted Clients' ) ); ?></p>
 			<div class="home-logos-strip-wrapper">
 				<div class="home-logos-strip">
 					<?php
@@ -226,10 +225,10 @@ slingshot_render_redesign_header(
 	<section class="home-blog-section con-blog-section">
 		<div class="home-blog-inner">
 			<div class="home-blog-header">
-				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'con_blog_title', "Insights That Move\nBusiness Forward" ) ) ); ?></h2>
+				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_pm('con_blog_title', "Insights That Move\nBusiness Forward" ) ) ); ?></h2>
 				<div class="home-blog-meta">
-					<p class="home-blog-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_blog_desc', 'Actionable thinking on software strategy, AI adoption, and how high-performing teams build and scale.' ) ); ?></p>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_blog_cta_text', 'All Insights →' ) ); ?></a>
+					<p class="home-blog-desc"><?php echo esc_html( slingshot_pm('con_blog_desc', 'Actionable thinking on software strategy, AI adoption, and how high-performing teams build and scale.' ) ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('con_blog_cta_text', 'All Insights →' ) ); ?></a>
 				</div>
 			</div>
 			<div class="home-blog-cards">
@@ -314,9 +313,9 @@ endif;
 				<?php endif; ?>
 			</div>
 			<div class="con-cta-card">
-				<h2 class="con-cta-title"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_cta_title', "Let's Build What's Next" ) ); ?></h2>
-				<p class="con-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_cta_desc', "Whether you're exploring a new direction or ready to accelerate — let's talk about how Slingshot can help you get there." ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'con_cta_btn_url', '/contact/?looking=Consulting' ) ); ?>" class="con-cta-btn"><?php echo esc_html( slingshot_lp_setting( $opt, 'con_cta_btn_text', 'Book a Strategy Call →' ) ); ?></a>
+				<h2 class="con-cta-title"><?php echo esc_html( slingshot_pm('con_cta_title', "Let's Build What's Next" ) ); ?></h2>
+				<p class="con-cta-desc"><?php echo esc_html( slingshot_pm('con_cta_desc', "Whether you're exploring a new direction or ready to accelerate — let's talk about how Slingshot can help you get there." ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_cta_btn_url', '/contact/?looking=Consulting' ) ); ?>" class="con-cta-btn"><?php echo esc_html( slingshot_pm('con_cta_btn_text', 'Book a Strategy Call →' ) ); ?></a>
 			</div>
 		</div>
 	</section>

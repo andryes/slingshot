@@ -1,7 +1,7 @@
 <?php
 /*
 Template Name: Bootcamp
- * Content: Appearance → Bootcamp Page (Meta Box).
+ * Content: WordPress post editor.
  */
 
 wp_enqueue_style(
@@ -16,10 +16,9 @@ wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', 
 
 get_header();
 
-$opt     = SLINGSHOT_OPT_BOOTCAMP;
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
-$blog_n = (int) slingshot_lp_setting( $opt, 'boot_blog_posts', 3 );
+$blog_n = (int) slingshot_pm( 'boot_blog_posts', 3 );
 $blog_n = max( 1, min( 12, $blog_n ) );
 
 $blog_query = new WP_Query(
@@ -45,7 +44,7 @@ $curriculum = slingshot_lp_bootcamp_curriculum();
 slingshot_render_redesign_header(
 	array(
 		'variant' => 'light',
-		'cta_url' => slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ),
+		'cta_url' => slingshot_lp_h_attr( slingshot_pm('boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ),
 	)
 );
 ?>
@@ -60,17 +59,17 @@ slingshot_render_redesign_header(
 		<div class="boot-hero-inner">
 			<div class="boot-hero-content">
 				<div class="boot-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_bc_parent', 'SERVICES' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm('boot_hero_bc_parent', 'SERVICES' ) ); ?></span>
 					<span class="boot-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_bc_mid', 'AI' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm('boot_hero_bc_mid', 'AI' ) ); ?></span>
 					<span class="boot-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_bc_leaf', 'BOOTCAMP' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm('boot_hero_bc_leaf', 'BOOTCAMP' ) ); ?></span>
 				</div>
-				<h1 class="boot-hero-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_hero_heading', "Hands-On\nAI Bootcamps" ) ) ); ?></h1>
-				<p class="boot-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_subtext', 'Two immersive one-day bootcamps designed to help your team stop experimenting and start delivering with AI. Whether you\'re building multi-agent systems or launching faster with AI tools, you\'ll leave with real progress, not just notes.' ) ); ?></p>
+				<h1 class="boot-hero-heading"><?php echo nl2br( esc_html( slingshot_pm('boot_hero_heading', "Hands-On\nAI Bootcamps" ) ) ); ?></h1>
+				<p class="boot-hero-subtext"><?php echo esc_html( slingshot_pm('boot_hero_subtext', 'Two immersive one-day bootcamps designed to help your team stop experimenting and start delivering with AI. Whether you\'re building multi-agent systems or launching faster with AI tools, you\'ll leave with real progress, not just notes.' ) ); ?></p>
 				<div class="boot-hero-actions">
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-hero-btn boot-hero-btn-primary"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_primary_text', 'Send Request' ) ); ?> <span>&#8594;</span></a>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_hero_secondary_url', '#boot-curriculum' ) ); ?>" class="boot-hero-btn boot-hero-btn-ghost"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_hero_secondary_text', 'See the Curriculum' ) ); ?></a>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-hero-btn boot-hero-btn-primary"><?php echo esc_html( slingshot_pm('boot_hero_primary_text', 'Send Request' ) ); ?> <span>&#8594;</span></a>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_hero_secondary_url', '#boot-curriculum' ) ); ?>" class="boot-hero-btn boot-hero-btn-ghost"><?php echo esc_html( slingshot_pm('boot_hero_secondary_text', 'See the Curriculum' ) ); ?></a>
 				</div>
 			</div>
 
@@ -93,9 +92,9 @@ slingshot_render_redesign_header(
 	<section class="boot-why-section">
 		<div class="boot-why-inner">
 			<div class="boot-why-header">
-				<p class="boot-why-eyebrow"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_why_eyebrow', 'Why It Works' ) ); ?></p>
-				<h2 class="boot-why-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_why_heading', "Why Teams Choose\nSlingshot's AI Bootcamps" ) ) ); ?></h2>
-				<p class="boot-why-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_why_desc', "Most AI training stays theoretical. Ours doesn't. Every bootcamp is built around your team's real goals — with outcomes you can ship." ) ); ?></p>
+				<p class="boot-why-eyebrow"><?php echo esc_html( slingshot_pm('boot_why_eyebrow', 'Why It Works' ) ); ?></p>
+				<h2 class="boot-why-heading"><?php echo nl2br( esc_html( slingshot_pm('boot_why_heading', "Why Teams Choose\nSlingshot's AI Bootcamps" ) ) ); ?></h2>
+				<p class="boot-why-desc"><?php echo esc_html( slingshot_pm('boot_why_desc', "Most AI training stays theoretical. Ours doesn't. Every bootcamp is built around your team's real goals — with outcomes you can ship." ) ); ?></p>
 			</div>
 
 			<div class="boot-why-cards">
@@ -118,9 +117,9 @@ slingshot_render_redesign_header(
 	<section class="boot-stats-section">
 		<div class="boot-stats-inner">
 			<div class="boot-stats-content">
-				<h2 class="boot-stats-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_stats_heading', "Training That\nMoves the Needle" ) ) ); ?></h2>
-				<p class="boot-stats-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_stats_desc', 'Slingshot has helped companies across industries build real AI capabilities. Our bootcamps are the fastest path from curiosity to production-ready results.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_stats_cta_url', '/work/' ) ); ?>" class="boot-stats-cta"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_stats_cta_text', 'See Our Work' ) ); ?> <span>&#8594;</span></a>
+				<h2 class="boot-stats-heading"><?php echo nl2br( esc_html( slingshot_pm('boot_stats_heading', "Training That\nMoves the Needle" ) ) ); ?></h2>
+				<p class="boot-stats-desc"><?php echo esc_html( slingshot_pm('boot_stats_desc', 'Slingshot has helped companies across industries build real AI capabilities. Our bootcamps are the fastest path from curiosity to production-ready results.' ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_stats_cta_url', '/work/' ) ); ?>" class="boot-stats-cta"><?php echo esc_html( slingshot_pm('boot_stats_cta_text', 'See Our Work' ) ); ?> <span>&#8594;</span></a>
 			</div>
 			<div class="boot-stats-grid">
 				<?php foreach ( slingshot_lp_bootcamp_stats() as $st ) : ?>
@@ -136,9 +135,9 @@ slingshot_render_redesign_header(
 	<section class="boot-curriculum-section" id="boot-curriculum">
 		<div class="boot-curriculum-inner">
 			<div class="boot-curriculum-header">
-				<p class="boot-curriculum-eyebrow"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_curriculum_eyebrow', "What You'll Cover" ) ); ?></p>
-				<h2 class="boot-curriculum-heading"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_curriculum_heading', "A Curriculum Built\nfor Real-World AI" ) ) ); ?></h2>
-				<p class="boot-curriculum-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_curriculum_desc', "Choose the track that fits your team's goals — or let us build a custom program around your specific use cases." ) ); ?></p>
+				<p class="boot-curriculum-eyebrow"><?php echo esc_html( slingshot_pm('boot_curriculum_eyebrow', "What You'll Cover" ) ); ?></p>
+				<h2 class="boot-curriculum-heading"><?php echo nl2br( esc_html( slingshot_pm('boot_curriculum_heading', "A Curriculum Built\nfor Real-World AI" ) ) ); ?></h2>
+				<p class="boot-curriculum-desc"><?php echo esc_html( slingshot_pm('boot_curriculum_desc', "Choose the track that fits your team's goals — or let us build a custom program around your specific use cases." ) ); ?></p>
 			</div>
 
 			<div class="boot-curriculum-body">
@@ -209,8 +208,8 @@ slingshot_render_redesign_header(
 	<section class="boot-how-section">
 		<div class="boot-how-inner">
 			<div class="boot-how-header">
-				<p class="boot-how-eyebrow"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_how_eyebrow', 'The Process' ) ); ?></p>
-				<h2 class="boot-how-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_how_heading', 'How It Works' ) ); ?></h2>
+				<p class="boot-how-eyebrow"><?php echo esc_html( slingshot_pm('boot_how_eyebrow', 'The Process' ) ); ?></p>
+				<h2 class="boot-how-heading"><?php echo esc_html( slingshot_pm('boot_how_heading', 'How It Works' ) ); ?></h2>
 			</div>
 			<div class="boot-how-steps">
 				<?php foreach ( slingshot_lp_bootcamp_how_steps() as $si => $step ) : ?>
@@ -232,10 +231,10 @@ slingshot_render_redesign_header(
 	<section class="home-events-section boot-events-section">
 		<div class="home-events-inner">
 			<div class="home-events-header">
-				<h2 class="home-events-title"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_events_title', 'Upcoming Bootcamps' ) ); ?></h2>
+				<h2 class="home-events-title"><?php echo esc_html( slingshot_pm('boot_events_title', 'Upcoming Bootcamps' ) ); ?></h2>
 				<div class="home-events-meta">
-					<p class="home-events-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_events_desc', 'Join one of our public cohorts or bring a private bootcamp to your team. New dates added regularly.' ) ); ?></p>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_events_all_text', 'All Events →' ) ); ?></a>
+					<p class="home-events-desc"><?php echo esc_html( slingshot_pm('boot_events_desc', 'Join one of our public cohorts or bring a private bootcamp to your team. New dates added regularly.' ) ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('boot_events_all_text', 'All Events →' ) ); ?></a>
 				</div>
 			</div>
 			<div class="home-events-cards">
@@ -267,7 +266,7 @@ slingshot_render_redesign_header(
 
 	<section class="boot-clients-section">
 		<div class="boot-clients-inner">
-			<p class="boot-clients-label"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_clients_label', "Teams We've Trained" ) ); ?></p>
+			<p class="boot-clients-label"><?php echo esc_html( slingshot_pm('boot_clients_label', "Teams We've Trained" ) ); ?></p>
 			<div class="home-logos-strip-wrapper">
 				<div class="home-logos-strip">
 					<?php
@@ -295,10 +294,10 @@ slingshot_render_redesign_header(
 	<section class="home-blog-section boot-blog-section">
 		<div class="home-blog-inner">
 			<div class="home-blog-header">
-				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_blog_title', "AI Insights for\nModern Teams" ) ) ); ?></h2>
+				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_pm('boot_blog_title', "AI Insights for\nModern Teams" ) ) ); ?></h2>
 				<div class="home-blog-meta">
-					<p class="home-blog-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_blog_desc', 'Practical thinking on AI adoption, team enablement, and what it really takes to build AI capabilities inside an organization.' ) ); ?></p>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_blog_cta_text', 'All Insights →' ) ); ?></a>
+					<p class="home-blog-desc"><?php echo esc_html( slingshot_pm('boot_blog_desc', 'Practical thinking on AI adoption, team enablement, and what it really takes to build AI capabilities inside an organization.' ) ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('boot_blog_cta_text', 'All Insights →' ) ); ?></a>
 				</div>
 			</div>
 			<div class="home-blog-cards">
@@ -383,11 +382,11 @@ endif;
 				<?php endif; ?>
 			</div>
 			<div class="boot-cta-card">
-				<h2 class="boot-cta-title"><?php echo nl2br( esc_html( slingshot_lp_setting( $opt, 'boot_cta_title', "Bring a Bootcamp\nto Your Org" ) ) ); ?></h2>
-				<p class="boot-cta-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_cta_desc', "Want to upskill your team in AI, fast? We offer private sessions tailored to your company's goals and team mix." ) ); ?></p>
+				<h2 class="boot-cta-title"><?php echo nl2br( esc_html( slingshot_pm('boot_cta_title', "Bring a Bootcamp\nto Your Org" ) ) ); ?></h2>
+				<p class="boot-cta-desc"><?php echo esc_html( slingshot_pm('boot_cta_desc', "Want to upskill your team in AI, fast? We offer private sessions tailored to your company's goals and team mix." ) ); ?></p>
 				<div class="boot-cta-actions">
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_cta_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-cta-btn-primary"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_cta_primary_text', 'Request a Private Bootcamp →' ) ); ?></a>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'boot_cta_secondary_url', '/contact/?looking=Bootcamp+Custom' ) ); ?>" class="boot-cta-btn-ghost"><?php echo esc_html( slingshot_lp_setting( $opt, 'boot_cta_secondary_text', 'Talk to Us First' ) ); ?></a>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_cta_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-cta-btn-primary"><?php echo esc_html( slingshot_pm('boot_cta_primary_text', 'Request a Private Bootcamp →' ) ); ?></a>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_cta_secondary_url', '/contact/?looking=Bootcamp+Custom' ) ); ?>" class="boot-cta-btn-ghost"><?php echo esc_html( slingshot_pm('boot_cta_secondary_text', 'Talk to Us First' ) ); ?></a>
 				</div>
 			</div>
 		</div>

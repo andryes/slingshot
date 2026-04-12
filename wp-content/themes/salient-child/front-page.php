@@ -1,7 +1,7 @@
 <?php
 /*
  * Home Page – custom template (front-page.php)
- * Content is managed from Appearance → Home Page (Meta Box settings page).
+ * Content is managed from the WordPress post editor for page ID 2.
  */
 
 wp_enqueue_style(
@@ -25,22 +25,18 @@ get_header();
 /* ── Helpers ─────────────────────────────────────── */
 
 /**
- * Read a single field from the Home Page settings.
+ * Read a single field from the Home Page post meta.
  *
  * @param string $field    Field ID.
  * @param mixed  $default  Returned when the field is empty or Meta Box isn't active.
  * @return mixed
  */
 function hp_setting( $field, $default = '' ) {
-	if ( ! function_exists( 'rwmb_meta' ) ) {
-		return $default;
-	}
-	$val = call_user_func( 'rwmb_meta', $field, [ 'object_type' => 'setting' ], 'slingshot_home' );
-	return ( $val !== '' && $val !== null && $val !== false ) ? $val : $default;
+	return slingshot_pm( $field, $default );
 }
 
 /**
- * Return the URL of a single_image field stored in the Home Page settings.
+ * Return the URL of a single_image field stored in the Home Page post meta.
  *
  * @param string $field    Field ID.
  * @param string $default  Fallback URL.
@@ -48,15 +44,7 @@ function hp_setting( $field, $default = '' ) {
  * @return string
  */
 function hp_image_url( $field, $default = '', $size = 'large' ) {
-	if ( ! function_exists( 'rwmb_meta' ) ) {
-		return $default;
-	}
-	$id = call_user_func( 'rwmb_meta', $field, [ 'object_type' => 'setting' ], 'slingshot_home' );
-	if ( ! $id ) {
-		return $default;
-	}
-	$url = wp_get_attachment_image_url( $id, $size );
-	return $url ? $url : $default;
+	return slingshot_pm_image( $field, $default, $size );
 }
 
 /* ── Queries ─────────────────────────────────────── */

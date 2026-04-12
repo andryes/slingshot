@@ -5,78 +5,11 @@
  * Depends on inc/landing-pages-helpers.php (constants).
  */
 
-add_filter( 'mb_aio_extensions', function ( $extensions ) {
-	$extensions[] = 'mb-settings-page';
-	$extensions[] = 'meta-box-group';
-	return array_unique( $extensions );
-} );
-
-add_filter( 'mb_settings_pages', function ( $pages ) {
-	$pages[] = [
-		'id'          => 'slingshot_consulting_page',
-		'option_name' => SLINGSHOT_OPT_CONSULTING,
-		'menu_title'  => 'Consulting Page',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-businessman',
-	];
-	$pages[] = [
-		'id'          => 'slingshot_bootcamp_page',
-		'option_name' => SLINGSHOT_OPT_BOOTCAMP,
-		'menu_title'  => 'Bootcamp Page',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-welcome-learn-more',
-	];
-	$pages[] = [
-		'id'          => 'slingshot_ai_page',
-		'option_name' => SLINGSHOT_OPT_AI,
-		'menu_title'  => 'AI Page',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-art',
-	];
-	// Teams pages
-	$pages[] = [
-		'id'          => 'slingshot_teams_page',
-		'option_name' => SLINGSHOT_OPT_TEAMS,
-		'menu_title'  => 'Teams — Generic',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-groups',
-	];
-	$pages[] = [
-		'id'          => 'slingshot_teams_dedicated_page',
-		'option_name' => SLINGSHOT_OPT_TEAMS_DEDICATED,
-		'menu_title'  => 'Teams — Dedicated',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-groups',
-	];
-	$pages[] = [
-		'id'          => 'slingshot_teams_staffaug_page',
-		'option_name' => SLINGSHOT_OPT_TEAMS_STAFFAUG,
-		'menu_title'  => 'Teams — Staff Aug',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-groups',
-	];
-	$pages[] = [
-		'id'          => 'slingshot_teams_whitepaper_page',
-		'option_name' => SLINGSHOT_OPT_TEAMS_WHITEPAPER,
-		'menu_title'  => 'Teams — Whitepaper',
-		'parent'      => 'themes.php',
-		'capability'  => 'manage_options',
-		'icon_url'    => 'dashicons-media-document',
-	];
-	return $pages;
-} );
-
 add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
-	$con_sp = [ 'settings_pages' => [ 'slingshot_consulting_page' ] ];
-	$boot_sp = [ 'settings_pages' => [ 'slingshot_bootcamp_page' ] ];
-	$ai_sp = [ 'settings_pages' => [ 'slingshot_ai_page' ] ];
+	$con_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-consulting.php' ] ] ];
+	$boot_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-bootcamp.php' ] ] ];
+	$ai_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ai.php' ] ] ];
 
 	$help_service_fields = [
 		[ 'id' => 'service_key', 'name' => 'Slug (e.g. ai-adoption)', 'type' => 'text', 'desc' => 'Lowercase, no spaces. Used in HTML ids and JS.' ],
@@ -591,11 +524,11 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	// ── Teams settings pages vars ─────────────────────────────
-	$teams_sp    = [ 'settings_pages' => [ 'slingshot_teams_page' ] ];
-	$ded_sp      = [ 'settings_pages' => [ 'slingshot_teams_dedicated_page' ] ];
-	$staug_sp    = [ 'settings_pages' => [ 'slingshot_teams_staffaug_page' ] ];
-	$wp_sp       = [ 'settings_pages' => [ 'slingshot_teams_whitepaper_page' ] ];
+	// ── Teams post-meta base arrays (attached to specific page templates) ─────
+	$teams_pm    = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams.php' ] ] ];
+	$ded_pm      = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams-dedicated.php' ] ] ];
+	$staug_pm    = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams-staffaug.php' ] ] ];
+	$wp_pm       = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams-whitepaper.php' ] ] ];
 
 	$skill_fields = [
 		[ 'id' => 'skill_name', 'name' => 'Skill name', 'type' => 'text' ],
@@ -629,7 +562,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Teams Generic ────────────────────────────────────────
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Hero',
 		'id'     => 'lp_teams_hero',
 		'fields' => [
@@ -644,7 +577,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Intro block',
 		'id'     => 'lp_teams_intro',
 		'fields' => [
@@ -655,7 +588,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Model Cards (Dedicated Teams / Staff Aug)',
 		'id'     => 'lp_teams_models',
 		'fields' => [
@@ -674,7 +607,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Where We Work (map section)',
 		'id'     => 'lp_teams_map',
 		'fields' => [
@@ -696,7 +629,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Skills & Capabilities',
 		'id'     => 'lp_teams_skills',
 		'fields' => [
@@ -725,7 +658,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Client Insights',
 		'id'     => 'lp_teams_clients',
 		'fields' => [
@@ -742,7 +675,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Blog',
 		'id'     => 'lp_teams_blog',
 		'fields' => [
@@ -754,7 +687,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $teams_sp + [
+	$meta_boxes[] = $teams_pm + [
 		'title'  => 'Teams · Bottom CTA',
 		'id'     => 'lp_teams_cta',
 		'fields' => [
@@ -766,7 +699,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Teams Dedicated ──────────────────────────────────────
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Hero',
 		'id'     => 'lp_ded_hero',
 		'fields' => [
@@ -781,7 +714,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Why Choose section',
 		'id'     => 'lp_ded_why',
 		'fields' => [
@@ -800,7 +733,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · What You Get',
 		'id'     => 'lp_ded_get',
 		'fields' => [
@@ -812,7 +745,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Cross-sell Staff Aug card',
 		'id'     => 'lp_ded_crosssell',
 		'fields' => [
@@ -824,7 +757,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Testimonials',
 		'id'     => 'lp_ded_testimonials',
 		'fields' => [
@@ -841,7 +774,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Where We Work',
 		'id'     => 'lp_ded_map',
 		'fields' => [
@@ -862,7 +795,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Skills & Capabilities',
 		'id'     => 'lp_ded_skills',
 		'fields' => [
@@ -890,7 +823,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Client Insights strip',
 		'id'     => 'lp_ded_clients',
 		'fields' => [
@@ -907,7 +840,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Blog',
 		'id'     => 'lp_ded_blog',
 		'fields' => [
@@ -919,7 +852,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $ded_sp + [
+	$meta_boxes[] = $ded_pm + [
 		'title'  => 'Dedicated · Bottom CTA',
 		'id'     => 'lp_ded_cta',
 		'fields' => [
@@ -931,7 +864,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Teams Staff Augmentation ─────────────────────────────
-	$meta_boxes[] = $staug_sp + [
+	$meta_boxes[] = $staug_pm + [
 		'title'  => 'Staff Aug · Hero',
 		'id'     => 'lp_staug_hero',
 		'fields' => [
@@ -946,7 +879,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $staug_sp + [
+	$meta_boxes[] = $staug_pm + [
 		'title'  => 'Staff Aug · What We Offer',
 		'id'     => 'lp_staug_offer',
 		'fields' => [
@@ -963,7 +896,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $staug_sp + [
+	$meta_boxes[] = $staug_pm + [
 		'title'  => 'Staff Aug · Why Slingshot Delivers',
 		'id'     => 'lp_staug_why',
 		'fields' => [
@@ -985,7 +918,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $staug_sp + [
+	$meta_boxes[] = $staug_pm + [
 		'title'  => 'Staff Aug · Roles We Have Staffed',
 		'id'     => 'lp_staug_roles',
 		'fields' => [
@@ -1004,7 +937,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $staug_sp + [
+	$meta_boxes[] = $staug_pm + [
 		'title'  => 'Staff Aug · Testimonials',
 		'id'     => 'lp_staug_testimonials',
 		'fields' => [
@@ -1021,7 +954,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $staug_sp + [
+	$meta_boxes[] = $staug_pm + [
 		'title'  => 'Staff Aug · Bottom CTA',
 		'id'     => 'lp_staug_cta',
 		'fields' => [
@@ -1033,7 +966,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Teams Whitepaper ─────────────────────────────────────
-	$meta_boxes[] = $wp_sp + [
+	$meta_boxes[] = $wp_pm + [
 		'title'  => 'Whitepaper · Hero',
 		'id'     => 'lp_wp_hero',
 		'fields' => [
@@ -1048,7 +981,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $wp_sp + [
+	$meta_boxes[] = $wp_pm + [
 		'title'  => 'Whitepaper · What to Expect sections',
 		'id'     => 'lp_wp_sections',
 		'fields' => [
@@ -1065,7 +998,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
-	$meta_boxes[] = $wp_sp + [
+	$meta_boxes[] = $wp_pm + [
 		'title'  => 'Whitepaper · Download block',
 		'id'     => 'lp_wp_download',
 		'fields' => [

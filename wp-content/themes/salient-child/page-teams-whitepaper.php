@@ -16,13 +16,12 @@ wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', 
 
 get_header();
 
-$opt = SLINGSHOT_OPT_TEAMS_WHITEPAPER;
 
-$sections = slingshot_lp_setting( $opt, 'wp_sections_items', [] );
+$sections = slingshot_pm( 'wp_sections_items', [] );
 $sections = is_array( $sections ) ? $sections : [];
 
-$gf_id = (int) slingshot_lp_setting( $opt, 'wp_dl_gravity_form_id', 0 );
-$cover_img = slingshot_lp_image_url( $opt, 'wp_dl_cover_img', '' );
+$gf_id = (int) slingshot_pm( 'wp_dl_gravity_form_id', 0 );
+$cover_img = slingshot_pm_image( 'wp_dl_cover_img', '' );
 ?>
 
 <style id="dynamic-css-inline-css" type="text/css">
@@ -50,25 +49,25 @@ slingshot_render_redesign_header( array(
 		<div class="teams-hero-inner">
 			<div class="teams-hero-content">
 				<div class="teams-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_hero_bc_parent', 'TEAMS' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'wp_hero_bc_parent', 'TEAMS' ) ); ?></span>
 					<span class="teams-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_hero_bc_leaf', 'WHITEPAPER' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'wp_hero_bc_leaf', 'WHITEPAPER' ) ); ?></span>
 				</div>
-				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_hero_heading', 'A Complete Guide to Selecting An Offshoring Region' ) ); ?></h1>
-				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_hero_subtext', 'Everything you need to know before choosing where to build your global team.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_lp_setting( $opt, 'wp_hero_cta_url', '#wp-download' ) ); ?>" class="teams-hero-btn">
-					<?php echo esc_html( slingshot_lp_setting( $opt, 'wp_hero_cta_text', 'Download Now' ) ); ?> <span>&#8594;</span>
+				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_pm( 'wp_hero_heading', 'A Complete Guide to Selecting An Offshoring Region' ) ); ?></h1>
+				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'wp_hero_subtext', 'Everything you need to know before choosing where to build your global team.' ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'wp_hero_cta_url', '#wp-download' ) ); ?>" class="teams-hero-btn">
+					<?php echo esc_html( slingshot_pm( 'wp_hero_cta_text', 'Download Now' ) ); ?> <span>&#8594;</span>
 				</a>
 			</div>
 
 			<div class="teams-hero-photos">
 				<div class="teams-hero-photo-grid">
 					<div class="teams-hero-photo teams-hero-photo-a">
-						<?php $img_a = slingshot_lp_image_url( $opt, 'wp_hero_img_a', get_stylesheet_directory_uri() . '/img/hero-person-1.jpg' ); ?>
+						<?php $img_a = slingshot_pm_image( 'wp_hero_img_a', get_stylesheet_directory_uri() . '/img/hero-person-1.jpg' ); ?>
 						<img src="<?php echo esc_url( $img_a ); ?>" alt="Offshoring guide">
 					</div>
 					<div class="teams-hero-photo teams-hero-photo-b">
-						<?php $img_b = slingshot_lp_image_url( $opt, 'wp_hero_img_b', get_stylesheet_directory_uri() . '/img/hero-person-2.jpg' ); ?>
+						<?php $img_b = slingshot_pm_image( 'wp_hero_img_b', get_stylesheet_directory_uri() . '/img/hero-person-2.jpg' ); ?>
 						<img src="<?php echo esc_url( $img_b ); ?>" alt="Global teams">
 					</div>
 				</div>
@@ -79,7 +78,7 @@ slingshot_render_redesign_header( array(
 	<!-- ═══ WHAT TO EXPECT ══════════════════════════════════════ -->
 	<section class="teams-wp-sections-section">
 		<div class="teams-wp-sections-inner">
-			<h2 class="teams-wp-sections-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_sections_heading', 'What to Expect in This Whitepaper' ) ); ?></h2>
+			<h2 class="teams-wp-sections-heading"><?php echo esc_html( slingshot_pm( 'wp_sections_heading', 'What to Expect in This Whitepaper' ) ); ?></h2>
 
 			<?php if ( ! empty( $sections ) ) : ?>
 			<div class="teams-wp-sections-grid">
@@ -121,14 +120,14 @@ slingshot_render_redesign_header( array(
 			</div>
 
 			<div class="teams-wp-download-form">
-				<h2 class="teams-wp-download-heading"><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_dl_heading', 'Download The Whitepaper' ) ); ?></h2>
-				<p class="teams-wp-download-desc"><?php echo esc_html( slingshot_lp_setting( $opt, 'wp_dl_desc', 'Get instant access to our complete guide — no fluff, just the research and frameworks you need.' ) ); ?></p>
+				<h2 class="teams-wp-download-heading"><?php echo esc_html( slingshot_pm( 'wp_dl_heading', 'Download The Whitepaper' ) ); ?></h2>
+				<p class="teams-wp-download-desc"><?php echo esc_html( slingshot_pm( 'wp_dl_desc', 'Get instant access to our complete guide — no fluff, just the research and frameworks you need.' ) ); ?></p>
 
 				<?php if ( $gf_id > 0 && function_exists( 'gravity_form' ) ) : ?>
 					<?php gravity_form( $gf_id, false, false, false, null, true ); ?>
 				<?php else :
-					$file_url = slingshot_lp_setting( $opt, 'wp_dl_file_url', '' );
-					$btn_text = slingshot_lp_setting( $opt, 'wp_dl_btn_text', 'Download Free Guide' );
+					$file_url = slingshot_pm( 'wp_dl_file_url', '' );
+					$btn_text = slingshot_pm( 'wp_dl_btn_text', 'Download Free Guide' );
 					if ( $file_url ) : ?>
 						<a href="<?php echo esc_url( $file_url ); ?>" class="teams-btn-primary teams-wp-download-btn" target="_blank" rel="noopener">
 							<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10m0 0-3-3m3 3 3-3M2 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
