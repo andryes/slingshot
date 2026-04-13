@@ -1,0 +1,79 @@
+/**
+ * Teams-family pages — palette & hero closer to Figma "New Look" (teal / deep green).
+ * Loaded only for Redesign — WPBakery skins: teams, teams-dedicated, teams-staffaug, teams-whitepaper.
+ */
+
+body.sl-redesign-skin--teams .teams-hero,
+body.sl-redesign-skin--teams-dedicated .teams-hero,
+body.sl-redesign-skin--teams-staffaug .teams-hero,
+body.sl-redesign-skin--teams-whitepaper .teams-hero {
+	background: linear-gradient(145deg, #004d43 0%, #006d5b 38%, #0a5c52 72%, #003d36 100%);
+}
+
+body.sl-redesign-skin--teams .teams-hero-blob-1,
+body.sl-redesign-skin--teams-dedicated .teams-hero-blob-1,
+body.sl-redesign-skin--teams-staffaug .teams-hero-blob-1,
+body.sl-redesign-skin--teams-whitepaper .teams-hero-blob-1 {
+	background: radial-gradient(circle at 40% 40%, rgba(0, 200, 170, 0.45) 0%, rgba(0, 77, 67, 0) 70%);
+}
+
+body.sl-redesign-skin--teams .teams-hero-blob-2,
+body.sl-redesign-skin--teams-dedicated .teams-hero-blob-2,
+body.sl-redesign-skin--teams-staffaug .teams-hero-blob-2,
+body.sl-redesign-skin--teams-whitepaper .teams-hero-blob-2 {
+	background: radial-gradient(circle at 50% 50%, rgba(0, 109, 91, 0.55) 0%, rgba(0, 61, 54, 0) 70%);
+}
+
+body.sl-redesign-skin--teams .teams-hero-blob-3,
+body.sl-redesign-skin--teams-dedicated .teams-hero-blob-3,
+body.sl-redesign-skin--teams-staffaug .teams-hero-blob-3,
+body.sl-redesign-skin--teams-whitepaper .teams-hero-blob-3 {
+	background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, rgba(0, 109, 91, 0) 70%);
+}
+
+body.sl-redesign-skin--teams .teams-hero-btn,
+body.sl-redesign-skin--teams-dedicated .teams-hero-btn,
+body.sl-redesign-skin--teams-staffaug .teams-hero-btn,
+body.sl-redesign-skin--teams-whitepaper .teams-hero-btn {
+	background: #fff;
+	color: #004d43;
+}
+
+body.sl-redesign-skin--teams .teams-hero-btn:hover,
+body.sl-redesign-skin--teams-dedicated .teams-hero-btn:hover,
+body.sl-redesign-skin--teams-staffaug .teams-hero-btn:hover,
+body.sl-redesign-skin--teams-whitepaper .teams-hero-btn:hover {
+	background: #e8f5f3;
+	color: #00332c;
+}
+
+body.sl-redesign-skin--teams .teams-intro-tagline,
+body.sl-redesign-skin--teams-dedicated .teams-intro-tagline,
+body.sl-redesign-skin--teams-staffaug .teams-intro-tagline,
+body.sl-redesign-skin--teams-whitepaper .teams-intro-tagline {
+	color: #006d5b;
+	border-left-color: #006d5b;
+	background: rgba(0, 109, 91, 0.08);
+}
+
+body.sl-redesign-skin--teams .teams-model-tag,
+body.sl-redesign-skin--teams-dedicated .teams-model-tag,
+body.sl-redesign-skin--teams-staffaug .teams-model-tag,
+body.sl-redesign-skin--teams-whitepaper .teams-model-tag {
+	color: #006d5b;
+	background: rgba(0, 109, 91, 0.1);
+}
+
+body.sl-redesign-skin--teams .teams-model-cta,
+body.sl-redesign-skin--teams-dedicated .teams-model-cta,
+body.sl-redesign-skin--teams-staffaug .teams-model-cta,
+body.sl-redesign-skin--teams-whitepaper .teams-model-cta {
+	color: #006d5b;
+}
+
+body.sl-redesign-skin--teams .teams-model-card-image--placeholder,
+body.sl-redesign-skin--teams-dedicated .teams-model-card-image--placeholder,
+body.sl-redesign-skin--teams-staffaug .teams-model-card-image--placeholder,
+body.sl-redesign-skin--teams-whitepaper .teams-model-card-image--placeholder {
+	background: linear-gradient(135deg, #004d43 0%, #006d5b 55%, #0a8f7a 100%);
+}

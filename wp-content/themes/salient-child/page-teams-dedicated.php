@@ -1,7 +1,7 @@
 <?php
 /*
 Template Name: Teams — Dedicated
- * Content: Appearance → Teams — Dedicated (Meta Box).
+ * Content: Edit Page (Meta Box fields on this template).
  */
 
 wp_enqueue_style(
@@ -11,6 +11,7 @@ wp_enqueue_style(
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
 wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.0' );
+wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.0' );
 wp_enqueue_script( 'teams-script', get_stylesheet_directory_uri() . '/js/teams.js', array( 'jquery' ), '1.0', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 

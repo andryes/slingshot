@@ -1,0 +1,38 @@
+/**
+ * Redesign — WPBakery template: full-width content inside Salient shell.
+ */
+
+.sl-redesign-main {
+	overflow-x: hidden;
+	font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif;
+}
+
+/* Salient page shell: let WPBakery rows span edge to edge */
+body.sl-redesign-builder-page .container-wrap {
+	padding-top: 0;
+}
+
+body.sl-redesign-builder-page .container.main-content {
+	max-width: 100% !important;
+	width: 100% !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+body.sl-redesign-builder-page .container.main-content > .row {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	max-width: none !important;
+}
+
+body.sl-redesign-builder-page .container.main-content > .row > .wpb_row,
+body.sl-redesign-builder-page .container.main-content > .row > .wpb_content_element,
+body.sl-redesign-builder-page .container.main-content > .row > .vc_row-fluid {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+body.sl-redesign-builder-page .wpb_row {
+	margin-left: 0;
+	margin-right: 0;
+}
