@@ -25,6 +25,25 @@ function slingshot_page_uses_wpbakery_output( $post_id = null ) {
 }
 
 /**
+ * Explicit switch for using WPBakery shell on legacy redesign templates.
+ *
+ * Default is OFF to protect template-driven redesign pages from old VC content.
+ * Enable per-page with custom field: slingshot_use_wpb_shell = 1
+ *
+ * @param int|null $post_id Page ID; defaults to current queried object.
+ * @return bool
+ */
+function slingshot_use_wpb_shell_enabled( $post_id = null ) {
+	$post_id = $post_id ? (int) $post_id : get_queried_object_id();
+	if ( ! $post_id ) {
+		return false;
+	}
+
+	$enabled = get_post_meta( $post_id, 'slingshot_use_wpb_shell', true );
+	return ! empty( $enabled );
+}
+
+/**
  * Enqueue redesign assets for a given skin (same bundles as page-redesign-builder.php).
  *
  * @param string $skin Normalized skin slug.
@@ -136,7 +155,7 @@ function slingshot_redesign_print_builder_chrome_and_content( $post_id ) {
  */
 function slingshot_redesign_maybe_output_shell_from_legacy( $skin ) {
 	$post_id = get_queried_object_id();
-	if ( ! $post_id || ! slingshot_page_uses_wpbakery_output( $post_id ) ) {
+	if ( ! $post_id || ! slingshot_use_wpb_shell_enabled( $post_id ) || ! slingshot_page_uses_wpbakery_output( $post_id ) ) {
 		return false;
 	}
 

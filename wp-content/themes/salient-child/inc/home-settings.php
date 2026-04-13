@@ -7,7 +7,7 @@
 /* ── Fields ──────────────────────────────────────────────────────────────── */
 add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
-	$sp = [ 'post_types' => ['page'], 'include' => [ 'id' => [ (int) get_option('page_on_front') ] ] ];
+	$sp = [ 'post_types' => ['page'], 'include' => [ 'ID' => [ (int) get_option('page_on_front') ] ] ];
 
 	// ── Header ───────────────────────────────────────────────────────────
 	$meta_boxes[] = $sp + [
@@ -17,7 +17,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_header_logo', 'name' => 'Header logo (light)', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'home_header_logo_alt', 'name' => 'Header logo alt text', 'type' => 'text', 'std' => 'Slingshot' ],
 			[ 'id' => 'home_header_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => "Let's talk" ],
-			[ 'id' => 'home_header_cta_url',  'name' => 'CTA URL',   'type' => 'url',  'std' => '/contact' ],
+			[ 'id' => 'home_header_cta_url',  'name' => 'CTA URL',   'type' => 'text',  'std' => '/contact' ],
 			[ 'id' => 'home_header_mobile_menu_label', 'name' => 'Mobile menu label', 'type' => 'text', 'std' => 'Menu' ],
 		],
 	];
@@ -30,7 +30,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_hero_title',      'name' => 'Heading',             'type' => 'text',         'std' => 'For Big Kids &amp; Daredevils' ],
 			[ 'id' => 'home_hero_subtitle',   'name' => 'Sub-heading',         'type' => 'text',         'std' => 'A Tech Consultancy &amp; Creation Studio' ],
 			[ 'id' => 'home_hero_cta_text',   'name' => 'CTA label',           'type' => 'text',         'std' => 'Book a call' ],
-			[ 'id' => 'home_hero_cta_url',    'name' => 'CTA URL',             'type' => 'url',          'std' => '/contact' ],
+			[ 'id' => 'home_hero_cta_url',    'name' => 'CTA URL',             'type' => 'text',          'std' => '/contact' ],
 			[ 'id' => 'home_hero_card_image', 'name' => 'Card photo',          'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'home_hero_card_text',  'name' => 'Card overlay text',   'type' => 'text',         'std' => '20 Years of Software &amp; Tech Expertise, at Your Service' ],
 		],
@@ -63,7 +63,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_services_label',    'name' => 'Label',    'type' => 'text',     'std' => 'What We Do' ],
 			[ 'id' => 'home_services_title',    'name' => 'Heading',  'type' => 'textarea', 'std' => 'We help companies move faster, think bigger, and build smarter with modern solutions that drive real business momentum.' ],
 			[ 'id' => 'home_services_cta_text', 'name' => 'CTA label','type' => 'text',     'std' => 'Our Services' ],
-			[ 'id' => 'home_services_cta_url',  'name' => 'CTA URL',  'type' => 'url',      'std' => '/services' ],
+			[ 'id' => 'home_services_cta_url',  'name' => 'CTA URL',  'type' => 'text',      'std' => '/services' ],
 			[
 				'id'         => 'home_services',
 				'name'       => 'Service cards',
@@ -74,7 +74,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'fields'     => [
 					[ 'id' => 'title',    'name' => 'Title',       'type' => 'text' ],
 					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
-					[ 'id' => 'url',      'name' => 'Link URL',    'type' => 'url' ],
+					[ 'id' => 'url',      'name' => 'Link URL',    'type' => 'text' ],
 					[
 						'id'      => 'style',
 						'name'    => 'Card style',
@@ -101,7 +101,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_about_title',    'name' => 'Heading',      'type' => 'text',         'std' => 'Built for Real-World Delivery' ],
 			[ 'id' => 'home_about_desc',     'name' => 'Description',  'type' => 'textarea',     'std' => 'Slingshot was built by a collective of strategists, creatives, and data scientists who care deeply about outcomes.' ],
 			[ 'id' => 'home_about_btn_text', 'name' => 'Button label', 'type' => 'text',         'std' => 'Get in Touch' ],
-			[ 'id' => 'home_about_btn_url',  'name' => 'Button URL',   'type' => 'url',          'std' => '/contact' ],
+			[ 'id' => 'home_about_btn_url',  'name' => 'Button URL',   'type' => 'text',          'std' => '/contact' ],
 			[ 'id' => 'home_about_tagline',  'name' => 'Tagline',      'type' => 'textarea',     'std' => 'Slingshot helps organizations launch smarter products, modernize systems, and solve real-world challenges faster.' ],
 			[
 				'id'         => 'home_stats',
@@ -125,7 +125,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'home_work_title',        'name' => 'Section heading', 'type' => 'text', 'std' => 'From Solution<br>to Success Stories' ],
 			[ 'id' => 'home_work_cta_text',     'name' => 'CTA label',       'type' => 'text', 'std' => 'All Work' ],
-			[ 'id' => 'home_work_cta_url',      'name' => 'CTA URL',         'type' => 'url',  'std' => '/work' ],
+			[ 'id' => 'home_work_cta_url',      'name' => 'CTA URL',         'type' => 'text',  'std' => '/work' ],
 			[ 'id' => 'home_work_empty_notice', 'name' => 'Fallback text when no portfolio items (optional)', 'type' => 'text', 'std' => '' ],
 		],
 	];
@@ -138,7 +138,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_events_title',   'name' => 'Section heading', 'type' => 'text',     'std' => 'Join the Conversation' ],
 			[ 'id' => 'home_events_desc',    'name' => 'Description',     'type' => 'textarea', 'std' => "We don't just build, we share. Explore upcoming events for leaders building in AI, product, and tech strategy." ],
 			[ 'id' => 'home_events_cta_text','name' => 'All Events label','type' => 'text',     'std' => 'All Events' ],
-			[ 'id' => 'home_events_cta_url', 'name' => 'All Events URL',  'type' => 'url',      'std' => '/events' ],
+			[ 'id' => 'home_events_cta_url', 'name' => 'All Events URL',  'type' => 'text',      'std' => '/events' ],
 			[ 'id' => 'home_events_register_text', 'name' => 'Register label', 'type' => 'text', 'std' => 'Register' ],
 			[
 				'id'         => 'home_events',
@@ -152,7 +152,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 					[ 'id' => 'tag',           'name' => 'Tag (e.g. Conference)', 'type' => 'text' ],
 					[ 'id' => 'title',         'name' => 'Title',            'type' => 'text' ],
 					[ 'id' => 'date_location', 'name' => 'Date &amp; location', 'type' => 'text' ],
-					[ 'id' => 'url',           'name' => 'Link URL',         'type' => 'url' ],
+					[ 'id' => 'url',           'name' => 'Link URL',         'type' => 'text' ],
 				],
 			],
 			[
@@ -167,7 +167,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 					[ 'id' => 'tag',           'name' => 'Tag',              'type' => 'text' ],
 					[ 'id' => 'title',         'name' => 'Title',            'type' => 'text' ],
 					[ 'id' => 'date_location', 'name' => 'Date & location',  'type' => 'text' ],
-					[ 'id' => 'url',           'name' => 'Link URL',         'type' => 'url' ],
+					[ 'id' => 'url',           'name' => 'Link URL',         'type' => 'text' ],
 				],
 			],
 		],
@@ -181,7 +181,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_blog_title', 'name' => 'Heading',     'type' => 'text',     'std' => 'Insights That Move Business Forward' ],
 			[ 'id' => 'home_blog_desc',  'name' => 'Description', 'type' => 'textarea', 'std' => 'Get actionable ideas on software strategy, AI adoption, and scaling product delivery—straight from the minds of our team.' ],
 			[ 'id' => 'home_blog_cta_text', 'name' => 'CTA label', 'type' => 'text',     'std' => 'All Insights' ],
-			[ 'id' => 'home_blog_cta_url',  'name' => 'CTA URL',   'type' => 'url',      'std' => '/blog' ],
+			[ 'id' => 'home_blog_cta_url',  'name' => 'CTA URL',   'type' => 'text',      'std' => '/blog' ],
 			[
 				'id'         => 'home_blog_fallback',
 				'name'       => 'Fallback cards (used when no Blog posts exist)',
@@ -193,7 +193,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 					[ 'id' => 'tag',        'name' => 'Tag',           'type' => 'text' ],
 					[ 'id' => 'title',      'name' => 'Title',         'type' => 'text' ],
 					[ 'id' => 'desc',       'name' => 'Description',   'type' => 'textarea' ],
-					[ 'id' => 'url',        'name' => 'Link URL',      'type' => 'url' ],
+					[ 'id' => 'url',        'name' => 'Link URL',      'type' => 'text' ],
 					[ 'id' => 'badge_text', 'name' => 'Badge text',    'type' => 'text' ],
 					[ 'id' => 'image',      'name' => 'Photo',         'type' => 'single_image', 'force_delete' => false ],
 					[ 'id' => 'bg_style',   'name' => 'Background CSS (optional if no image)', 'type' => 'text' ],
@@ -211,7 +211,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_cta_title',    'name' => 'Heading',       'type' => 'text',         'std' => 'Ready to Launch Something Bold?' ],
 			[ 'id' => 'home_cta_desc',     'name' => 'Description',   'type' => 'textarea',     'std' => "Let's talk about how we help teams like yours bring new products to life—and make them work in the real world." ],
 			[ 'id' => 'home_cta_btn_text', 'name' => 'Button label',  'type' => 'text',         'std' => "Let's talk" ],
-			[ 'id' => 'home_cta_btn_url',  'name' => 'Button URL',    'type' => 'url',          'std' => '/contact' ],
+			[ 'id' => 'home_cta_btn_url',  'name' => 'Button URL',    'type' => 'text',          'std' => '/contact' ],
 		],
 	];
 

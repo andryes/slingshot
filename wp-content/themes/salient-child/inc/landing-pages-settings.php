@@ -18,12 +18,12 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'featured_tag', 'name' => 'Featured card tag', 'type' => 'text' ],
 		[ 'id' => 'featured_text', 'name' => 'Featured card text', 'type' => 'textarea' ],
 		[ 'id' => 'featured_cta_text', 'name' => 'Featured CTA label', 'type' => 'text' ],
-		[ 'id' => 'featured_cta_url', 'name' => 'Featured CTA URL', 'type' => 'url' ],
+		[ 'id' => 'featured_cta_url', 'name' => 'Featured CTA URL', 'type' => 'text' ],
 		[ 'id' => 'detail_title', 'name' => 'Detail column title', 'type' => 'text' ],
 		[ 'id' => 'detail_intro', 'name' => 'Detail intro', 'type' => 'textarea' ],
 		[ 'id' => 'detail_bullets', 'name' => 'Detail bullets (one per line)', 'type' => 'textarea', 'rows' => 6 ],
 		[ 'id' => 'detail_cta_text', 'name' => 'Detail CTA label', 'type' => 'text' ],
-		[ 'id' => 'detail_cta_url', 'name' => 'Detail CTA URL', 'type' => 'url' ],
+		[ 'id' => 'detail_cta_url', 'name' => 'Detail CTA URL', 'type' => 'text' ],
 	];
 
 	$event_card_fields = [
@@ -32,7 +32,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'tag', 'name' => 'Tag', 'type' => 'text' ],
 		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
 		[ 'id' => 'date_location', 'name' => 'Date & location', 'type' => 'text' ],
-		[ 'id' => 'url', 'name' => 'Link URL', 'type' => 'url' ],
+		[ 'id' => 'url', 'name' => 'Link URL', 'type' => 'text' ],
 		[ 'id' => 'register_label', 'name' => 'Button label', 'type' => 'text', 'std' => 'Register →' ],
 	];
 
@@ -55,7 +55,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'con_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'con_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
 			[ 'id' => 'con_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Book a call' ],
-			[ 'id' => 'con_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Consulting' ],
+			[ 'id' => 'con_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Consulting' ],
 			[ 'id' => 'con_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'con_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'con_hero_img_a_alt', 'name' => 'Photo left alt', 'type' => 'text' ],
@@ -81,7 +81,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'fields'     => $stat_fields,
 			],
 			[ 'id' => 'con_stats_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Explore Our Work' ],
-			[ 'id' => 'con_stats_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/work/' ],
+			[ 'id' => 'con_stats_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/work/' ],
 		],
 	];
 
@@ -109,7 +109,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'con_events_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'con_events_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'con_events_all_text', 'name' => 'All events link label', 'type' => 'text', 'std' => 'All Events →' ],
-			[ 'id' => 'con_events_all_url', 'name' => 'All events URL', 'type' => 'url', 'std' => '/events' ],
+			[ 'id' => 'con_events_all_url', 'name' => 'All events URL', 'type' => 'text', 'std' => '/events' ],
 			[
 				'id'         => 'con_events_cards',
 				'name'       => 'Event cards',
@@ -146,7 +146,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'con_blog_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'con_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'con_blog_cta_text', 'name' => 'Link label', 'type' => 'text', 'std' => 'All Insights →' ],
-			[ 'id' => 'con_blog_cta_url', 'name' => 'Link URL', 'type' => 'url', 'std' => '/blog' ],
+			[ 'id' => 'con_blog_cta_url', 'name' => 'Link URL', 'type' => 'text', 'std' => '/blog' ],
 			[ 'id' => 'con_blog_posts', 'name' => 'Number of posts', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
 		],
 	];
@@ -158,7 +158,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'con_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'con_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'con_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
-			[ 'id' => 'con_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+			[ 'id' => 'con_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
 	];
 
@@ -196,7 +196,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'intro', 'name' => 'Intro', 'type' => 'textarea' ],
 		[ 'id' => 'bullets', 'name' => 'Bullets (one per line)', 'type' => 'textarea', 'rows' => 8 ],
 		[ 'id' => 'cta_text', 'name' => 'CTA label', 'type' => 'text' ],
-		[ 'id' => 'cta_url', 'name' => 'CTA URL', 'type' => 'url' ],
+		[ 'id' => 'cta_url', 'name' => 'CTA URL', 'type' => 'text' ],
 		[
 			'id'      => 'panel_layout',
 			'name'    => 'Right column',
@@ -206,7 +206,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 		[ 'id' => 'custom_text', 'name' => 'Custom card text', 'type' => 'textarea' ],
 		[ 'id' => 'custom_btn', 'name' => 'Custom button label', 'type' => 'text' ],
-		[ 'id' => 'custom_url', 'name' => 'Custom button URL', 'type' => 'url' ],
+		[ 'id' => 'custom_url', 'name' => 'Custom button URL', 'type' => 'text' ],
 		[
 			'id'         => 'modules',
 			'name'       => 'Modules',
@@ -227,7 +227,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'boot_hero_heading', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'boot_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
 			[ 'id' => 'boot_hero_primary_text', 'name' => 'Primary CTA label', 'type' => 'text' ],
-			[ 'id' => 'boot_hero_primary_url', 'name' => 'Primary CTA URL', 'type' => 'url' ],
+			[ 'id' => 'boot_hero_primary_url', 'name' => 'Primary CTA URL', 'type' => 'text' ],
 			[ 'id' => 'boot_hero_secondary_text', 'name' => 'Secondary CTA label', 'type' => 'text', 'std' => 'See the Curriculum' ],
 			[ 'id' => 'boot_hero_secondary_url', 'name' => 'Secondary CTA URL (or #anchor)', 'type' => 'text', 'std' => '#boot-curriculum' ],
 			[
@@ -268,7 +268,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'boot_stats_heading', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'boot_stats_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'boot_stats_cta_text', 'name' => 'CTA label', 'type' => 'text' ],
-			[ 'id' => 'boot_stats_cta_url', 'name' => 'CTA URL', 'type' => 'url' ],
+			[ 'id' => 'boot_stats_cta_url', 'name' => 'CTA URL', 'type' => 'text' ],
 			[
 				'id'         => 'boot_stats_items',
 				'name'       => 'Stats grid',
@@ -325,7 +325,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'boot_events_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'boot_events_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'boot_events_all_text', 'name' => 'All events label', 'type' => 'text' ],
-			[ 'id' => 'boot_events_all_url', 'name' => 'All events URL', 'type' => 'url' ],
+			[ 'id' => 'boot_events_all_url', 'name' => 'All events URL', 'type' => 'text' ],
 			[
 				'id'         => 'boot_events_cards',
 				'name'       => 'Cards',
@@ -362,7 +362,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'boot_blog_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'boot_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'boot_blog_cta_text', 'name' => 'Link label', 'type' => 'text' ],
-			[ 'id' => 'boot_blog_cta_url', 'name' => 'Link URL', 'type' => 'url' ],
+			[ 'id' => 'boot_blog_cta_url', 'name' => 'Link URL', 'type' => 'text' ],
 			[ 'id' => 'boot_blog_posts', 'name' => 'Post count', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
 		],
 	];
@@ -374,9 +374,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'boot_cta_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'boot_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'boot_cta_primary_text', 'name' => 'Primary button', 'type' => 'text' ],
-			[ 'id' => 'boot_cta_primary_url', 'name' => 'Primary URL', 'type' => 'url' ],
+			[ 'id' => 'boot_cta_primary_url', 'name' => 'Primary URL', 'type' => 'text' ],
 			[ 'id' => 'boot_cta_secondary_text', 'name' => 'Secondary button', 'type' => 'text' ],
-			[ 'id' => 'boot_cta_secondary_url', 'name' => 'Secondary URL', 'type' => 'url' ],
+			[ 'id' => 'boot_cta_secondary_url', 'name' => 'Secondary URL', 'type' => 'text' ],
 		],
 	];
 
@@ -411,7 +411,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ai_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ai_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
 			[ 'id' => 'ai_hero_cta_text', 'name' => 'CTA label', 'type' => 'text' ],
-			[ 'id' => 'ai_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url' ],
+			[ 'id' => 'ai_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text' ],
 			[ 'id' => 'ai_hero_img_left', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ai_hero_img_right', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ai_hero_img_left_alt', 'name' => 'Photo left alt', 'type' => 'text' ],
@@ -428,7 +428,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ai_impact_heading', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'ai_impact_text', 'name' => 'Text', 'type' => 'textarea' ],
 			[ 'id' => 'ai_impact_cta_text', 'name' => 'CTA label', 'type' => 'text' ],
-			[ 'id' => 'ai_impact_cta_url', 'name' => 'CTA URL', 'type' => 'url' ],
+			[ 'id' => 'ai_impact_cta_url', 'name' => 'CTA URL', 'type' => 'text' ],
 		],
 	];
 
@@ -491,7 +491,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'ai_blog_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ai_blog_cta_text', 'name' => 'Button label', 'type' => 'text' ],
-			[ 'id' => 'ai_blog_cta_url', 'name' => 'Button URL', 'type' => 'url' ],
+			[ 'id' => 'ai_blog_cta_url', 'name' => 'Button URL', 'type' => 'text' ],
 			[ 'id' => 'ai_blog_category', 'name' => 'Category slug', 'type' => 'text', 'std' => 'artificial-intelligence', 'desc' => 'Posts from this category slug.' ],
 			[ 'id' => 'ai_blog_posts', 'name' => 'Post count', 'type' => 'number', 'std' => 10, 'min' => 1, 'max' => 24 ],
 		],
@@ -520,7 +520,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'ai_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ai_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
-			[ 'id' => 'ai_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+			[ 'id' => 'ai_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
 	];
 
@@ -571,7 +571,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'teams_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'teams_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
 			[ 'id' => 'teams_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Book a call' ],
-			[ 'id' => 'teams_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Teams' ],
+			[ 'id' => 'teams_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Teams' ],
 			[ 'id' => 'teams_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'teams_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
 		],
@@ -596,13 +596,13 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'teams_model_ded_heading', 'name' => 'Dedicated Teams — heading', 'type' => 'text' ],
 			[ 'id' => 'teams_model_ded_desc', 'name' => 'Dedicated Teams — description', 'type' => 'textarea' ],
 			[ 'id' => 'teams_model_ded_cta_text', 'name' => 'Dedicated Teams — CTA label', 'type' => 'text', 'std' => 'Learn more' ],
-			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'url', 'std' => '/teams/dedicated/' ],
+			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'text', 'std' => '/teams/dedicated/' ],
 			[ 'id' => 'teams_model_ded_img', 'name' => 'Dedicated Teams — image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'teams_model_aug_tag', 'name' => 'Staff Aug — tag', 'type' => 'text', 'std' => 'Staff Augmentation' ],
 			[ 'id' => 'teams_model_aug_heading', 'name' => 'Staff Aug — heading', 'type' => 'text' ],
 			[ 'id' => 'teams_model_aug_desc', 'name' => 'Staff Aug — description', 'type' => 'textarea' ],
 			[ 'id' => 'teams_model_aug_cta_text', 'name' => 'Staff Aug — CTA label', 'type' => 'text', 'std' => 'Learn more' ],
-			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'url', 'std' => '/teams/staff-augmentation/' ],
+			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'text', 'std' => '/teams/staff-augmentation/' ],
 			[ 'id' => 'teams_model_aug_img', 'name' => 'Staff Aug — image', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
@@ -682,7 +682,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'teams_blog_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'teams_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'teams_blog_cta_text', 'name' => 'Link label', 'type' => 'text', 'std' => 'All Insights →' ],
-			[ 'id' => 'teams_blog_cta_url', 'name' => 'Link URL', 'type' => 'url', 'std' => '/blog' ],
+			[ 'id' => 'teams_blog_cta_url', 'name' => 'Link URL', 'type' => 'text', 'std' => '/blog' ],
 			[ 'id' => 'teams_blog_posts', 'name' => 'Number of posts', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
 		],
 	];
@@ -694,7 +694,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'teams_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'teams_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'teams_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
-			[ 'id' => 'teams_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+			[ 'id' => 'teams_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
 	];
 
@@ -708,7 +708,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ded_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ded_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
 			[ 'id' => 'ded_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Build Your Team' ],
-			[ 'id' => 'ded_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Dedicated+Teams' ],
+			[ 'id' => 'ded_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Dedicated+Teams' ],
 			[ 'id' => 'ded_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ded_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
 		],
@@ -741,7 +741,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ded_get_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'ded_get_team_img', 'name' => 'Team photo', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ded_get_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Build Your Team' ],
-			[ 'id' => 'ded_get_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Dedicated+Teams' ],
+			[ 'id' => 'ded_get_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Dedicated+Teams' ],
 		],
 	];
 
@@ -753,7 +753,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ded_crosssell_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ded_crosssell_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'ded_crosssell_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Learn More' ],
-			[ 'id' => 'ded_crosssell_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/teams/staff-augmentation/' ],
+			[ 'id' => 'ded_crosssell_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/teams/staff-augmentation/' ],
 		],
 	];
 
@@ -847,7 +847,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ded_blog_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'ded_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'ded_blog_cta_text', 'name' => 'Link label', 'type' => 'text', 'std' => 'All Insights →' ],
-			[ 'id' => 'ded_blog_cta_url', 'name' => 'Link URL', 'type' => 'url', 'std' => '/blog' ],
+			[ 'id' => 'ded_blog_cta_url', 'name' => 'Link URL', 'type' => 'text', 'std' => '/blog' ],
 			[ 'id' => 'ded_blog_posts', 'name' => 'Number of posts', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
 		],
 	];
@@ -859,7 +859,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ded_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ded_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'ded_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
-			[ 'id' => 'ded_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+			[ 'id' => 'ded_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
 	];
 
@@ -873,7 +873,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'staug_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'staug_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
 			[ 'id' => 'staug_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Scale Your Team' ],
-			[ 'id' => 'staug_hero_cta_url', 'name' => 'CTA URL', 'type' => 'url', 'std' => '/contact/?looking=Staff+Aug' ],
+			[ 'id' => 'staug_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Staff+Aug' ],
 			[ 'id' => 'staug_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'staug_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
 		],
@@ -924,7 +924,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'staug_roles_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Roles We Have Staffed' ],
 			[ 'id' => 'staug_roles_view_all_text', 'name' => 'View all label', 'type' => 'text', 'std' => 'View All' ],
-			[ 'id' => 'staug_roles_view_all_url', 'name' => 'View all URL', 'type' => 'url' ],
+			[ 'id' => 'staug_roles_view_all_url', 'name' => 'View all URL', 'type' => 'text' ],
 			[
 				'id'         => 'staug_roles_items',
 				'name'       => 'Role cards',
@@ -961,7 +961,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'staug_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'staug_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'staug_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
-			[ 'id' => 'staug_cta_btn_url', 'name' => 'Button URL', 'type' => 'url' ],
+			[ 'id' => 'staug_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
 	];
 
@@ -1005,7 +1005,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'wp_dl_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Download The Whitepaper' ],
 			[ 'id' => 'wp_dl_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'wp_dl_cover_img', 'name' => 'Cover / record image', 'type' => 'single_image', 'force_delete' => false ],
-			[ 'id' => 'wp_dl_file_url', 'name' => 'PDF download URL', 'type' => 'url' ],
+			[ 'id' => 'wp_dl_file_url', 'name' => 'PDF download URL', 'type' => 'text' ],
 			[ 'id' => 'wp_dl_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Download Free Guide' ],
 			[ 'id' => 'wp_dl_gravity_form_id', 'name' => 'Gravity Form ID (optional)', 'type' => 'number', 'min' => 0 ],
 		],

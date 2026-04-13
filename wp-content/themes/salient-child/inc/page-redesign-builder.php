@@ -148,7 +148,7 @@ add_filter(
 				array(
 					'id'   => 'slingshot_rb_header_cta_url',
 					'name' => 'Header CTA URL',
-					'type' => 'url',
+					'type' => 'text',
 					'std'  => '/contact',
 				),
 				array(
