@@ -6,6 +6,7 @@ require_once get_stylesheet_directory() . '/inc/landing-pages-helpers.php';
 require_once get_stylesheet_directory() . '/inc/landing-pages-settings.php';
 require_once get_stylesheet_directory() . '/inc/landing-pages-seed.php';
 require_once get_stylesheet_directory() . '/inc/page-redesign-builder.php';
+require_once get_stylesheet_directory() . '/inc/redesign-wpbakery-shell.php';
 
 /**
  * Render unified redesign header used across landing pages.

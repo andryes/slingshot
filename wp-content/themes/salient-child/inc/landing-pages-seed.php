@@ -189,3 +189,44 @@ function slingshot_lp_maybe_seed_landing_options() {
 }
 
 add_action( 'init', 'slingshot_lp_maybe_seed_landing_options', 5 );
+
+define( 'SLINGSHOT_LP_FORCE_NEW_TEMPLATE_OPTION', 'slingshot_lp_force_new_template_v1' );
+
+/**
+ * Force redesigned templates for landing pages so legacy VC content is never rendered.
+ * Keeps everything on the new 2.0 templates and editable from Edit Page meta fields.
+ */
+function slingshot_lp_maybe_force_new_landing_templates() {
+	if ( get_option( SLINGSHOT_LP_FORCE_NEW_TEMPLATE_OPTION ) ) {
+		return;
+	}
+
+	$map = array(
+		'consulting'                  => 'page-consulting.php',
+		'bootcamp'                    => 'page-bootcamp.php',
+		'artifical-intelligence'      => 'page-ai.php',
+		'artificial-intelligence'     => 'page-ai.php',
+		'teams'                       => 'page-teams.php',
+		'teams-dedicated'             => 'page-teams-dedicated.php',
+		'teams-staff-augmentation'    => 'page-teams-staffaug.php',
+		'teams-offshoring-whitepaper' => 'page-teams-whitepaper.php',
+	);
+
+	foreach ( $map as $slug => $template_file ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( $page->ID, '_wp_page_template', $template_file );
+	}
+
+	// Ensure front page uses front-page.php (template "default"), not redesign builder override.
+	$front_id = (int) get_option( 'page_on_front' );
+	if ( $front_id ) {
+		delete_post_meta( $front_id, '_wp_page_template' );
+	}
+
+	update_option( SLINGSHOT_LP_FORCE_NEW_TEMPLATE_OPTION, '1', true );
+}
+
+add_action( 'init', 'slingshot_lp_maybe_force_new_landing_templates', 8 );

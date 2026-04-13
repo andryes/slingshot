@@ -49,24 +49,24 @@
         if (!$track.length) return null;
 
         function update() {
-        var vis = cardsVisible();
-        var cards = $track.find(cardSelector);
-        var total = cards.length;
-        var max = Math.max(0, total - vis);
-        if (index > max) index = max;
+            var vis = cardsVisible();
+            var cards = $track.find(cardSelector);
+            var total = cards.length;
+            var max = Math.max(0, total - vis);
+            if (index > max) index = max;
 
-        if (!total) return;
-        var cardWidth = cards.first().outerWidth(true);
-        $track.css('transform', 'translateX(-' + (index * cardWidth) + 'px)');
+            if (!total) return;
+            var cardWidth = cards.first().outerWidth(true);
+            $track.css('transform', 'translateX(-' + (index * cardWidth) + 'px)');
 
-        $(prevSelector).prop('disabled', index === 0).toggleClass('disabled', index === 0);
-        $(nextSelector).prop('disabled', index >= max).toggleClass('disabled', index >= max);
+            $(prevSelector).prop('disabled', index === 0).toggleClass('disabled', index === 0);
+            $(nextSelector).prop('disabled', index >= max).toggleClass('disabled', index >= max);
 
-        if (progressSelector) {
-            var progress = total <= vis ? 1 : (index / max);
-            var width = 35 + (progress * 65);
-            $(progressSelector).css('width', width + '%');
-        }
+            if (progressSelector) {
+                var progress = total <= vis ? 1 : (index / max);
+                var width = 35 + (progress * 65);
+                $(progressSelector).css('width', width + '%');
+            }
         }
 
         $(nextSelector).on('click', function() {
