@@ -27,6 +27,7 @@ services:
       - "8080:80"
     volumes:
       - ./wp-content:/var/www/html/wp-content
+      - ./figma:/var/www/html/figma:ro
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
       WORDPRESS_DB_HOST: db

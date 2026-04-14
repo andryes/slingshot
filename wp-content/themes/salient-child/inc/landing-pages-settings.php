@@ -10,6 +10,15 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$con_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-consulting.php' ] ] ];
 	$boot_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-bootcamp.php' ] ] ];
 	$ai_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ai.php' ] ] ];
+	$figma_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php', 'page-careers-figma.php' ] ] ];
+
+	$meta_boxes[] = $figma_sp + [
+		'title'  => 'Figma Template · Fallback',
+		'id'     => 'lp_figma_fallback',
+		'fields' => [
+			[ 'id' => 'sl_figma_mockup_url', 'name' => 'Mockup image URL', 'type' => 'text', 'desc' => 'Used only when page content is empty.' ],
+		],
+	];
 
 	$help_service_fields = [
 		[ 'id' => 'service_key', 'name' => 'Slug (e.g. ai-adoption)', 'type' => 'text', 'desc' => 'Lowercase, no spaces. Used in HTML ids and JS.' ],
@@ -1008,6 +1017,290 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'wp_dl_file_url', 'name' => 'PDF download URL', 'type' => 'text' ],
 			[ 'id' => 'wp_dl_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Download Free Guide' ],
 			[ 'id' => 'wp_dl_gravity_form_id', 'name' => 'Gravity Form ID (optional)', 'type' => 'number', 'min' => 0 ],
+		],
+	];
+
+	// ── Service Figma pages (product / web / design / mobile) ────────────────
+	$svc_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php' ] ] ];
+	$car_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-careers-figma.php' ] ] ];
+	$op_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-open-position-figma.php' ] ] ];
+
+	$svc_built_item_fields = [
+		[ 'id' => 'icon_svg',  'name' => 'Icon SVG',    'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'title',     'name' => 'Title',        'type' => 'text' ],
+		[ 'id' => 'desc',      'name' => 'Description',  'type' => 'textarea', 'rows' => 2 ],
+	];
+
+	$svc_card_fields = [
+		[ 'id' => 'image',    'name' => 'Image',        'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'tag',      'name' => 'Tag / eyebrow', 'type' => 'text' ],
+		[ 'id' => 'title',    'name' => 'Title',         'type' => 'text' ],
+		[ 'id' => 'desc',     'name' => 'Description',   'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'link_url', 'name' => 'Link URL',      'type' => 'text' ],
+	];
+
+	$svc_case_fields = [
+		[ 'id' => 'image',    'name' => 'Image',   'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'client',   'name' => 'Client',  'type' => 'text' ],
+		[ 'id' => 'title',    'name' => 'Title',   'type' => 'text' ],
+		[ 'id' => 'link_url', 'name' => 'Link URL','type' => 'text' ],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Hero',
+		'id'     => 'lp_svc_hero',
+		'fields' => [
+			[ 'id' => 'svc_hero_bc_parent',  'name' => 'Breadcrumb left',  'type' => 'text', 'std' => 'SERVICES' ],
+			[ 'id' => 'svc_hero_bc_leaf',    'name' => 'Breadcrumb right', 'type' => 'text' ],
+			[ 'id' => 'svc_hero_heading',    'name' => 'Heading',          'type' => 'text' ],
+			[ 'id' => 'svc_hero_subtext',    'name' => 'Subtext',          'type' => 'textarea' ],
+			[ 'id' => 'svc_hero_cta_text',   'name' => 'CTA label',        'type' => 'text', 'std' => 'Book a call' ],
+			[ 'id' => 'svc_hero_cta_url',    'name' => 'CTA URL',          'type' => 'text', 'std' => '/contact/' ],
+			[ 'id' => 'svc_hero_img_a',      'name' => 'Photo left',       'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'svc_hero_img_b',      'name' => 'Photo right',      'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'svc_hero_img_a_alt',  'name' => 'Photo left alt',   'type' => 'text' ],
+			[ 'id' => 'svc_hero_img_b_alt',  'name' => 'Photo right alt',  'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Built / Features',
+		'id'     => 'lp_svc_built',
+		'fields' => [
+			[ 'id' => 'svc_built_heading_1', 'name' => 'Heading line 1', 'type' => 'text', 'std' => 'Built to Scale.' ],
+			[ 'id' => 'svc_built_heading_2', 'name' => 'Heading line 2', 'type' => 'text', 'std' => 'Designed to Win.' ],
+			[ 'id' => 'svc_built_desc',      'name' => 'Description',    'type' => 'textarea' ],
+			[
+				'id'         => 'svc_built_items',
+				'name'       => 'Feature items (4 recommended)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add feature',
+				'fields'     => $svc_built_item_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Cards section',
+		'id'     => 'lp_svc_cards',
+		'fields' => [
+			[ 'id' => 'svc_cards_eyebrow', 'name' => 'Eyebrow (optional)', 'type' => 'text' ],
+			[ 'id' => 'svc_cards_heading', 'name' => 'Heading',            'type' => 'text' ],
+			[ 'id' => 'svc_cards_desc',    'name' => 'Description',        'type' => 'textarea' ],
+			[
+				'id'      => 'svc_cards_layout',
+				'name'    => 'Layout',
+				'type'    => 'select',
+				'options' => [ 'grid' => 'Grid (3 columns)', 'alternating' => 'Alternating rows (image + text)' ],
+				'std'     => 'grid',
+				'desc'    => 'Grid works best for 3 equal cards. Alternating for image+text rows.',
+			],
+			[
+				'id'         => 'svc_cards_items',
+				'name'       => 'Cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => $svc_card_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Case Studies',
+		'id'     => 'lp_svc_cases',
+		'fields' => [
+			[ 'id' => 'svc_cases_heading',   'name' => 'Heading',        'type' => 'text', 'std' => 'From Solution to Success Stories' ],
+			[ 'id' => 'svc_cases_link_text', 'name' => 'Link label',     'type' => 'text', 'std' => 'See All →' ],
+			[ 'id' => 'svc_cases_link_url',  'name' => 'Link URL',       'type' => 'text', 'std' => '/work/' ],
+			[
+				'id'         => 'svc_cases_cards',
+				'name'       => 'Case study cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add case study',
+				'fields'     => $svc_case_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Spotlight',
+		'id'     => 'lp_svc_spotlight',
+		'fields' => [
+			[ 'id' => 'svc_spotlight_show',          'name' => 'Show spotlight section', 'type' => 'checkbox', 'std' => 0 ],
+			[ 'id' => 'svc_spotlight_quote',         'name' => 'Quote text',             'type' => 'textarea', 'rows' => 4 ],
+			[ 'id' => 'svc_spotlight_person_name',   'name' => 'Person name',            'type' => 'text' ],
+			[ 'id' => 'svc_spotlight_person_role',   'name' => 'Person role / company',  'type' => 'text' ],
+			[ 'id' => 'svc_spotlight_person_img',    'name' => 'Person photo',           'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'svc_spotlight_article_img',   'name' => 'Article image',          'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'svc_spotlight_article_tag',   'name' => 'Article tag / eyebrow',  'type' => 'text' ],
+			[ 'id' => 'svc_spotlight_article_title', 'name' => 'Article title',          'type' => 'text' ],
+			[ 'id' => 'svc_spotlight_article_desc',  'name' => 'Article excerpt',        'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'svc_spotlight_article_url',   'name' => 'Article link URL',       'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Blog',
+		'id'     => 'lp_svc_blog',
+		'fields' => [
+			[ 'id' => 'svc_blog_title',    'name' => 'Heading',        'type' => 'textarea', 'rows' => 2, 'std' => "Insights That Move\nBusiness Forward" ],
+			[ 'id' => 'svc_blog_desc',     'name' => 'Description',    'type' => 'textarea' ],
+			[ 'id' => 'svc_blog_cta_text', 'name' => 'Link label',     'type' => 'text', 'std' => 'All Insights →' ],
+			[ 'id' => 'svc_blog_cta_url',  'name' => 'Link URL',       'type' => 'text', 'std' => '/blog/' ],
+			[ 'id' => 'svc_blog_posts',    'name' => 'Number of posts','type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
+		],
+	];
+
+	$meta_boxes[] = $svc_sp + [
+		'title'  => 'Service · Bottom CTA',
+		'id'     => 'lp_svc_cta',
+		'fields' => [
+			[ 'id' => 'svc_cta_title',    'name' => 'Heading',      'type' => 'text', 'std' => "Let's Build What's Next" ],
+			[ 'id' => 'svc_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'svc_cta_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Start the Conversation →' ],
+			[ 'id' => 'svc_cta_btn_url',  'name' => 'Button URL',   'type' => 'text', 'std' => '/contact/' ],
+		],
+	];
+
+	// ── Careers Figma ─────────────────────────────────────────────────────────
+	$car_perk_fields = [
+		[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'title',    'name' => 'Title',       'type' => 'text' ],
+		[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea', 'rows' => 2 ],
+	];
+
+	$car_role_fields = [
+		[ 'id' => 'title',    'name' => 'Job title', 'type' => 'text' ],
+		[ 'id' => 'tags',     'name' => 'Tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. On-site, Full-time' ],
+		[ 'id' => 'link_url', 'name' => 'Link URL',  'type' => 'text' ],
+	];
+
+	$meta_boxes[] = $car_sp + [
+		'title'  => 'Careers · Hero',
+		'id'     => 'lp_car_hero',
+		'fields' => [
+			[ 'id' => 'car_hero_bc_parent', 'name' => 'Breadcrumb left',  'type' => 'text', 'std' => 'COMPANY' ],
+			[ 'id' => 'car_hero_bc_leaf',   'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'CAREERS' ],
+			[ 'id' => 'car_hero_heading',   'name' => 'Heading (use \\n for line break)', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'car_hero_subtext',   'name' => 'Subtext',          'type' => 'textarea' ],
+			[ 'id' => 'car_hero_cta_text',  'name' => 'CTA label',        'type' => 'text', 'std' => 'See Open Roles' ],
+			[ 'id' => 'car_hero_cta_url',   'name' => 'CTA URL',          'type' => 'text', 'std' => '#open-roles' ],
+			[ 'id' => 'car_hero_img',       'name' => 'Hero photo',       'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'car_hero_img_alt',   'name' => 'Photo alt text',   'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $car_sp + [
+		'title'  => 'Careers · What It\'s Like',
+		'id'     => 'lp_car_wtl',
+		'fields' => [
+			[ 'id' => 'car_wtl_heading', 'name' => 'Heading',                    'type' => 'text' ],
+			[ 'id' => 'car_wtl_text',    'name' => 'Text (blank line = paragraph)', 'type' => 'textarea', 'rows' => 8 ],
+			[ 'id' => 'car_wtl_img',     'name' => 'Side photo',                 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'car_wtl_img_alt', 'name' => 'Photo alt text',             'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $car_sp + [
+		'title'  => 'Careers · Perks & Benefits',
+		'id'     => 'lp_car_perks',
+		'fields' => [
+			[ 'id' => 'car_perks_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Perks & Benefits' ],
+			[
+				'id'         => 'car_perks_items',
+				'name'       => 'Perks (4 recommended)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add perk',
+				'fields'     => $car_perk_fields,
+			],
+			[ 'id' => 'car_perks_img',     'name' => 'Side photo',     'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'car_perks_img_alt', 'name' => 'Photo alt text', 'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $car_sp + [
+		'title'  => 'Careers · Open Roles',
+		'id'     => 'lp_car_roles',
+		'fields' => [
+			[ 'id' => 'car_roles_heading', 'name' => 'Section heading', 'type' => 'text', 'std' => 'Open Roles' ],
+			[
+				'id'         => 'car_roles_items',
+				'name'       => 'Roles',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add role',
+				'fields'     => $car_role_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $car_sp + [
+		'title'  => 'Careers · Contact Form',
+		'id'     => 'lp_car_form',
+		'fields' => [
+			[ 'id' => 'car_form_heading',  'name' => 'Heading',            'type' => 'text', 'std' => 'Hit us up' ],
+			[ 'id' => 'car_form_subtext',  'name' => 'Subtext',            'type' => 'textarea' ],
+			[ 'id' => 'car_form_gf_id',   'name' => 'Gravity Forms ID',   'type' => 'number', 'min' => 0, 'desc' => 'Leave 0 to show the built-in HTML form.' ],
+		],
+	];
+
+	// ── Open Position Figma ───────────────────────────────────────────────────
+	$op_section_fields = [
+		[
+			'id'      => 'section_type',
+			'name'    => 'Type',
+			'type'    => 'select',
+			'options' => [ 'text' => 'Paragraph text', 'list' => 'Bullet list' ],
+			'std'     => 'text',
+		],
+		[ 'id' => 'title', 'name' => 'Section heading', 'type' => 'text' ],
+		[ 'id' => 'body',  'name' => 'Content (one paragraph or bullet per line)', 'type' => 'textarea', 'rows' => 8 ],
+	];
+
+	$meta_boxes[] = $op_sp + [
+		'title'  => 'Open Position · Header',
+		'id'     => 'lp_op_header',
+		'fields' => [
+			[ 'id' => 'op_job_title',    'name' => 'Job title (overrides page title)', 'type' => 'text' ],
+			[ 'id' => 'op_job_tags',     'name' => 'Tags (comma-separated)',           'type' => 'text', 'std' => 'On-site, Louisville KY, Full-time' ],
+			[ 'id' => 'op_bc_parent',    'name' => 'Breadcrumb parent label',          'type' => 'text', 'std' => 'Careers' ],
+			[ 'id' => 'op_bc_parent_url','name' => 'Breadcrumb parent URL',            'type' => 'text', 'std' => '/careers/' ],
+		],
+	];
+
+	$meta_boxes[] = $op_sp + [
+		'title'  => 'Open Position · Content sections',
+		'id'     => 'lp_op_sections',
+		'fields' => [
+			[
+				'id'         => 'op_sections',
+				'name'       => 'Sections',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add section',
+				'desc'       => 'Add structured sections here. Alternatively, use WPBakery editor for full layout control.',
+				'fields'     => $op_section_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $op_sp + [
+		'title'  => 'Open Position · Contact Form',
+		'id'     => 'lp_op_form',
+		'fields' => [
+			[ 'id' => 'op_form_heading', 'name' => 'Heading',          'type' => 'text', 'std' => 'Hit us up' ],
+			[ 'id' => 'op_form_subtext', 'name' => 'Subtext',          'type' => 'textarea' ],
+			[ 'id' => 'op_form_gf_id',  'name' => 'Gravity Forms ID', 'type' => 'number', 'min' => 0, 'desc' => 'Leave 0 to show the built-in HTML form.' ],
 		],
 	];
 

@@ -230,3 +230,464 @@ function slingshot_lp_maybe_force_new_landing_templates() {
 }
 
 add_action( 'init', 'slingshot_lp_maybe_force_new_landing_templates', 8 );
+
+define( 'SLINGSHOT_LP_FIGMA_SERVICE_PAGES_OPTION', 'slingshot_lp_figma_service_pages_v1' );
+
+/**
+ * Create service pages managed from Edit Page.
+ */
+function slingshot_lp_maybe_create_figma_service_pages() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_SERVICE_PAGES_OPTION ) ) {
+		return;
+	}
+
+	$pages = array(
+		'product' => array( 'title' => 'Product', 'mockup' => '/figma/product.png' ),
+		'web'     => array( 'title' => 'Web', 'mockup' => '/figma/web.png' ),
+		'design'  => array( 'title' => 'Design', 'mockup' => '/figma/design.png' ),
+		'mobile'  => array( 'title' => 'Mobile', 'mockup' => '/figma/mobile.png' ),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+
+		if ( ! $page instanceof WP_Post ) {
+			$page_id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $cfg['title'],
+					'post_name'    => $slug,
+					'post_content' => '',
+				),
+				true
+			);
+
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+		} else {
+			$page_id = (int) $page->ID;
+		}
+
+		update_post_meta( (int) $page_id, '_wp_page_template', 'page-service-figma.php' );
+		update_post_meta( (int) $page_id, 'sl_figma_mockup_url', $cfg['mockup'] );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_SERVICE_PAGES_OPTION, '1', true );
+}
+
+add_action( 'init', 'slingshot_lp_maybe_create_figma_service_pages', 9 );
+
+define( 'SLINGSHOT_LP_FIGMA_CAREERS_PAGES_OPTION', 'slingshot_lp_figma_careers_pages_v1' );
+
+/**
+ * Create careers pages managed from Edit Page.
+ */
+function slingshot_lp_maybe_create_figma_careers_pages() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_CAREERS_PAGES_OPTION ) ) {
+		return;
+	}
+
+	$pages = array(
+		'careers'       => array( 'title' => 'Careers', 'mockup' => '/figma/careers.png' ),
+		'open-position' => array( 'title' => 'Open Position', 'mockup' => '/figma/open-position.png' ),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+
+		if ( ! $page instanceof WP_Post ) {
+			$page_id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $cfg['title'],
+					'post_name'    => $slug,
+					'post_content' => '',
+				),
+				true
+			);
+
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+		} else {
+			$page_id = (int) $page->ID;
+		}
+
+		update_post_meta( (int) $page_id, '_wp_page_template', 'page-careers-figma.php' );
+		update_post_meta( (int) $page_id, 'sl_figma_mockup_url', $cfg['mockup'] );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_CAREERS_PAGES_OPTION, '1', true );
+}
+
+add_action( 'init', 'slingshot_lp_maybe_create_figma_careers_pages', 10 );
+
+define( 'SLINGSHOT_LP_FIGMA_EDITABLE_MIGRATION_OPTION', 'slingshot_lp_figma_editable_migration_v1' );
+
+/**
+ * Ensure existing figma pages are editable and have fallback mockup URLs.
+ */
+function slingshot_lp_maybe_migrate_figma_pages_editable() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_EDITABLE_MIGRATION_OPTION ) ) {
+		return;
+	}
+
+	$pages = array(
+		'product'       => array( 'template' => 'page-service-figma.php', 'mockup' => '/figma/product.png' ),
+		'web'           => array( 'template' => 'page-service-figma.php', 'mockup' => '/figma/web.png' ),
+		'design'        => array( 'template' => 'page-service-figma.php', 'mockup' => '/figma/design.png' ),
+		'mobile'        => array( 'template' => 'page-service-figma.php', 'mockup' => '/figma/mobile.png' ),
+		'careers'       => array( 'template' => 'page-careers-figma.php', 'mockup' => '/figma/careers.png' ),
+		'open-position' => array( 'template' => 'page-careers-figma.php', 'mockup' => '/figma/open-position.png' ),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $cfg['template'] );
+		update_post_meta( (int) $page->ID, 'sl_figma_mockup_url', $cfg['mockup'] );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_EDITABLE_MIGRATION_OPTION, '1', true );
+}
+
+add_action( 'init', 'slingshot_lp_maybe_migrate_figma_pages_editable', 11 );
+
+// ── Correct open-position template + assign new page-open-position-figma.php ─
+define( 'SLINGSHOT_LP_FIGMA_OPEN_POS_TEMPLATE_OPTION', 'slingshot_lp_figma_open_pos_template_v1' );
+
+function slingshot_lp_maybe_fix_open_position_template() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_OPEN_POS_TEMPLATE_OPTION ) ) {
+		return;
+	}
+	$page = get_page_by_path( 'open-position', OBJECT, 'page' );
+	if ( $page instanceof WP_Post ) {
+		update_post_meta( (int) $page->ID, '_wp_page_template', 'page-open-position-figma.php' );
+	}
+	update_option( SLINGSHOT_LP_FIGMA_OPEN_POS_TEMPLATE_OPTION, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_fix_open_position_template', 12 );
+
+// ── Seed default content for service + careers + open-position pages ──────────
+define( 'SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION', 'slingshot_lp_figma_content_seed_v3' );
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_service_product_meta() {
+	$icon_web    = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><rect x="5" y="7" width="12" height="9" rx="2" stroke="#4B23B0" stroke-width="1.6"/><path d="M8 7V6a3 3 0 0 1 6 0v1" stroke="#4B23B0" stroke-width="1.6" stroke-linecap="round"/></svg>';
+	$icon_mobile = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><rect x="7" y="4" width="8" height="14" rx="2" stroke="#23B7B4" stroke-width="1.6"/><circle cx="11" cy="15" r="1" fill="#23B7B4"/></svg>';
+	$icon_design = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><circle cx="11" cy="11" r="5" stroke="#4B23B0" stroke-width="1.6"/><path d="M11 6v2M11 14v2M6 11h2M14 11h2" stroke="#4B23B0" stroke-width="1.6" stroke-linecap="round"/></svg>';
+	$icon_ai     = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><path d="M11 5v3M11 14v3M5 11h3M14 11h3M7.1 7.1l2.1 2.1M12.8 12.8l2.1 2.1M14.9 7.1l-2.1 2.1M9.2 12.8l-2.1 2.1" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>';
+
+	return [
+		'svc_hero_bc_parent'  => 'SERVICES',
+		'svc_hero_bc_leaf'    => 'PRODUCT',
+		'svc_hero_heading'    => 'From Vision to Velocity',
+		'svc_hero_subtext'    => 'Slingshot combines product strategy, user insight, and full-stack execution to help leaders launch smarter, scale faster, and build the right thing.',
+		'svc_hero_cta_text'   => 'Book a call',
+		'svc_hero_cta_url'    => '/contact/?looking=Product',
+		'svc_built_heading_1' => 'Built to Scale.',
+		'svc_built_heading_2' => 'Designed to Win.',
+		'svc_built_desc'      => 'Your product is just the start. The real value is the business it unlocks. Here\'s where we help clients move with confidence.',
+		'svc_built_items'     => [
+			[ 'icon_svg' => $icon_web,    'title' => 'Web Solutions',  'desc' => 'Scalable web applications built for performance and growth.' ],
+			[ 'icon_svg' => $icon_mobile, 'title' => 'Mobile Apps',    'desc' => 'Native and cross-platform mobile experiences that delight users.' ],
+			[ 'icon_svg' => $icon_design, 'title' => 'Design',         'desc' => 'UX-first design that turns complexity into clarity.' ],
+			[ 'icon_svg' => $icon_ai,     'title' => 'AI Solutions',   'desc' => 'Intelligent features that create competitive advantage.' ],
+		],
+		'svc_cards_eyebrow'  => 'What We Do',
+		'svc_cards_heading'  => 'We Build High-Impact Digital Products',
+		'svc_cards_desc'     => 'From ideation to launch, we partner with you at every phase — strategy, design, engineering, and beyond.',
+		'svc_cards_layout'   => 'grid',
+		'svc_cards_items'    => [
+			[ 'image' => '', 'tag' => 'Strategy & Discovery', 'title' => 'Business Process & Product Strategy', 'desc' => 'We help you map the problem, define the solution, and plan the build — so every decision is grounded in real business outcomes.', 'link_url' => '/contact/?looking=Product+Strategy' ],
+			[ 'image' => '', 'tag' => 'Design & Engineering',  'title' => 'Custom Solutions & Technology',       'desc' => 'Full-stack engineering and design working in lockstep to deliver products that are fast, reliable, and built to scale.', 'link_url' => '/contact/?looking=Product+Engineering' ],
+			[ 'image' => '', 'tag' => 'AI & Data',             'title' => 'AI-Powered Product Features',         'desc' => 'From recommendation engines to intelligent automation, we embed AI where it drives the most value for your users.', 'link_url' => '/contact/?looking=AI+Product' ],
+		],
+		'svc_cases_heading'   => 'From Solution to Success Stories',
+		'svc_cases_link_text' => 'See All →',
+		'svc_cases_link_url'  => '/work/',
+		'svc_cases_cards'     => [
+			[ 'image' => '', 'client' => 'Slingshot Client', 'title' => 'Modernizing a Legacy Platform for 10× Growth', 'link_url' => '/work/' ],
+			[ 'image' => '', 'client' => 'Slingshot Client', 'title' => 'Shipping a Multi-Tenant SaaS MVP in 10 Weeks',  'link_url' => '/work/' ],
+			[ 'image' => '', 'client' => 'Slingshot Client', 'title' => 'AI-Powered Features That Doubled Engagement',   'link_url' => '/work/' ],
+		],
+		'svc_spotlight_show'          => 1,
+		'svc_spotlight_quote'         => 'Working with Slingshot was transformational. They didn\'t just build software — they became an extension of our team and helped us think through problems we didn\'t even know we had.',
+		'svc_spotlight_person_name'   => 'James Whitfield',
+		'svc_spotlight_person_role'   => 'CTO, FinTech Startup',
+		'svc_spotlight_article_tag'   => 'Product Strategy',
+		'svc_spotlight_article_title' => 'How to Choose the Right Tech Stack for Your Next Product',
+		'svc_spotlight_article_desc'  => 'Frameworks come and go. The decisions that matter most are the ones you make before you write a single line of code.',
+		'svc_spotlight_article_url'   => '/blog/',
+		'svc_blog_title'      => "Insights That Move\nBusiness Forward",
+		'svc_blog_desc'       => 'Actionable thinking on software strategy, AI adoption, and how high-performing teams build and scale.',
+		'svc_blog_cta_text'   => 'All Insights →',
+		'svc_blog_cta_url'    => '/blog/',
+		'svc_blog_posts'      => 3,
+		'svc_cta_title'       => "Let's Build What's Next",
+		'svc_cta_desc'        => "Whether you need a smarter product, a faster team, or a modernized platform — Slingshot is the partner to help you move.",
+		'svc_cta_btn_text'    => 'Start the Conversation →',
+		'svc_cta_btn_url'     => '/contact/?looking=Product',
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_service_web_meta() {
+	$icon_ecosystem   = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><circle cx="11" cy="11" r="6" stroke="#4B23B0" stroke-width="1.6"/><path d="M5 11h12M11 5c-2 2-3 4-3 6s1 4 3 6M11 5c2 2 3 4 3 6s-1 4-3 6" stroke="#4B23B0" stroke-width="1.4"/></svg>';
+	$icon_templates   = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><rect x="4" y="4" width="14" height="14" rx="2" stroke="#23B7B4" stroke-width="1.6"/><path d="M4 8h14M8 8v10" stroke="#23B7B4" stroke-width="1.5"/></svg>';
+	$icon_integration = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><path d="M6 11h10M13 8l3 3-3 3" stroke="#4B23B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	$icon_support     = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><path d="M11 6a5 5 0 0 1 5 5v2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-2a5 5 0 0 1 5-5z" stroke="#23B7B4" stroke-width="1.6"/><path d="M9 15v1a2 2 0 0 0 4 0v-1" stroke="#23B7B4" stroke-width="1.5"/></svg>';
+
+	return [
+		'svc_hero_bc_parent'  => 'SERVICES',
+		'svc_hero_bc_leaf'    => 'WEB',
+		'svc_hero_heading'    => 'Web Products Built to Scale and Convert',
+		'svc_hero_subtext'    => 'From custom web apps to e-commerce platforms — we build digital experiences that grow with your business.',
+		'svc_hero_cta_text'   => 'Book a call',
+		'svc_hero_cta_url'    => '/contact/?looking=Web',
+		'svc_built_heading_1' => 'Built for Speed.',
+		'svc_built_heading_2' => 'Designed for Growth.',
+		'svc_built_desc'      => 'Every web product we ship is optimized for performance, SEO, and conversion from day one.',
+		'svc_built_items'     => [
+			[ 'icon_svg' => $icon_ecosystem,   'title' => 'Ecosystem-First Design',  'desc' => 'We build with your full tech stack in mind — not just a single page.' ],
+			[ 'icon_svg' => $icon_templates,   'title' => 'Custom Templates',        'desc' => 'Bespoke designs tailored to your brand, not off-the-shelf themes.' ],
+			[ 'icon_svg' => $icon_integration, 'title' => 'Integration Testing',     'desc' => 'End-to-end QA across all connected services before every release.' ],
+			[ 'icon_svg' => $icon_support,     'title' => 'Support',                 'desc' => 'Dedicated post-launch support so your team is never left guessing.' ],
+		],
+		'svc_cards_eyebrow'  => 'What We Build',
+		'svc_cards_heading'  => 'What We Build With Web',
+		'svc_cards_desc'     => 'From complex SaaS platforms to marketing sites, we cover the full spectrum of web development.',
+		'svc_cards_layout'   => 'grid',
+		'svc_cards_items'    => [
+			[ 'image' => '', 'tag' => 'Web Applications',      'title' => 'Custom Web Applications',       'desc' => 'Bespoke platforms built to your exact spec — scalable, fast, and maintainable.', 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'E-Commerce',            'title' => 'E-Commerce Platforms',          'desc' => 'High-converting stores built on Shopify, WooCommerce, or fully custom stacks.', 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'CMS',                   'title' => 'WordPress & Webflow Sites',     'desc' => 'Beautiful, editor-friendly sites your marketing team can update without a developer.', 'link_url' => '' ],
+		],
+		'svc_cases_heading'   => 'From Solution to Success Stories',
+		'svc_cases_link_text' => 'See All →',
+		'svc_cases_link_url'  => '/work/',
+		'svc_cases_cards'     => [],
+		'svc_blog_title'      => "Insights That Move\nBusiness Forward",
+		'svc_blog_desc'       => 'Actionable thinking on web strategy, performance, and how high-performing teams build and scale.',
+		'svc_blog_cta_text'   => 'All Insights →',
+		'svc_blog_cta_url'    => '/blog/',
+		'svc_blog_posts'      => 3,
+		'svc_cta_title'       => "Let's Build the Web Product\nYour Business Deserves",
+		'svc_cta_desc'        => "Whether you're launching from scratch or rebuilding what's holding you back — we're ready to ship.",
+		'svc_cta_btn_text'    => 'Start the Conversation →',
+		'svc_cta_btn_url'     => '/contact/?looking=Web',
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_service_design_meta() {
+	$icon_future = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><path d="M11 5l1.5 4.5H17l-3.8 2.8 1.4 4.4L11 14l-4.6 3.2 1.4-4.4L4 10h4.5z" stroke="#4B23B0" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+	$icon_coloc  = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><circle cx="8" cy="9" r="3" stroke="#23B7B4" stroke-width="1.6"/><circle cx="14" cy="9" r="3" stroke="#23B7B4" stroke-width="1.6"/><path d="M4 18c0-2.2 1.8-4 4-4h6c2.2 0 4 1.8 4 4" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>';
+	$icon_factory= '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><rect x="5" y="10" width="12" height="8" rx="1.5" stroke="#4B23B0" stroke-width="1.6"/><path d="M8 10V8a3 3 0 0 1 6 0v2" stroke="#4B23B0" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+	return [
+		'svc_hero_bc_parent'  => 'SERVICES',
+		'svc_hero_bc_leaf'    => 'DESIGN',
+		'svc_hero_heading'    => 'UX Design That Gets Built',
+		'svc_hero_subtext'    => 'We design with engineers — so every screen, flow, and interaction is built exactly as intended.',
+		'svc_hero_cta_text'   => 'Book a call',
+		'svc_hero_cta_url'    => '/contact/?looking=Design',
+		'svc_built_heading_1' => 'Why Teams Bring',
+		'svc_built_heading_2' => 'Slingshot In.',
+		'svc_built_desc'      => 'Most design agencies hand off files. We stay through shipping — so the design actually ships.',
+		'svc_built_items'     => [
+			[ 'icon_svg' => $icon_future,  'title' => 'Future Proof Foundation', 'desc' => 'Design systems that grow with your product, not against it.' ],
+			[ 'icon_svg' => $icon_coloc,   'title' => 'Co-location Design',      'desc' => 'Designers embedded with your engineering team for real-time iteration.' ],
+			[ 'icon_svg' => $icon_factory, 'title' => 'Design Factory Built',    'desc' => 'High-velocity output without sacrificing quality or consistency.' ],
+		],
+		'svc_cards_eyebrow'  => 'Built to Scale',
+		'svc_cards_heading'  => 'What We Design',
+		'svc_cards_desc'     => 'From rapid prototypes to enterprise design systems, we cover every phase of UX.',
+		'svc_cards_layout'   => 'alternating',
+		'svc_cards_items'    => [
+			[ 'image' => '', 'tag' => 'Prototyping',     'title' => 'Rapid Prototyping',              'desc' => 'From rough idea to clickable prototype in days — so you can validate before you build.', 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'Systems & Audits','title' => 'Design Systems & UX Audits',     'desc' => "We audit what you have, fix what's broken, and build a system your whole team can use.", 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'AI & Data',       'title' => 'AI-Powered Dashboards',          'desc' => 'Complex data made simple — dashboards that help users make better decisions faster.', 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'Mobile & Portals','title' => 'Customer Portals and Mobile Apps','desc' => 'Polished, intuitive interfaces for your customers and internal teams.', 'link_url' => '' ],
+		],
+		'svc_cases_heading'   => 'From Solution to Success Stories',
+		'svc_cases_link_text' => 'See All →',
+		'svc_cases_link_url'  => '/work/',
+		'svc_cases_cards'     => [],
+		'svc_blog_title'      => "Insights That Move\nBusiness Forward",
+		'svc_blog_desc'       => 'Actionable thinking on UX strategy, design systems, and how great design drives product outcomes.',
+		'svc_blog_cta_text'   => 'All Insights →',
+		'svc_blog_cta_url'    => '/blog/',
+		'svc_blog_posts'      => 3,
+		'svc_cta_title'       => "Let's Build What's Next",
+		'svc_cta_desc'        => "Great design doesn't just look good — it ships, it converts, and it scales. Let's get started.",
+		'svc_cta_btn_text'    => 'Start the Conversation →',
+		'svc_cta_btn_url'     => '/contact/?looking=Design',
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_service_mobile_meta() {
+	$icon_cx   = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><circle cx="11" cy="9" r="4" stroke="#4B23B0" stroke-width="1.6"/><path d="M4 18c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#4B23B0" stroke-width="1.5" stroke-linecap="round"/></svg>';
+	$icon_ops  = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><path d="M6 12l3 3 7-7" stroke="#23B7B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	$icon_scale= '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><path d="M5 17l4-8 4 5 2-3 3 6" stroke="#4B23B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	$icon_incl = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><circle cx="11" cy="11" r="6" stroke="#23B7B4" stroke-width="1.6"/><path d="M8 11l2 2 4-4" stroke="#23B7B4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+	return [
+		'svc_hero_bc_parent'  => 'SERVICES',
+		'svc_hero_bc_leaf'    => 'MOBILE',
+		'svc_hero_heading'    => 'Mobile App Development',
+		'svc_hero_subtext'    => 'iOS, Android, and cross-platform apps built for performance, usability, and scale.',
+		'svc_hero_cta_text'   => 'Book a call',
+		'svc_hero_cta_url'    => '/contact/?looking=Mobile',
+		'svc_built_heading_1' => 'Built for Impact.',
+		'svc_built_heading_2' => 'Designed to Scale.',
+		'svc_built_desc'      => 'Mobile is often the first touchpoint for your users. We make it count.',
+		'svc_built_items'     => [
+			[ 'icon_svg' => $icon_cx,    'title' => 'Customer Experience', 'desc' => 'Apps your users love — intuitive, fast, and beautiful on every screen.' ],
+			[ 'icon_svg' => $icon_ops,   'title' => 'Operational Efficiency', 'desc' => 'Internal tools and field apps that streamline how your team works.' ],
+			[ 'icon_svg' => $icon_scale, 'title' => 'Built to Scale',       'desc' => 'Architecture designed for growth — from 100 to 1,000,000 users.' ],
+			[ 'icon_svg' => $icon_incl,  'title' => 'Inclusion & Reach',    'desc' => 'Accessible design that ensures your app works for everyone.' ],
+		],
+		'svc_cards_eyebrow'  => 'Built for Business Mobility',
+		'svc_cards_heading'  => 'Apps Built for Business Mobility',
+		'svc_cards_desc'     => 'Whether consumer-facing or internal, we build mobile apps that move your business forward.',
+		'svc_cards_layout'   => 'alternating',
+		'svc_cards_items'    => [
+			[ 'image' => '', 'tag' => 'Customer Experience',    'title' => 'Customer-Facing Apps',   'desc' => 'Polished consumer apps that build loyalty and drive engagement.', 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'Operational Efficiency', 'title' => 'Field & Internal Tools', 'desc' => 'Empower your workforce with mobile tools that eliminate paperwork and manual steps.', 'link_url' => '' ],
+			[ 'image' => '', 'tag' => 'Cross-Platform',         'title' => 'React Native & Flutter', 'desc' => 'One codebase, two platforms — without sacrificing the native experience.', 'link_url' => '' ],
+		],
+		'svc_cases_heading'   => 'From Solution to Success Stories',
+		'svc_cases_link_text' => 'See All →',
+		'svc_cases_link_url'  => '/work/',
+		'svc_cases_cards'     => [],
+		'svc_blog_title'      => "Insights That Move\nBusiness Forward",
+		'svc_blog_desc'       => 'Actionable thinking on mobile strategy, UX, and how the best apps get built and scaled.',
+		'svc_blog_cta_text'   => 'All Insights →',
+		'svc_blog_cta_url'    => '/blog/',
+		'svc_blog_posts'      => 3,
+		'svc_cta_title'       => "Let's Build a Great\nMobile App",
+		'svc_cta_desc'        => "Tell us about your app idea — we'll help you figure out the fastest path to launch.",
+		'svc_cta_btn_text'    => 'Start the Conversation →',
+		'svc_cta_btn_url'     => '/contact/?looking=Mobile',
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_careers_meta() {
+	$icon_hybrid   = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#4B23B0" fill-opacity=".12"/><path d="M4 14c0-2.2 1.8-4 4-4h4c2.2 0 4 1.8 4 4" stroke="#4B23B0" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="7" r="3" stroke="#4B23B0" stroke-width="1.5"/></svg>';
+	$icon_pto      = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#23B7B4" fill-opacity=".12"/><circle cx="10" cy="10" r="6" stroke="#23B7B4" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>';
+	$icon_health   = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#4B23B0" fill-opacity=".12"/><path d="M10 16s-6-4.2-6-8a4 4 0 0 1 6-3.5A4 4 0 0 1 16 8c0 3.8-6 8-6 8z" stroke="#4B23B0" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+	$icon_401k     = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#23B7B4" fill-opacity=".12"/><path d="M5 15l3-5 2 3 3-6 3 8" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+	return [
+		'car_hero_bc_parent' => 'COMPANY',
+		'car_hero_bc_leaf'   => 'CAREERS',
+		'car_hero_heading'   => "Built for Big Kids\n& Daredevils",
+		'car_hero_subtext'   => "We're a team of builders, creators, and problem-solvers who love what we do. If you're ambitious and ready to make things happen, there's a place for you here.",
+		'car_hero_cta_text'  => 'See Open Roles',
+		'car_hero_cta_url'   => '#open-roles',
+		'car_wtl_heading'    => "What It's Like to Work Here",
+		'car_wtl_text'       => "At Slingshot, you'll work alongside talented engineers, designers, and product thinkers on real problems for real clients. We value ownership, craft, and honesty — and we believe the best work happens when people have the autonomy to do it their way.\n\nWe offer flexible hybrid work, competitive benefits, and a team that genuinely cares about your growth. Whether you're a senior engineer or just starting out, there's a place for ambitious people who want to make things happen.\n\nWe take the work seriously. We don't take ourselves too seriously.",
+		'car_perks_heading'  => 'Perks & Benefits',
+		'car_perks_items'    => [
+			[ 'icon_svg' => $icon_hybrid, 'title' => 'Flexible Hybrid Culture', 'desc' => 'Work from our Louisville office or remotely — we trust you to get things done.' ],
+			[ 'icon_svg' => $icon_pto,    'title' => 'Unlimited PTO',            'desc' => 'Take the time you need. We mean it.' ],
+			[ 'icon_svg' => $icon_health, 'title' => 'Comprehensive Healthcare', 'desc' => 'Medical, dental, and vision coverage for you and your family.' ],
+			[ 'icon_svg' => $icon_401k,   'title' => 'Matching 401(k)',          'desc' => 'We invest in your future with a competitive company match.' ],
+		],
+		'car_roles_heading'  => 'Open Roles',
+		'car_roles_items'    => [
+			[ 'title' => 'Senior .NET Developer',    'tags' => 'On-site, Full-time', 'link_url' => '/open-position/' ],
+			[ 'title' => '.NET Developer',           'tags' => 'On-site, Full-time', 'link_url' => '/open-position/' ],
+			[ 'title' => 'Senior JS Developer',      'tags' => 'Hybrid, Full-time',  'link_url' => '/open-position/' ],
+			[ 'title' => 'Senior .NET Developer',    'tags' => 'Remote, Full-time',  'link_url' => '/open-position/' ],
+		],
+		'car_form_heading'   => 'Hit us up',
+		'car_form_subtext'   => "Don't see the right role? We're always looking for great people. Send us a message.",
+		'car_form_gf_id'     => 0,
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_open_position_meta() {
+	return [
+		'op_job_title'    => 'Senior AI Developer',
+		'op_job_tags'     => 'On-site, Louisville KY, Full-time',
+		'op_bc_parent'    => 'Careers',
+		'op_bc_parent_url'=> '/careers/',
+		'op_sections'     => [
+			[
+				'section_type' => 'text',
+				'title'        => 'About this Role',
+				'body'         => "We're looking for a Senior AI Developer to join our growing engineering team. In this role, you'll work closely with our product and delivery teams to design, build, and deploy AI solutions that create real value for our clients.\n\nYou'll have the opportunity to work on a wide range of AI challenges — from building and fine-tuning language models to designing multi-agent systems and integrating AI into production applications.",
+			],
+			[
+				'section_type' => 'list',
+				'title'        => 'Your focus will include',
+				'body'         => "Designing and building AI-powered features and services\nFine-tuning and deploying large language models\nBuilding multi-agent orchestration systems\nCollaborating with product and engineering teams on architecture decisions\nConducting code reviews and mentoring junior developers\nStaying current with the rapidly evolving AI/ML landscape",
+			],
+			[
+				'section_type' => 'list',
+				'title'        => "We're looking for someone who",
+				'body'         => "Has 4+ years of software development experience, with at least 2 in AI/ML\nIs proficient in Python and has experience with LLM frameworks (LangChain, LlamaIndex, etc.)\nHas built and deployed production AI systems\nUnderstands prompt engineering, RAG patterns, and vector databases\nCommunicates clearly and thrives in a collaborative, fast-paced environment",
+			],
+			[
+				'section_type' => 'list',
+				'title'        => 'Why you want to work here',
+				'body'         => "Meaningful work on real client products — not internal tooling\nA team that values craft, ownership, and honest feedback\nFlexible hybrid culture with great benefits\nOpportunity to grow fast in a company that's growing fast",
+			],
+			[
+				'section_type' => 'list',
+				'title'        => 'Some cool benefits',
+				'body'         => "Unlimited PTO\nComprehensive health, dental & vision\nMatching 401(k)\nAnnual learning & development budget\nFlexible hybrid work",
+			],
+			[
+				'section_type' => 'text',
+				'title'        => 'Who is Slingshot?',
+				'body'         => "Slingshot is a software and app development company based in Louisville, KY. We build digital products for ambitious companies across the US — from startups to Fortune 500s.\n\nWe believe great software comes from great teams. That means hiring people who care about their craft, giving them the autonomy to do great work, and building a culture where everyone can thrive.",
+			],
+		],
+		'op_form_heading' => 'Hit us up',
+		'op_form_subtext' => 'Think this could be a great fit? Tell us a bit about yourself.',
+		'op_form_gf_id'   => 0,
+	];
+}
+
+/**
+ * Seed post meta for service + careers + open-position figma pages.
+ */
+function slingshot_lp_maybe_seed_figma_content() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION ) ) {
+		return;
+	}
+
+	$pages = array(
+		'product'       => 'slingshot_lp_build_service_product_meta',
+		'web'           => 'slingshot_lp_build_service_web_meta',
+		'design'        => 'slingshot_lp_build_service_design_meta',
+		'mobile'        => 'slingshot_lp_build_service_mobile_meta',
+		'careers'       => 'slingshot_lp_build_careers_meta',
+		'open-position' => 'slingshot_lp_build_open_position_meta',
+	);
+
+	foreach ( $pages as $slug => $builder ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		$meta = call_user_func( $builder );
+		foreach ( $meta as $key => $value ) {
+			update_post_meta( (int) $page->ID, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_figma_content', 13 );
