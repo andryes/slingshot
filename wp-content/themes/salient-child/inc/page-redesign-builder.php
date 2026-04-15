@@ -6,10 +6,36 @@
 /**
  * @return bool
  */
-function slingshot_is_redesign_builder_template( $post_id = null ) {
-	if ( ! $post_id ) {
-		$post_id = get_queried_object_id();
+function slingshot_redesign_builder_context_post_id( $post_id = null ) {
+	if ( $post_id ) {
+		return (int) $post_id;
 	}
+
+	$post_id = (int) get_queried_object_id();
+	if ( $post_id ) {
+		return $post_id;
+	}
+
+	if ( is_home() ) {
+		$posts_page_id = (int) get_option( 'page_for_posts' );
+		if ( $posts_page_id ) {
+			return $posts_page_id;
+		}
+	}
+
+	$blog_page = get_page_by_path( 'blog', OBJECT, 'page' );
+	if ( $blog_page instanceof WP_Post ) {
+		return (int) $blog_page->ID;
+	}
+
+	return 0;
+}
+
+/**
+ * @return bool
+ */
+function slingshot_is_redesign_builder_template( $post_id = null ) {
+	$post_id = slingshot_redesign_builder_context_post_id( $post_id );
 	if ( ! $post_id ) {
 		return false;
 	}
@@ -43,9 +69,7 @@ function slingshot_redesign_builder_skin( $post_id = null ) {
 	if ( isset( $GLOBALS['slingshot_redesign_forced_skin'] ) && (string) $GLOBALS['slingshot_redesign_forced_skin'] !== '' ) {
 		return slingshot_redesign_normalize_skin( (string) $GLOBALS['slingshot_redesign_forced_skin'] );
 	}
-	if ( ! $post_id ) {
-		$post_id = get_queried_object_id();
-	}
+	$post_id = slingshot_redesign_builder_context_post_id( $post_id );
 	$skin = '';
 	if ( function_exists( 'rwmb_meta' ) ) {
 		$skin = (string) rwmb_meta( 'slingshot_rb_skin', [], $post_id );
@@ -69,6 +93,68 @@ add_filter(
 		if ( ! $pid || get_page_template_slug( $pid ) !== 'page-redesign-builder.php' ) {
 			return $template;
 		}
+		$t = locate_template( array( 'page-redesign-builder.php' ) );
+		return $t ? $t : $template;
+	},
+	99
+);
+
+/**
+ * Hard override for blog route when theme hierarchy still bypasses template_include.
+ * Renders Redesign — WPBakery shell directly for blog/posts-page context.
+ */
+add_action(
+	'template_redirect',
+	static function () {
+		if ( is_admin() || wp_doing_ajax() ) {
+			return;
+		}
+		if ( ! is_home() && ! is_page( 'blog' ) ) {
+			return;
+		}
+
+		$post_id = slingshot_redesign_builder_context_post_id();
+		if ( ! $post_id ) {
+			return;
+		}
+
+		$has_builder_template = get_page_template_slug( $post_id ) === 'page-redesign-builder.php';
+		$has_figma_fallback   = (string) get_post_meta( $post_id, 'sl_figma_mockup_url', true ) !== '';
+		if ( ! $has_builder_template && ! $has_figma_fallback ) {
+			return;
+		}
+
+		$skin = slingshot_redesign_builder_skin( $post_id );
+		slingshot_redesign_enqueue_for_skin( $skin );
+		get_header();
+		slingshot_redesign_print_builder_chrome_and_content( $post_id );
+		get_footer();
+		exit;
+	},
+	1
+);
+
+/**
+ * Blog posts index (Settings > Reading > Posts page) usually ignores page templates.
+ * If the assigned posts page uses Redesign — WPBakery, force this template.
+ */
+add_filter(
+	'template_include',
+	static function ( $template ) {
+		if ( ! is_home() && ! is_page( 'blog' ) ) {
+			return $template;
+		}
+		$pid = slingshot_redesign_builder_context_post_id();
+		if ( ! $pid ) {
+			return $template;
+		}
+
+		$has_builder_template = get_page_template_slug( $pid ) === 'page-redesign-builder.php';
+		$has_figma_fallback   = (string) get_post_meta( $pid, 'sl_figma_mockup_url', true ) !== '';
+		if ( ! $has_builder_template && ! $has_figma_fallback ) {
+			return $template;
+		}
+
 		$t = locate_template( array( 'page-redesign-builder.php' ) );
 		return $t ? $t : $template;
 	},

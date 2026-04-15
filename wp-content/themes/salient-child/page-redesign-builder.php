@@ -7,7 +7,7 @@
  */
 
 $skin    = slingshot_redesign_builder_skin();
-$post_id = get_queried_object_id();
+$post_id = slingshot_redesign_builder_context_post_id();
 
 slingshot_redesign_enqueue_for_skin( $skin );
 get_header();
