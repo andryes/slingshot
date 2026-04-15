@@ -825,3 +825,59 @@ function slingshot_lp_maybe_create_figma_redesign_builder_pages() {
 }
 
 add_action( 'init', 'slingshot_lp_maybe_create_figma_redesign_builder_pages', 14 );
+
+define( 'SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION_V2', 'slingshot_lp_figma_redesign_builder_pages_v2' );
+
+/**
+ * Create additional redesign pages (batch 2) managed from Edit Page / WPBakery.
+ */
+function slingshot_lp_maybe_create_figma_redesign_builder_pages_v2() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION_V2 ) ) {
+		return;
+	}
+
+	$pages = array(
+		'blog'               => array( 'title' => 'Blog', 'mockup' => '/figma/blog.png' ),
+		'internal-blog'      => array( 'title' => 'Internal Blog', 'mockup' => '/figma/internal-blog.png' ),
+		'register'           => array( 'title' => 'Register', 'mockup' => '/figma/register.png' ),
+		'event'              => array( 'title' => 'Event', 'mockup' => '/figma/event.png' ),
+		'events'             => array( 'title' => 'Events', 'mockup' => '/figma/events.png' ),
+		'about-us'           => array( 'title' => 'About Us', 'mockup' => '/figma/about-us.png' ),
+		'achievements'       => array( 'title' => 'Achievements', 'mockup' => '/figma/achievements.png' ),
+		'ambassadors'        => array( 'title' => 'Ambassadors', 'mockup' => '/figma/ambassadors.png' ),
+		'security-checklist' => array( 'title' => 'Security Checklist', 'mockup' => '/figma/security-checklist.png' ),
+		'subscribe'          => array( 'title' => 'Subscribe', 'mockup' => '/figma/subscribe.png' ),
+		'video-modal'        => array( 'title' => 'Video Modal', 'mockup' => '/figma/video-modal.png' ),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+
+		if ( ! $page instanceof WP_Post ) {
+			$page_id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $cfg['title'],
+					'post_name'    => $slug,
+					'post_content' => '',
+				),
+				true
+			);
+
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+		} else {
+			$page_id = (int) $page->ID;
+		}
+
+		update_post_meta( (int) $page_id, '_wp_page_template', 'page-redesign-builder.php' );
+		update_post_meta( (int) $page_id, 'sl_figma_mockup_url', $cfg['mockup'] );
+		update_post_meta( (int) $page_id, 'slingshot_rb_skin', 'home' );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION_V2, '1', true );
+}
+
+add_action( 'init', 'slingshot_lp_maybe_create_figma_redesign_builder_pages_v2', 15 );
