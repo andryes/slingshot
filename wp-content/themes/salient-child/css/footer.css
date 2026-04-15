@@ -136,6 +136,7 @@
     transition: background .2s, transform .2s;
     width: 100%; justify-content: center;
     box-sizing: border-box;
+    border: none; cursor: pointer;
 }
 .sl-footer-newsletter-btn:hover { background: rgba(255,255,255,.9); transform: translateY(-1px); }
 

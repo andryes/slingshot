@@ -3,8 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $child_uri = get_stylesheet_directory_uri();
-wp_enqueue_style( 'slingshot-footer',     $child_uri . '/css/footer.css',      [], '1.3' );
-wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css', [], '1.0' );
+wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.3' );
+wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.0' );
+wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.0' );
 ?>
 
 <footer class="sl-footer">
@@ -100,7 +101,7 @@ wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css', 
             <div class="sl-footer-col sl-footer-newsletter-col">
                 <div class="sl-footer-newsletter-card">
                     <p class="sl-footer-newsletter-desc">Get the latest news from Slingshot with our bi-weekly newsletter.</p>
-                    <a href="/newsletter" class="sl-footer-newsletter-btn">Subscribe &rarr;</a>
+                    <button type="button" class="sl-footer-newsletter-btn" data-sl-modal="subscribe">Subscribe &rarr;</button>
                 </div>
             </div>
 
@@ -218,6 +219,98 @@ wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css', 
     document.addEventListener('keydown', function(e){
         if ( e.key === 'Escape' && overlay.classList.contains('is-open') ) closeModal();
     });
+})();
+</script>
+
+<!-- ── Subscribe Newsletter Modal ──────────────────────────────────────── -->
+<div class="sl-subscribe-overlay" id="slSubscribeModal" role="dialog" aria-modal="true" aria-label="Subscribe to newsletter">
+    <div class="sl-subscribe-modal">
+        <button class="sl-subscribe-close" id="slSubscribeClose" aria-label="Close">&times;</button>
+        <h2 class="sl-subscribe-heading">Get the latest news from Slingshot with our bi-weekly newsletter.</h2>
+        <div class="sl-subscribe-divider"></div>
+        <?php
+        $sl_subscribe_gf_id = (int) get_option( 'slingshot_subscribe_modal_gf_id', 0 );
+        if ( $sl_subscribe_gf_id && function_exists( 'gravity_form' ) ) :
+            gravity_form( $sl_subscribe_gf_id, false, false, false, null, true, 1 );
+        else : ?>
+        <form class="sl-subscribe-form" method="post" action="#">
+            <div class="sl-subscribe-row">
+                <input type="text" class="sl-subscribe-input" placeholder="First Name*" required>
+                <input type="text" class="sl-subscribe-input" placeholder="Last Name*" required>
+            </div>
+            <input type="email" class="sl-subscribe-input" placeholder="Email*" required>
+            <button type="submit" class="sl-subscribe-submit">Subscribe &rarr;</button>
+        </form>
+        <?php endif; ?>
+    </div>
+</div>
+<script>
+(function(){
+    var overlay = document.getElementById('slSubscribeModal');
+    var closeBtn = document.getElementById('slSubscribeClose');
+    if ( ! overlay ) return;
+    function openSubscribe() { overlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+    function closeSubscribe() { overlay.classList.remove('is-open'); document.body.style.overflow = ''; }
+    document.addEventListener('click', function(e){
+        if ( e.target.closest('[data-sl-modal="subscribe"]') ) { e.preventDefault(); openSubscribe(); }
+    });
+    if ( closeBtn ) closeBtn.addEventListener('click', closeSubscribe);
+    overlay.addEventListener('click', function(e){ if ( e.target === overlay ) closeSubscribe(); });
+    document.addEventListener('keydown', function(e){ if ( e.key === 'Escape' && overlay.classList.contains('is-open') ) closeSubscribe(); });
+})();
+</script>
+
+<!-- ── Video Modal ──────────────────────────────────────────────────────── -->
+<div class="sl-video-overlay" id="slVideoModal" role="dialog" aria-modal="true" aria-label="Video player">
+    <div class="sl-video-wrap">
+        <button class="sl-video-close" id="slVideoClose" aria-label="Close video">&times;</button>
+        <div id="slVideoContent"></div>
+    </div>
+</div>
+<script>
+(function(){
+    var overlay = document.getElementById('slVideoModal');
+    var content = document.getElementById('slVideoContent');
+    var closeBtn = document.getElementById('slVideoClose');
+    if ( ! overlay ) return;
+    function openVideo( src ) {
+        content.innerHTML = '';
+        if ( ! src ) return;
+        var el;
+        if ( /youtu\.?be/.test(src) || /vimeo\.com/.test(src) ) {
+            // Normalise YouTube URLs
+            src = src.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/');
+            if ( /vimeo\.com\/(\d+)/.test(src) ) {
+                src = 'https://player.vimeo.com/video/' + src.match(/vimeo\.com\/(\d+)/)[1] + '?autoplay=1';
+            } else if ( src.indexOf('autoplay') === -1 ) {
+                src += ( src.indexOf('?') > -1 ? '&' : '?' ) + 'autoplay=1';
+            }
+            el = document.createElement('iframe');
+            el.src = src;
+            el.allow = 'autoplay; fullscreen; picture-in-picture';
+            el.allowFullscreen = true;
+        } else {
+            el = document.createElement('video');
+            el.src = src;
+            el.controls = true;
+            el.autoplay = true;
+        }
+        content.appendChild(el);
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeVideo() {
+        overlay.classList.remove('is-open');
+        content.innerHTML = '';
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('click', function(e){
+        var trigger = e.target.closest('[data-sl-video]');
+        if ( trigger ) { e.preventDefault(); openVideo( trigger.getAttribute('data-sl-video') ); }
+    });
+    if ( closeBtn ) closeBtn.addEventListener('click', closeVideo);
+    overlay.addEventListener('click', function(e){ if ( e.target === overlay ) closeVideo(); });
+    document.addEventListener('keydown', function(e){ if ( e.key === 'Escape' && overlay.classList.contains('is-open') ) closeVideo(); });
 })();
 </script>
 

@@ -1491,5 +1491,535 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
+	// ── About Us Figma ───────────────────────────────────────────────────────
+	$abt_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-about-figma.php' ] ] ];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Hero',
+		'id'     => 'lp_abt_hero',
+		'fields' => [
+			[ 'id' => 'abt_hero_label',    'name' => 'Label',        'type' => 'text',         'std' => 'ABOUT US' ],
+			[ 'id' => 'abt_hero_heading',  'name' => 'Heading',      'type' => 'text' ],
+			[ 'id' => 'abt_hero_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'abt_hero_btn_text', 'name' => 'Button label', 'type' => 'text',         'std' => 'Meet the Team' ],
+			[ 'id' => 'abt_hero_btn_url',  'name' => 'Button URL',   'type' => 'text',         'std' => '#team' ],
+			[ 'id' => 'abt_hero_img_a',    'name' => 'Photo left',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'abt_hero_img_b',    'name' => 'Photo right',  'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Stats',
+		'id'     => 'lp_abt_stats',
+		'fields' => [
+			[ 'id' => 'abt_stats_heading', 'name' => 'Heading',     'type' => 'text' ],
+			[ 'id' => 'abt_stats_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[
+				'id'         => 'abt_stats_items',
+				'name'       => 'Stats',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add stat',
+				'fields'     => [
+					[ 'id' => 'number', 'name' => 'Number', 'type' => 'text' ],
+					[ 'id' => 'label',  'name' => 'Label',  'type' => 'text' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Story section',
+		'id'     => 'lp_abt_story',
+		'fields' => [
+			[ 'id' => 'abt_story_heading', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'abt_story_text',    'name' => 'Text (paragraphs separated by blank line)', 'type' => 'textarea', 'rows' => 6 ],
+			[ 'id' => 'abt_story_img_a',   'name' => 'Photo 1 (tall left)',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'abt_story_img_b',   'name' => 'Photo 2 (top right)',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'abt_story_img_c',   'name' => 'Photo 3 (bottom right)','type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Team grid',
+		'id'     => 'lp_abt_team',
+		'fields' => [
+			[ 'id' => 'abt_team_heading', 'name' => 'Heading',     'type' => 'text', 'std' => 'Meet the Team That Makes it Happen' ],
+			[ 'id' => 'abt_team_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[
+				'id'         => 'abt_team_members',
+				'name'       => 'Team members',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add member',
+				'fields'     => [
+					[ 'id' => 'photo', 'name' => 'Photo',     'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'name',  'name' => 'Full name', 'type' => 'text' ],
+					[ 'id' => 'role',  'name' => 'Role/Title','type' => 'text' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Testimonials',
+		'id'     => 'lp_abt_testimonials',
+		'fields' => [
+			[ 'id' => 'abt_test_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Our Clients Are the Best Stories' ],
+			[
+				'id'         => 'abt_test_items',
+				'name'       => 'Testimonials',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add testimonial',
+				'fields'     => [
+					[ 'id' => 'quote',   'name' => 'Quote',         'type' => 'textarea' ],
+					[ 'id' => 'name',    'name' => 'Person name',   'type' => 'text' ],
+					[ 'id' => 'company', 'name' => 'Company/Title', 'type' => 'text' ],
+					[ 'id' => 'avatar',  'name' => 'Avatar photo',  'type' => 'single_image', 'force_delete' => false ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Bottom CTA',
+		'id'     => 'lp_abt_cta',
+		'fields' => [
+			[ 'id' => 'abt_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'abt_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'abt_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
+			[ 'id' => 'abt_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
+		],
+	];
+
+	// ── Achievements Figma ───────────────────────────────────────────────────
+	$achv_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-achievements-figma.php' ] ] ];
+
+	$meta_boxes[] = $achv_sp + [
+		'title'  => 'Achievements · Hero',
+		'id'     => 'lp_achv_hero',
+		'fields' => [
+			[ 'id' => 'achv_hero_heading',  'name' => 'Heading',      'type' => 'text',         'std' => 'Achievements & Impact' ],
+			[ 'id' => 'achv_hero_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'achv_hero_btn_text', 'name' => 'Button label', 'type' => 'text',         'std' => 'See Our Work' ],
+			[ 'id' => 'achv_hero_btn_url',  'name' => 'Button URL',   'type' => 'text',         'std' => '/work/' ],
+			[ 'id' => 'achv_hero_img_a',    'name' => 'Photo left',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'achv_hero_img_b',    'name' => 'Photo right',  'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $achv_sp + [
+		'title'  => 'Achievements · Why section',
+		'id'     => 'lp_achv_why',
+		'fields' => [
+			[ 'id' => 'achv_why_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Why Top Companies Choose Slingshot' ],
+			[
+				'id'         => 'achv_why_cards',
+				'name'       => 'Cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => [
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',  'name' => 'Heading',     'type' => 'text' ],
+					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $achv_sp + [
+		'title'  => 'Achievements · Credentials list',
+		'id'     => 'lp_achv_creds',
+		'fields' => [
+			[ 'id' => 'achv_creds_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Key Credentials & Recognitions' ],
+			[
+				'id'         => 'achv_creds_items',
+				'name'       => 'Credential items',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add credential',
+				'fields'     => [
+					[ 'id' => 'badge_img', 'name' => 'Badge image (overrides SVG)', 'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'badge_svg', 'name' => 'Badge SVG (fallback)',        'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',   'name' => 'Credential name',             'type' => 'text' ],
+					[ 'id' => 'desc',      'name' => 'Description',                 'type' => 'textarea' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $achv_sp + [
+		'title'  => 'Achievements · Featured On',
+		'id'     => 'lp_achv_featured',
+		'fields' => [
+			[ 'id' => 'achv_featured_heading', 'name' => 'Label', 'type' => 'text', 'std' => 'Featured On' ],
+			[
+				'id'         => 'achv_featured_logos',
+				'name'       => 'Logos',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add logo',
+				'fields'     => [
+					[ 'id' => 'image', 'name' => 'Logo image', 'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'name',  'name' => 'Alt text',   'type' => 'text' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $achv_sp + [
+		'title'  => 'Achievements · Bottom CTA',
+		'id'     => 'lp_achv_cta',
+		'fields' => [
+			[ 'id' => 'achv_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'achv_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'achv_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
+			[ 'id' => 'achv_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
+		],
+	];
+
+	// ── Ambassadors Figma ────────────────────────────────────────────────────
+	$amb_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ambassadors-figma.php' ] ] ];
+
+	$meta_boxes[] = $amb_sp + [
+		'title'  => 'Ambassadors · Hero',
+		'id'     => 'lp_amb_hero',
+		'fields' => [
+			[ 'id' => 'amb_hero_label',    'name' => 'Label (eyebrow)',  'type' => 'text',         'std' => 'SLINGSHOT AMBASSADORS' ],
+			[ 'id' => 'amb_hero_heading',  'name' => 'Heading',          'type' => 'text' ],
+			[ 'id' => 'amb_hero_desc',     'name' => 'Description',      'type' => 'textarea' ],
+			[ 'id' => 'amb_hero_btn_text', 'name' => 'Button label',     'type' => 'text',         'std' => 'Become an Ambassador' ],
+			[ 'id' => 'amb_hero_btn_url',  'name' => 'Button URL',       'type' => 'text',         'std' => '#ambassador-form' ],
+			[ 'id' => 'amb_hero_img',      'name' => 'Hero image',       'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $amb_sp + [
+		'title'  => 'Ambassadors · Benefits',
+		'id'     => 'lp_amb_benefits',
+		'fields' => [
+			[ 'id' => 'amb_ben_heading', 'name' => 'Heading',     'type' => 'text' ],
+			[ 'id' => 'amb_ben_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[
+				'id'         => 'amb_ben_cards',
+				'name'       => 'Benefit cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add benefit',
+				'fields'     => [
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',  'name' => 'Heading',     'type' => 'text' ],
+					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $amb_sp + [
+		'title'  => 'Ambassadors · How You Contribute',
+		'id'     => 'lp_amb_contribute',
+		'fields' => [
+			[ 'id' => 'amb_con_heading', 'name' => 'Heading',     'type' => 'text', 'std' => 'How You Contribute' ],
+			[
+				'id'         => 'amb_con_cards',
+				'name'       => 'Contribution cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => [
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',  'name' => 'Heading',     'type' => 'text' ],
+					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
+				],
+			],
+			[ 'id' => 'amb_con_img', 'name' => 'Side image', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $amb_sp + [
+		'title'  => 'Ambassadors · Form CTA',
+		'id'     => 'lp_amb_form',
+		'fields' => [
+			[ 'id' => 'amb_form_heading',      'name' => 'Section heading',   'type' => 'text' ],
+			[ 'id' => 'amb_form_desc',         'name' => 'Section description','type' => 'textarea' ],
+			[ 'id' => 'amb_form_who_label',    'name' => '"Who Should Join?" label', 'type' => 'text', 'std' => 'Who Should Join?' ],
+			[ 'id' => 'amb_form_who_bullets',  'name' => 'Who bullets (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+			[ 'id' => 'amb_form_card_heading', 'name' => 'Form card heading', 'type' => 'text', 'std' => 'Request a Speaker' ],
+			[ 'id' => 'amb_form_gf_id',        'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+		],
+	];
+
+	// ── Security Checklist Figma ──────────────────────────────────────────────
+	$ldmg_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-security-checklist-figma.php' ] ] ];
+
+	$meta_boxes[] = $ldmg_sp + [
+		'title'  => 'Lead Magnet · Hero',
+		'id'     => 'lp_ldmg_hero',
+		'fields' => [
+			[ 'id' => 'ldmg_hero_label',    'name' => 'Label (eyebrow)',  'type' => 'text',         'std' => 'RESOURCES / SECURITY' ],
+			[ 'id' => 'ldmg_hero_heading',  'name' => 'Heading',          'type' => 'text',         'std' => 'The Security Checklist' ],
+			[ 'id' => 'ldmg_hero_desc',     'name' => 'Description',      'type' => 'textarea' ],
+			[ 'id' => 'ldmg_hero_btn_text', 'name' => 'Button label',     'type' => 'text',         'std' => 'Download Now' ],
+			[ 'id' => 'ldmg_hero_img_a',    'name' => 'Photo left (tall)','type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'ldmg_hero_img_b',    'name' => 'Photo right',      'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $ldmg_sp + [
+		'title'  => 'Lead Magnet · What to Expect',
+		'id'     => 'lp_ldmg_expect',
+		'fields' => [
+			[ 'id' => 'ldmg_expect_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'What to Expect in This Checklist' ],
+			[
+				'id'         => 'ldmg_expect_cards',
+				'name'       => 'Feature cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => [
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',  'name' => 'Heading',     'type' => 'text' ],
+					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $ldmg_sp + [
+		'title'  => 'Lead Magnet · Download Form',
+		'id'     => 'lp_ldmg_form',
+		'fields' => [
+			[ 'id' => 'ldmg_form_heading', 'name' => 'Form heading',       'type' => 'text', 'std' => 'Download The Checklist' ],
+			[ 'id' => 'ldmg_form_gf_id',   'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+			[ 'id' => 'ldmg_form_dl_url',  'name' => 'PDF download URL (shown after submit)', 'type' => 'text' ],
+		],
+	];
+
+	// ── Events Figma (listing) ────────────────────────────────────────────────
+	$evts_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-events-figma.php' ] ] ];
+
+	$meta_boxes[] = $evts_sp + [
+		'title'  => 'Events · Hero',
+		'id'     => 'lp_evts_hero',
+		'fields' => [
+			[ 'id' => 'evts_hero_heading',  'name' => 'Heading',      'type' => 'text',         'std' => 'Bring Slingshot to Your Stage' ],
+			[ 'id' => 'evts_hero_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'evts_hero_btn_text', 'name' => 'Button label', 'type' => 'text',         'std' => 'Request a Speaker' ],
+			[ 'id' => 'evts_hero_btn_url',  'name' => 'Button URL',   'type' => 'text',         'std' => '#request-speaker' ],
+			[ 'id' => 'evts_hero_img_a',    'name' => 'Photo left',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'evts_hero_img_b',    'name' => 'Photo right',  'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $evts_sp + [
+		'title'  => 'Events · Upcoming engagements',
+		'id'     => 'lp_evts_upcoming',
+		'fields' => [
+			[ 'id' => 'evts_upcoming_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Upcoming Speaking Engagements' ],
+			[
+				'id'         => 'evts_upcoming_cards',
+				'name'       => 'Events',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add event',
+				'fields'     => [
+					[ 'id' => 'image',    'name' => 'Photo',          'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'img_bg',   'name' => 'Gradient (no photo)', 'type' => 'text', 'desc' => 'e.g. linear-gradient(135deg,#2A1878,#6D44B7)' ],
+					[ 'id' => 'date',     'name' => 'Date (label)',   'type' => 'text' ],
+					[ 'id' => 'title',    'name' => 'Title',          'type' => 'text' ],
+					[ 'id' => 'location', 'name' => 'Location',       'type' => 'text' ],
+					[ 'id' => 'url',      'name' => 'Link URL',       'type' => 'text' ],
+					[ 'id' => 'cta',      'name' => 'CTA label',      'type' => 'text', 'std' => 'Register →' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $evts_sp + [
+		'title'  => 'Events · Past events',
+		'id'     => 'lp_evts_past',
+		'fields' => [
+			[ 'id' => 'evts_past_heading', 'name' => 'Heading',                         'type' => 'text',     'std' => "Where We've Shared Our Expertise" ],
+			[ 'id' => 'evts_past_tabs',    'name' => 'Filter tabs (one per line, first = All)', 'type' => 'textarea', 'std' => "All\nConferences\nWorkshops\nMeetups" ],
+			[
+				'id'         => 'evts_past_cards',
+				'name'       => 'Past events',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add past event',
+				'fields'     => [
+					[ 'id' => 'image',         'name' => 'Photo',     'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'img_bg',        'name' => 'Gradient',  'type' => 'text' ],
+					[ 'id' => 'title',         'name' => 'Title',     'type' => 'text' ],
+					[ 'id' => 'date_location', 'name' => 'Date & location', 'type' => 'text' ],
+					[ 'id' => 'url',           'name' => 'Link URL',  'type' => 'text' ],
+					[ 'id' => 'category',      'name' => 'Category (must match a filter tab)', 'type' => 'text' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $evts_sp + [
+		'title'  => 'Events · Speaker spotlights',
+		'id'     => 'lp_evts_speakers',
+		'fields' => [
+			[ 'id' => 'evts_speak_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Speaker Spotlights' ],
+			[
+				'id'         => 'evts_speak_featured',
+				'name'       => 'Featured speakers (dark card)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add featured speaker',
+				'fields'     => [
+					[ 'id' => 'avatar', 'name' => 'Avatar', 'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'name',   'name' => 'Name',   'type' => 'text' ],
+					[ 'id' => 'role',   'name' => 'Role',   'type' => 'text' ],
+					[ 'id' => 'bio',    'name' => 'Bio',    'type' => 'textarea' ],
+				],
+			],
+			[
+				'id'         => 'evts_speak_rows',
+				'name'       => 'Additional speakers (rows)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add speaker row',
+				'fields'     => [
+					[ 'id' => 'avatar', 'name' => 'Avatar', 'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'name',   'name' => 'Name',   'type' => 'text' ],
+					[ 'id' => 'role',   'name' => 'Role',   'type' => 'text' ],
+					[ 'id' => 'desc',   'name' => 'Short description', 'type' => 'textarea' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $evts_sp + [
+		'title'  => 'Events · Request Speaker form',
+		'id'     => 'lp_evts_form',
+		'fields' => [
+			[ 'id' => 'evts_form_heading',      'name' => 'Section heading',    'type' => 'text',     'std' => 'Bring Slingshot to Your Audience' ],
+			[ 'id' => 'evts_form_desc',         'name' => 'Section description','type' => 'textarea' ],
+			[ 'id' => 'evts_form_card_heading', 'name' => 'Form card heading',  'type' => 'text',     'std' => 'Request a Speaker' ],
+			[ 'id' => 'evts_form_gf_id',        'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+		],
+	];
+
+	// ── Event Figma (single event series) ────────────────────────────────────
+	$evt_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-event-figma.php' ] ] ];
+
+	$meta_boxes[] = $evt_sp + [
+		'title'  => 'Event · Hero',
+		'id'     => 'lp_evt_hero',
+		'fields' => [
+			[ 'id' => 'evt_hero_label',    'name' => 'Label (eyebrow)',  'type' => 'text' ],
+			[ 'id' => 'evt_hero_heading',  'name' => 'Heading',          'type' => 'text', 'desc' => 'Leave blank to use page title' ],
+			[ 'id' => 'evt_hero_desc',     'name' => 'Description',      'type' => 'textarea' ],
+			[ 'id' => 'evt_hero_btn_text', 'name' => 'Button label',     'type' => 'text', 'std' => 'Register Now' ],
+			[ 'id' => 'evt_hero_btn_url',  'name' => 'Button URL',       'type' => 'text', 'std' => '#next-meetup' ],
+			[ 'id' => 'evt_hero_img',      'name' => 'Hero image',       'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $evt_sp + [
+		'title'  => 'Event · What It Is',
+		'id'     => 'lp_evt_what',
+		'fields' => [
+			[ 'id' => 'evt_what_heading', 'name' => 'Heading',     'type' => 'text' ],
+			[ 'id' => 'evt_what_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[
+				'id'         => 'evt_what_cards',
+				'name'       => 'Topic cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add topic',
+				'fields'     => [
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',  'name' => 'Heading',     'type' => 'text' ],
+					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $evt_sp + [
+		'title'  => 'Event · Next Meetup',
+		'id'     => 'lp_evt_next',
+		'fields' => [
+			[ 'id' => 'evt_next_label',        'name' => 'Label',           'type' => 'text', 'std' => 'NEXT MEETUP' ],
+			[ 'id' => 'evt_next_date',         'name' => 'Date & time',     'type' => 'text' ],
+			[ 'id' => 'evt_next_heading',      'name' => 'Talk title',      'type' => 'text' ],
+			[ 'id' => 'evt_next_desc',         'name' => 'Description',     'type' => 'textarea' ],
+			[ 'id' => 'evt_next_btn_text',     'name' => 'Button label',    'type' => 'text', 'std' => 'Register Now' ],
+			[ 'id' => 'evt_next_btn_url',      'name' => 'Button URL',      'type' => 'text' ],
+			[ 'id' => 'evt_next_speaker_img',  'name' => 'Speaker photo',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'evt_next_speaker_name', 'name' => 'Speaker name',    'type' => 'text' ],
+			[ 'id' => 'evt_next_speaker_role', 'name' => 'Speaker role',    'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $evt_sp + [
+		'title'  => 'Event · Past Topics',
+		'id'     => 'lp_evt_topics',
+		'fields' => [
+			[ 'id' => 'evt_topics_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Past Topics' ],
+			[
+				'id'         => 'evt_topics_items',
+				'name'       => 'Past topics',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add topic',
+				'fields'     => [
+					[ 'id' => 'image', 'name' => 'Photo',   'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'date',  'name' => 'Date',    'type' => 'text' ],
+					[ 'id' => 'title', 'name' => 'Title',   'type' => 'text' ],
+					[ 'id' => 'desc',  'name' => 'Excerpt', 'type' => 'textarea' ],
+					[ 'id' => 'url',   'name' => 'Link URL','type' => 'text' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $evt_sp + [
+		'title'  => 'Event · Partner & Sponsor',
+		'id'     => 'lp_evt_partner',
+		'fields' => [
+			[ 'id' => 'evt_partner_heading',      'name' => 'Partner section heading',  'type' => 'text' ],
+			[ 'id' => 'evt_partner_desc',         'name' => 'Partner section description', 'type' => 'textarea' ],
+			[ 'id' => 'evt_partner_form_heading', 'name' => 'Form card heading', 'type' => 'text', 'std' => 'Request a Speaker' ],
+			[ 'id' => 'evt_partner_gf_id',        'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+			[ 'id' => 'evt_sponsor_label',        'name' => 'Sponsors label', 'type' => 'text', 'std' => 'Sponsored By' ],
+			[
+				'id'         => 'evt_sponsor_logos',
+				'name'       => 'Sponsor logos',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add sponsor',
+				'fields'     => [
+					[ 'id' => 'image', 'name' => 'Logo image',  'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'name',  'name' => 'Alt text',    'type' => 'text' ],
+					[ 'id' => 'url',   'name' => 'Website URL', 'type' => 'text' ],
+				],
+			],
+		],
+	];
+
 	return $meta_boxes;
 } );
