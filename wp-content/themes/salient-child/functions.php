@@ -21,6 +21,7 @@ function slingshot_render_redesign_header( $args = array() ) {
 		'cta_text'         => "Let's talk",
 		'cta_url'          => '/contact',
 		'mobile_menu_text' => 'Menu',
+		'cta_modal'        => true,  // open contact modal instead of navigating
 	);
 	$args = wp_parse_args( $args, $defaults );
 
@@ -56,9 +57,15 @@ function slingshot_render_redesign_header( $args = array() ) {
 				?>
 			</nav>
 
+			<?php if ( $args['cta_modal'] ) : ?>
+			<a href="<?php echo esc_url( $args['cta_url'] ); ?>" class="home-site-header-cta" data-sl-modal="contact">
+				<?php echo esc_html( $args['cta_text'] ); ?> &rarr;
+			</a>
+			<?php else : ?>
 			<a href="<?php echo esc_url( $args['cta_url'] ); ?>" class="home-site-header-cta">
 				<?php echo esc_html( $args['cta_text'] ); ?> &rarr;
 			</a>
+			<?php endif; ?>
 
 			<button class="home-site-menu-toggle" id="homeMenuToggle" aria-expanded="false" aria-controls="homeMobileMenu">
 				<span><?php echo esc_html( $args['mobile_menu_text'] ); ?></span>
@@ -77,7 +84,7 @@ function slingshot_render_redesign_header( $args = array() ) {
 				);
 			}
 			?>
-			<a href="<?php echo esc_url( $args['cta_url'] ); ?>" class="home-mobile-menu-cta">
+			<a href="<?php echo esc_url( $args['cta_url'] ); ?>" class="home-mobile-menu-cta"<?php echo $args['cta_modal'] ? ' data-sl-modal="contact"' : ''; ?>>
 				<?php echo esc_html( $args['cta_text'] ); ?> &rarr;
 			</a>
 		</div>

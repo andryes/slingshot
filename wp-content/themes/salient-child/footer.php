@@ -3,7 +3,8 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $child_uri = get_stylesheet_directory_uri();
-wp_enqueue_style( 'slingshot-footer', $child_uri . '/css/footer.css', [], '1.2' );
+wp_enqueue_style( 'slingshot-footer',     $child_uri . '/css/footer.css',      [], '1.3' );
+wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css', [], '1.0' );
 ?>
 
 <footer class="sl-footer">
@@ -122,6 +123,103 @@ wp_enqueue_style( 'slingshot-footer', $child_uri . '/css/footer.css', [], '1.2' 
 </footer>
 
 </div><!--/ajax-content-wrap-->
+
+<!-- ── Global "Hit us up" Contact Modal ────────────────────────────────── -->
+<div class="sl-modal-overlay" id="slContactModal" role="dialog" aria-modal="true" aria-label="Contact form">
+    <div class="sl-modal">
+        <button class="sl-modal-close" id="slModalClose" aria-label="Close">&times;</button>
+        <div class="sl-modal-inner">
+            <h2 class="sl-modal-heading">Hit us up</h2>
+            <div class="sl-modal-divider"></div>
+            <?php
+            // Use Gravity Form if a global form ID is set via option, else static HTML
+            $sl_modal_gf_id = (int) get_option( 'slingshot_contact_modal_gf_id', 0 );
+            if ( $sl_modal_gf_id && function_exists( 'gravity_form' ) ) :
+                gravity_form( $sl_modal_gf_id, false, false, false, null, true, 1 );
+            else : ?>
+            <form class="sl-modal-form" method="post" action="#">
+                <div class="sl-modal-select-wrap">
+                    <select class="sl-modal-select">
+                        <option value="" disabled selected>What are you looking for?</option>
+                        <option>General Inquiry</option>
+                        <option>Product Development</option>
+                        <option>Mobile App Development</option>
+                        <option>Web Development</option>
+                        <option>Design</option>
+                        <option>AI / Machine Learning</option>
+                        <option>Team Augmentation</option>
+                        <option>Consulting</option>
+                    </select>
+                    <span class="sl-modal-select-arrow">&#8964;</span>
+                </div>
+                <div class="sl-modal-row">
+                    <div class="sl-modal-field">
+                        <input type="text" class="sl-modal-input" placeholder="First Name*" required>
+                    </div>
+                    <div class="sl-modal-field">
+                        <input type="text" class="sl-modal-input" placeholder="Last Name*" required>
+                    </div>
+                </div>
+                <div class="sl-modal-field">
+                    <input type="text" class="sl-modal-input" placeholder="Company">
+                </div>
+                <div class="sl-modal-row">
+                    <div class="sl-modal-field">
+                        <input type="email" class="sl-modal-input" placeholder="Email*" required>
+                    </div>
+                    <div class="sl-modal-field">
+                        <input type="tel" class="sl-modal-input" placeholder="Phone*">
+                    </div>
+                </div>
+                <div class="sl-modal-field">
+                    <textarea class="sl-modal-textarea" placeholder="How can we help? Tell us a little bit about what you have going on"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="sl-modal-submit">Let's Talk &rarr;</button>
+                </div>
+            </form>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    var overlay = document.getElementById('slContactModal');
+    var closeBtn = document.getElementById('slModalClose');
+    if ( ! overlay ) return;
+
+    function openModal() {
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+    }
+
+    // Open: any [data-sl-modal="contact"] element
+    document.addEventListener('click', function(e){
+        var trigger = e.target.closest('[data-sl-modal="contact"]');
+        if ( trigger ) {
+            e.preventDefault();
+            openModal();
+        }
+    });
+
+    // Close: X button
+    if ( closeBtn ) closeBtn.addEventListener('click', closeModal);
+
+    // Close: click outside modal
+    overlay.addEventListener('click', function(e){
+        if ( e.target === overlay ) closeModal();
+    });
+
+    // Close: Escape key
+    document.addEventListener('keydown', function(e){
+        if ( e.key === 'Escape' && overlay.classList.contains('is-open') ) closeModal();
+    });
+})();
+</script>
 
 <?php
 nectar_hook_before_outer_wrap_close();

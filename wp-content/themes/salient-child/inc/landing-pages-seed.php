@@ -374,7 +374,7 @@ function slingshot_lp_maybe_fix_open_position_template() {
 add_action( 'init', 'slingshot_lp_maybe_fix_open_position_template', 12 );
 
 // ── Seed default content for service + careers + open-position pages ──────────
-define( 'SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION', 'slingshot_lp_figma_content_seed_v3' );
+define( 'SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION', 'slingshot_lp_figma_content_seed_v4' );
 
 /** @return array<string,mixed> */
 function slingshot_lp_build_service_product_meta() {
@@ -660,6 +660,86 @@ function slingshot_lp_build_open_position_meta() {
 	];
 }
 
+/** @return array<string,mixed> */
+function slingshot_lp_build_contact_meta() {
+	return [
+		'cnt_heading'          => 'Ready To Get Started?',
+		'cnt_desc'             => 'Have questions about pricing, projects, or Slingshot? Fill out the form below and a Slingshot representative will be in touch shortly.',
+		'cnt_phone'            => '502.254.6150',
+		'cnt_email'            => 'hello@Yslingshot.com',
+		'cnt_offices'          => [
+			[ 'label' => 'Louisville', 'address_1' => '100 N Hurstbourne Pkwy #120', 'address_2' => '', 'city_state_zip' => 'Louisville, KY 40222' ],
+			[ 'label' => 'Chicago',    'address_1' => '15 North Watson Ave #3108',   'address_2' => '', 'city_state_zip' => 'Chicago, IL 60602' ],
+			[ 'label' => 'Nashville',  'address_1' => '6339 Charlottesville #701',   'address_2' => '', 'city_state_zip' => 'Nashville, TN 37205' ],
+		],
+		'cnt_form_heading'     => 'Hit us up',
+		'cnt_form_gf_id'       => 0,
+		'cnt_looking_options'  => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting",
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_work_meta() {
+	return [
+		'wrk_hero_heading'     => 'Explore Our Work',
+		'wrk_hero_eyebrow'     => '',
+		'wrk_hero_desc'        => 'From mobile apps to enterprise platforms — real products built for ambitious clients.',
+		'wrk_filter_tabs'      => "All\nMobile\nWeb\nDesign\nAI",
+		'wrk_initial_visible'  => 9,
+		'wrk_projects'         => [
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Mobile', 'categories' => 'mobile', 'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Web',    'categories' => 'web',    'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Design', 'categories' => 'design', 'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Mobile', 'categories' => 'mobile', 'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Web',    'categories' => 'web',    'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'AI',     'categories' => 'ai',     'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Mobile', 'categories' => 'mobile', 'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Design', 'categories' => 'design', 'link_url' => '/work/horizon-engage/' ],
+			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Web',    'categories' => 'web',    'link_url' => '/work/horizon-engage/' ],
+		],
+		'wrk_cta_heading'      => 'Ready to Launch Something Bold?',
+		'wrk_cta_desc'         => "We partner with ambitious companies to design and build products people love. Let's talk.",
+		'wrk_cta_btn_text'     => "Let's Talk",
+		'wrk_cta_btn_url'      => '/contact/',
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_case_study_meta() {
+	return [
+		'cs_hero_client'      => 'Southwest Christian Church',
+		'cs_hero_title'       => 'A Digital Platform That Connects a Community',
+		'cs_hero_tags'        => 'Mobile App, iOS, Android, UX Design',
+		'cs_challenge_label'  => 'Challenge',
+		'cs_challenge_heading'=> 'Replacing a fragmented communication experience',
+		'cs_challenge_text'   => "Southwest Christian Church needed a unified mobile experience that could replace a patchwork of email lists, bulletin PDFs, and disconnected systems — without alienating a diverse congregation that ranged from tech-savvy young adults to older members less comfortable with new technology.\n\nThe existing app was outdated and rarely used. They needed something that would become part of weekly life for thousands of members.",
+		'cs_sections'         => [
+			[
+				'label'      => 'Solution',
+				'heading'    => 'A native app built around their community',
+				'desc'       => "We designed and built a native iOS and Android app centered on simplicity and habit-forming features — event listings, sermon streams, giving, and group communication all in one place.",
+				'bullets'    => "Custom event and sermon discovery\nIn-app giving with saved payment methods\nSmall group messaging and member directories\nPush notifications for services and announcements",
+				'image'      => '',
+				'image_side' => 'right',
+				'dark_bg'    => '',
+			],
+			[
+				'label'      => 'Design System',
+				'heading'    => 'Slingshot Design Tools to Serve Their Team',
+				'desc'       => "We delivered a full design system alongside the app — giving their internal communications team the ability to update content, create new event pages, and maintain visual consistency without needing a developer.",
+				'bullets'    => '',
+				'image'      => '',
+				'image_side' => 'left',
+				'dark_bg'    => '1',
+			],
+		],
+		'cs_cta_heading'      => 'Ready to Launch Something Bold?',
+		'cs_cta_desc'         => "We partner with ambitious companies to design and build products people love. Let's talk.",
+		'cs_cta_btn_text'     => "Let's Talk",
+		'cs_cta_btn_url'      => '/contact/',
+	];
+}
+
 /**
  * Seed post meta for service + careers + open-position figma pages.
  */
@@ -675,6 +755,9 @@ function slingshot_lp_maybe_seed_figma_content() {
 		'mobile'        => 'slingshot_lp_build_service_mobile_meta',
 		'careers'       => 'slingshot_lp_build_careers_meta',
 		'open-position' => 'slingshot_lp_build_open_position_meta',
+		'contact'       => 'slingshot_lp_build_contact_meta',
+		'work'          => 'slingshot_lp_build_work_meta',
+		'our-work'      => 'slingshot_lp_build_work_meta',
 	);
 
 	foreach ( $pages as $slug => $builder ) {
@@ -691,3 +774,54 @@ function slingshot_lp_maybe_seed_figma_content() {
 	update_option( SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_figma_content', 13 );
+
+define( 'SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION', 'slingshot_lp_figma_redesign_builder_pages_v1' );
+
+/**
+ * Create additional redesign pages managed from Edit Page / WPBakery.
+ */
+function slingshot_lp_maybe_create_figma_redesign_builder_pages() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION ) ) {
+		return;
+	}
+
+	$pages = array(
+		'contact'              => array( 'title' => 'Contact', 'mockup' => '/figma/contact.png' ),
+		'contact-form-modal'   => array( 'title' => 'Contact Form Modal', 'mockup' => '/figma/contact-form-modal.png' ),
+		'work'                 => array( 'title' => 'Work', 'mockup' => '/figma/work.png' ),
+		'internal'             => array( 'title' => 'Internal', 'mockup' => '/figma/internal.png' ),
+		'privacy-policy'       => array( 'title' => 'Privacy Policy', 'mockup' => '/figma/privacy-policy.png' ),
+		'terms-and-conditions' => array( 'title' => 'Terms and Conditions', 'mockup' => '/figma/terms-and-conditions.png' ),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+
+		if ( ! $page instanceof WP_Post ) {
+			$page_id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $cfg['title'],
+					'post_name'    => $slug,
+					'post_content' => '',
+				),
+				true
+			);
+
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+		} else {
+			$page_id = (int) $page->ID;
+		}
+
+		update_post_meta( (int) $page_id, '_wp_page_template', 'page-redesign-builder.php' );
+		update_post_meta( (int) $page_id, 'sl_figma_mockup_url', $cfg['mockup'] );
+		update_post_meta( (int) $page_id, 'slingshot_rb_skin', 'home' );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION, '1', true );
+}
+
+add_action( 'init', 'slingshot_lp_maybe_create_figma_redesign_builder_pages', 14 );

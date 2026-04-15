@@ -139,7 +139,23 @@ function slingshot_redesign_print_builder_chrome_and_content( $post_id ) {
 	if ( have_posts() ) :
 		while ( have_posts() ) :
 			the_post();
-			the_content();
+			$content = trim( (string) get_the_content() );
+			if ( $content !== '' ) {
+				the_content();
+				continue;
+			}
+
+			$mockup_url = (string) get_post_meta( $post_id, 'sl_figma_mockup_url', true );
+			$mockup_url = slingshot_lp_h_attr( $mockup_url );
+			if ( $mockup_url !== '' ) :
+				?>
+				<section class="sl-redesign-figma-fallback">
+					<div class="sl-redesign-figma-fallback__inner">
+						<img src="<?php echo esc_url( $mockup_url ); ?>" alt="<?php echo esc_attr( get_the_title( $post_id ) ); ?>" loading="lazy">
+					</div>
+				</section>
+				<?php
+			endif;
 		endwhile;
 	endif;
 	?>

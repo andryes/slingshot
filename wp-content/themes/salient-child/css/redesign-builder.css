@@ -36,3 +36,18 @@ body.sl-redesign-builder-page .wpb_row {
 	margin-left: 0;
 	margin-right: 0;
 }
+
+.sl-redesign-figma-fallback {
+	padding: 0;
+}
+
+.sl-redesign-figma-fallback__inner {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+.sl-redesign-figma-fallback__inner img {
+	display: block;
+	width: 100%;
+	height: auto;
+}

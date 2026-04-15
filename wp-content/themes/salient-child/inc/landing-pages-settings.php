@@ -10,7 +10,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$con_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-consulting.php' ] ] ];
 	$boot_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-bootcamp.php' ] ] ];
 	$ai_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ai.php' ] ] ];
-	$figma_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php', 'page-careers-figma.php' ] ] ];
+	$figma_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php', 'page-careers-figma.php', 'page-redesign-builder.php' ] ] ];
 
 	$meta_boxes[] = $figma_sp + [
 		'title'  => 'Figma Template · Fallback',
@@ -1301,6 +1301,193 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'op_form_heading', 'name' => 'Heading',          'type' => 'text', 'std' => 'Hit us up' ],
 			[ 'id' => 'op_form_subtext', 'name' => 'Subtext',          'type' => 'textarea' ],
 			[ 'id' => 'op_form_gf_id',  'name' => 'Gravity Forms ID', 'type' => 'number', 'min' => 0, 'desc' => 'Leave 0 to show the built-in HTML form.' ],
+		],
+	];
+
+	// ── Contact Figma ─────────────────────────────────────────────────────────
+	$cnt_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-contact-figma.php' ] ] ];
+
+	$cnt_office_fields = [
+		[ 'id' => 'label',        'name' => 'City label',   'type' => 'text' ],
+		[ 'id' => 'address_1',   'name' => 'Address line 1','type' => 'text' ],
+		[ 'id' => 'address_2',   'name' => 'Address line 2 (optional)', 'type' => 'text' ],
+		[ 'id' => 'city_state_zip', 'name' => 'City, State ZIP', 'type' => 'text' ],
+	];
+
+	$meta_boxes[] = $cnt_sp + [
+		'title'  => 'Contact · Hero',
+		'id'     => 'lp_cnt_hero',
+		'fields' => [
+			[ 'id' => 'cnt_heading', 'name' => 'Heading',     'type' => 'text',     'std' => 'Ready To Get Started?' ],
+			[ 'id' => 'cnt_desc',    'name' => 'Description', 'type' => 'textarea', 'std' => 'Have questions about pricing, projects, or Slingshot? Fill out the form below and a Slingshot representative will be in touch shortly.' ],
+		],
+	];
+
+	$meta_boxes[] = $cnt_sp + [
+		'title'  => 'Contact · Details',
+		'id'     => 'lp_cnt_details',
+		'fields' => [
+			[ 'id' => 'cnt_phone', 'name' => 'Phone number', 'type' => 'text', 'std' => '502.254.6150' ],
+			[ 'id' => 'cnt_email', 'name' => 'Email address', 'type' => 'text', 'std' => 'hello@Yslingshot.com' ],
+			[
+				'id'         => 'cnt_offices',
+				'name'       => 'Office locations',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add office',
+				'fields'     => $cnt_office_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $cnt_sp + [
+		'title'  => 'Contact · Form',
+		'id'     => 'lp_cnt_form',
+		'fields' => [
+			[ 'id' => 'cnt_form_heading',      'name' => 'Form heading',                         'type' => 'text',     'std' => 'Hit us up' ],
+			[ 'id' => 'cnt_form_gf_id',        'name' => 'Gravity Forms ID',                     'type' => 'number',   'min' => 0, 'desc' => 'Leave 0 to show the built-in HTML form.' ],
+			[ 'id' => 'cnt_looking_options',   'name' => '"What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8,
+			  'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
+		],
+	];
+
+	// ── Work Figma ────────────────────────────────────────────────────────────
+	$wrk_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-work-figma.php' ] ] ];
+
+	$wrk_project_fields = [
+		[ 'id' => 'image',      'name' => 'Project image', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'title',      'name' => 'Project title', 'type' => 'text' ],
+		[ 'id' => 'subtitle',   'name' => 'Subtitle (optional)', 'type' => 'text' ],
+		[ 'id' => 'tags',       'name' => 'Display tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. Mobile, iOS' ],
+		[ 'id' => 'categories', 'name' => 'Filter categories (comma-separated slugs)', 'type' => 'text', 'desc' => 'e.g. mobile, web, design, ai — must match filter tab names (lowercase)' ],
+		[ 'id' => 'link_url',   'name' => 'Link URL', 'type' => 'text' ],
+	];
+
+	$meta_boxes[] = $wrk_sp + [
+		'title'  => 'Work · Hero',
+		'id'     => 'lp_wrk_hero',
+		'fields' => [
+			[ 'id' => 'wrk_hero_heading', 'name' => 'Heading',        'type' => 'text',         'std' => 'Explore Our Work' ],
+			[ 'id' => 'wrk_hero_eyebrow', 'name' => 'Eyebrow text',   'type' => 'text' ],
+			[ 'id' => 'wrk_hero_desc',    'name' => 'Description',    'type' => 'textarea' ],
+			[ 'id' => 'wrk_hero_img_a',   'name' => 'Hero photo A',   'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'wrk_hero_img_b',   'name' => 'Hero photo B',   'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $wrk_sp + [
+		'title'  => 'Work · Projects',
+		'id'     => 'lp_wrk_projects',
+		'fields' => [
+			[ 'id' => 'wrk_filter_tabs',    'name' => 'Filter tabs (one per line)',  'type' => 'textarea', 'rows' => 5,
+			  'std' => "All\nMobile\nWeb\nDesign\nAI",
+			  'desc' => 'First tab is always "All". Remaining tabs must match category slugs (case-insensitive).' ],
+			[ 'id' => 'wrk_initial_visible', 'name' => 'Cards visible before Load More', 'type' => 'number', 'std' => 9, 'min' => 3, 'max' => 48 ],
+			[
+				'id'         => 'wrk_projects',
+				'name'       => 'Projects',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add project',
+				'fields'     => $wrk_project_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $wrk_sp + [
+		'title'  => 'Work · Bottom CTA',
+		'id'     => 'lp_wrk_cta',
+		'fields' => [
+			[ 'id' => 'wrk_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'wrk_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'wrk_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
+			[ 'id' => 'wrk_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
+		],
+	];
+
+	// ── Case Study Figma ──────────────────────────────────────────────────────
+	$cs_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-case-study-figma.php' ] ] ];
+
+	$cs_section_fields = [
+		[ 'id' => 'label',      'name' => 'Eyebrow label',   'type' => 'text', 'desc' => 'Small uppercase label above heading (optional)' ],
+		[ 'id' => 'heading',    'name' => 'Section heading', 'type' => 'text' ],
+		[ 'id' => 'desc',       'name' => 'Description',     'type' => 'textarea', 'rows' => 4 ],
+		[ 'id' => 'bullets',    'name' => 'Bullet points (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+		[ 'id' => 'image',      'name' => 'Section image',  'type' => 'single_image', 'force_delete' => false ],
+		[
+			'id'      => 'image_side',
+			'name'    => 'Image position',
+			'type'    => 'select',
+			'options' => [ 'right' => 'Image on right', 'left' => 'Image on left' ],
+			'std'     => 'right',
+		],
+		[
+			'id'      => 'dark_bg',
+			'name'    => 'Dark background',
+			'type'    => 'checkbox',
+			'desc'    => 'Enable dark/navy section background',
+		],
+	];
+
+	$meta_boxes[] = $cs_sp + [
+		'title'  => 'Case Study · Hero',
+		'id'     => 'lp_cs_hero',
+		'fields' => [
+			[ 'id' => 'cs_hero_client', 'name' => 'Client name',    'type' => 'text', 'desc' => 'Shown in breadcrumb and below heading' ],
+			[ 'id' => 'cs_hero_title',  'name' => 'Project title (overrides page title)', 'type' => 'text' ],
+			[ 'id' => 'cs_hero_tags',   'name' => 'Tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. Mobile App, iOS, UX Design' ],
+			[ 'id' => 'cs_hero_img',    'name' => 'Hero image (device mockup etc.)', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $cs_sp + [
+		'title'  => 'Case Study · Challenge',
+		'id'     => 'lp_cs_challenge',
+		'fields' => [
+			[ 'id' => 'cs_challenge_label',   'name' => 'Eyebrow label', 'type' => 'text',     'std' => 'Challenge' ],
+			[ 'id' => 'cs_challenge_heading', 'name' => 'Heading',       'type' => 'text' ],
+			[ 'id' => 'cs_challenge_text',    'name' => 'Text (blank line = new paragraph)', 'type' => 'textarea', 'rows' => 6 ],
+		],
+	];
+
+	$meta_boxes[] = $cs_sp + [
+		'title'  => 'Case Study · Feature Sections',
+		'id'     => 'lp_cs_sections',
+		'fields' => [
+			[
+				'id'         => 'cs_sections',
+				'name'       => 'Sections',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add section',
+				'fields'     => $cs_section_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $cs_sp + [
+		'title'  => 'Case Study · Bottom CTA',
+		'id'     => 'lp_cs_cta',
+		'fields' => [
+			[ 'id' => 'cs_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'cs_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'cs_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
+			[ 'id' => 'cs_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
+		],
+	];
+
+	// ── Legal Figma ───────────────────────────────────────────────────────────
+	$leg_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-legal-figma.php' ] ] ];
+
+	$meta_boxes[] = $leg_sp + [
+		'title'  => 'Legal · Header',
+		'id'     => 'lp_leg_header',
+		'fields' => [
+			[ 'id' => 'leg_title',        'name' => 'Page title (overrides page title)', 'type' => 'text', 'desc' => 'Leave blank to use the WordPress page title.' ],
+			[ 'id' => 'leg_last_updated', 'name' => 'Last updated date',                 'type' => 'text', 'desc' => 'e.g. January 14, 2025' ],
 		],
 	];
 
