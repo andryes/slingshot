@@ -881,3 +881,31 @@ function slingshot_lp_maybe_create_figma_redesign_builder_pages_v2() {
 }
 
 add_action( 'init', 'slingshot_lp_maybe_create_figma_redesign_builder_pages_v2', 15 );
+
+define( 'SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V1', 'slingshot_lp_figma_template_retarget_v1' );
+
+/**
+ * Retarget selected figma slugs to dedicated templates.
+ */
+function slingshot_lp_maybe_retarget_figma_templates_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V1 ) ) {
+		return;
+	}
+
+	$map = array(
+		'internal'      => 'page-internal-figma.php',
+		'internal-blog' => 'page-internal-blog-figma.php',
+		'register'      => 'page-register-figma.php',
+	);
+
+	foreach ( $map as $slug => $template ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $template );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v1', 16 );

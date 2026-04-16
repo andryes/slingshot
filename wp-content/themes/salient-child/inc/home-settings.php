@@ -215,5 +215,18 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
+	$meta_boxes[] = $sp + [
+		'title'  => '10 · Global Modals (Contact / Subscribe / Video)',
+		'id'     => 'home_global_modals_mb',
+		'fields' => [
+			[ 'id' => 'sl_contact_modal_heading', 'name' => 'Contact modal heading', 'type' => 'text', 'std' => 'Hit us up' ],
+			[ 'id' => 'sl_contact_modal_looking_options', 'name' => 'Contact modal "What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8, 'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
+			[ 'id' => 'sl_contact_modal_submit', 'name' => 'Contact modal submit label', 'type' => 'text', 'std' => "Let's Talk →" ],
+			[ 'id' => 'sl_subscribe_modal_heading', 'name' => 'Subscribe modal heading', 'type' => 'textarea', 'rows' => 3, 'std' => 'Get the latest news from Slingshot with our bi-weekly newsletter.' ],
+			[ 'id' => 'sl_subscribe_modal_submit', 'name' => 'Subscribe modal submit label', 'type' => 'text', 'std' => 'Subscribe →' ],
+			[ 'id' => 'sl_video_modal_url', 'name' => 'Video modal URL (YouTube/Vimeo/file)', 'type' => 'text', 'desc' => 'Used by the home hero play button.' ],
+		],
+	];
+
 	return $meta_boxes;
 } );

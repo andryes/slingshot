@@ -6,6 +6,23 @@ $child_uri = get_stylesheet_directory_uri();
 wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.3' );
 wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.0' );
 wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.0' );
+
+$sl_page_meta = static function ( $key, $default = '' ) {
+    if ( function_exists( 'slingshot_pm' ) ) {
+        $val = slingshot_pm( $key, null );
+        if ( $val !== null && $val !== '' && $val !== false ) {
+            return $val;
+        }
+    }
+    return $default;
+};
+$sl_modal_heading = (string) $sl_page_meta( 'sl_contact_modal_heading', 'Hit us up' );
+$sl_modal_options_raw = (string) $sl_page_meta( 'sl_contact_modal_looking_options', "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" );
+$sl_modal_options = array_values( array_filter( array_map( 'trim', explode( "\n", $sl_modal_options_raw ) ) ) );
+$sl_modal_submit = (string) $sl_page_meta( 'sl_contact_modal_submit', "Let's Talk →" );
+$sl_subscribe_heading = (string) $sl_page_meta( 'sl_subscribe_modal_heading', 'Get the latest news from Slingshot with our bi-weekly newsletter.' );
+$sl_subscribe_submit = (string) $sl_page_meta( 'sl_subscribe_modal_submit', 'Subscribe →' );
+$sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
 ?>
 
 <footer class="sl-footer">
@@ -130,7 +147,7 @@ wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.cs
     <div class="sl-modal">
         <button class="sl-modal-close" id="slModalClose" aria-label="Close">&times;</button>
         <div class="sl-modal-inner">
-            <h2 class="sl-modal-heading">Hit us up</h2>
+            <h2 class="sl-modal-heading"><?php echo esc_html( $sl_modal_heading ); ?></h2>
             <div class="sl-modal-divider"></div>
             <?php
             // Use Gravity Form if a global form ID is set via option, else static HTML
@@ -142,14 +159,9 @@ wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.cs
                 <div class="sl-modal-select-wrap">
                     <select class="sl-modal-select">
                         <option value="" disabled selected>What are you looking for?</option>
-                        <option>General Inquiry</option>
-                        <option>Product Development</option>
-                        <option>Mobile App Development</option>
-                        <option>Web Development</option>
-                        <option>Design</option>
-                        <option>AI / Machine Learning</option>
-                        <option>Team Augmentation</option>
-                        <option>Consulting</option>
+                        <?php foreach ( $sl_modal_options as $opt ) : ?>
+                            <option><?php echo esc_html( $opt ); ?></option>
+                        <?php endforeach; ?>
                     </select>
                     <span class="sl-modal-select-arrow">&#8964;</span>
                 </div>
@@ -176,7 +188,7 @@ wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.cs
                     <textarea class="sl-modal-textarea" placeholder="How can we help? Tell us a little bit about what you have going on"></textarea>
                 </div>
                 <div>
-                    <button type="submit" class="sl-modal-submit">Let's Talk &rarr;</button>
+                    <button type="submit" class="sl-modal-submit"><?php echo esc_html( $sl_modal_submit ); ?></button>
                 </div>
             </form>
             <?php endif; ?>
@@ -226,7 +238,7 @@ wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.cs
 <div class="sl-subscribe-overlay" id="slSubscribeModal" role="dialog" aria-modal="true" aria-label="Subscribe to newsletter">
     <div class="sl-subscribe-modal">
         <button class="sl-subscribe-close" id="slSubscribeClose" aria-label="Close">&times;</button>
-        <h2 class="sl-subscribe-heading">Get the latest news from Slingshot with our bi-weekly newsletter.</h2>
+        <h2 class="sl-subscribe-heading"><?php echo esc_html( $sl_subscribe_heading ); ?></h2>
         <div class="sl-subscribe-divider"></div>
         <?php
         $sl_subscribe_gf_id = (int) get_option( 'slingshot_subscribe_modal_gf_id', 0 );
@@ -239,7 +251,7 @@ wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.cs
                 <input type="text" class="sl-subscribe-input" placeholder="Last Name*" required>
             </div>
             <input type="email" class="sl-subscribe-input" placeholder="Email*" required>
-            <button type="submit" class="sl-subscribe-submit">Subscribe &rarr;</button>
+            <button type="submit" class="sl-subscribe-submit"><?php echo esc_html( $sl_subscribe_submit ); ?></button>
         </form>
         <?php endif; ?>
     </div>
@@ -306,7 +318,15 @@ wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.cs
     }
     document.addEventListener('click', function(e){
         var trigger = e.target.closest('[data-sl-video]');
-        if ( trigger ) { e.preventDefault(); openVideo( trigger.getAttribute('data-sl-video') ); }
+        if ( trigger ) { e.preventDefault(); openVideo( trigger.getAttribute('data-sl-video') ); return; }
+        var fallbackVideoTrigger = e.target.closest('.home-hero-play-btn');
+        if ( fallbackVideoTrigger ) {
+            var defaultVideoUrl = <?php echo wp_json_encode( $sl_default_video_url ); ?>;
+            if ( defaultVideoUrl ) {
+                e.preventDefault();
+                openVideo( defaultVideoUrl );
+            }
+        }
     });
     if ( closeBtn ) closeBtn.addEventListener('click', closeVideo);
     overlay.addEventListener('click', function(e){ if ( e.target === overlay ) closeVideo(); });

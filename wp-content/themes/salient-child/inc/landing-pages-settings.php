@@ -11,12 +11,53 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$boot_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-bootcamp.php' ] ] ];
 	$ai_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ai.php' ] ] ];
 	$figma_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php', 'page-careers-figma.php', 'page-redesign-builder.php' ] ] ];
+	$all_redesign_templates = [
+		'page-consulting.php',
+		'page-bootcamp.php',
+		'page-ai.php',
+		'page-teams.php',
+		'page-teams-dedicated.php',
+		'page-teams-staffaug.php',
+		'page-teams-whitepaper.php',
+		'page-service-figma.php',
+		'page-careers-figma.php',
+		'page-open-position-figma.php',
+		'page-contact-figma.php',
+		'page-work-figma.php',
+		'page-case-study-figma.php',
+		'page-legal-figma.php',
+		'page-about-figma.php',
+		'page-achievements-figma.php',
+		'page-ambassadors-figma.php',
+		'page-security-checklist-figma.php',
+		'page-events-figma.php',
+		'page-event-figma.php',
+		'page-blog-figma.php',
+		'page-internal-figma.php',
+		'page-internal-blog-figma.php',
+		'page-register-figma.php',
+		'page-redesign-builder.php',
+	];
+	$all_redesign_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => $all_redesign_templates ] ];
 
 	$meta_boxes[] = $figma_sp + [
 		'title'  => 'Figma Template · Fallback',
 		'id'     => 'lp_figma_fallback',
 		'fields' => [
 			[ 'id' => 'sl_figma_mockup_url', 'name' => 'Mockup image URL', 'type' => 'text', 'desc' => 'Used only when page content is empty.' ],
+		],
+	];
+
+	$meta_boxes[] = $all_redesign_sp + [
+		'title'  => 'Global Modals · Contact / Subscribe / Video',
+		'id'     => 'lp_global_modals',
+		'fields' => [
+			[ 'id' => 'sl_contact_modal_heading', 'name' => 'Contact modal heading', 'type' => 'text', 'std' => 'Hit us up' ],
+			[ 'id' => 'sl_contact_modal_looking_options', 'name' => 'Contact modal "What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8, 'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
+			[ 'id' => 'sl_contact_modal_submit', 'name' => 'Contact modal submit label', 'type' => 'text', 'std' => "Let's Talk →" ],
+			[ 'id' => 'sl_subscribe_modal_heading', 'name' => 'Subscribe modal heading', 'type' => 'textarea', 'rows' => 3, 'std' => 'Get the latest news from Slingshot with our bi-weekly newsletter.' ],
+			[ 'id' => 'sl_subscribe_modal_submit', 'name' => 'Subscribe modal submit label', 'type' => 'text', 'std' => 'Subscribe →' ],
+			[ 'id' => 'sl_video_modal_url', 'name' => 'Video modal URL (YouTube/Vimeo/file)', 'type' => 'text', 'desc' => 'Used by play buttons when no per-button video URL is set.' ],
 		],
 	];
 
@@ -1024,6 +1065,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$svc_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php' ] ] ];
 	$car_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-careers-figma.php' ] ] ];
 	$op_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-open-position-figma.php' ] ] ];
+	$blg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-blog-figma.php' ] ] ];
+	$ibl_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-internal-blog-figma.php' ] ] ];
+	$int_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-internal-figma.php' ] ] ];
+	$reg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-register-figma.php' ] ] ];
 
 	$svc_built_item_fields = [
 		[ 'id' => 'icon_svg',  'name' => 'Icon SVG',    'type' => 'textarea', 'rows' => 3 ],
@@ -1301,6 +1346,135 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'op_form_heading', 'name' => 'Heading',          'type' => 'text', 'std' => 'Hit us up' ],
 			[ 'id' => 'op_form_subtext', 'name' => 'Subtext',          'type' => 'textarea' ],
 			[ 'id' => 'op_form_gf_id',  'name' => 'Gravity Forms ID', 'type' => 'number', 'min' => 0, 'desc' => 'Leave 0 to show the built-in HTML form.' ],
+		],
+	];
+
+	// ── Blog Figma ─────────────────────────────────────────────────────────────
+	$meta_boxes[] = $blg_sp + [
+		'title'  => 'Blog · Hero',
+		'id'     => 'lp_blg_hero',
+		'fields' => [
+			[ 'id' => 'blg_hero_label',    'name' => 'Label', 'type' => 'text', 'std' => 'INSIGHTS' ],
+			[ 'id' => 'blg_hero_heading',  'name' => 'Heading', 'type' => 'text', 'std' => 'Daredevil Diaries' ],
+			[ 'id' => 'blg_hero_desc',     'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'blg_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Read More' ],
+			[ 'id' => 'blg_hero_cta_url',  'name' => 'CTA URL', 'type' => 'text', 'std' => '#blog-grid' ],
+			[ 'id' => 'blg_hero_img_a',    'name' => 'Hero image A', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'blg_hero_img_b',    'name' => 'Hero image B', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $blg_sp + [
+		'title'  => 'Blog · Feed Controls',
+		'id'     => 'lp_blg_feed',
+		'fields' => [
+			[ 'id' => 'blg_filter_tabs',    'name' => 'Filter tabs (one per line)', 'type' => 'textarea', 'rows' => 6, 'std' => "All\nAI\nProduct\nEngineering\nDesign\nBusiness" ],
+			[ 'id' => 'blg_posts_per_page', 'name' => 'Posts per page', 'type' => 'number', 'std' => 12, 'min' => 6, 'max' => 48 ],
+			[ 'id' => 'blg_initial_visible','name' => 'Initial visible cards', 'type' => 'number', 'std' => 12, 'min' => 6, 'max' => 48 ],
+		],
+	];
+
+	$meta_boxes[] = $blg_sp + [
+		'title'  => 'Blog · Podcast',
+		'id'     => 'lp_blg_podcast',
+		'fields' => [
+			[ 'id' => 'blg_podcast_show',    'name' => 'Show podcast section', 'type' => 'checkbox', 'std' => 1 ],
+			[ 'id' => 'blg_podcast_heading', 'name' => 'Heading', 'type' => 'text', 'std' => "The Founders' Fable Podcast" ],
+			[ 'id' => 'blg_podcast_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'blg_podcast_img',     'name' => 'Podcast image', 'type' => 'single_image', 'force_delete' => false ],
+			[
+				'id'         => 'blg_podcast_links',
+				'name'       => 'Podcast links',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add link',
+				'fields'     => [
+					[ 'id' => 'label', 'name' => 'Label', 'type' => 'text' ],
+					[ 'id' => 'url',   'name' => 'URL', 'type' => 'text' ],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $blg_sp + [
+		'title'  => 'Blog · Bottom CTA',
+		'id'     => 'lp_blg_cta',
+		'fields' => [
+			[ 'id' => 'blg_cta_heading',  'name' => 'Heading', 'type' => 'text', 'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'blg_cta_desc',     'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'blg_cta_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => "Let's Talk" ],
+			[ 'id' => 'blg_cta_btn_url',  'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
+		],
+	];
+
+	// ── Internal Blog Figma ───────────────────────────────────────────────────
+	$meta_boxes[] = $ibl_sp + [
+		'title'  => 'Internal Blog · Header',
+		'id'     => 'lp_ibl_header',
+		'fields' => [
+			[ 'id' => 'ibl_label',     'name' => 'Label', 'type' => 'text', 'std' => 'INSIGHTS' ],
+			[ 'id' => 'ibl_title',     'name' => 'Title (overrides page title)', 'type' => 'text' ],
+			[ 'id' => 'ibl_author',    'name' => 'Author', 'type' => 'text' ],
+			[ 'id' => 'ibl_date',      'name' => 'Published date', 'type' => 'text' ],
+			[ 'id' => 'ibl_read_time', 'name' => 'Read time', 'type' => 'text', 'std' => '5 min read' ],
+			[ 'id' => 'ibl_hero_img',  'name' => 'Hero image', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $ibl_sp + [
+		'title'  => 'Internal Blog · Bottom CTA',
+		'id'     => 'lp_ibl_cta',
+		'fields' => [
+			[ 'id' => 'ibl_cta_heading',  'name' => 'Heading', 'type' => 'text', 'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'ibl_cta_desc',     'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ibl_cta_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => "Let's Talk" ],
+			[ 'id' => 'ibl_cta_btn_url',  'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
+		],
+	];
+
+	// ── Internal Figma ────────────────────────────────────────────────────────
+	$meta_boxes[] = $int_sp + [
+		'title'  => 'Internal · Hero',
+		'id'     => 'lp_int_hero',
+		'fields' => [
+			[ 'id' => 'int_label',     'name' => 'Label', 'type' => 'text', 'std' => 'INTERNAL' ],
+			[ 'id' => 'int_heading',   'name' => 'Heading', 'type' => 'text', 'std' => 'Inside Slingshot' ],
+			[ 'id' => 'int_desc',      'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'int_btn_text',  'name' => 'Button label', 'type' => 'text', 'std' => 'Get in Touch' ],
+			[ 'id' => 'int_btn_url',   'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
+			[ 'id' => 'int_hero_img',  'name' => 'Hero image', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	// ── Register Figma ────────────────────────────────────────────────────────
+	$meta_boxes[] = $reg_sp + [
+		'title'  => 'Register · Hero',
+		'id'     => 'lp_reg_hero',
+		'fields' => [
+			[ 'id' => 'reg_label',    'name' => 'Label', 'type' => 'text', 'std' => 'EVENT REGISTRATION' ],
+			[ 'id' => 'reg_heading',  'name' => 'Heading', 'type' => 'text', 'std' => 'Register' ],
+			[ 'id' => 'reg_desc',     'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'reg_hero_img', 'name' => 'Hero image', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'reg_event_title', 'name' => 'Event title', 'type' => 'text', 'std' => 'Louisville AI Exchange - January 2025' ],
+			[ 'id' => 'reg_event_meta', 'name' => 'Event date/time', 'type' => 'text', 'std' => 'Thursday, January 15 · 4 - 6pm EST' ],
+		],
+	];
+
+	$meta_boxes[] = $reg_sp + [
+		'title'  => 'Register · Form',
+		'id'     => 'lp_reg_form',
+		'fields' => [
+			[ 'id' => 'reg_form_heading', 'name' => 'Form heading', 'type' => 'text', 'std' => 'Complete Your Registration' ],
+			[ 'id' => 'reg_form_gf_id',   'name' => 'Gravity Forms ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+			[ 'id' => 'reg_submit_text',  'name' => 'Submit button label', 'type' => 'text', 'std' => 'Register →' ],
+			[ 'id' => 'reg_ticket_title', 'name' => 'Ticket title', 'type' => 'text', 'std' => 'General Admission' ],
+			[ 'id' => 'reg_ticket_price', 'name' => 'Ticket price', 'type' => 'text', 'std' => 'Free' ],
+			[ 'id' => 'reg_ticket_note', 'name' => 'Ticket note', 'type' => 'text', 'std' => 'Sales end on Jan 15, 2026' ],
+			[ 'id' => 'reg_order_title', 'name' => 'Order summary title', 'type' => 'text', 'std' => 'Order summary' ],
+			[ 'id' => 'reg_order_line', 'name' => 'Order line text', 'type' => 'text', 'std' => '1 x General Admission' ],
+			[ 'id' => 'reg_order_total', 'name' => 'Order total text', 'type' => 'text', 'std' => '$0.00' ],
+			[ 'id' => 'reg_side_img', 'name' => 'Right column image', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
 
