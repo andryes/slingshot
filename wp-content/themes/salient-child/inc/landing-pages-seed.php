@@ -909,3 +909,41 @@ function slingshot_lp_maybe_retarget_figma_templates_v1() {
 	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V1, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v1', 16 );
+
+define( 'SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V2', 'slingshot_lp_figma_template_retarget_v2' );
+
+/**
+ * Retarget remaining figma slugs to their dedicated templates.
+ * Covers pages that were initially created with page-redesign-builder.php.
+ */
+function slingshot_lp_maybe_retarget_figma_templates_v2() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V2 ) ) {
+		return;
+	}
+
+	$map = array(
+		'contact'              => 'page-contact-figma.php',
+		'work'                 => 'page-work-figma.php',
+		'our-work'             => 'page-work-figma.php',
+		'privacy-policy'       => 'page-legal-figma.php',
+		'terms-and-conditions' => 'page-legal-figma.php',
+		'blog'                 => 'page-blog-figma.php',
+		'events'               => 'page-events-figma.php',
+		'event'                => 'page-event-figma.php',
+		'about-us'             => 'page-about-figma.php',
+		'achievements'         => 'page-achievements-figma.php',
+		'ambassadors'          => 'page-ambassadors-figma.php',
+		'security-checklist'   => 'page-security-checklist-figma.php',
+	);
+
+	foreach ( $map as $slug => $template ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $template );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V2, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v2', 17 );

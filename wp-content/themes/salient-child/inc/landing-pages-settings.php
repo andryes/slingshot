@@ -1423,6 +1423,15 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	$meta_boxes[] = $ibl_sp + [
+		'title'  => 'Internal Blog · Intro Block',
+		'id'     => 'lp_ibl_intro',
+		'fields' => [
+			[ 'id' => 'ibl_intro_bullets',       'name' => 'Key takeaway bullets (one per line)', 'type' => 'textarea', 'rows' => 5, 'desc' => 'Leave empty to hide the intro card entirely.' ],
+			[ 'id' => 'ibl_intro_subscribe_desc', 'name' => 'Subscribe blurb text', 'type' => 'text', 'std' => 'Get practical updates from the Slingshot team.' ],
+		],
+	];
+
+	$meta_boxes[] = $ibl_sp + [
 		'title'  => 'Internal Blog · Bottom CTA',
 		'id'     => 'lp_ibl_cta',
 		'fields' => [
