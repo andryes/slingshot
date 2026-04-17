@@ -49,7 +49,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'sort_clone' => true,
 				'add_button' => '+ Add logo',
 				'fields'     => [
-					[ 'id' => 'text', 'name' => 'Company name', 'type' => 'text' ],
+					[ 'id' => 'text',  'name' => 'Company name',        'type' => 'text' ],
+					[ 'id' => 'image', 'name' => 'Logo image (optional)', 'type' => 'single_image', 'force_delete' => false ],
 				],
 			],
 		],
@@ -123,10 +124,25 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => '6 · Work Portfolio Section',
 		'id'     => 'home_work_mb',
 		'fields' => [
-			[ 'id' => 'home_work_title',        'name' => 'Section heading', 'type' => 'text', 'std' => 'From Solution<br>to Success Stories' ],
+			[ 'id' => 'home_work_title',        'name' => 'Section heading (HTML allowed, use &lt;br&gt; for line break)', 'type' => 'textarea', 'rows' => 2, 'std' => 'From Solution<br>to Success Stories' ],
 			[ 'id' => 'home_work_cta_text',     'name' => 'CTA label',       'type' => 'text', 'std' => 'All Work' ],
 			[ 'id' => 'home_work_cta_url',      'name' => 'CTA URL',         'type' => 'text',  'std' => '/work' ],
 			[ 'id' => 'home_work_empty_notice', 'name' => 'Fallback text when no portfolio items (optional)', 'type' => 'text', 'std' => '' ],
+			[
+				'id'         => 'home_work_fallback',
+				'name'       => 'Fallback project cards (used when no Portfolio posts exist)',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add project card',
+				'fields'     => [
+					[ 'id' => 'image',    'name' => 'Project image',     'type' => 'single_image', 'force_delete' => false ],
+					[ 'id' => 'title',    'name' => 'Project title',      'type' => 'text' ],
+					[ 'id' => 'subtitle', 'name' => 'Short description',  'type' => 'text' ],
+					[ 'id' => 'tags',     'name' => 'Tags (comma-separated)', 'type' => 'text' ],
+					[ 'id' => 'url',      'name' => 'Link URL',           'type' => 'text' ],
+				],
+			],
 		],
 	];
 

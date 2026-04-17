@@ -109,6 +109,8 @@ $services_cta_text = hp_setting( 'home_services_cta_text', 'Our Services' );
 $services_cta_url  = hp_setting( 'home_services_cta_url',  '/services' );
 $services_raw      = hp_setting( 'home_services', [] );
 $services          = is_array( $services_raw ) ? $services_raw : [];
+// Strip empty group rows (auto-created when admin opens but doesn't save real data)
+$services          = array_values( array_filter( $services, fn( $c ) => ! empty( $c['title'] ) ) );
 
 // Default fallback service cards (used when no data saved yet)
 $default_services = [
@@ -236,9 +238,16 @@ if ( empty( $blog_fallback ) ) {
 
 // Work
 $work_title        = hp_setting( 'home_work_title', 'From Solution<br>to Success Stories' );
+// Sanitize_text_field strips <br> so "Solution<br>to" becomes "Solutionto" – auto-repair:
+$work_title        = str_replace( 'Solutionto', 'Solution<br>to', $work_title );
+if ( empty( trim( $work_title ) ) ) { $work_title = 'From Solution<br>to Success Stories'; }
 $work_cta_text     = hp_setting( 'home_work_cta_text', 'All Work' );
 $work_cta_url      = hp_setting( 'home_work_cta_url', '/work' );
 $work_empty_notice = hp_setting( 'home_work_empty_notice', '' );
+
+// Work fallback cards (shown when no salient_portfolio CPT posts exist)
+$work_fallback_raw = hp_setting( 'home_work_fallback', [] );
+$work_fallback     = is_array( $work_fallback_raw ) ? array_filter( $work_fallback_raw, fn( $c ) => ! empty( $c['title'] ) ) : [];
 
 // CTA
 $cta_mascot   = hp_image_url( 'home_cta_mascot', '' );
@@ -456,6 +465,36 @@ body.home #header-space {
 								</div>
 							</a>
 						<?php endwhile; wp_reset_postdata(); ?>
+
+					<?php elseif ( ! empty( $work_fallback ) ) : ?>
+						<?php foreach ( $work_fallback as $wf ) :
+							$wf_url   = ! empty( $wf['url'] ) ? $wf['url'] : '#';
+							$wf_img   = ! empty( $wf['image'] ) ? slingshot_lp_attachment_url( $wf['image'], '', 'medium_large' ) : '';
+							$wf_title = $wf['title'] ?? '';
+							$wf_sub   = $wf['subtitle'] ?? '';
+							$wf_tags  = ! empty( $wf['tags'] ) ? array_filter( array_map( 'trim', explode( ',', $wf['tags'] ) ) ) : [];
+						?>
+						<a href="<?php echo slingshot_lp_h_attr( $wf_url ); ?>" class="work-card">
+							<div class="work-card-image">
+								<?php if ( $wf_img ) : ?>
+									<img src="<?php echo esc_url( $wf_img ); ?>" alt="<?php echo esc_attr( $wf_title ); ?>" loading="lazy">
+								<?php endif; ?>
+							</div>
+							<div class="work-card-body">
+								<?php if ( $wf_tags ) : ?>
+								<div class="work-card-tags">
+									<?php foreach ( $wf_tags as $tag ) : ?>
+										<span class="work-card-tag"><?php echo esc_html( $tag ); ?></span>
+									<?php endforeach; ?>
+								</div>
+								<?php endif; ?>
+								<h3 class="work-card-title"><?php echo esc_html( $wf_title ); ?></h3>
+								<?php if ( $wf_sub ) : ?>
+									<p class="work-card-desc"><?php echo esc_html( $wf_sub ); ?></p>
+								<?php endif; ?>
+							</div>
+						</a>
+						<?php endforeach; ?>
 
 					<?php else : ?>
 						<?php if ( $work_empty_notice ) : ?>
