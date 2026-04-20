@@ -1,8 +1,16 @@
+### 3.6.1 - 2026-03-30
+
+- Fix not loading block assets in iframed content and for `block_editor` field
+- Fix conditional logic not working for blocks with `normal` context
+- Fix file permission
+
 ### 3.6.0 - 2026-03-26
 
 **Highlight:**
 
 Blocks created with Meta Box now use block API version 3 and are compatible with WordPress iframed content. If you set the `'context' => 'normal'` for blocks, clicking the edit icon will open the edit form in a modal. In the builder, you'll see an option for'Where to display the edit form?' setting for blocks.
+
+For more information, please see [the blog post](https://metabox.io/aio-3-6/)
 
 **Other improvements:**
 

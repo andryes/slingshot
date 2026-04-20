@@ -377,7 +377,11 @@
 
 		// If Gutenberg is active.
 		if ( rwmb.isGutenberg ) {
-			return $( '#editor, #site-editor' );
+			// For MB Blocks with `'context' => 'normal'`, forms are rendered in a portal outside #editor.
+			// Use the editor scope only if the field is actually inside it.
+			if ( $field.closest( '#editor, #site-editor' ).length ) {
+				return $( '#editor, #site-editor' );
+			}
 		}
 
 		// Global scope. Should be the closest 'form', since in the frontend, users can insert the same meta box in multiple forms.

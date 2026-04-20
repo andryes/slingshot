@@ -3,17 +3,17 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'd385743be78527b70dc57a21fbe2bde158adc28c',
+        'reference' => '08d4591e1a7edd4ac8fff8e894a70ffcc7a196d7',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'd385743be78527b70dc57a21fbe2bde158adc28c',
+            'reference' => '08d4591e1a7edd4ac8fff8e894a70ffcc7a196d7',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -73,7 +73,7 @@
         'meta-box/mb-blocks' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1edc063935f95ca0909d53700ab2ae3729607a6e',
+            'reference' => '02c23f51f786fbb73e6ae770fa287312c44b206a',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../meta-box/mb-blocks',
             'aliases' => array(
@@ -183,7 +183,7 @@
         'meta-box/meta-box-conditional-logic' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'db7ba91e27842f1d91ac171df54f0a524e1345c5',
+            'reference' => 'c010996617e205a84d5dd3e21d9b115b1fd16793',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../meta-box/meta-box-conditional-logic',
             'aliases' => array(
@@ -334,7 +334,7 @@
         'wpmetabox/mb-divi-integrator' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'd9517daa42b3ebaba22207d37ce418754e0ebfb8',
+            'reference' => '812643ed67f06981ef28c5ed169bb2288b92e6d4',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../meta-box/mb-divi-integrator',
             'aliases' => array(
@@ -422,7 +422,7 @@
         'wpmetabox/meta-box' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ba3573605781ada11c77765955b22e2fbf9ed9ac',
+            'reference' => 'e704e95b60669ae46e47555278a680096c196077',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../meta-box/meta-box',
             'aliases' => array(
@@ -444,7 +444,7 @@
         'wpmetabox/meta-box-builder' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '4a34f7bc5727a1e7a077d4223b37a41114c7fa8d',
+            'reference' => '87075087cd54f2190f3d7a6a2ed90aed8a8c2026',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../meta-box/meta-box-builder',
             'aliases' => array(

@@ -4,7 +4,7 @@
 
 namespace PopupMaker\Vendor\Composer\Autoload;
 
-class ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0
+class ComposerStaticInit80d49d3b2089f90498e44c680c02ce4b
 {
     public static $prefixLengthsPsr4 = array (
         'P' => 
@@ -95,8 +95,10 @@ class ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0
         'PopupMaker\\RestAPI\\ObjectSearch' => __DIR__ . '/../..' . '/classes/RestAPI/ObjectSearch.php',
         'PopupMaker\\Services\\Collector\\CallToActionTypes' => __DIR__ . '/../..' . '/classes/Services/Collector/CallToActionTypes.php',
         'PopupMaker\\Services\\Connect' => __DIR__ . '/../..' . '/classes/Services/Connect.php',
+        'PopupMaker\\Services\\FormConversionTracking' => __DIR__ . '/../..' . '/classes/Services/FormConversionTracking.php',
         'PopupMaker\\Services\\Globals' => __DIR__ . '/../..' . '/classes/Services/Globals.php',
         'PopupMaker\\Services\\License' => __DIR__ . '/../..' . '/classes/Services/License.php',
+        'PopupMaker\\Services\\LinkClickTracking' => __DIR__ . '/../..' . '/classes/Services/LinkClickTracking.php',
         'PopupMaker\\Services\\Logging' => __DIR__ . '/../..' . '/classes/Services/Logging.php',
         'PopupMaker\\Services\\Options' => __DIR__ . '/../..' . '/classes/Services/Options.php',
         'PopupMaker\\Services\\Repository\\CallToActions' => __DIR__ . '/../..' . '/classes/Services/Repository/CallToActions.php',
@@ -131,10 +133,10 @@ class ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit7e78b974c5a60c1892ae9c9ae7654fe0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit80d49d3b2089f90498e44c680c02ce4b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit80d49d3b2089f90498e44c680c02ce4b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit80d49d3b2089f90498e44c680c02ce4b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit80d49d3b2089f90498e44c680c02ce4b::$classMap;
 
         }, null, ClassLoader::class);
     }

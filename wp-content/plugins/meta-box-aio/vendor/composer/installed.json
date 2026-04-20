@@ -298,9 +298,9 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:wpmetabox/mb-blocks.git",
-                "reference": "1edc063935f95ca0909d53700ab2ae3729607a6e"
+                "reference": "02c23f51f786fbb73e6ae770fa287312c44b206a"
             },
-            "time": "2026-03-24T07:20:47+00:00",
+            "time": "2026-03-30T03:36:20+00:00",
             "default-branch": true,
             "type": "wordpress-plugin",
             "installation-source": "source",
@@ -743,12 +743,20 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:wpmetabox/meta-box-conditional-logic.git",
-                "reference": "db7ba91e27842f1d91ac171df54f0a524e1345c5"
+                "reference": "c010996617e205a84d5dd3e21d9b115b1fd16793"
             },
-            "time": "2026-02-11T11:58:44+00:00",
+            "time": "2026-03-30T03:41:53+00:00",
             "default-branch": true,
             "type": "wordpress-plugin",
             "installation-source": "source",
+            "scripts": {
+                "phpcs": [
+                    "phpcs --standard=../meta-box-aio/phpcs.xml"
+                ],
+                "phpcbf": [
+                    "phpcbf --standard=../meta-box-aio/phpcs.xml"
+                ]
+            },
             "install-path": "../meta-box/meta-box-conditional-logic"
         },
         {
@@ -1159,15 +1167,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpmetabox/mb-divi-integrator.git",
-                "reference": "d9517daa42b3ebaba22207d37ce418754e0ebfb8"
+                "reference": "812643ed67f06981ef28c5ed169bb2288b92e6d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpmetabox/mb-divi-integrator/zipball/d9517daa42b3ebaba22207d37ce418754e0ebfb8",
-                "reference": "d9517daa42b3ebaba22207d37ce418754e0ebfb8",
+                "url": "https://api.github.com/repos/wpmetabox/mb-divi-integrator/zipball/812643ed67f06981ef28c5ed169bb2288b92e6d4",
+                "reference": "812643ed67f06981ef28c5ed169bb2288b92e6d4",
                 "shasum": ""
             },
-            "time": "2026-03-04T04:00:48+00:00",
+            "time": "2026-03-27T04:47:47+00:00",
             "default-branch": true,
             "type": "wordpress-plugin",
             "installation-source": "dist",
@@ -1538,12 +1546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpmetabox/meta-box.git",
-                "reference": "ba3573605781ada11c77765955b22e2fbf9ed9ac"
+                "reference": "e704e95b60669ae46e47555278a680096c196077"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpmetabox/meta-box/zipball/ba3573605781ada11c77765955b22e2fbf9ed9ac",
-                "reference": "ba3573605781ada11c77765955b22e2fbf9ed9ac",
+                "url": "https://api.github.com/repos/wpmetabox/meta-box/zipball/e704e95b60669ae46e47555278a680096c196077",
+                "reference": "e704e95b60669ae46e47555278a680096c196077",
                 "shasum": ""
             },
             "require": {
@@ -1552,7 +1560,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^11.3"
             },
-            "time": "2026-03-24T07:24:39+00:00",
+            "time": "2026-03-30T03:33:30+00:00",
             "default-branch": true,
             "type": "wordpress-plugin",
             "extra": {
@@ -1688,12 +1696,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpmetabox/meta-box-builder.git",
-                "reference": "4a34f7bc5727a1e7a077d4223b37a41114c7fa8d"
+                "reference": "87075087cd54f2190f3d7a6a2ed90aed8a8c2026"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpmetabox/meta-box-builder/zipball/4a34f7bc5727a1e7a077d4223b37a41114c7fa8d",
-                "reference": "4a34f7bc5727a1e7a077d4223b37a41114c7fa8d",
+                "url": "https://api.github.com/repos/wpmetabox/meta-box-builder/zipball/87075087cd54f2190f3d7a6a2ed90aed8a8c2026",
+                "reference": "87075087cd54f2190f3d7a6a2ed90aed8a8c2026",
                 "shasum": ""
             },
             "require": {
@@ -1705,7 +1713,7 @@
                 "opis/json-schema": "^2.4",
                 "phpunit/phpunit": "^11.3"
             },
-            "time": "2026-03-24T07:14:06+00:00",
+            "time": "2026-03-28T05:31:57+00:00",
             "default-branch": true,
             "type": "wordpress-plugin",
             "extra": {
@@ -1767,7 +1775,7 @@
             "description": "MB Builder extension for Meta Box",
             "support": {
                 "issues": "https://github.com/wpmetabox/meta-box-builder/issues",
-                "source": "https://github.com/wpmetabox/meta-box-builder/tree/5.2.3"
+                "source": "https://github.com/wpmetabox/meta-box-builder/tree/master"
             },
             "install-path": "../meta-box/meta-box-builder"
         },
@@ -1905,6 +1913,6 @@
             "install-path": "../meta-box/text-limiter"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

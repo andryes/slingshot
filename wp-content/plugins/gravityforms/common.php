@@ -1761,7 +1761,7 @@ class GFCommon {
 
 					$field->set_modifiers( $options_array );
 					$raw_field_value = RGFormsModel::get_lead_field_value( $lead, $field );
-					$field_value     = GFCommon::get_lead_field_display( $field, $raw_field_value, $lead, $use_text, $format, 'email' );
+					$field_value     = $field->get_value_all_fields_merge_tag( $raw_field_value, $lead, $use_text, $format );
 
 					$display_field = true;
 					//depending on parameters, don't display adminOnly or hidden fields
@@ -1976,7 +1976,7 @@ class GFCommon {
 		} else {
 			$field     = RGFormsModel::get_field( $form, rgget( 'fromNameField', $form['notification'] ) );
 			$value     = RGFormsModel::get_lead_field_value( $lead, $field );
-			$from_name = GFCommon::get_lead_field_display( $field, $value );
+			$from_name = $field->get_value_entry_detail( $value, $lead, false, 'html', 'screen' );
 		}
 
 		$replyTo = rgempty( 'replyToField', $form['notification'] ) ? rgget( 'replyTo', $form['notification'] ) : rgget( $form['notification']['replyToField'], $lead );
@@ -2052,8 +2052,10 @@ class GFCommon {
 	}
 
 	public static function send_notification( $notification, $form, $lead, $data = array() ) {
+		$entry_id  = absint( rgar( $lead, 'id' ) );
+		$for_entry = $entry_id ? ' for entry #' . $entry_id : '';
 
-		GFCommon::log_debug( "GFCommon::send_notification(): Starting to process notification (#{$notification['id']} - {$notification['name']})." );
+		GFCommon::log_debug( __METHOD__ . sprintf( '(): Starting to process notification (#%s - %s)%s.', rgar( $notification, 'id', 'custom' ), rgar( $notification, 'name', 'custom' ), $for_entry ) );
 
 		$notification = gf_apply_filters( array( 'gform_notification', $form['id'] ), $notification, $form, $lead );
 
@@ -3795,7 +3797,7 @@ Content-Type: text/html;
 		foreach ( $fields as $field ) {
 
 			$value = GFFormsModel::get_lead_field_value( $entry, $field );
-			$value = GFCommon::get_lead_field_display( $field, $value, $entry );
+			$value = $field->get_value_entry_detail( $value, $entry, false, 'html', 'screen' );
 
 			if ( rgblank( $value ) ) {
 				continue;
@@ -4391,6 +4393,8 @@ Content-Type: text/html;
 	/**
 	 * Returns the value to be displayed on the entry detail page and for the {all_fields} merge tag.
 	 *
+	 * Post category values are prepared inside `GF_Field::get_value_entry_detail()` for relevant field subclasses.
+	 *
 	 * @since unknown
 	 * @since 2.9.29 Changed the third parameter $currency (string) to $entry (array).
 	 *
@@ -4404,13 +4408,8 @@ Content-Type: text/html;
 	 * @return string|false
 	 */
 	public static function get_lead_field_display( $field, $value, $entry = array(), $use_text = false, $format = 'html', $media = 'screen' ) {
-
 		if ( ! $field instanceof GF_Field ) {
 			$field = GF_Fields::create( $field );
-		}
-
-		if ( $field->type === 'post_category' ) {
-			$value = self::prepare_post_category_value( $value, $field );
 		}
 
 		if ( ! is_array( $entry ) ) {
@@ -4924,8 +4923,8 @@ Content-Type: text/html;
 
 		$value = RGFormsModel::get_lead_field_value( $lead, $fields[0] );
 		switch ( $field_type ) {
-			case 'name' :
-				$value = GFCommon::get_lead_field_display( $fields[0], $value );
+			case 'name':
+				$value = $fields[0]->get_value_entry_detail( $value, $lead, false, 'html', 'screen' );
 				break;
 		}
 
@@ -7667,6 +7666,7 @@ Content-Type: text/html;
 		if ( ! rgblank( $icon_namespace ) ) {
 			return sprintf( '<i class="'. $icon_namespace .'-icon %s"%s></i>', esc_attr( $icon ), $aria_hidden_attr );
 		} else if ( strpos( $icon, '<svg' ) !== false ) {
+			$icon = str_contains( $icon, 'aria-hidden' ) ? $icon : str_replace( '<svg', "<svg$aria_hidden_attr", $icon );
 			return $icon;
 		} else if ( filter_var( $icon, FILTER_VALIDATE_URL ) ) {
 			return sprintf( '<img src="%s"%s />', esc_attr( $icon ), $aria_hidden_attr );
@@ -8352,6 +8352,10 @@ Content-Type: text/html;
 	 * @return void
 	 */
 	public static function send_json( $response ) {
+		if ( ! headers_sent() ) {
+			header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+		}
+
 		// Outputting JSON content with delimiters.
 		echo '<!-- gf:json_start -->' . wp_json_encode( $response ) . '<!-- gf:json_end -->';
 
@@ -8770,4 +8774,5 @@ class GF_Late_Static_Binding {
 	public function GFFormDisplay_footer_init_scripts() {
 		return GFFormDisplay::footer_init_scripts( $this->args['form_id'] );
 	}
+
 }
