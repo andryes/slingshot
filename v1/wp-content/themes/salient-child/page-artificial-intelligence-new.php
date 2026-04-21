@@ -41,7 +41,7 @@ $blog_news = new WP_Query( $args_news );
     .hero-cta-btn { display: inline-block; margin-top: 24px; padding: 14px 28px; background: #ffffff; color: #000000; font-weight: 700; font-size: 16px; border-radius: 6px; text-decoration: none; }
     .hero-cta-btn:hover { background: #f0f0f0; }
     /* Why Slingshot standalone block */
-    .why-slingshot-block-bg { background: #f8f7ff; padding: 80px 0; }
+    .why-slingshot-block-bg { background: #fbfbfc; padding: 80px 0; }
     .why-slingshot-block { max-width: 1250px; margin: 0 auto; padding: 0 24px; }
     .why-slingshot-block-header { margin-bottom: 20px; }
     .why-slingshot-block-header h2 { font-family: Poppins; font-weight: 600; font-size: 40px; line-height: 120%; margin-bottom: 12px; }
