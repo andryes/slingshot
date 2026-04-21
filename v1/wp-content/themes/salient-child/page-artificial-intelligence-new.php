@@ -61,7 +61,10 @@ $blog_news = new WP_Query( $args_news );
     .nectar-shape-divider-wrap { position: absolute !important; top: auto !important; bottom: 0 !important; left: 0; right: 0; width: 100%; z-index: 3; transform: translateZ(0); }
     .nectar-shape-divider { width: 100%; left: 0; bottom: -1px; height: 100%; position: absolute; }
     /* Prevent Salient JS from forcing full-viewport-height on hero */
-    #fws_689b886c1100f { position: relative; height: auto !important; min-height: 0 !important; }
+    #fws_689b886c1100f { position: relative; height: auto !important; min-height: 0 !important; padding-bottom: 0 !important; }
+    /* Remove empty space below arrow that creates dark corner at bottom-left */
+    #fws_689b886c1518b { padding-bottom: 0 !important; }
+    #fws_689b886c1518b .vc_col-sm-12 { margin-bottom: 0 !important; }
     /* why-slingshot: decoration overlaps bottom of hero (mirrors hero-block-bg on old page) */
     .why-slingshot-block-bg { position: relative; z-index: 9999; overflow: visible; }
     @media (min-width: 768px) {
