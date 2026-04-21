@@ -3,6 +3,7 @@
 Template Name: Artificial Intelligence New
 */
 
+add_filter( 'nectar_activate_transparent_header', '__return_true' );
 wp_enqueue_style( 'ai-style', get_stylesheet_directory_uri() . '/css/updated.css' );
 get_header();
 
@@ -23,11 +24,7 @@ $blog_news = new WP_Query( $args_news );
     .why-slingshot-items { margin-top: 24px; display: flex; flex-direction: column; gap: 20px; }
     .why-slingshot-item strong { display: block; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .why-slingshot-item p { margin: 0; font-size: 15px; line-height: 1.6; }
-    .block-steps-intro { margin-bottom: 28px; }
-    .block-steps-intro h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-    .block-steps-intro p { font-size: 16px; margin-bottom: 12px; }
-    .block-steps-intro a { font-weight: 600; text-decoration: none; color: inherit; }
-    .block-step-badge-new { display: inline-block; font-size: 11px; font-weight: 700; color: #7b2cbf; border: 1px solid #7b2cbf; border-radius: 4px; padding: 2px 7px; margin-left: 8px; vertical-align: middle; text-transform: uppercase; letter-spacing: .5px; }
+    .block-step-badge-new { display: inline-block; font-size: 11px; font-weight: 700; color: #4B7AEC; border: 1px solid #4B7AEC; border-radius: 4px; padding: 2px 7px; margin-left: 8px; vertical-align: middle; text-transform: uppercase; letter-spacing: .5px; }
     .proof-block-bg { background: #f8f7ff; padding: 80px 0; }
     .proof-block { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
     .proof-block-header { margin-bottom: 40px; }
@@ -43,6 +40,23 @@ $blog_news = new WP_Query( $args_news );
     .tools-block-subtext { font-size: 16px; color: #555; margin-top: 8px; }
     .hero-cta-btn { display: inline-block; margin-top: 24px; padding: 14px 28px; background: #ffffff; color: #000000; font-weight: 700; font-size: 16px; border-radius: 6px; text-decoration: none; }
     .hero-cta-btn:hover { background: #f0f0f0; }
+    /* Why Slingshot standalone block */
+    .why-slingshot-block-bg { background: #f8f7ff; padding: 80px 0; }
+    .why-slingshot-block { max-width: 1250px; margin: 0 auto; padding: 0 24px; }
+    .why-slingshot-block-header { margin-bottom: 48px; }
+    .why-slingshot-block-header h2 { font-family: Poppins; font-weight: 600; font-size: 40px; line-height: 120%; margin-bottom: 12px; }
+    .why-slingshot-block-header p { font-size: 16px; line-height: 1.7; max-width: 680px; margin: 0; }
+    .why-slingshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 768px) { .why-slingshot-grid { grid-template-columns: 1fr; } }
+    .why-slingshot-block .why-slingshot-item { background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .why-slingshot-block .why-slingshot-item strong { display: block; font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #222; }
+    .why-slingshot-block .why-slingshot-item p { margin: 0; font-size: 15px; line-height: 1.6; color: #555; }
+    /* Capability icons */
+    .capabilitie-item img { width: 60px; height: 60px; object-fit: contain; }
+    /* Proof icons */
+    .proof-item-icon { width: 52px; height: 52px; object-fit: contain; margin-bottom: 16px; display: block; }
+    /* Step label in price row */
+    .block-step-label { font-family: Proxima Nova; font-weight: 600; font-size: 14px; line-height: 150%; color: rgba(0,0,0,1); padding: 0 10px 0 4px; }
 </style>
 <div class="bg-color-stripe"></div>
 <div id="ajax-content-wrap">
@@ -104,41 +118,46 @@ $blog_news = new WP_Query( $args_news );
 
 
 
+	<div class="why-slingshot-block-bg">
+		<div class="why-slingshot-block">
+			<div class="why-slingshot-block-header">
+				<h2>Why Slingshot</h2>
+				<p>These aren't differentiators we invented for a website. They're how we've operated since we restructured around AI in 2023.</p>
+			</div>
+			<div class="why-slingshot-grid">
+				<div class="why-slingshot-item">
+					<strong>We've done this in our own house first</strong>
+					<p>Our team uses Claude Code, Cursor, and Copilot daily. When we talk about AI-augmented development velocity, we're speaking from production experience, not a vendor briefing.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Prototypes become products</strong>
+					<p>We don't hand off a prototype and disappear. The Innovation Retainer keeps a dedicated AI team on your pipeline every month from first concept to cloud deployment.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Security-conscious by default</strong>
+					<p>Tool-agnostic and privacy-aware. We evaluate every AI solution against your data governance requirements before recommending it, and we document that rationale for your team.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Rooted in this region</strong>
+					<p>We host the Louisville AI Exchange monthly and speak across Kentucky and Indiana. We're not a remote vendor; we're invested in the AI ecosystem here because we operate in it.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="hero-block">
 		<div class="hero-block-bg row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
 		<div class="hero-block-bg-bottom row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
 		<div class="hero-block-step">
 			<div class="main-block-step">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/main-block-article.png" alt="Why Slingshot"/>
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/main-block-article.png" alt="How we engage"/>
 				<div class="main-block-step-content">
-					<h2>Why Slingshot</h2>
-					<span>These aren't differentiators we invented for a website. They're how we've operated since we restructured around AI in 2023.</span>
-					<div class="why-slingshot-items">
-						<div class="why-slingshot-item">
-							<strong>We've done this in our own house first</strong>
-							<p>Our team uses Claude Code, Cursor, and Copilot daily. When we talk about AI-augmented development velocity, we're speaking from production experience, not a vendor briefing.</p>
-						</div>
-						<div class="why-slingshot-item">
-							<strong>Prototypes become products</strong>
-							<p>We don't hand off a prototype and disappear. The Innovation Retainer keeps a dedicated AI team on your pipeline every month from first concept to cloud deployment.</p>
-						</div>
-						<div class="why-slingshot-item">
-							<strong>Security-conscious by default</strong>
-							<p>Tool-agnostic and privacy-aware. We evaluate every AI solution against your data governance requirements before recommending it, and we document that rationale for your team.</p>
-						</div>
-						<div class="why-slingshot-item">
-							<strong>Rooted in this region</strong>
-							<p>We host the Louisville AI Exchange monthly and speak across Kentucky and Indiana. We're not a remote vendor; we're invested in the AI ecosystem here because we operate in it.</p>
-						</div>
-					</div>
+					<h2>How we engage</h2>
+					<span>Every engagement starts with a conversation. Here's where it goes from there.</span>
+					<a href="/contact/">Get Started Now <i class="icon-button-arrow see-more"></i></a>
 				</div>
 			</div>
 			<div class="block-steps">
-				<div class="block-steps-intro">
-					<h2>How we engage</h2>
-					<p>Every engagement starts with a conversation. Here's where it goes from there.</p>
-					<a href="/contact/">Get Started now &#8594;</a>
-				</div>
 				<div class="block-step">
 					<div class="block-step-title">
 						<img src="<?php echo get_stylesheet_directory_uri();?>/img/step-1.png" alt="1"/>
@@ -170,10 +189,13 @@ $blog_news = new WP_Query( $args_news );
 						<img src="<?php echo get_stylesheet_directory_uri();?>/img/step-2.png" alt="2"/>
 						<div class="block-step-content">
 							<h4>AI Consulting</h4>
+							<div class="block-step-price">
+								<span class="block-step-label">Flexible engagement</span>
+							</div>
 						</div>
 					</div>
 					<div class="block-step-text">
-						<span>Flexible engagement</span>
+						<span></span>
 						<div class="">
 							<strong>What you get:</strong>
 							<ul>
@@ -215,10 +237,13 @@ $blog_news = new WP_Query( $args_news );
 						<img src="<?php echo get_stylesheet_directory_uri();?>/img/step-4.png" alt="4"/>
 						<div class="block-step-content">
 							<h4>Innovation Retainer <span class="block-step-badge-new">New</span></h4>
+							<div class="block-step-price">
+								<span class="block-step-label">Monthly engagement</span>
+							</div>
 						</div>
 					</div>
 					<div class="block-step-text">
-						<span>Monthly engagement</span>
+						<span></span>
 						<div class="">
 							<strong>What you get:</strong>
 							<ul>
@@ -240,32 +265,32 @@ $blog_news = new WP_Query( $args_news );
 			</div>
 			<div class="capabilities-content">
 				<div class="capabilitie-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/capabilities-1.png" alt="1">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon-ai-agents.png" alt="AI agents">
 					<h4>AI agents</h4>
 					<p>Autonomous workflows with secure, custom-built agents that connect your systems and act on your data.</p>
 				</div>
 				<div class="capabilitie-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/capabilities-2.png" alt="2">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon-intelligent-automation.png" alt="Intelligent automation">
 					<h4>Intelligent automation</h4>
 					<p>Target your highest-friction processes and build production-ready automation that eliminates manual work.</p>
 				</div>
 				<div class="capabilitie-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/capabilities-3.png" alt="3">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon-document-intelligence.png" alt="Document intelligence">
 					<h4>Document intelligence</h4>
 					<p>Extract from PDFs, forms, and unstructured sources integrated directly into your existing systems.</p>
 				</div>
 				<div class="capabilitie-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/capabilities-4.png" alt="4">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon-llm-integration.png" alt="LLM integration">
 					<h4>LLM integration</h4>
 					<p>Custom model integrations across your preferred model and deployed inside your process, not bolted on.</p>
 				</div>
 				<div class="capabilitie-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/capabilities-5.png" alt="5">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon-ai-powered-apps.png" alt="AI-powered apps">
 					<h4>AI-powered apps</h4>
 					<p>Full-cycle development with AI at the core. Faster delivery, higher quality, and an architecture that scales.</p>
 				</div>
 				<div class="capabilitie-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/capabilities-6.png" alt="6">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon-cloud-deployment.png" alt="Cloud deployment">
 					<h4>Cloud deployment</h4>
 					<p>AWS and Azure. Enterprise-grade reliability. We don't prototype and walk — we ship what we build.</p>
 				</div>
@@ -324,11 +349,13 @@ $blog_news = new WP_Query( $args_news );
 			</div>
 			<div class="proof-items">
 				<div class="proof-item">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/icon-louisville.png" alt="Louisville AI Exchange" class="proof-item-icon">
 					<h3>Louisville AI Exchange</h3>
 					<p>We host a monthly meetup for business and technology leaders navigating AI. Come learn what's working, what's not, and what's coming next.</p>
 					<a href="/louisville-ai-exchange/">Learn More &amp; RSVP &#8594;</a>
 				</div>
 				<div class="proof-item">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/icon-rocket.png" alt="Apps in Production" class="proof-item-icon">
 					<h3>Apps in Production</h3>
 					<p>We've shipped AI-powered customer portals, LLM-enhanced workflows, and intelligent automation for ops teams. Real work. Real results.</p>
 					<a href="/our-work/?_portfolio_categories=artificial-intelligence">Explore Our Work &#8594;</a>
@@ -375,97 +402,6 @@ $blog_news = new WP_Query( $args_news );
 			</a>
 		</div>
 
-	</div>
-	<div class="answers-block-bg">
-		<div class="answers-block">
-			<div class="answers-title">
-			<h2>Still wondering about AI? We've got answers</h2>
-		</div>
-			<div class="answers-content">
-			<div class="item-answer">
-				<div class="row">
-					<h3>How do I get started with AI?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>The right starting point depends on your team's clarity and urgency.</p>
-					<p>If you're exploring where AI fits in your organization, our free 60-minute <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion'; ?>">AI Discovery Discussion</a> is the fastest way to uncover possibilities and get expert guidance, with no commitment. We'll review your tools, goals, and brainstorm practical use cases.</p>
-					<p>If you already have ideas but need focus and prioritization, the <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=AI+Opportunity+Assessment'; ?>">AI Opportunity Assessment</a> turns concepts into an actionable strategy in just one week. You'll walk away with executive alignment, a prioritized shortlist of use cases, and clear recommendations to move forward.</p>
-					<p>If you're ready to bring a specific AI idea to life, our <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=AI+Rapid+Prototyping'; ?>">AI Rapid Prototyping</a> service transforms your idea into a tangible prototype in just 1 to 2 weeks. We frame the concept, shape the user experience, and deliver an interactive prototype that fosters buy-in and builds momentum quickly.</p>
-				</div>
-
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>How do I know if AI will work for my business?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>You don't need perfect data to start. In many cases, valid results can come from documents, PDFs, or existing records using retrieval-based methods or lightweight models. </p>
-					<p>We can help assess where AI can move the needle and where it won't. If there's no fit, we'll say so directly.</p>
-				</div>
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>How do I know if my data is "good enough"?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>AI works when the problem is clear, the data is usable, and the value is real. It's not about checking a tech box but identifying opportunities where automation, prediction, or insight can drive results. </p>
-					<p>It's essential to start by assessing what you have and flagging gaps. Then you can determine if your data is ready to support your desired outcomes. We can make that part of the roadmap if cleanup or enrichment is needed.</p>
-				</div>
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>How does Slingshot handle data security in AI projects?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>Security is at the core of every AI project we deliver. We know that using AI means entrusting tools with sensitive data, and not all tools treat that data equally. That is why we help you navigate the privacy landscape from day one.</p>
-					<p>When evaluating AI solutions, we look closely at how each tool stores and processes your data, what information (if any) is shared or retained, and how it aligns with your privacy and compliance requirements. We provide clear, expert recommendations on which tools meet your standards, giving you full transparency and control over how your data is managed at every step.</p>
-				</div>
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>How do I know if my organization is ready for AI?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>AI readiness depends on leadership alignment, access to usable data and a clear problem to solve. We can help assess your organization and provide a structured view of your current state. You'll get clarity on what's viable now, what needs to change, and how to move forward. If you're not ready, we'll tell you and outline how you can get there.</p>
-				</div>
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>How do I best leverage AI in my organization if I don't have a specific idea yet?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>Start with a conversation. Our <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion'; ?>">AI Discovery Discussion</a> is designed for leaders who are curious about AI but unsure where it fits. In just 60 minutes, we'll explore your goals, tools, and team structure to identify real opportunities.</p>
-					<p>If you're looking to go deeper, the <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=AI+Opportunity+Assessment'; ?>">AI Opportunity Assessment</a> helps turn early ideas into a clear, prioritized roadmap tailored to your organization. Both offerings are built to bring clarity and momentum, even if you're starting from zero.</p>
-				</div>
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>How can I quickly validate an AI idea before making a larger investment?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>If you're ready to move beyond theory and see your idea in action, our <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=AI+Rapid+Prototyping'; ?>">AI Rapid Prototyping</a> service helps turn concepts into something tangible, fast. In just 1 to 2 weeks, we'll help frame your idea, shape a user experience, and deliver a working prototype that shows what the solution could be.</p>
-					<p>You'll walk away with a functional, interactive model that brings the concept to life and helps you communicate it clearly to stakeholders. Whether you're building buy-in or making key decisions, it's the fastest way to go from vision to momentum.</p>
-				</div>
-			</div>
-			<div class="item-answer">
-				<div class="row">
-					<h3>What if I'm ready to fully implement an AI solution in my business?</h3>
-					<div class="circle-plus"></div>
-				</div>
-				<div class="answer-text">
-					<p>If you're ready to move from strategy to execution, our <a href="<?php echo get_bloginfo('url') . '/contact/?looking=Artificial+Intelligence&ai-service=Full+AI+Implementation'; ?>">Full AI Implementation</a> offering is built to take your AI vision all the way to launch. We help you design, build, and deploy real solutions that deliver measurable business impact. This could include automating workflows, enhancing customer experience, or embedding AI into your product.</p>
-					<p>Beyond just building, we help you make the right foundational decisions. We recommend tools and models based on your specific needs, and we guide you through critical decisions like build versus buy versus integrate. From technical architecture to user experience, we cover every angle to ensure a successful launch.</p>
-				</div>
-			</div>
-		</div>
-		</div>
 	</div>
 
 
