@@ -85,8 +85,16 @@ $blog_news = new WP_Query( $args_news );
         }
     }
     /* Tool logos: uniform size, grayscale, transparent bg */
-    .tools-item { min-width: 160px; height: 64px; display: flex; align-items: center; justify-content: center; background: transparent; }
-    .tools-item img { width: 120px; height: 40px; object-fit: contain; display: block; filter: grayscale(100%); mix-blend-mode: multiply; opacity: 0.75; }
+    .tools-item { min-width: 160px; height: 108px; display: flex; align-items: center; justify-content: center; background: transparent; overflow: hidden; }
+    .tools-item img, .tools-item img.lazyloading, .tools-item img.lazyloaded {
+        width: 160px !important;
+        height: 50px !important;
+        object-fit: contain !important;
+        display: block !important;
+        filter: grayscale(100%);
+        mix-blend-mode: multiply;
+        opacity: 0.75;
+    }
 </style>
 <div class="bg-color-stripe"></div>
 <div id="ajax-content-wrap">
