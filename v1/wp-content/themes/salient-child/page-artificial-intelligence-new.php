@@ -57,20 +57,45 @@ $blog_news = new WP_Query( $args_news );
     .proof-item-icon { width: 52px; height: 52px; object-fit: contain; margin-bottom: 16px; display: block; }
     /* Step label in price row */
     .block-step-label { font-family: Proxima Nova; font-weight: 600; font-size: 14px; line-height: 150%; color: rgba(0,0,0,1); padding: 0 10px 0 4px; }
+    /* Fix shape divider positioning (missing from dynamic CSS) */
+    .nectar-shape-divider-wrap { position: absolute !important; top: auto !important; bottom: 0 !important; left: 0; right: 0; width: 100%; z-index: 3; transform: translateZ(0); }
+    .nectar-shape-divider { width: 100%; left: 0; bottom: -1px; height: 100%; position: absolute; }
+    /* Prevent Salient JS from forcing full-viewport-height on hero */
+    #fws_689b886c1100f { height: auto !important; min-height: 0 !important; }
+    /* Ensure decorative overlap is visible on this template */
+    .hero-block { overflow: visible; }
+    .hero-block-bg {
+        display: block !important;
+        top: -250px !important;
+        z-index: 10 !important;
+        height: 455px !important;
+        width: 100% !important;
+        left: 50% !important;
+        transform: translate(-50%, 0) rotate(0deg) !important;
+        background-repeat: no-repeat !important;
+        background-position: center top !important;
+        background-size: contain !important;
+        background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-tools-block.png') !important;
+        opacity: .5 !important;
+        clip-path: polygon(0 53%, 100% 0, 100% 100%, 0% 100%) !important;
+    }
+    /* Normalize tool logos of mixed source sizes/canvases */
+    .tools-item { min-width: 170px; height: 72px; display: flex; align-items: center; justify-content: center; }
+    .tools-item img { max-width: 150px; max-height: 48px; width: auto; height: auto; object-fit: contain; display: block; }
 </style>
 <div class="bg-color-stripe"></div>
 <div id="ajax-content-wrap">
 	<div class="container-wrap" style="padding-top: 0px; padding-bottom: 0px;">
 		<div class="container main-content" role="main" style="--nectar-sticky-top-distance: 192px;">
 			<div class="row">
-				<div id="fws_689b886c1100f" data-column-margin="default" data-midnight="light" data-top-percent="7%" data-bottom-percent="1%" class="wpb_row vc_row-fluid vc_row top-level full-width-section vc_row-o-equal-height vc_row-flex vc_row-o-content-top bottom_padding_tablet_100px bottom_padding_phone_50px first-section loaded" style="padding-top: 0; padding-bottom: 0; z-index: 110; min-height: 620px;">
+				<div id="fws_689b886c1100f" data-column-margin="default" data-midnight="light" data-top-percent="7%" data-bottom-percent="1%" class="wpb_row vc_row-fluid vc_row top-level full-width-section vc_row-o-equal-height vc_row-flex vc_row-o-content-top bottom_padding_tablet_100px bottom_padding_phone_50px first-section loaded" style="padding-top: calc(7vw); padding-bottom: calc(1vw); z-index: 110;">
 					<div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="true">
 						<div class="inner-wrap row-bg-layer using-image">
-							<div class="row-bg viewport-desktop using-image" style="background-image: url('<?php echo get_stylesheet_directory_uri().'/img/bg-first-block.png'; ?>'); background-position: center center; background-repeat: no-repeat; background-size: cover;" data-bg-image="url(https://b2168432.smushcdn.com/2168432/wp-content/uploads/2023/07/circuit-gb39378865_1280.png?lossy=2&amp;strip=1&amp;webp=1)"></div>
+							<div class="row-bg viewport-desktop using-image" style="background-image: url('<?php echo get_stylesheet_directory_uri().'/img/bg-first-block.png'; ?>'); background-position: top center; background-repeat: no-repeat; background-size: auto;" data-bg-image="url(https://b2168432.smushcdn.com/2168432/wp-content/uploads/2023/07/circuit-gb39378865_1280.png?lossy=2&amp;strip=1&amp;webp=1)"></div>
 						</div>
 						<div class="row-bg-overlay row-bg-layer" style="background: #595959; background: linear-gradient(135deg,#595959 0%,#000000 100%);  opacity: 0.8; "></div>
 					</div>
-					<div class="nectar-shape-divider-wrap " style="height:140px;" data-height="140" data-front="" data-style="tilt_alt" data-position="bottom">
+					<div class="nectar-shape-divider-wrap " style=" height:250px;" data-height="250" data-front="" data-style="tilt_alt" data-position="bottom">
 						<svg class="nectar-shape-divider" aria-hidden="true" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none">
 							<polygon fill="#fbfbfc" points="100 10 100 0 -4 10"></polygon>
 						</svg>
@@ -117,33 +142,6 @@ $blog_news = new WP_Query( $args_news );
 	</div>
 
 
-
-	<div class="why-slingshot-block-bg">
-		<div class="why-slingshot-block">
-			<div class="why-slingshot-block-header">
-				<h2>Why Slingshot</h2>
-				<p>These aren't differentiators we invented for a website. They're how we've operated since we restructured around AI in 2023.</p>
-			</div>
-			<div class="why-slingshot-grid">
-				<div class="why-slingshot-item">
-					<strong>We've done this in our own house first</strong>
-					<p>Our team uses Claude Code, Cursor, and Copilot daily. When we talk about AI-augmented development velocity, we're speaking from production experience, not a vendor briefing.</p>
-				</div>
-				<div class="why-slingshot-item">
-					<strong>Prototypes become products</strong>
-					<p>We don't hand off a prototype and disappear. The Innovation Retainer keeps a dedicated AI team on your pipeline every month from first concept to cloud deployment.</p>
-				</div>
-				<div class="why-slingshot-item">
-					<strong>Security-conscious by default</strong>
-					<p>Tool-agnostic and privacy-aware. We evaluate every AI solution against your data governance requirements before recommending it, and we document that rationale for your team.</p>
-				</div>
-				<div class="why-slingshot-item">
-					<strong>Rooted in this region</strong>
-					<p>We host the Louisville AI Exchange monthly and speak across Kentucky and Indiana. We're not a remote vendor; we're invested in the AI ecosystem here because we operate in it.</p>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<div class="hero-block">
 		<div class="hero-block-bg row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
@@ -258,6 +256,32 @@ $blog_news = new WP_Query( $args_news );
 			</div>
 		</div>
 	</div>
+	<div class="why-slingshot-block-bg">
+		<div class="why-slingshot-block">
+			<div class="why-slingshot-block-header">
+				<h2>Why Slingshot</h2>
+				<p>These aren't differentiators we invented for a website. They're how we've operated since we restructured around AI in 2023.</p>
+			</div>
+			<div class="why-slingshot-grid">
+				<div class="why-slingshot-item">
+					<strong>We've done this in our own house first</strong>
+					<p>Our team uses Claude Code, Cursor, and Copilot daily. When we talk about AI-augmented development velocity, we're speaking from production experience, not a vendor briefing.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Prototypes become products</strong>
+					<p>We don't hand off a prototype and disappear. The Innovation Retainer keeps a dedicated AI team on your pipeline every month from first concept to cloud deployment.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Security-conscious by default</strong>
+					<p>Tool-agnostic and privacy-aware. We evaluate every AI solution against your data governance requirements before recommending it, and we document that rationale for your team.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Rooted in this region</strong>
+					<p>We host the Louisville AI Exchange monthly and speak across Kentucky and Indiana. We're not a remote vendor; we're invested in the AI ecosystem here because we operate in it.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="capabilities-block-bg">
 		<div class="capabilities-block">
 			<div class="capabilities-title">
@@ -306,37 +330,46 @@ $blog_news = new WP_Query( $args_news );
 		</div>
 		<div class="tools-content marquee">
 			<div class="tools-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-1.png" alt="logo">
-				</div>
-			<div class="tools-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-2.png" alt="logo">
-				</div>
-			<div class="tools-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-3.png" alt="logo">
-				</div>
-			<div class="tools-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-4.png" alt="logo">
-				</div>
-			<div class="tools-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-5.png" alt="logo">
-				</div>
-			<div class="tools-item">
-					<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-6.png" alt="logo">
-				</div>
-			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-7.png" alt="logo">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/claude-code.png" alt="Claude Code">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-8.png" alt="logo">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/openai.png" alt="OpenAI">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-9.png" alt="logo">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/gemini.png" alt="Gemini">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-10.png" alt="logo">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/aws.png" alt="AWS">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-11.png" alt="logo">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/azure.png" alt="Microsoft Azure">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/amazon-bedrock.png" alt="Amazon Bedrock">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/azure-cognitive-search.png" alt="Azure Cognitive Search">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/azure-speech.webp" alt="Azure Speech">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/amazon-sagemaker.png" alt="Amazon SageMaker">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/cursor.png" alt="Cursor">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/github-copilot.png" alt="GitHub Copilot">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/semantic-kernel.png" alt="Semantic Kernel">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/langchain.png" alt="LangChain">
+			</div>
+			<div class="tools-item">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/google-adk.png" alt="Google ADK">
 			</div>
 		</div>
 	</div>
