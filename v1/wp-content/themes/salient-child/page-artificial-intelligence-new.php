@@ -87,6 +87,8 @@ $blog_news = new WP_Query( $args_news );
             pointer-events: none;
         }
     }
+    /* Arrow: make it visible against the light tilt area */
+    .nectar-next-section-wrap.minimal-arrow a { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.75)); }
     /* Tool logos: uniform size, grayscale, transparent bg */
     .tools-item { min-width: 160px; height: 108px; display: flex; align-items: center; justify-content: center; background: transparent; overflow: hidden; }
     .tools-item img, .tools-item img.lazyloading, .tools-item img.lazyloaded {
@@ -141,7 +143,7 @@ $blog_news = new WP_Query( $args_news );
 													<div class="divider-wrap height_tablet_0px height_phone_0px" data-alignment="default"><div style="height: 25px;" class="divider"></div></div>
 													<div class="wpb_raw_code wpb_raw_html wpb_content_element">
 														<div class="wpb_wrapper">
-															<div class="nectar-next-section-wrap minimal-arrow" data-custom-color="false"> <a href="#next" class="nectar-next-section skip-hash"> <svg class="next-arrow" width="40px" height="68px" viewBox="0 0 40 50" xml:space="preserve"> <path stroke="#ffffff" stroke-width="2" fill="none" d="M 20 0 L 20 51"></path> <polyline stroke="#ffffff" stroke-width="2" fill="none" points="12, 44 20, 52 28, 44"></polyline> </svg> </a> </div>
+															<div class="nectar-next-section-wrap minimal-arrow" data-custom-color="false"> <a href="#why-slingshot-anchor" class="next-arrow-ai skip-hash"> <svg class="next-arrow-ai-svg" width="40px" height="68px" viewBox="0 0 40 50" xml:space="preserve"> <path stroke="#ffffff" stroke-width="2" fill="none" d="M 20 0 L 20 51"></path> <polyline stroke="#ffffff" stroke-width="2" fill="none" points="12, 44 20, 52 28, 44"></polyline> </svg> </a> </div>
 														</div>
 													</div>
 												</div>
@@ -157,7 +159,7 @@ $blog_news = new WP_Query( $args_news );
 		</div>
 	</div>
 
-	<div class="why-slingshot-block-bg">
+	<div class="why-slingshot-block-bg" id="why-slingshot-anchor">
 		<div class="why-slingshot-block">
 			<div class="why-slingshot-block-header">
 				<h2>Why Slingshot</h2>
@@ -464,4 +466,18 @@ $blog_news = new WP_Query( $args_news );
 <?php
 
 wp_enqueue_script( 'ai-script', get_stylesheet_directory_uri() . '/js/updated.js' );
+?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var arrowLink = document.querySelector('a.next-arrow-ai');
+  var target    = document.getElementById('why-slingshot-anchor');
+  if (arrowLink && target) {
+    arrowLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+});
+</script>
+<?php
 get_footer();
