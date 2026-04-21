@@ -327,8 +327,7 @@ $blog_news = new WP_Query( $args_news );
 	<div class="tools-block-bg">
 		<div class="tools-block">
 			<div class="tools-title">
-				<h2>Tools and Platforms</h2>
-				<p class="tools-block-subtext">We work across the tools that matter. No vendor allegiance — we match the stack to the problem.</p>
+				<h2>Trusted tools &amp; platforms</h2>
 			</div>
 		</div>
 		<div class="tools-content marquee">
