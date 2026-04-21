@@ -61,23 +61,28 @@ $blog_news = new WP_Query( $args_news );
     .nectar-shape-divider-wrap { position: absolute !important; top: auto !important; bottom: 0 !important; left: 0; right: 0; width: 100%; z-index: 3; transform: translateZ(0); }
     .nectar-shape-divider { width: 100%; left: 0; bottom: -1px; height: 100%; position: absolute; }
     /* Prevent Salient JS from forcing full-viewport-height on hero */
-    #fws_689b886c1100f { height: auto !important; min-height: 0 !important; }
-    /* Ensure decorative overlap is visible on this template */
-    .hero-block { overflow: visible; }
-    .hero-block-bg {
-        display: block !important;
-        top: -250px !important;
-        z-index: 10 !important;
-        height: 455px !important;
-        width: 100% !important;
-        left: 50% !important;
-        transform: translate(-50%, 0) rotate(0deg) !important;
-        background-repeat: no-repeat !important;
-        background-position: center top !important;
-        background-size: contain !important;
-        background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-tools-block.png') !important;
-        opacity: .5 !important;
-        clip-path: polygon(0 53%, 100% 0, 100% 100%, 0% 100%) !important;
+    #fws_689b886c1100f { position: relative; height: auto !important; min-height: 0 !important; }
+    /* why-slingshot: decoration overlaps bottom of hero (mirrors hero-block-bg on old page) */
+    .why-slingshot-block-bg { position: relative; z-index: 9999; overflow: visible; }
+    @media (min-width: 768px) {
+        .why-slingshot-block-bg::before {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 455px;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-tools-block.png');
+            left: 50%;
+            transform: translate(-50%, 0);
+            top: -250px;
+            background-size: contain;
+            z-index: 10;
+            clip-path: polygon(0 53%, 100% 0, 100% 100%, 0% 100%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
     }
     /* Normalize tool logos of mixed source sizes/canvases */
     .tools-item { min-width: 170px; height: 72px; display: flex; align-items: center; justify-content: center; }
@@ -141,10 +146,34 @@ $blog_news = new WP_Query( $args_news );
 		</div>
 	</div>
 
-
+	<div class="why-slingshot-block-bg">
+		<div class="why-slingshot-block">
+			<div class="why-slingshot-block-header">
+				<h2>Why Slingshot</h2>
+				<p>These aren't differentiators we invented for a website. They're how we've operated since we restructured around AI in 2023.</p>
+			</div>
+			<div class="why-slingshot-grid">
+				<div class="why-slingshot-item">
+					<strong>We've done this in our own house first</strong>
+					<p>Our team uses Claude Code, Cursor, and Copilot daily. When we talk about AI-augmented development velocity, we're speaking from production experience, not a vendor briefing.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Prototypes become products</strong>
+					<p>We don't hand off a prototype and disappear. The Innovation Retainer keeps a dedicated AI team on your pipeline every month from first concept to cloud deployment.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Security-conscious by default</strong>
+					<p>Tool-agnostic and privacy-aware. We evaluate every AI solution against your data governance requirements before recommending it, and we document that rationale for your team.</p>
+				</div>
+				<div class="why-slingshot-item">
+					<strong>Rooted in this region</strong>
+					<p>We host the Louisville AI Exchange monthly and speak across Kentucky and Indiana. We're not a remote vendor; we're invested in the AI ecosystem here because we operate in it.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="hero-block">
-		<div class="hero-block-bg row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
 		<div class="hero-block-bg-bottom row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false"></div>
 		<div class="hero-block-step">
 			<div class="main-block-step">
@@ -253,32 +282,6 @@ $blog_news = new WP_Query( $args_news );
 					</div>
 				</div>
 
-			</div>
-		</div>
-	</div>
-	<div class="why-slingshot-block-bg">
-		<div class="why-slingshot-block">
-			<div class="why-slingshot-block-header">
-				<h2>Why Slingshot</h2>
-				<p>These aren't differentiators we invented for a website. They're how we've operated since we restructured around AI in 2023.</p>
-			</div>
-			<div class="why-slingshot-grid">
-				<div class="why-slingshot-item">
-					<strong>We've done this in our own house first</strong>
-					<p>Our team uses Claude Code, Cursor, and Copilot daily. When we talk about AI-augmented development velocity, we're speaking from production experience, not a vendor briefing.</p>
-				</div>
-				<div class="why-slingshot-item">
-					<strong>Prototypes become products</strong>
-					<p>We don't hand off a prototype and disappear. The Innovation Retainer keeps a dedicated AI team on your pipeline every month from first concept to cloud deployment.</p>
-				</div>
-				<div class="why-slingshot-item">
-					<strong>Security-conscious by default</strong>
-					<p>Tool-agnostic and privacy-aware. We evaluate every AI solution against your data governance requirements before recommending it, and we document that rationale for your team.</p>
-				</div>
-				<div class="why-slingshot-item">
-					<strong>Rooted in this region</strong>
-					<p>We host the Louisville AI Exchange monthly and speak across Kentucky and Indiana. We're not a remote vendor; we're invested in the AI ecosystem here because we operate in it.</p>
-				</div>
 			</div>
 		</div>
 	</div>
