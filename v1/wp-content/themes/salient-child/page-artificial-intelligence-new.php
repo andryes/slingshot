@@ -84,9 +84,9 @@ $blog_news = new WP_Query( $args_news );
             pointer-events: none;
         }
     }
-    /* Normalize tool logos of mixed source sizes/canvases */
-    .tools-item { min-width: 170px; height: 72px; display: flex; align-items: center; justify-content: center; }
-    .tools-item img { max-width: 150px; max-height: 48px; width: auto; height: auto; object-fit: contain; display: block; }
+    /* Tool logos: uniform size, grayscale, transparent bg */
+    .tools-item { min-width: 160px; height: 64px; display: flex; align-items: center; justify-content: center; background: transparent; }
+    .tools-item img { width: 120px; height: 40px; object-fit: contain; display: block; filter: grayscale(100%); mix-blend-mode: multiply; opacity: 0.75; }
 </style>
 <div class="bg-color-stripe"></div>
 <div id="ajax-content-wrap">
