@@ -89,12 +89,15 @@ $blog_news = new WP_Query( $args_news );
     }
     /* Arrow: make it visible against the light tilt area */
     .nectar-next-section-wrap.minimal-arrow a { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.75)); }
-    /* Tool logos: uniform size, grayscale, transparent bg */
-    .tools-item { min-width: 160px; height: 108px; display: flex; align-items: center; justify-content: center; background: transparent; overflow: hidden; }
+    /* Tool logos: uniform height, grayscale, transparent bg */
+    .tools-item { padding: 0 28px; height: 108px; display: flex; align-items: center; justify-content: center; background: transparent; flex-shrink: 0; }
     .tools-item img, .tools-item img.lazyloading, .tools-item img.lazyloaded {
-        width: 160px !important;
-        height: 50px !important;
+        height: 34px !important;
+        width: auto !important;
+        max-width: 160px !important;
+        min-width: unset !important;
         object-fit: contain !important;
+        aspect-ratio: auto !important;
         display: block !important;
         filter: grayscale(100%);
         mix-blend-mode: multiply;
