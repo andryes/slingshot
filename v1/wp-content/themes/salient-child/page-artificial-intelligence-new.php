@@ -347,46 +347,46 @@ $blog_news = new WP_Query( $args_news );
 		</div>
 		<div class="tools-content marquee">
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/claude-code.png" alt="Claude Code">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-claude-code.png" alt="Claude Code">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/openai.png" alt="OpenAI">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-openai.png" alt="OpenAI">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/gemini.png" alt="Gemini">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-gemini.png" alt="Gemini">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/aws.png" alt="AWS">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-aws.png" alt="AWS">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/azure.png" alt="Microsoft Azure">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-azure.png" alt="Microsoft Azure">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/amazon-bedrock.png" alt="Amazon Bedrock">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-amazon-bedrock.png" alt="Amazon Bedrock">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/azure-cognitive-search.png" alt="Azure Cognitive Search">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-azure-cognitive-search.png" alt="Azure Cognitive Search">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/azure-speech.webp" alt="Azure Speech">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-azure-speech.png" alt="Azure Speech">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/amazon-sagemaker.png" alt="Amazon SageMaker">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-amazon-sagemaker.png" alt="Amazon SageMaker">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/cursor.png" alt="Cursor">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-cursor.png" alt="Cursor">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/github-copilot.png" alt="GitHub Copilot">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-github-copilot.png" alt="GitHub Copilot">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/semantic-kernel.png" alt="Semantic Kernel">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-semantic-kernel.png" alt="Semantic Kernel">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/langchain.png" alt="LangChain">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-langchain.png" alt="LangChain">
 			</div>
 			<div class="tools-item">
-				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/google-adk.png" alt="Google ADK">
+				<img src="<?php echo get_stylesheet_directory_uri();?>/img/tools-platforms/n-google-adk.png" alt="Google ADK">
 			</div>
 		</div>
 	</div>
