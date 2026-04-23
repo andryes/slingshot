@@ -63,7 +63,7 @@ $blog_news = new WP_Query( $args_news );
     /* Prevent Salient JS from forcing full-viewport-height on hero */
     #fws_689b886c1100f { position: relative; height: auto !important; min-height: 0 !important; padding-bottom: 0 !important; }
     /* Remove empty space below arrow that creates dark corner at bottom-left */
-    #fws_689b886c1518b { padding-bottom: 0 !important; }
+    #fws_689b886c1518b { padding-bottom: 9%; }
     #fws_689b886c1518b .vc_col-sm-12 { margin-bottom: 0 !important; }
     /* why-slingshot: decoration overlaps bottom of hero (mirrors hero-block-bg on old page) */
     .why-slingshot-block-bg { position: relative; z-index: 9999; overflow: visible; }
@@ -131,13 +131,12 @@ $blog_news = new WP_Query( $args_news );
 									</div>
 									<div class="wpb_text_column wpb_content_element " style=" max-width: 500px; display: inline-block;">
 										<div class="wpb_wrapper">
-											<p style="font-size: 24px; line-height: 34px;">Ship AI that moves the business.</p>
+											<p style="font-size: 24px; line-height: 34px; padding-top: 12px; padding-bottom: 24px;">Ship AI that moves the business.</p>
 											<p style="font-size: 17px; line-height: 28px; margin-top: 12px;">Slingshot develops AI-driven software. We've optimized our operations with AI and bring that efficiency to every client engagement.</p>
 										</div>
 									</div>
-									<div class="divider-wrap height_tablet_0px height_phone_0px " data-alignment="default"><div style="height: 20px;" class="divider"></div></div>
 									<a href="/contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion" class="hero-cta-btn">Book a free Discovery Discussion &#8594;</a>
-									<div class="divider-wrap height_tablet_0px height_phone_0px " data-alignment="default"><div style="height: 10px;" class="divider"></div></div><div id="fws_689b886c1518b" data-midnight="" data-column-margin="default" class="wpb_row vc_row-fluid vc_row inner_row" style="padding-bottom: 5%; "><div class="row-bg-wrap"> <div class="row-bg"></div> </div><div class="row_col_wrap_12_inner col span_12  left">
+									<div id="fws_689b886c1518b" data-midnight="" data-column-margin="default" class="wpb_row vc_row-fluid vc_row inner_row"><div class="row-bg-wrap"> <div class="row-bg"></div> </div><div class="row_col_wrap_12_inner col span_12  left">
 										<div style="margin-bottom: 50px; " class="vc_col-sm-12 vc_hidden-sm vc_hidden-xs wpb_column column_container vc_column_container col child_column no-extra-padding inherit_tablet inherit_phone " data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1" data-animation="" data-delay="0">
 											<div class="vc_column-inner">
 												<div class="wpb_wrapper">
