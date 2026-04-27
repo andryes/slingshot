@@ -13,6 +13,10 @@ jQuery(document).on('click', '.circle-minus', function(event) {
 
 function Marquee(selector, speed) {
   const container = document.querySelector(selector);
+  if (!container) {
+    return;
+  }
+
   container.innerHTML += container.innerHTML;
 
   let offset = 0;

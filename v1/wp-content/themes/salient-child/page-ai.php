@@ -102,12 +102,38 @@ $blog_news = new WP_Query( $args_news );
         opacity: 0.75;
     }
     @media (max-width: 768px) {
-        .tools-item { min-width: 110px; height: 72px; padding: 0 10px; }
-        .tools-item img, .tools-item img.lazyloading, .tools-item img.lazyloaded {
-            height: 40px !important;
-            max-width: 90px !important;
+        .tools-content.marquee {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            gap: 28px !important;
+            position: relative !important;
+            left: auto !important;
+            width: max-content !important;
+            max-width: none !important;
+            overflow: visible !important;
+            white-space: nowrap !important;
         }
-        .tools-block-bg { overflow: hidden; }
+        .tools-content.marquee .tools-item {
+            flex: 0 0 112px;
+            min-width: 112px;
+            width: 112px;
+            height: 72px;
+            padding: 0 8px;
+            overflow: visible;
+        }
+        .tools-content.marquee .tools-item img,
+        .tools-content.marquee .tools-item img.lazyloading,
+        .tools-content.marquee .tools-item img.lazyloaded {
+            height: 40px !important;
+            max-width: 96px !important;
+        }
+        .tools-block-bg {
+            height: auto;
+            min-height: 280px;
+            padding-bottom: 42px;
+            overflow: hidden;
+        }
     }
 </style>
 <div class="bg-color-stripe"></div>
