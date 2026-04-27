@@ -12,7 +12,7 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.18'
+	array(), '1.19'
 );
 wp_enqueue_script(
 	'hp-script',
@@ -497,6 +497,61 @@ body.home #header-space {
 						<?php endforeach; ?>
 
 					<?php else : ?>
+						<?php
+						$work_default = [
+							[
+								'title'    => 'Connected Caregiver',
+								'subtitle' => 'A mobile platform connecting home-care teams and families in real time.',
+								'tags'     => 'Healthcare, Mobile',
+								'bg'       => 'background:linear-gradient(135deg,#1B4F72,#2980B9);',
+							],
+							[
+								'title'    => 'Churchill Downs',
+								'subtitle' => 'Enterprise platform modernization for one of America\'s most iconic venues.',
+								'tags'     => 'Enterprise, Web',
+								'bg'       => 'background:linear-gradient(135deg,#1A3C34,#2E7D52);',
+							],
+							[
+								'title'    => 'HealthRev',
+								'subtitle' => 'AI-powered revenue cycle management platform for healthcare providers.',
+								'tags'     => 'Healthcare, AI',
+								'bg'       => 'background:linear-gradient(135deg,#4A1060,#7B2FBE);',
+							],
+							[
+								'title'    => 'Paysign',
+								'subtitle' => 'Scalable prepaid card and payment processing platform for fintech.',
+								'tags'     => 'Fintech, Mobile',
+								'bg'       => 'background:linear-gradient(135deg,#1A265E,#2A4090);',
+							],
+							[
+								'title'    => 'ProjectTeam',
+								'subtitle' => 'Construction project management software built for the field.',
+								'tags'     => 'Construction, SaaS',
+								'bg'       => 'background:linear-gradient(135deg,#5C3D11,#A0692A);',
+							],
+							[
+								'title'    => 'Zoeller Group',
+								'subtitle' => 'Digital transformation and IoT dashboard for industrial pump systems.',
+								'tags'     => 'Industrial, IoT',
+								'bg'       => 'background:linear-gradient(135deg,#1A1A2E,#16213E);',
+							],
+						];
+						foreach ( $work_default as $wd ) :
+							$wd_tags = array_map( 'trim', explode( ',', $wd['tags'] ) );
+						?>
+						<a href="#" class="work-card">
+							<div class="work-card-image" style="<?php echo esc_attr( $wd['bg'] ); ?>"></div>
+							<div class="work-card-body">
+								<div class="work-card-tags">
+									<?php foreach ( $wd_tags as $tag ) : ?>
+										<span class="work-card-tag"><?php echo esc_html( $tag ); ?></span>
+									<?php endforeach; ?>
+								</div>
+								<h3 class="work-card-title"><?php echo esc_html( $wd['title'] ); ?></h3>
+								<p class="work-card-desc"><?php echo esc_html( $wd['subtitle'] ); ?></p>
+							</div>
+						</a>
+						<?php endforeach; ?>
 						<?php if ( $work_empty_notice ) : ?>
 							<p class="home-work-empty-notice"><?php echo esc_html( $work_empty_notice ); ?></p>
 						<?php endif; ?>

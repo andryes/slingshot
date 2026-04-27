@@ -397,7 +397,7 @@
 }
 .home-logos-strip .logo-item:hover { color: rgba(255,255,255,.95); }
 .home-logos-strip .logo-item img {
-    max-height: 28px;
+    height: 28px;
     width: auto;
     display: block;
     opacity: .92;
@@ -705,17 +705,12 @@
     margin: 0 0 28px;
     max-width: 460px;
 }
-.home-about-right::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background: rgba(27,16,96,.2);
-    margin: 0 0 28px;
-}
 .home-stats-grid {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 26px 22px;
+    border-top: 1px solid rgba(27,16,96,.12);
+    padding-top: 28px;
+    margin-top: 4px;
 }
 .home-stat-number {
     font-size: 52px; font-weight: 800;
