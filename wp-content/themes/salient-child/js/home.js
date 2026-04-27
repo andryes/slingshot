@@ -36,20 +36,20 @@
     $(window).on('scroll', updateHeaderState);
     updateHeaderState();
 
-    function cardsVisible() {
+    function cardsVisible(type) {
         var w = $(window).width();
         if (w < 768) return 1;
         if (w < 1100) return 2;
-        return 2;
+        return type === 'events' ? 2 : 3;
     }
 
-    function setupCarousel(trackSelector, cardSelector, prevSelector, nextSelector, progressSelector) {
+    function setupCarousel(trackSelector, cardSelector, prevSelector, nextSelector, progressSelector, type) {
         var index = 0;
         var $track = $(trackSelector);
         if (!$track.length) return null;
 
         function update() {
-            var vis = cardsVisible();
+            var vis = cardsVisible(type);
             var cards = $track.find(cardSelector);
             var total = cards.length;
             var max = Math.max(0, total - vis);
@@ -70,7 +70,7 @@
         }
 
         $(nextSelector).on('click', function() {
-            var vis = cardsVisible();
+            var vis = cardsVisible(type);
             var total = $track.find(cardSelector).length;
             if (index < total - vis) {
                 index++;
@@ -94,9 +94,9 @@
         };
     }
 
-    var workCarousel = setupCarousel('#workTrack', '.work-card', '#workPrev', '#workNext', '#workProgress');
-    var eventsCarousel = setupCarousel('#eventsTrack', '.event-card', '#eventsPrev', '#eventsNext', '#eventsProgress');
-    var blogCarousel = setupCarousel('#blogTrack', '.blog-card', '#blogPrev', '#blogNext', '#blogProgress');
+    var workCarousel = setupCarousel('#workTrack', '.work-card', '#workPrev', '#workNext', '#workProgress', 'work');
+    var eventsCarousel = setupCarousel('#eventsTrack', '.event-card', '#eventsPrev', '#eventsNext', '#eventsProgress', 'events');
+    var blogCarousel = setupCarousel('#blogTrack', '.blog-card', '#blogPrev', '#blogNext', '#blogProgress', 'blog');
 
     $(window).on('resize', function() {
         if (workCarousel) workCarousel.reset();

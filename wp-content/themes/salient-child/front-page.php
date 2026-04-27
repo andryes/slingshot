@@ -12,12 +12,12 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.19'
+	array(), '1.21'
 );
 wp_enqueue_script(
 	'hp-script',
 	get_stylesheet_directory_uri() . '/js/home.js',
-	array('jquery'), '1.6', true
+	array('jquery'), '1.7', true
 );
 
 get_header();
@@ -89,7 +89,13 @@ $hero_title      = hp_setting( 'home_hero_title',     'For Big Kids &amp; Darede
 $hero_subtitle   = hp_setting( 'home_hero_subtitle',  'A Tech Consultancy &amp; Creation Studio' );
 $hero_cta_text   = hp_setting( 'home_hero_cta_text',  'Book a call' );
 $hero_cta_url    = hp_setting( 'home_hero_cta_url',   '/contact' );
-$hero_card_img   = hp_image_url( 'home_hero_card_image', $img_dir . '/hero-person-1.jpg' );
+$hero_card_img   = hp_image_url( 'home_hero_card_image', '' );
+if ( ! $hero_card_img && ! empty( $blog_query->posts[0] ) ) {
+	$hero_card_img = get_the_post_thumbnail_url( $blog_query->posts[0]->ID, 'large' );
+}
+if ( ! $hero_card_img ) {
+	$hero_card_img = $img_dir . '/main-block-article.png';
+}
 $hero_card_text  = hp_setting( 'home_hero_card_text', '20 Years of Software &amp; Tech Expertise, at Your Service' );
 
 // Logos
@@ -119,14 +125,14 @@ $default_services = [
 		'desc'  => 'Cut through complexity and turn insight into impact—fast.',
 		'url'   => '/consulting',
 		'style' => 'featured',
-		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="28" height="20" rx="3" stroke="#4B23B0" stroke-width="2"/><path d="M14 28L12 32M26 28L28 32M10 32H30" stroke="#4B23B0" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="18" r="5" stroke="#4B23B0" stroke-width="2"/></svg>',
+		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="15" r="5" stroke="#4B23B0" stroke-width="2"/><circle cx="25" cy="15" r="5" stroke="#4B23B0" stroke-width="2"/><path d="M8 32c0-5 4-9 9-9h6c5 0 9 4 9 9" stroke="#4B23B0" stroke-width="2" stroke-linecap="round"/></svg>',
 	],
 	[
 		'title' => 'Artificial<br>Intelligence',
 		'desc'  => 'Embed intelligence into your products and workflows before your competitors do.',
 		'url'   => '/ai',
 		'style' => 'dark',
-		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="7" stroke="rgba(255,255,255,.85)" stroke-width="2"/><path d="M20 6V11M20 29V34M6 20H11M29 20H34M9.4 9.4l3.5 3.5M27.1 27.1l3.5 3.5M30.6 9.4l-3.5 3.5M12.9 27.1l-3.5 3.5" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/></svg>',
+		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 7l2.1 6.1L29 15.2l-5.9 2.1L21 24l-2.1-6.7L13 15.2l5.9-2.1L21 7z" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linejoin="round"/><path d="M12 23l1.2 3.4L16.5 28l-3.3 1.2L12 33l-1.2-3.8L7.5 28l3.3-1.6L12 23z" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linejoin="round"/></svg>',
 	],
 	[
 		'title' => 'Teams',
@@ -140,7 +146,7 @@ $default_services = [
 		'desc'  => 'From zero to launch—strategy, design, and engineering for founders who move fast.',
 		'url'   => '/product',
 		'style' => 'dark',
-		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="24" height="24" rx="4" stroke="rgba(255,255,255,.85)" stroke-width="2"/><path d="M14 20h12M14 14h12M14 26h6" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/></svg>',
+		'icon_svg' => '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="9" width="24" height="18" rx="3" stroke="rgba(255,255,255,.85)" stroke-width="2"/><path d="M16 31h8M20 27v4" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/></svg>',
 	],
 ];
 if ( empty( $services ) ) {
@@ -451,6 +457,8 @@ body.home #header-space {
 									<?php endif; ?>
 								</div>
 								<div class="work-card-body">
+									<h3 class="work-card-title"><?php the_title(); ?></h3>
+									<p class="work-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 18, '...' ); ?></p>
 									<div class="work-card-tags">
 										<?php
 										$terms = get_the_terms( get_the_ID(), 'portfolio_category' );
@@ -460,8 +468,6 @@ body.home #header-space {
 											<span class="work-card-tag"><?php echo esc_html( $t->name ); ?></span>
 										<?php endforeach; endif; ?>
 									</div>
-									<h3 class="work-card-title"><?php the_title(); ?></h3>
-									<p class="work-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 18, '...' ); ?></p>
 								</div>
 							</a>
 						<?php endwhile; wp_reset_postdata(); ?>
@@ -481,16 +487,16 @@ body.home #header-space {
 								<?php endif; ?>
 							</div>
 							<div class="work-card-body">
+								<h3 class="work-card-title"><?php echo esc_html( $wf_title ); ?></h3>
+								<?php if ( $wf_sub ) : ?>
+									<p class="work-card-desc"><?php echo esc_html( $wf_sub ); ?></p>
+								<?php endif; ?>
 								<?php if ( $wf_tags ) : ?>
 								<div class="work-card-tags">
 									<?php foreach ( $wf_tags as $tag ) : ?>
 										<span class="work-card-tag"><?php echo esc_html( $tag ); ?></span>
 									<?php endforeach; ?>
 								</div>
-								<?php endif; ?>
-								<h3 class="work-card-title"><?php echo esc_html( $wf_title ); ?></h3>
-								<?php if ( $wf_sub ) : ?>
-									<p class="work-card-desc"><?php echo esc_html( $wf_sub ); ?></p>
 								<?php endif; ?>
 							</div>
 						</a>
@@ -542,13 +548,13 @@ body.home #header-space {
 						<a href="#" class="work-card">
 							<div class="work-card-image" style="<?php echo esc_attr( $wd['bg'] ); ?>"></div>
 							<div class="work-card-body">
+								<h3 class="work-card-title"><?php echo esc_html( $wd['title'] ); ?></h3>
+								<p class="work-card-desc"><?php echo esc_html( $wd['subtitle'] ); ?></p>
 								<div class="work-card-tags">
 									<?php foreach ( $wd_tags as $tag ) : ?>
 										<span class="work-card-tag"><?php echo esc_html( $tag ); ?></span>
 									<?php endforeach; ?>
 								</div>
-								<h3 class="work-card-title"><?php echo esc_html( $wd['title'] ); ?></h3>
-								<p class="work-card-desc"><?php echo esc_html( $wd['subtitle'] ); ?></p>
 							</div>
 						</a>
 						<?php endforeach; ?>
@@ -723,6 +729,8 @@ body.home #header-space {
 									<?php endif; ?>
 								</div>
 								<div class="blog-card-body">
+									<h3 class="blog-card-title"><?php the_title(); ?></h3>
+									<p class="blog-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?></p>
 									<div class="blog-card-tags">
 										<?php
 										$cats = get_the_category();
@@ -732,8 +740,6 @@ body.home #header-space {
 											<span class="blog-card-tag"><?php echo esc_html( $cat->name ); ?></span>
 										<?php endforeach; endif; ?>
 									</div>
-									<h3 class="blog-card-title"><?php the_title(); ?></h3>
-									<p class="blog-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?></p>
 								</div>
 							</a>
 						<?php endwhile; wp_reset_postdata(); ?>
@@ -758,9 +764,9 @@ body.home #header-space {
 								<?php endif; ?>
 							</div>
 							<div class="blog-card-body">
-								<div class="blog-card-tags"><?php if ( $item_tag ) : ?><span class="blog-card-tag"><?php echo $item_tag; ?></span><?php endif; ?></div>
 								<h3 class="blog-card-title"><?php echo $item_title; ?></h3>
 								<p class="blog-card-desc"><?php echo $item_desc; ?></p>
+								<div class="blog-card-tags"><?php if ( $item_tag ) : ?><span class="blog-card-tag"><?php echo $item_tag; ?></span><?php endif; ?></div>
 							</div>
 						</a>
 						<?php endforeach; ?>

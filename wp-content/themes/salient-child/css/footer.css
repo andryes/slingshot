@@ -158,6 +158,30 @@
 .sl-footer-legal a:hover { color: rgba(255,255,255,.75); }
 .sl-footer-divider { color: rgba(255,255,255,.25); }
 
+@media (min-width: 1101px) {
+    .sl-footer {
+        background: #f5f4fb;
+        padding: 18px 16px 16px;
+    }
+
+    .sl-footer-card {
+        border-radius: 20px;
+    }
+
+    .sl-footer-main {
+        padding: 42px 0 44px;
+    }
+
+    .sl-footer-inner,
+    .sl-footer-bar-inner {
+        max-width: 1240px;
+    }
+
+    .sl-footer-bar {
+        padding: 16px 0;
+    }
+}
+
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 1100px) {
     .sl-footer-inner {
@@ -261,4 +285,3 @@
     .sl-modal { padding: 28px 22px 24px; }
     .sl-modal-row { grid-template-columns: 1fr; }
 }
-
