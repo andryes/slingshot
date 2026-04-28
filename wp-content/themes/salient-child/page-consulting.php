@@ -9,17 +9,60 @@ wp_enqueue_style(
 	'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
 	array(), null
 );
-wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
-wp_enqueue_style( 'consulting-style', get_stylesheet_directory_uri() . '/css/consulting.css', array(), '1.0' );
-wp_enqueue_script( 'consulting-script', get_stylesheet_directory_uri() . '/js/consulting.js', array( 'jquery' ), '1.1', true );
-wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
+wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.21' );
+wp_enqueue_style( 'consulting-style', get_stylesheet_directory_uri() . '/css/consulting.css', array(), '1.2' );
+wp_enqueue_script( 'consulting-script', get_stylesheet_directory_uri() . '/js/consulting.js', array( 'jquery' ), '1.2', true );
+wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.7', true );
 
 get_header();
 
-$img_dir = get_stylesheet_directory_uri() . '/img';
+$img_dir     = get_stylesheet_directory_uri() . '/img';
+$uploads_dir = content_url( 'uploads' );
+
+$consulting_hero_img_a  = $uploads_dir . '/2026/03/Your-Brand-Guidelines-Are-Invisible-to-AI.-Heres-the-Business-Cost_Featured-Image-LN-1000x500.png';
+$consulting_hero_img_b  = $uploads_dir . '/2025/07/From-Cost-to-Capability-How-CEOs-Are-Rethinking-ROI-with-AI_Featured-Image-LN-1000x500.png';
+$consulting_stats_img   = $img_dir . '/bg-first-block.png';
+$consulting_event_imgs  = [
+	$uploads_dir . '/2025/09/BCPS-Blog-Header-1000x442.jpg',
+	$uploads_dir . '/2026/03/Your-Brand-Guidelines-Are-Invisible-to-AI.-Heres-the-Business-Cost_Featured-Image-LN-1000x500.png',
+	$uploads_dir . '/2025/09/Ways-Rapid-AI-Prototyping-Speeds-Up-Go-to-Market_Facebook-1000x500.png',
+];
+$consulting_help_summaries = [
+	'ai-adoption'            => "You're exploring how AI can deliver real business value.",
+	'digital-transformation' => "You're ready to align teams and accelerate transformation.",
+	'legacy-modernization'   => 'You know your legacy systems are holding you back.',
+	'team-scaling'           => "You're facing bandwidth or capability gaps.",
+	'new-product'            => "You're ready to build a digital product, and you need to get it right.",
+	'ux-optimization'        => 'You need a product experience that drives loyalty and results.',
+];
+$consulting_help_icons = [
+	'ai-adoption'            => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 4l2.7 7.3L28 14l-7.3 2.7L18 24l-2.7-7.3L8 14l7.3-2.7L18 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 23l1.3 3.7L14 28l-3.7 1.3L9 33l-1.3-3.7L4 28l3.7-1.3L9 23zM28 3l.9 2.6L31.5 6.5l-2.6.9L28 10l-.9-2.6-2.6-.9 2.6-.9L28 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+	'digital-transformation' => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 8v20M9 28v-5a9 9 0 0 1 18 0v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 8l-5 7h10l-5-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+	'legacy-modernization'   => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="9" stroke="currentColor" stroke-width="2"/><path d="M7 16h18M16 7c2.7 2.8 4 5.8 4 9s-1.3 6.2-4 9c-2.7-2.8-4-5.8-4-9s1.3-6.2 4-9zM26 23l2 1.1 2-.9 1 2 2.2.7-.7 2.2 1 2-2 .9-.8 2.1-2.1-.7-2.1.8-.8-2.2-2-.9.9-2-.7-2.2 2.1-.8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+	'team-scaling'           => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><circle cx="18" cy="13" r="5" stroke="currentColor" stroke-width="2"/><path d="M9 29c0-5 4-9 9-9s9 4 9 9M8 18.5a4 4 0 0 1 4-4M24 14.5a4 4 0 0 1 4 4M3.5 28c.4-3.7 3.2-6.5 6.8-6.5M32.5 28c-.4-3.7-3.2-6.5-6.8-6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+	'new-product'            => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M19 5c5.8 1.3 9.7 5.2 11 11L20 26 10 16 19 5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 17l-5 2 7 4 4 7 2-5M22 13h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+	'ux-optimization'        => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M9 25l-2 5 5-2 16-16-3-3L9 25zM22 8l3-3 6 6-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+];
+$consulting_stats_labels = [
+	'Industry focus'    => 'Industries served',
+	'Projects launched' => 'Successful projects',
+	'Team members'      => 'Years in business',
+	'Clients served'    => 'Industry awards',
+];
 
 $services = slingshot_lp_consulting_help_services();
-$first    = $services[0];
+
+$stats_cta_text = slingshot_pm( 'con_stats_cta_text', 'Get in Touch' );
+if ( 'Explore Our Work' === $stats_cta_text ) {
+	$stats_cta_text = 'Get in Touch';
+}
+$stats_cta_url = slingshot_pm( 'con_stats_cta_url', '/contact/?looking=Consulting' );
+if ( '/work/' === $stats_cta_url || '/work' === $stats_cta_url ) {
+	$stats_cta_url = '/contact/?looking=Consulting';
+}
+$stats_story_desc = slingshot_pm( 'con_stats_story_desc', 'For over two decades, Slingshot has partnered with forward-thinking companies to reimagine what’s possible with technology.' );
+$stats_statement  = slingshot_pm( 'con_stats_statement', 'We bring deep technical expertise, cross-functional teams, and product thinking to every engagement, so you get outcomes, not just output.' );
+$cta_mascot       = slingshot_pm_image( 'con_cta_mascot', '' );
 
 $blog_n = (int) slingshot_pm( 'con_blog_posts', 3 );
 $blog_n = max( 1, min( 12, $blog_n ) );
@@ -72,10 +115,10 @@ slingshot_render_redesign_header(
 			<div class="con-hero-photos">
 				<div class="con-hero-photo-grid">
 					<div class="con-hero-photo con-hero-photo-a">
-						<img src="<?php echo esc_url( slingshot_pm_image('con_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_hero_img_a_alt', 'Slingshot consulting team' ) ); ?>">
+						<img src="<?php echo esc_url( slingshot_pm_image('con_hero_img_a', $consulting_hero_img_a ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_hero_img_a_alt', 'Slingshot consulting team' ) ); ?>">
 					</div>
 					<div class="con-hero-photo con-hero-photo-b">
-						<img src="<?php echo esc_url( slingshot_pm_image('con_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_hero_img_b_alt', 'Slingshot strategist at work' ) ); ?>">
+						<img src="<?php echo esc_url( slingshot_pm_image('con_hero_img_b', $consulting_hero_img_b ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_hero_img_b_alt', 'Slingshot strategist at work' ) ); ?>">
 					</div>
 				</div>
 			</div>
@@ -84,21 +127,34 @@ slingshot_render_redesign_header(
 
 	<section class="con-stats-section">
 		<div class="con-stats-inner">
-			<div class="con-stats-photo">
-				<img src="<?php echo esc_url( slingshot_pm_image('con_stats_image', $img_dir . '/main-block-article.png' ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_stats_image_alt', 'Slingshot team collaborating' ) ); ?>">
+			<div class="con-stats-card con-stats-story">
+				<div class="con-stats-photo">
+					<img src="<?php echo esc_url( slingshot_pm_image('con_stats_image', $consulting_stats_img ) ); ?>" alt="<?php echo esc_attr( slingshot_pm('con_stats_image_alt', 'Slingshot team collaborating' ) ); ?>">
+				</div>
+				<div class="con-stats-story-copy">
+					<h2 class="con-stats-heading"><?php echo nl2br( esc_html( slingshot_pm('con_stats_heading', "Built to Solve,\nScale, and Ship" ) ) ); ?></h2>
+					<p class="con-stats-story-desc"><?php echo esc_html( $stats_story_desc ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( $stats_cta_url ); ?>" class="con-stats-cta"><?php echo esc_html( $stats_cta_text ); ?> <span>&#8594;</span></a>
+				</div>
 			</div>
-			<div class="con-stats-content">
-				<h2 class="con-stats-heading"><?php echo nl2br( esc_html( slingshot_pm('con_stats_heading', "Built to Solve,\nScale, and Ship" ) ) ); ?></h2>
-				<p class="con-stats-desc"><?php echo esc_html( slingshot_pm('con_stats_desc', 'Harnessing deep technical expertise, cross-functional teams, and product thinking to every engagement, so you get outcomes, not just output.' ) ); ?></p>
+			<div class="con-stats-card con-stats-content">
+				<p class="con-stats-desc"><?php echo esc_html( $stats_statement ); ?></p>
+				<div class="con-stats-divider"></div>
 				<div class="con-stats-grid">
-					<?php foreach ( slingshot_lp_consulting_stats() as $st ) : ?>
+					<?php foreach ( slingshot_lp_consulting_stats() as $idx => $st ) : ?>
+					<?php
+					$stat_num   = $st['number'];
+					$stat_label = $consulting_stats_labels[ $st['label'] ] ?? $st['label'];
+					if ( 2 === (int) $idx && '20+' === $stat_num ) {
+						$stat_num = '20';
+					}
+					?>
 					<div class="con-stat">
-						<span class="con-stat-num"><?php echo esc_html( $st['number'] ); ?></span>
-						<span class="con-stat-label"><?php echo esc_html( $st['label'] ); ?></span>
+						<span class="con-stat-num"><?php echo esc_html( $stat_num ); ?></span>
+						<span class="con-stat-label"><?php echo esc_html( $stat_label ); ?></span>
 					</div>
 					<?php endforeach; ?>
 				</div>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_stats_cta_url', '/work/' ) ); ?>" class="con-stats-cta"><?php echo esc_html( slingshot_pm('con_stats_cta_text', 'Explore Our Work' ) ); ?> <span>&#8594;</span></a>
 			</div>
 		</div>
 	</section>
@@ -107,46 +163,32 @@ slingshot_render_redesign_header(
 		<div class="con-help-inner">
 			<h2 class="con-help-heading"><?php echo esc_html( slingshot_pm('con_help_heading', 'How Can We Help?' ) ); ?></h2>
 
-			<div class="con-help-body">
-				<div class="con-help-left">
-					<div class="con-help-featured" id="con-featured-card">
-						<div class="con-featured-tag"><?php echo esc_html( $first['featured_tag'] ); ?></div>
-						<p class="con-featured-text"><?php echo esc_html( $first['featured_text'] ); ?></p>
-						<a href="<?php echo slingshot_lp_h_attr( $first['featured_cta_url'] ); ?>" class="con-featured-cta"><span class="con-featured-cta-label"><?php echo esc_html( $first['featured_cta_text'] ); ?></span> <span>&#8594;</span></a>
+			<div class="con-help-accordion">
+				<?php foreach ( $services as $idx => $svc ) : ?>
+				<?php
+				$summary = $consulting_help_summaries[ $svc['service_key'] ] ?? $svc['featured_text'];
+				$icon    = $consulting_help_icons[ $svc['service_key'] ] ?? $svc['icon_svg'];
+				$cta     = 0 === $idx ? 'Let’s talk' : $svc['detail_cta_text'];
+				?>
+				<div class="con-help-item<?php echo 0 === $idx ? ' active' : ''; ?>"
+					data-service="<?php echo esc_attr( $svc['service_key'] ); ?>">
+					<div class="con-help-item-row">
+						<span class="con-help-icon"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<span class="con-help-label"><?php echo esc_html( $svc['accordion_label'] ); ?></span>
+						<span class="con-help-summary"><?php echo esc_html( $summary ); ?></span>
+						<span class="con-help-toggle" aria-hidden="true"><span class="con-help-plus">+</span><span class="con-help-minus">−</span></span>
 					</div>
-
-					<div class="con-help-accordion">
-						<?php foreach ( $services as $idx => $svc ) : ?>
-						<div class="con-help-item<?php echo 0 === $idx ? ' active' : ''; ?>"
-							data-service="<?php echo esc_attr( $svc['service_key'] ); ?>"
-							data-featured-tag="<?php echo esc_attr( $svc['featured_tag'] ); ?>"
-							data-featured-text="<?php echo esc_attr( $svc['featured_text'] ); ?>"
-							data-featured-cta-text="<?php echo esc_attr( $svc['featured_cta_text'] ); ?>"
-							data-featured-cta-url="<?php echo esc_attr( slingshot_lp_link_href( $svc['featured_cta_url'] ) ); ?>">
-							<div class="con-help-item-row">
-								<span class="con-help-icon"><?php echo $svc['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-								<span class="con-help-label"><?php echo esc_html( $svc['accordion_label'] ); ?></span>
-								<span class="con-help-toggle">+</span>
-							</div>
-						</div>
-						<?php endforeach; ?>
-					</div>
-				</div>
-
-				<div class="con-help-right">
-					<?php foreach ( $services as $idx => $svc ) : ?>
-					<div class="con-service-detail<?php echo 0 === $idx ? '' : ' hidden'; ?>" id="con-service-<?php echo esc_attr( $svc['service_key'] ); ?>">
-						<h3><?php echo esc_html( $svc['detail_title'] ); ?></h3>
-						<p><?php echo esc_html( $svc['detail_intro'] ); ?></p>
-						<ul>
+					<div class="con-help-panel">
+						<div class="con-help-divider"></div>
+						<ul class="con-help-bullets">
 							<?php foreach ( slingshot_lp_bullet_lines( $svc['detail_bullets'] ) as $li ) : ?>
-							<li><?php echo esc_html( $li ); ?></li>
+							<li><span class="con-help-check">✓</span><span><?php echo esc_html( $li ); ?></span></li>
 							<?php endforeach; ?>
 						</ul>
-						<a href="<?php echo slingshot_lp_h_attr( $svc['detail_cta_url'] ); ?>" class="con-service-link"><?php echo esc_html( $svc['detail_cta_text'] ); ?> <span>&#8594;</span></a>
+						<a href="<?php echo slingshot_lp_h_attr( $svc['detail_cta_url'] ); ?>" class="con-service-link"><?php echo esc_html( $cta ); ?> <span>&#8594;</span></a>
 					</div>
-					<?php endforeach; ?>
 				</div>
+				<?php endforeach; ?>
 			</div>
 		</div>
 	</section>
@@ -160,7 +202,7 @@ slingshot_render_redesign_header(
 					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('con_events_all_text', 'All Events →' ) ); ?></a>
 				</div>
 			</div>
-			<div class="home-events-cards">
+			<div class="home-events-cards" id="eventsTrack">
 				<?php
 				$ev_i = 0;
 				foreach ( slingshot_lp_consulting_events_cards() as $ev ) :
@@ -171,7 +213,7 @@ slingshot_render_redesign_header(
 						$img_url = slingshot_lp_attachment_url( $ev['image'], '', 'large' );
 					}
 					if ( ! $img_url && empty( $ev['image_bg_css'] ) ) {
-						$img_url = ( 1 === $ev_i % 2 ) ? $img_dir . '/hero-person-1.jpg' : $img_dir . '/hero-person-2.jpg';
+						$img_url = $consulting_event_imgs[ ( $ev_i - 1 ) % count( $consulting_event_imgs ) ];
 					}
 					$reg = ! empty( $ev['register_label'] ) ? $ev['register_label'] : 'Register →';
 					?>
@@ -192,12 +234,19 @@ slingshot_render_redesign_header(
 				</a>
 				<?php endforeach; ?>
 			</div>
+			<div class="home-carousel-footer">
+				<div class="home-carousel-progress"><span id="eventsProgress"></span></div>
+				<div class="home-carousel-nav">
+					<button type="button" class="carousel-nav-btn" id="eventsPrev" aria-label="Previous events">&#8592;</button>
+					<button type="button" class="carousel-nav-btn" id="eventsNext" aria-label="Next events">&#8594;</button>
+				</div>
+			</div>
 		</div>
 	</section>
 
 	<section class="con-clients-section">
 		<div class="con-clients-inner">
-			<p class="con-clients-label"><?php echo esc_html( slingshot_pm('con_clients_label', 'Our Trusted Clients' ) ); ?></p>
+			<h2 class="con-clients-label"><?php echo esc_html( slingshot_pm('con_clients_label', 'Our Trusted Clients' ) ); ?></h2>
 			<div class="home-logos-strip-wrapper">
 				<div class="home-logos-strip">
 					<?php
@@ -231,7 +280,7 @@ slingshot_render_redesign_header(
 					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('con_blog_cta_text', 'All Insights →' ) ); ?></a>
 				</div>
 			</div>
-			<div class="home-blog-cards">
+			<div class="home-blog-cards" id="blogTrack">
 				<?php if ( $blog_query->have_posts() ) : ?>
 					<?php
 					while ( $blog_query->have_posts() ) :
@@ -244,6 +293,8 @@ slingshot_render_redesign_header(
 								<?php endif; ?>
 							</div>
 							<div class="blog-card-body">
+								<h3 class="blog-card-title"><?php the_title(); ?></h3>
+								<p class="blog-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20, '...' ) ); ?></p>
 								<div class="blog-card-tags">
 									<?php
 									$cats = get_the_category();
@@ -256,8 +307,6 @@ slingshot_render_redesign_header(
 endif;
 									?>
 								</div>
-								<h3 class="blog-card-title"><?php the_title(); ?></h3>
-								<p class="blog-card-desc"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20, '...' ) ); ?></p>
 							</div>
 						</a>
 					<?php endwhile; ?>
@@ -272,6 +321,13 @@ endif;
 					</a>
 				<?php endif; ?>
 			</div>
+			<div class="home-carousel-footer">
+				<div class="home-carousel-progress"><span id="blogProgress"></span></div>
+				<div class="home-carousel-nav">
+					<button type="button" class="carousel-nav-btn" id="blogPrev" aria-label="Previous insights">&#8592;</button>
+					<button type="button" class="carousel-nav-btn" id="blogNext" aria-label="Next insights">&#8594;</button>
+				</div>
+			</div>
 		</div>
 	</section>
 
@@ -283,8 +339,8 @@ endif;
 				// 2. Fall back to the file in /img
 				// 3. Fall back to the inline SVG placeholder
 				$mascot_from_settings = $cta_mascot;
-				$mascot_file_path     = get_stylesheet_directory() . '/img/cta-mascot.png';
-				$mascot_file_url      = get_stylesheet_directory_uri() . '/img/cta-mascot.png';
+				$mascot_file_path     = get_stylesheet_directory() . '/img/consulting-cta-mascot.png';
+				$mascot_file_url      = get_stylesheet_directory_uri() . '/img/consulting-cta-mascot.png';
 
 				if ( $mascot_from_settings ) : ?>
 					<img src="<?php echo esc_url( $mascot_from_settings ); ?>" alt="Slingshot mascot">
