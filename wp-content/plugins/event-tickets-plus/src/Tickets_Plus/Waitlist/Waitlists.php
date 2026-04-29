@@ -229,7 +229,7 @@ class Waitlists {
 	 */
 	public function get( int $waitlist_id ): ?Waitlist {
 		try {
-			$waitlist = $this->table::fetch_first_where( DB::prepare( ' WHERE ' . $this->table::uid_column() . '=%d', $waitlist_id ), ARRAY_A );
+			$waitlist = $this->table::get_by_id( $waitlist_id );
 		} catch ( DatabaseQueryException $e ) {
 			return null;
 		}
@@ -253,7 +253,10 @@ class Waitlists {
 	 */
 	protected function get_posts_waitlist( int $post_id, int $type = Waitlist::TICKET_TYPE ): ?Waitlist {
 		try {
-			$waitlist = $this->table::fetch_first_where( DB::prepare( ' WHERE post_id=%d AND type=%d', $post_id, $type ), ARRAY_A );
+			$waitlist = DB::table( $this->table::table_name( false ) )
+				->where( 'post_id', $post_id )
+				->where( 'type', $type )
+				->get( ARRAY_A );
 		} catch ( DatabaseQueryException $e ) {
 			return null;
 		}

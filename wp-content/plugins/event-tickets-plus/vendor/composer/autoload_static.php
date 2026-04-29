@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit2516d083d80511f378f6917c8a188dab
 {
     public static $prefixLengthsPsr4 = array (
-        'T' => 
+        'T' =>
         array (
             'TEC\\Tickets_Wallet_Plus\\' => 24,
             'TEC\\Tickets_Plus\\' => 17,
@@ -15,11 +15,11 @@ class ComposerStaticInit2516d083d80511f378f6917c8a188dab
     );
 
     public static $prefixDirsPsr4 = array (
-        'TEC\\Tickets_Wallet_Plus\\' => 
+        'TEC\\Tickets_Wallet_Plus\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src/Tickets_Wallet_Plus',
         ),
-        'TEC\\Tickets_Plus\\' => 
+        'TEC\\Tickets_Plus\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src/Tickets_Plus',
         ),

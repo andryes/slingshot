@@ -10,11 +10,9 @@
 namespace TEC\Tickets_Plus\Ticket_Presets\Models;
 
 use TEC\Common\StellarWP\Arrays\Arr;
-use TEC\Common\StellarWP\Models\Contracts\ModelCrud;
-use TEC\Common\StellarWP\Models\Contracts\ModelFromQueryBuilderObject;
+use TEC\Common\StellarWP\Models\Contracts\ModelPersistable;
 use TEC\Common\StellarWP\Models\ModelQueryBuilder;
 use TEC\Tickets\Flexible_Tickets\Models\Ticket_Group;
-use TEC\Tickets_Plus\Ticket_Presets\Data_Transfer_Objects\Ticket_Preset_DTO;
 use TEC\Tickets_Plus\Ticket_Presets\Repositories\Ticket_Presets;
 use TEC\Tickets_Plus\Ticket_Presets\Meta;
 
@@ -32,7 +30,7 @@ use TEC\Tickets_Plus\Ticket_Presets\Meta;
  * @property int    $capacity      The capacity of the ticket.
  * @property string $name          The name of the ticket.
  */
-class Ticket_Preset extends Ticket_Group implements ModelCrud, ModelFromQueryBuilderObject {
+class Ticket_Preset extends Ticket_Group implements ModelPersistable {
 	/**
 	 * The Ticket Preset name.
 	 *
@@ -65,7 +63,7 @@ class Ticket_Preset extends Ticket_Group implements ModelCrud, ModelFromQueryBui
 	 *
 	 * @var array<string,string|int|array>
 	 */
-	protected $properties = [
+	protected static array $properties = [
 		'id'       => 'int',
 		'slug'     => 'string',
 		'data'     => 'string',
@@ -307,33 +305,6 @@ class Ticket_Preset extends Ticket_Group implements ModelCrud, ModelFromQueryBui
 	 */
 	public static function query(): ModelQueryBuilder {
 		return tribe( Ticket_Presets::class )->query();
-	}
-
-	/**
-	 * Builds a new model from a query builder object.
-	 *
-	 * @since 6.6.0
-	 *
-	 * @param object $passed_object The object to build the model from.
-	 *
-	 * @return Ticket_Preset The model instance.
-	 */
-	public static function fromQueryBuilderObject( $passed_object ): self {
-		$dto      = Ticket_Preset_DTO::fromObject( $passed_object );
-		$data     = json_decode( $dto->data, true );
-		$model    = new self();
-		$capacity = 'unlimited' === $data['capacity']['type'] ? -1 : $data['capacity']['amount'];
-
-		return new self(
-			[
-				'id'       => $dto->id,
-				'slug'     => $dto->slug,
-				'data'     => $dto->data,
-				'name'     => $data['name'] ?? $dto->name ?? '',
-				'cost'     => (string) number_format( (float) $data['cost'] ?? $dto->cost ?? '', $model->get_decimal_places(), $model->get_decimal_separator(), $model->get_thousands_separator() ),
-				'capacity' => $capacity,
-			]
-		);
 	}
 
 	/**
@@ -658,7 +629,7 @@ class Ticket_Preset extends Ticket_Group implements ModelCrud, ModelFromQueryBui
 		// Convert to float and check decimal places.
 		$float_value = (float) $value;
 		$parts       = explode( '.', (string) $float_value );
-		
+
 		if ( ! is_numeric( $float_value ) ) {
 			throw new \Exception( __( 'Cost must be a number.', 'event-tickets-plus' ) );
 		}

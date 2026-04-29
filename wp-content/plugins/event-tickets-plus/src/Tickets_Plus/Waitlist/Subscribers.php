@@ -77,7 +77,7 @@ class Subscribers {
 	 * @return Subscriber|null The subscriber or null if not found.
 	 */
 	public function get( int $subscriber_id ): ?Subscriber {
-		$subscriber = $this->subscribers_table::fetch_first_where( DB::prepare( ' WHERE ' . $this->subscribers_table::uid_column() . '=%d', $subscriber_id ), ARRAY_A );
+		$subscriber = $this->subscribers_table::get_by_id( $subscriber_id );
 
 		if ( empty( $subscriber ) ) {
 			return null;
@@ -169,6 +169,7 @@ class Subscribers {
 			],
 			$limit,
 			$page,
+			[ '*' ],
 			Subscribers_Table::class,
 			'waitlist_user_id=waitlist_user_id',
 			[ 'post_id', 'meta', 'status' ],
@@ -291,7 +292,7 @@ class Subscribers {
 	 *
 	 * @return bool Whether the user is already subscribed to the waitlist.
 	 */
-	public function user_already_subscribed_to_waitlist( Waitlist $waitlist, int $user_id = null, string $email = '' ): bool {
+	public function user_already_subscribed_to_waitlist( Waitlist $waitlist, ?int $user_id = null, string $email = '' ): bool {
 		$user = get_user_by( 'ID', $user_id ?? get_current_user_id() );
 		if ( $user instanceof WP_User && $user->ID > 0 ) {
 			$user_id = $user->ID;
@@ -299,14 +300,10 @@ class Subscribers {
 
 		if ( $user_id ) {
 			return ! empty(
-				$this->pending_subscribers_table::fetch_first_where(
-					DB::prepare(
-						'WHERE waitlist_id=%d AND wp_user_id=%d',
-						$waitlist->get_id(),
-						$user_id
-					),
-					ARRAY_A
-				)
+				DB::table( $this->pending_subscribers_table::table_name( false ) )
+					->where( 'waitlist_id', $waitlist->get_id() )
+					->where( 'wp_user_id', $user_id )
+					->get( ARRAY_A )
 			);
 		}
 
@@ -315,14 +312,10 @@ class Subscribers {
 		}
 
 		return ! empty(
-			$this->pending_subscribers_table::fetch_first_where(
-				DB::prepare(
-					'WHERE waitlist_id=%d AND email=%s',
-					$waitlist->get_id(),
-					$email
-				),
-				ARRAY_A
-			)
+			DB::table( $this->pending_subscribers_table::table_name( false ) )
+				->where( 'waitlist_id', $waitlist->get_id() )
+				->where( 'email', $email )
+				->get( ARRAY_A )
 		);
 	}
 

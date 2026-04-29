@@ -161,7 +161,7 @@ class Waitlist_Subscribers_Table extends Abstract_Custom_List_Table {
 	 * @return string
 	 */
 	public function column_status( $item ) {
-		$status = $item->status ?? 0;
+		$status = $item['status'] ?? 0;
 		$slug   = $status ? 'completed' : 'pending';
 		ob_start();
 		?>
@@ -199,7 +199,7 @@ class Waitlist_Subscribers_Table extends Abstract_Custom_List_Table {
 	 * @return string
 	 */
 	public function column_event( $item ): string {
-		$event_id = $item->post_id ?? 0;
+		$event_id = $item['post_id'] ?? 0;
 
 		if ( ! $event_id ) {
 			return '';
@@ -246,7 +246,7 @@ class Waitlist_Subscribers_Table extends Abstract_Custom_List_Table {
 	 * @return string
 	 */
 	public function column_created( $item ): string {
-		return $this->format_date( (string) $item->created );
+		return $this->format_date( $item['created']->format( 'Y-m-d H:i:s' ) );
 	}
 
 	/**
@@ -319,12 +319,12 @@ class Waitlist_Subscribers_Table extends Abstract_Custom_List_Table {
 		}
 
 		?>
-		<input id="cb-select-<?php echo esc_attr( $item->waitlist_user_id ); ?>; ?>" type="checkbox" name="subscriber[]" value="<?php echo esc_attr( $item->waitlist_user_id ); ?>" />
-		<label for="cb-select-<?php echo esc_attr( $item->waitlist_user_id ); ?>; ?>">
+		<input id="cb-select-<?php echo esc_attr( $item['waitlist_user_id'] ); ?>; ?>" type="checkbox" name="subscriber[]" value="<?php echo esc_attr( $item['waitlist_user_id'] ); ?>" />
+		<label for="cb-select-<?php echo esc_attr( $item['waitlist_user_id'] ); ?>; ?>">
 			<span class="screen-reader-text">
 			<?php
 				/* translators: %s: Subscriber name. */
-				printf( esc_html__( 'Select %s', 'event-tickets-plus' ), esc_html( $item->fullname ) );
+				printf( esc_html__( 'Select %s', 'event-tickets-plus' ), esc_html( $item['fullname'] ) );
 			?>
 			</span>
 		</label>
@@ -338,7 +338,7 @@ class Waitlist_Subscribers_Table extends Abstract_Custom_List_Table {
 	 *
 	 * @return array
 	 */
-	protected function get_bulk_actions(): array {
+	public function get_bulk_actions(): array {
 		return [ 'delete' => __( 'Delete', 'event-tickets-plus' ) ];
 	}
 
@@ -362,9 +362,9 @@ class Waitlist_Subscribers_Table extends Abstract_Custom_List_Table {
 			[
 				'delete' => sprintf(
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
-					tribe( Subscribers::class )->get_subscriber_full_delete_url( $item->waitlist_user_id ),
+					tribe( Subscribers::class )->get_subscriber_full_delete_url( $item['waitlist_user_id'] ),
 					/* translators: %s: Subscriber's name. */
-					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently', 'event-tickets-plus' ), $item->fullname ) ),
+					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently', 'event-tickets-plus' ), $item['fullname'] ) ),
 					__( 'Delete', 'event-tickets-plus' )
 				),
 			]

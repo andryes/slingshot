@@ -3,8 +3,8 @@
  * Plugin Name: Event Tickets Plus
  * Plugin URI:  https://evnt.is/1acc
  * Description: Event Tickets Plus lets you sell tickets to events, collect custom attendee information, and more! Includes advanced options like shared capacity between tickets, ticket QR codes, and integrations with your favorite ecommerce provider.
- * Version: 6.8.4
- * Requires at least: 6.6
+ * Version: 6.9.2
+ * Requires at least: 6.7
  * Requires PHP: 7.4
  * Requires Plugins: event-tickets
  * Author: The Events Calendar

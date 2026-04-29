@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets-plus',
-        'pretty_version' => 'dev-release/T25.lukecage',
-        'version' => 'dev-release/T25.lukecage',
-        'reference' => 'f87b37287d40e771a4cc42749fb1b50bded89b74',
+        'pretty_version' => 'dev-release/M26.chikorita',
+        'version' => 'dev-release/M26.chikorita',
+        'reference' => '8353130a0ce9a898248b459e3b5a3935988af96d',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'the-events-calendar/event-tickets-plus' => array(
-            'pretty_version' => 'dev-release/T25.lukecage',
-            'version' => 'dev-release/T25.lukecage',
-            'reference' => 'f87b37287d40e771a4cc42749fb1b50bded89b74',
+            'pretty_version' => 'dev-release/M26.chikorita',
+            'version' => 'dev-release/M26.chikorita',
+            'reference' => '8353130a0ce9a898248b459e3b5a3935988af96d',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -11,7 +11,7 @@ declare( strict_types=1 );
 
 namespace TEC\Tickets_Plus\REST\TEC\V1\Traits;
 
-use Tribe__Repository__Interface;
+use TEC\Common\Contracts\Repository_Interface;
 
 /**
  * Trait With_Tickets_Woo_ORM.
@@ -26,9 +26,9 @@ trait With_Tickets_Woo_ORM {
 	 *
 	 * @since 6.8.0
 	 *
-	 * @return Tribe__Repository__Interface The repository instance.
+	 * @return Repository_Interface The repository instance.
 	 */
-	public function get_orm(): Tribe__Repository__Interface {
+	public function get_orm(): Repository_Interface {
 		return tribe_tickets( 'woo' );
 	}
 }

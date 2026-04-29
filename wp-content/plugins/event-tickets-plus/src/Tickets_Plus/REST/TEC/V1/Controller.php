@@ -63,7 +63,7 @@ class Controller extends Controller_Contract {
 				Meta::$none_key,
 				[ Meta::$none_key, Meta::$allowed_key, Meta::$required_key ]
 			)
-		)->set_example( Meta::$allowed_key );
+		)->set_example( Meta::$none_key );
 
 		foreach ( $documentation['allOf'] as &$value ) {
 			unset(

@@ -9,8 +9,9 @@
  *
  * @since 5.1.0
  * @since 5.3.2 Add remove button to the ticket attendee.
+ * @since 6.9.0 Removed remove button from the ticket attendee.
  *
- * @version 5.3.2
+ * @version 6.9.0
  *
  * @var \Tribe\Tickets\Plus\Attendee_Registration\View $this                   [Global] The AR View instance.
  * @var array                                          $events                 [Global] Multidimensional array of post IDs with their ticket data.
@@ -39,7 +40,7 @@ $classes = [
 ];
 ?>
 <div
-	<?php tribe_classes( $classes ); ?>
+	<?php tec_classes( $classes ); ?>
 	data-ticket-id="<?php echo esc_attr( $ticket->ID ); ?>"
 >
 	<div class="tribe-tickets__attendee-tickets-item-header">
@@ -47,7 +48,6 @@ $classes = [
 			<?php /* Translators: 1 the attendee number, 2 the seat label if the ticket has a seat assigned in the format of " - Seat C8". */ ?>
 			<?php printf( esc_html_x( 'Attendee %1$s%2$s', 'Tickets modal attendee fields', 'event-tickets-plus' ), '{{data.attendee_id}}', '{{data.seat_label}}' ); ?>
 		</h4>
-		<?php $this->template( 'v2/attendee-registration/content/attendees/remove-button' ); ?>
 	</div>
 
 	<?php $field_render( $ticket, $post_id ); ?>

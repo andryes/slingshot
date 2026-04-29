@@ -23,12 +23,10 @@ use TEC\Tickets\Commerce\Checkout;
 use TEC\Tickets\Commerce\Gateways\Contracts\Gateway_Interface;
 use TEC\Tickets\Commerce\Module;
 use TEC\Tickets\Commerce\Status\Status_Interface;
-use TEC\Tickets\Commerce\Ticket;
 use TEC\Tickets_Plus\Commerce\Attendee;
 use TEC\Tickets_Plus\Commerce\Order;
 use Tribe\Tickets\Plus\Attendee_Registration\IAC;
 use WP_Post;
-
 use Tribe__Utils__Array as Arr;
 
 /**
@@ -317,10 +315,17 @@ class Hooks extends \TEC\Common\Contracts\Service_Provider {
 		$tickets_meta       = tribe( \Tribe__Tickets_Plus__Meta::class );
 
 		// Calculate number of attendees with ARF.
-		$attendees_with_arf = array_reduce( $args['items'], static function( $qty, $item ) use ( $tickets_meta ) {
-			$arf_quantity = $tickets_meta->ticket_has_arf( $item['ticket_id'] ) ? $item['quantity'] : 0 ;
-			return $qty + $arf_quantity;
-		}, 0 );
+		$attendees_with_arf = array_reduce(
+			array_filter(
+				$args['items'],
+				fn ( $item ) => isset( $item['ticket_id'] )
+			),
+			static function ( $qty, $item ) use ( $tickets_meta ) {
+				$arf_quantity = $tickets_meta->ticket_has_arf( $item['ticket_id'] ) ? $item['quantity'] : 0;
+				return $qty + $arf_quantity;
+			},
+			0
+		);
 
 		$args['attendees_with_arf'] = $attendees_with_arf;
 

@@ -29,6 +29,7 @@ services:
       - ./wp-content:/var/www/html/wp-content
       - ./figma:/var/www/html/figma:ro
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./adminer.php:/var/www/html/adminer.php
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_NAME: yslingshot

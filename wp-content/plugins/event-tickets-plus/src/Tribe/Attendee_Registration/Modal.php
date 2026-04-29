@@ -18,7 +18,6 @@ class Modal {
 	public function hook() {
 		add_action( 'tribe_tickets_plus_render_ar_modal_template', [ $this, 'append_modal_ar_template' ] );
 		add_action( 'tribe_template_entry_point:tickets/v2/tickets:after_form', [ $this, 'render_modal_target' ] );
-		add_action( 'tribe_template_before_include:tickets/v2/tickets/item/content', [ $this, 'render_modal_item_remove' ], 10, 3 );
 		add_action( 'tribe_template_before_include:tickets/v2/tickets/item/opt-out', [ $this, 'render_modal_item_total' ], 10, 3 );
 		add_action( 'tribe_template_before_include:tickets/v2/tickets/item/opt-out', [ $this, 'render_modal_item_opt_out' ], 10, 3 );
 		add_action( 'tribe_template_before_include:tickets/v2/tickets/submit/button', [ $this, 'render_modal_submit_button' ], 10, 3 );
@@ -41,11 +40,14 @@ class Modal {
 	 *
 	 * @since 5.1.0
 	 *
+	 * @deprecated 6.9.0
+	 *
 	 * @param string           $file        Complete path to include the PHP File.
 	 * @param array            $name        Template name.
 	 * @param \Tribe__Template $et_template Current instance of the Tribe__Template.
 	 */
 	public function render_modal_item_remove( $file, $name, $et_template ) {
+		_deprecated_function( __METHOD__, '6.9.0' );
 		/** @var \Tribe__Tickets_Plus__Template $template */
 		$template = tribe( 'tickets-plus.template' );
 

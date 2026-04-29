@@ -14,7 +14,7 @@ if ( ! class_exists( 'Tribe__Tickets_Plus__Main' ) ) {
 		/**
 		 * Current version of this plugin.
 		 */
-		const VERSION = '6.8.4';
+		const VERSION = '6.9.2';
 
 		/**
 		 * Used to store the version history.
@@ -185,6 +185,9 @@ if ( ! class_exists( 'Tribe__Tickets_Plus__Main' ) ) {
 				'build/',
 				false
 			);
+
+			tec_svg_register_namespace( '@ticketsPlus', $this->plugin_path . 'src/resources/icons/' );
+
 			// Setup Main Service Provider.
 			tribe_register_provider( 'Tribe__Tickets_Plus__Service_Provider' );
 

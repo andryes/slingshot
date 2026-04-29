@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Tickets tag for the TEC REST API V1.
+ * Tickets Plus tag for the TEC REST API V1.
  *
  * @since 6.8.0
  *

@@ -16,6 +16,7 @@ use Exception;
 use TEC\Tickets_Plus\Waitlist\Tables\Waitlist_Subscribers as Subscribers_Table;
 use TEC\Tickets_Plus\Waitlist\Tables\Waitlist_Pending_Users as Pending_Subscribers_Table;
 use DateTime;
+use DateTimeInterface;
 
 /**
  * Class Subscriber.
@@ -135,7 +136,7 @@ class Subscriber {
 			}
 		}
 
-		if ( ! empty( $this->original_data['created'] ) && ! is_numeric( $this->original_data['created'] ) ) {
+		if ( ! empty( $this->original_data['created'] ) && ! is_numeric( $this->original_data['created'] ) && ! is_object( $this->original_data['created'] ) ) {
 			$this->original_data['created'] = strtotime( $this->original_data['created'] );
 		}
 
@@ -651,14 +652,20 @@ class Subscriber {
 
 		$id = $this->get_id();
 
-		$to_be_updated = $force ? $this->data : array_diff_assoc( $this->data, $this->original_data );
+		$pre_created  = $this->original_data['created'] ?? null;
+		$post_created = $this->data['created'] ?? null;
+
+		$clone_data          = $this->data;
+		$clone_original_data = $this->original_data;
+
+		unset( $clone_data['created'], $clone_original_data['created'] );
+
+		$to_be_updated = $force ? $this->data : array_merge( array_diff_assoc( $clone_data, $clone_original_data ), [ 'created' => $post_created ] );
 
 		unset( $to_be_updated['waitlist_user_id'], $to_be_updated['waitlist_id'] );
 
 		if ( ! empty( $to_be_updated ) ) {
-			if ( ! empty( $to_be_updated['created'] ) ) {
-				$to_be_updated['created'] = DateTime::createFromFormat( 'U', $to_be_updated['created'] )->format( 'Y-m-d H:i:s' );
-			}
+			$to_be_updated['created'] = $post_created instanceof DateTimeInterface ? $post_created->format( 'Y-m-d H:i:s' ) : $pre_created->format( 'Y-m-d H:i:s' );
 
 			$result = DB::update(
 				Subscribers_Table::table_name( true ),

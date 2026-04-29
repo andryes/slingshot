@@ -1,5 +1,62 @@
 # Changelog
 
+### [5.27.6.1] 2026-04-15
+
+* Security - Improves PayPal's and Square's handle failure endpoint. [SVUL-71]
+
+### [5.27.6] 2026-04-07
+
+* Security - Strengthen event attendee data access controls. [SVUL-62]
+* Language - 0 new strings added, 14 updated, 0 fuzzied, and 0 obsoleted.
+
+### [5.27.5] 2026-03-11
+
+* Fix - Change the way that the available tickets was being calculated on event list [ET-2629]
+* Fix - Correctly save RSVP capacity in Block Editor. [ET-2631]
+* Fix - Improve accessibility by updating the Stripe credit card form input error color to meet contrast validation requirements. [ET-2620]
+* Fix - Remove json_ld from RSVP emails [ET-2084]
+* Tweak - Changed views: `modal/item-remove`, `tickets/email`, `v2/rsvp/messages/error`, `v2/rsvp/messages/must-login`, `v2/rsvp/messages/success/going`, `v2/rsvp/messages/success/not-going`, `v2/tickets/item/content/description-toggle`, `v2/tickets/item/extra/description-toggle`
+* Tweak - Make email headers accessible in the Tickets Email Template. [ET-2612]
+* Accessibility - Add aria-label to the close button on ticket list modal [ET-2228]
+* Accessibility - Add the attribute "role" on RSVP alerts to improve accessibility. [ET-2227]
+* Accessibility - Prevent loss of focus when description content is hidden in the checkout modal. [ET-2230]
+* Accessibility - Set the toggle description button state programmatically with aria-expanded in the checkout modal. [ET-2229]
+* Language - 1 new strings added, 28 updated, 0 fuzzied, and 0 obsoleted.
+
+### [5.27.4.1] 2026-03-02
+
+* Security - Strengthen token verification for Stripe. [SVUL-51]
+
+### [5.27.4] 2026-01-28
+
+* Tweak - Amend small typos in text domains. Props to @DAnn2012! [ET-2596]
+* Language - 1 new strings added, 38 updated, 0 fuzzied, and 0 obsoleted.
+
+### [5.27.3] 2025-12-18
+
+* Security - Strengthen the user access level in the system information opt-in functionality. [SVUL-35]
+
+### [5.27.2] 2025-12-09
+
+* Fix - Fixed - Error in block editor that would prevent saving events with Tickets directly. [TECTRIA-1464]
+* Language - 0 new strings added, 2 updated, 0 fuzzied, and 0 obsoleted.
+
+### [5.27.1] 2025-12-03
+
+* Fix - Resolved block editor JavaScript errors in WordPress 6.9 by properly importing `sprintf` from `@wordpress/i18n`. [ET-2595]
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted.
+
+### [5.27.0] 2025-11-18
+
+* Version - Event Tickets 5.27.0 is only compatible with The Events Calendar 6.15.12 or higher.
+* Version - Event Tickets 5.27.0 is only compatible with Event Tickets Plus 6.9.0 or higher.
+* Tweak - Added filters: `tec_tickets_panels`
+* Tweak - Added actions: `tec_tickets_ticket_pre_save`
+* Tweak - Changed views: `v2/commerce/checkout/cart/items`, `v2/tickets/item`, `v2/tickets/item/quantity`, `v2/tickets/item/quantity/number`
+* Tweak - Updates Shepherd library to 0.0.9 from 0.0.6 including various improvements. Shepherd's changelog can be found here https://github.com/stellarwp/shepherd/blob/0.0.9/CHANGELOG.md
+* Tweak - Supports conditional ticket quantity control availability. [ETP-1061]
+* Language - 1 new strings added, 52 updated, 2 fuzzied, and 3 obsoleted.
+
 ### [5.26.7] 2025-10-28
 
 * Fix - Add logic to only show the purchase button during checkout after billing info is filled out. [ET-2592]

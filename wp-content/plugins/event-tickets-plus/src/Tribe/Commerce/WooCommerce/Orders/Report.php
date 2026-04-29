@@ -38,7 +38,7 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 	public function __construct() {
 		// Register before the default priority of 10 to avoid submenu hook issues.
 		add_action( 'admin_menu', [ $this, 'orders_page_register' ], 5 );
-		add_filter( 'post_row_actions', array( $this, 'orders_row_action' ) );
+		add_filter( 'post_row_actions', [ $this, 'orders_row_action' ] );
 		add_filter( 'tribe_filter_attendee_order_link', [ $this, 'filter_editor_orders_link' ], 10, 2 );
 
 		// Register the WooCommerce orders report tab.
@@ -82,7 +82,6 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 		add_action( 'admin_enqueue_scripts', tribe_callback( 'tickets.attendees', 'enqueue_assets' ) );
 		add_action( 'admin_enqueue_scripts', tribe_callback( 'tickets.attendees', 'load_pointers' ) );
 		add_action( "load-$this->orders_page", [ $this, 'orders_page_screen_setup' ] );
-
 	}
 
 	/**
@@ -90,8 +89,8 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 	 *
 	 * @since 4.10
 	 *
-	 * @param string $url     a url for the order page for an event
-	 * @param int    $post_id the post id for the current event
+	 * @param string $url     a url for the order page for an event.
+	 * @param int    $post_id the post id for the current event.
 	 *
 	 * @return string
 	 */
@@ -128,7 +127,7 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 	public function orders_row_action( $actions ) {
 		global $post;
 
-		// the orders table only works with WooCommerce
+		// the orders table only works with WooCommerce.
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $actions;
 		}
@@ -163,10 +162,10 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 	 * Setups the Orders screen data.
 	 */
 	public function orders_page_screen_setup() {
-		$this->orders_table = new Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Table;
+		$this->orders_table = new Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Table();
 		wp_enqueue_script( 'jquery-ui-dialog' );
 
-		add_filter( 'admin_title', array( $this, 'orders_admin_title' ), 10, 2 );
+		add_filter( 'admin_title', [ $this, 'orders_admin_title' ], 10, 2 );
 	}
 
 	/**
@@ -222,7 +221,7 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 		$this->orders_table->display();
 		$table = ob_get_clean();
 
-		// Build and render the tabbed view from Event Tickets and set this as the active tab
+		// Build and render the tabbed view from Event Tickets and set this as the active tab.
 		$tabbed_view = new Tribe__Tickets__Commerce__Orders_Tabbed_View();
 		$tabbed_view->set_active( self::$tab_slug );
 		$tabbed_view->render();
@@ -232,9 +231,9 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 		if ( is_callable( [ $order_summary_data, 'init' ] ) ) {
 			$order_summary_data->init();
 		}
-		$post_type_object    = get_post_type_object( $event->post_type );
-		$post_singular_label = $post_type_object->labels->singular_name;
-		$order_summary_context =  [
+		$post_type_object       = get_post_type_object( $event->post_type );
+		$post_singular_label    = $post_type_object->labels->singular_name;
+		$order_summary_context  = [
 			'post_id'             => $event_id,
 			'post'                => $event,
 			'post_singular_label' => $post_singular_label,
@@ -244,12 +243,15 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 
 		/** @var \Tribe__Tickets_Plus__Admin__Views $view */
 		$view = tribe( 'tickets-plus.admin.views' );
-		$view->template( 'woocommerce-orders', [
-			'event_id'      => $event_id,
-			'event'         => $event,
-			'order_summary' => $order_summary_template,
-			'table'         => $table
-		] );
+		$view->template(
+			'woocommerce-orders',
+			[
+				'event_id'      => $event_id,
+				'event'         => $event,
+				'order_summary' => $order_summary_template,
+				'table'         => $table,
+			]
+		);
 	}
 
 	/**
@@ -275,100 +277,145 @@ class Tribe__Tickets_Plus__Commerce__WooCommerce__Orders__Report {
 	}
 
 	/**
-	 * Retrieves a formatted list of WooCommerce order statuses.
-	 * This method retrieves a list of WooCommerce order statuses and formats them for use in database queries.
+	 * Returns a normalized array of WooCommerce order statuses with the 'wc-' prefix.
+	 *
+	 * @since 5.9.3
+	 *
+	 * @return string[] Normalized WooCommerce order statuses.
+	 */
+	private static function get_statuses(): array {
+		$status_manager = tribe( 'tickets.status' );
+		$order_statuses = (array) $status_manager->get_statuses_by_action( 'all', 'woo' );
+
+		$normalized = array_map(
+			static function ( string $status ): string {
+				$status = strtolower( $status );
+				return str_starts_with( $status, 'wc-' ) ? $status : 'wc-' . $status;
+			},
+			$order_statuses
+		);
+
+		return array_values( array_unique( $normalized ) );
+	}
+
+	/**
+	 * Retrieves a comma-separated list of WooCommerce order statuses for use in queries.
 	 *
 	 * @since 5.9.3
 	 *
 	 * @return string Comma-separated list of formatted WooCommerce order statuses.
 	 */
 	public static function get_formatted_status_list(): string {
-		$status_manager = tribe( 'tickets.status' );
-		$order_statuses = (array) $status_manager->get_statuses_by_action( 'all', 'woo' );
-
-		// Normalize order status strings to ensure consistency.
-		$normalized_statuses = array_map(
-			function ( $status ) {
-				$status = strtolower( $status );
-				return str_starts_with( $status, 'wc-' ) ? $status : 'wc-' . $status;
-			},
-			$order_statuses
-		);
-		$normalized_statuses = array_unique( $normalized_statuses );
-		$status_list         = array_map(
-			function ( $v ) {
-				return "'" . esc_sql( $v ) . "'";
-			},
-			$normalized_statuses
-		);
-
-		return implode( ',', $status_list );
+		return implode( ',', self::get_statuses() );
 	}
 
 	/**
-	 * Get total sales and line totals per product by order status.
+	 * Get total sales and line totals per product grouped by order status.
 	 *
-	 * This function retrieves the total sales (quantity) and total line totals
-	 * for a specific product, grouped by each order status.
+	 * Uses two focused queries to enable MySQL index usage on both lookups:
+	 *  1. Resolve order_item_ids via the composite index on (meta_key, meta_value).
+	 *  2. Aggregate totals using IN() on item IDs and statuses — both indexable,
+	 *     unlike FIND_IN_SET (prevents status index use) or a derived-table JOIN
+	 *     (forces temp-table materialization).
 	 *
-	 * @since 5.9.1 updated logic to new WooCommerce HPOS requirement.
+	 * Note: $order_item_ids grows linearly with order volume. For very high-volume
+	 * products the IN() list will be large; consider chunking if needed.
+	 *
+	 * @since 5.9.1 Updated logic to new WooCommerce HPOS requirement.
 	 * @since 5.9.3 Refactored WooCommerce ORM to use direct query.
+	 * @since 6.9.2 HPOS: query wc_orders + order items instead of wc_order_product_lookup
+	 *              so mixed orders (ticket + regular product) report correct ticket sales.
+	 *              Refactored to two-query approach for full index usage on both paths.
 	 *
 	 * @param int $product_id The ID of the product to retrieve sales data for.
 	 *
-	 * @return array|bool Associative array with order status as keys and objects containing total quantities
-	 *                    and line totals as values, or false if no product ID is provided.
+	 * @return array|bool Associative array keyed by order status containing objects with
+	 *                    total quantities and line totals, or false on invalid input.
 	 */
 	public static function get_total_sales_per_productby_status( $product_id ) {
 		global $wpdb;
 
-		$status_list           = self::get_formatted_status_list();
-		$total_sales_by_status = array_fill_keys( explode( ',', $status_list ), [] );
-
-		if ( ! tribe( 'tickets-plus.commerce.woo' )->is_hpos_enabled() ) {
-			$query = $wpdb->prepare(
-				"SELECT p.post_status AS status,
-					COALESCE(SUM(CASE WHEN woim.meta_key = '_qty' THEN woim.meta_value ELSE 0 END), 0) AS total_qty,
-					COALESCE(SUM(CASE WHEN woim.meta_key = '_line_total' THEN woim.meta_value ELSE 0 END), 0) AS total_line_total
-					FROM {$wpdb->prefix}posts AS p
-					INNER JOIN {$wpdb->prefix}woocommerce_order_items AS woi ON p.ID = woi.order_id
-					INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS woim ON woi.order_item_id = woim.order_item_id
-					INNER JOIN (SELECT DISTINCT order_item_id FROM {$wpdb->prefix}woocommerce_order_itemmeta
-					WHERE meta_key IN ('_product_id', '_variation_id') AND meta_value = %d) AS filtered_items ON woim.order_item_id = filtered_items.order_item_id
-					WHERE woim.meta_key IN ('_qty', '_line_total')
-					AND woi.order_item_type = 'line_item'
-					AND p.post_type = 'shop_order'
-					AND p.post_status in ({$status_list})
-					GROUP BY p.post_status
-				",
-				$product_id
-			);
-		} else {
-			// For HPOS.
-			$query = $wpdb->prepare(
-				"SELECT
-					os.status AS status,
-					COALESCE(SUM(opl.product_qty), 0) AS total_qty,
-					COALESCE(SUM(os.total_sales), 0) AS total_line_total
-					FROM {$wpdb->prefix}wc_order_product_lookup AS opl
-					INNER JOIN {$wpdb->prefix}wc_order_stats AS os ON opl.order_id = os.order_id
-					WHERE opl.product_id = %d
-					AND os.status in ({$status_list})
-					GROUP BY os.status
-				",
-				$product_id
-			);
+		if ( ! is_numeric( $product_id ) || $product_id <= 0 ) {
+			return false;
 		}
+
+		$product_id            = absint( $product_id );
+		$statuses              = self::get_statuses();
+		$total_sales_by_status = array_fill_keys( $statuses, [] );
+
+		/*
+		 * Query 1: Resolve order_item_ids for this product.
+		 * Hits the composite index on (meta_key, meta_value); shared by both paths.
+		 */
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$order_item_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT order_item_id
+				FROM {$wpdb->prefix}woocommerce_order_itemmeta
+				WHERE meta_key IN ('_product_id', '_variation_id')
+				AND meta_value = %d",
+				$product_id
+			)
+		);
+
+		if ( empty( $order_item_ids ) ) {
+			return $total_sales_by_status;
+		}
+
+		/*
+		 * Query 2: Aggregate qty and line totals grouped by status.
+		 * Table/column names differ between legacy (posts) and HPOS (wc_orders) but the
+		 * query structure is identical, so we parameterise the identifiers and run one template.
+		 */
+		if ( tribe( 'tickets-plus.commerce.woo' )->is_hpos_enabled() ) {
+			$orders_table      = "{$wpdb->prefix}wc_orders";
+			$orders_id_col     = 'id';
+			$orders_type_col   = 'type';
+			$orders_status_col = 'status';
+		} else {
+			$orders_table      = "{$wpdb->prefix}posts";
+			$orders_id_col     = 'ID';
+			$orders_type_col   = 'post_type';
+			$orders_status_col = 'post_status';
+		}
+
+		$order_item_ids      = array_map( 'absint', $order_item_ids );
+		$id_placeholders     = implode( ',', array_fill( 0, count( $order_item_ids ), '%d' ) );
+		$status_placeholders = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
+		$query_args          = array_merge( $order_item_ids, $statuses );
+
+		// Table/column identifiers are derived from hardcoded strings — not user input.
+		// $id_placeholders and $status_placeholders are built solely from array_fill('%d'/'%s').
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+		$query = $wpdb->prepare(
+			"SELECT orders.{$orders_status_col} AS status,
+				COALESCE(SUM(CASE WHEN woim.meta_key = '_qty' THEN woim.meta_value ELSE 0 END), 0) AS total_qty,
+				COALESCE(SUM(CASE WHEN woim.meta_key = '_line_total' THEN woim.meta_value ELSE 0 END), 0) AS total_line_total
+			FROM {$orders_table} AS orders
+			INNER JOIN {$wpdb->prefix}woocommerce_order_items AS woi ON orders.{$orders_id_col} = woi.order_id
+			INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS woim ON woi.order_item_id = woim.order_item_id
+			WHERE woi.order_item_id IN ({$id_placeholders})
+			AND woim.meta_key IN ('_qty', '_line_total')
+			AND woi.order_item_type = 'line_item'
+			AND orders.{$orders_type_col} = 'shop_order'
+			AND orders.{$orders_status_col} IN ({$status_placeholders})
+			GROUP BY orders.{$orders_status_col}",
+			...$query_args
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $query );
 
 		foreach ( $results as $result ) {
-			$result_obj                                 = (object) [
+			$status_key = strtolower( $result->status );
+			if ( ! str_starts_with( $status_key, 'wc-' ) ) {
+				$status_key = 'wc-' . $status_key;
+			}
+			$total_sales_by_status[ $status_key ][] = (object) [
 				'_qty'        => $result->total_qty,
 				'_line_total' => $result->total_line_total,
 			];
-			$total_sales_by_status[ $result->status ][] = $result_obj;
 		}
 
 		return $total_sales_by_status;

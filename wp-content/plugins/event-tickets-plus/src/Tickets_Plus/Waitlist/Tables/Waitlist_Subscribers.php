@@ -9,7 +9,16 @@
 
 namespace TEC\Tickets_Plus\Waitlist\Tables;
 
-use TEC\Common\Integrations\Custom_Table_Abstract as Table;
+use TEC\Common\StellarWP\Schema\Tables\Contracts\Table;
+use TEC\Common\StellarWP\Schema\Collections\Column_Collection;
+use TEC\Common\StellarWP\Schema\Columns\String_Column;
+use TEC\Common\StellarWP\Schema\Columns\Integer_Column;
+use TEC\Common\StellarWP\Schema\Columns\Referenced_ID;
+use TEC\Common\StellarWP\Schema\Tables\Table_Schema;
+use TEC\Common\StellarWP\Schema\Columns\ID;
+use TEC\Common\StellarWP\Schema\Columns\Column_Types;
+use TEC\Common\StellarWP\Schema\Columns\Text_Column;
+use TEC\Common\StellarWP\Schema\Columns\Created_At;
 
 /**
  * Waitlist_Subscribers table schema.
@@ -71,79 +80,27 @@ class Waitlist_Subscribers extends Table {
 	/**
 	 * An array of all the columns in the table.
 	 *
-	 * @since 6.2.0
+	 * @since 6.9.0
 	 *
 	 * @var string[]
 	 */
-	public static function get_columns(): array {
+	public static function get_schema_history(): array {
+		$table_name = self::table_name();
+
 		return [
-			static::$uid_column,
-			'post_id',
-			'wp_user_id',
-			'status',
-			'fullname',
-			'email',
-			'meta',
-			'created',
+			self::SCHEMA_VERSION => function () use ( $table_name ) {
+				$columns   = new Column_Collection();
+				$columns[] = new ID( 'waitlist_user_id' );
+				$columns[] = new Referenced_ID( 'post_id' );
+				$columns[] = ( new Referenced_ID( 'wp_user_id' ) )->set_nullable( true );
+				$columns[] = ( new Integer_Column( 'status' ) )->set_type( Column_Types::TINYINT )->set_length( 1 )->set_default( 0 );
+				$columns[] = ( new String_Column( 'fullname' ) )->set_length( 255 )->set_nullable( true )->set_searchable( true );
+				$columns[] = ( new String_Column( 'email' ) )->set_length( 255 )->set_nullable( true )->set_searchable( true );
+				$columns[] = ( new Text_Column( 'meta' ) )->set_type( Column_Types::LONGTEXT )->set_nullable( true );
+				$columns[] = new Created_At( 'created' );
+
+				return new Table_Schema( $table_name, $columns );
+			},
 		];
-	}
-
-	/**
-	 * Returns the columns that can be searched.
-	 *
-	 * @since 6.2.0
-	 *
-	 * @return string[] The columns that can be searched.
-	 */
-	public static function get_searchable_columns(): array {
-		return [
-			'fullname',
-			'email',
-		];
-	}
-
-	/**
-	 * Returns the table creation SQL in the format supported
-	 * by the `dbDelta` function.
-	 *
-	 * @since 6.2.0
-	 *
-	 * @return string The table creation SQL, in the format supported
-	 *                by the `dbDelta` function.
-	 */
-	protected function get_definition() {
-		global $wpdb;
-		$table_name      = self::table_name( true );
-		$charset_collate = $wpdb->get_charset_collate();
-		$uid_column      = self::uid_column();
-
-		return "
-			CREATE TABLE `{$table_name}` (
-				`{$uid_column}` bigint(20) NOT NULL AUTO_INCREMENT,
-				`post_id` bigint(20) NOT NULL,
-				`wp_user_id` bigint(20) NULL,
-				`status` tinyint(1) NOT NULL DEFAULT 0,
-				`fullname` varchar(255) NULL,
-				`email` varchar(255) NULL,
-				`meta` LONGTEXT NULL,
-				`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				PRIMARY KEY (`{$uid_column}`)
-			) {$charset_collate};
-		";
-	}
-
-	/**
-	 * Add indexes after table creation.
-	 *
-	 * @since 6.2.0
-	 *
-	 * @param array<string,string> $results A map of results in the format
-	 *                                      returned by the `dbDelta` function.
-	 *
-	 * @return array<string,string> A map of results in the format returned by
-	 *                              the `dbDelta` function.
-	 */
-	protected function after_update( array $results ) {
-		return $this->check_and_add_index( $results, 'post_id', 'post_id' );
 	}
 }

@@ -9,11 +9,9 @@
 
 namespace TEC\Tickets_Plus\Ticket_Presets\Models;
 
-use TEC\Common\StellarWP\Models\Contracts\ModelCrud;
-use TEC\Common\StellarWP\Models\Contracts\ModelFromQueryBuilderObject;
+use TEC\Common\StellarWP\Models\Contracts\ModelPersistable;
 use TEC\Common\StellarWP\Models\ModelQueryBuilder;
 use TEC\Tickets\Flexible_Tickets\Models\Post_And_Ticket_Group;
-use TEC\Tickets_Plus\Ticket_Presets\Data_Transfer_Objects\Post_And_Ticket_Preset_DTO;
 use TEC\Tickets_Plus\Ticket_Presets\Repositories\Posts_And_Ticket_Presets;
 use TEC\Tickets_Plus\Ticket_Presets\Enums\Ticket_Preset_To_Post_Relationship_Keys as Keys;
 
@@ -29,7 +27,7 @@ use TEC\Tickets_Plus\Ticket_Presets\Enums\Ticket_Preset_To_Post_Relationship_Key
  * @property int    $group_id The Ticket Preset ID.
  * @property string $type     The relationship type.
  */
-class Post_And_Ticket_Preset extends Post_And_Ticket_Group implements ModelCrud, ModelFromQueryBuilderObject {
+class Post_And_Ticket_Preset extends Post_And_Ticket_Group implements ModelPersistable {
 	/**
 	 * Finds a model by its ID.
 	 *
@@ -96,19 +94,6 @@ class Post_And_Ticket_Preset extends Post_And_Ticket_Group implements ModelCrud,
 	 */
 	public static function query(): ModelQueryBuilder {
 		return tribe( Posts_And_Ticket_Presets::class )->query();
-	}
-
-	/**
-	 * Builds a new model from a query builder object.
-	 *
-	 * @since 6.6.0
-	 *
-	 * @param object $passed_object The object to build the model from.
-	 *
-	 * @return Post_And_Ticket_Preset The model instance.
-	 */
-	public static function fromQueryBuilderObject( $passed_object ): self {
-		return Post_And_Ticket_Preset_DTO::fromObject( $passed_object )->toModel();
 	}
 
 	/**

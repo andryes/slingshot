@@ -33,6 +33,7 @@ class Provider extends \TEC\Common\Contracts\Service_Provider {
 		$this->container->singleton( 'tickets-plus.commerce.provider', $this );
 
 		$this->container->register( Attendee_Registration\Provider::class );
+		$this->container->register( Purchase_Rules\Controller::class );
 	}
 
 	/**

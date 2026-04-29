@@ -10,8 +10,9 @@
  * @link    https://evnt.is/1amp
  *
  * @since 5.1.0
+ * @since 6.9.0 Added $quantity_controls parameter.
  *
- * @version 5.1.0
+ * @version 6.9.0
  *
  * @var Tribe__Tickets_Plus__Template      $this                Template object.
  * @var Tribe__Tickets__Ticket_Object[]    $tickets             List of tickets.
@@ -87,12 +88,13 @@ $etp_context_footer = array_merge( $etp_context, [ 'is_modal' => true ] );
 				array_merge(
 					$etp_context,
 					[
-						'ticket'          => $ticket,
-						'key'             => $key,
-						'is_modal'        => true,
-						'currency_symbol' => $currency_symbol,
-						'show_unlimited'  => $show_unlimited,
-						'available_count' => $available_count,
+						'ticket'            => $ticket,
+						'key'               => $key,
+						'is_modal'          => true,
+						'currency_symbol'   => $currency_symbol,
+						'show_unlimited'    => $show_unlimited,
+						'available_count'   => $available_count,
+						'quantity_controls' => false,
 						/**
 						 * Filters whether the ticket is unlimited or not.
 						 *

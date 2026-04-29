@@ -2,9 +2,9 @@
 
 Contributors: theeventscalendar, brianjessee, camwynsp, aguseo, bordoni, borkweb, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, tribecari, vicskf, zbtirrell, juanfra
 Tags: events, WooCommerce, WooTickets, add-on, ticket sales, tickets, calendar, community, registration, api, dates, date, posts, workshop, conference, meeting, seminar, concert, summit, The Events Calendar, Events Calendar PRO, ticket integration, event ticketing, RSVP, EDD, Easy Digital Downloads
-Stable tag: 6.8.4
-Requires at least: 6.6
-Tested up to: 6.8.2
+Stable tag: 6.9.2
+Requires at least: 6.7
+Tested up to: 6.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -134,6 +134,32 @@ Our Premium Plugins:
 * <a href="https://evnt.is/fa" target="_blank">The Events Calendar: Filter Bar</a>
 
 == Changelog ==
+
+= [6.9.2] 2026-03-11 =
+
+* Fix - Correctly calculate Total Ticket Sales when WooCommerce HPOS is enabled. [ETP-1248]
+* Language - 0 new strings added, 3 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.9.1] 2026-01-28 =
+
+* Fix - Fix currency symbol position support in Purchase Rules admin interface. [ETP-1126]
+* Tweak - Add confirmation before deleting Purchase Rules. [ETP-1127]
+* Tweak - Changed views: `purchase-rules/admin/empty-content`
+* Tweak - Fix styling and extra spaces in the Scope and Criteria fields in the Purchase Rule form. [ETP-1124]
+* Tweak - Fix text alignment on the Purchase Rules page. [ETP-1128]
+* Tweak - Improve Purchase Rules descriptions with italicized keywords and standardized Oxford comma usage. [ETP-1125]
+* Tweak - Update the Add Purchase Rules modal so the content list handles scrolling.
+* Language - 0 new strings added, 5 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.9.0] 2025-11-18 =
+
+* Version - Event Tickets Plus 6.9.0 is only compatible with Event Tickets 5.27.0 or higher.
+* Feature - Introduces Purchase Rules which can help you configure logical discounts or restrictions for your ticket sales. [ETP-1028]
+* Tweak - Added filters: `tec_tickets_plus_purchase_rules_feature_active`, `tec_tickets_plus_purchase_rules_frontend_single_post_data`, `tec_tickets_plus_purchase_rules_restriction_messages`, `tec_tickets_plus_purchase_rules_scope_evaluation_batch_size`, `tec_tickets_plus_purchase_rules_periodic_scope_evaluation_interval`, `tec_tickets_plus_purchase_rules_rule_translations`, `tec_tickets_plus_purchase_rules_rule_descriptions`, `tec_rest_swagger_{$type}_definition`, `tec_rest_swagger_definition`
+* Tweak - Added actions: `tec_tickets_plus_purchase_rules_admin_single_post_before_render_button`, `tec_tickets_plus_purchase_rules_restriction_messages_added`, `tec_tickets_plus_purchase_rules_restriction_not_met`, `tec_tickets_plus_purchase_rules_tables_registered`, `tec_tickets_plus_purchase_rules_tables_not_registered`
+* Tweak - Changed views: `purchase-rules/admin/edit`, `purchase-rules/admin/empty-content`, `purchase-rules/admin/list`, `purchase-rules/admin/single-order`, `purchase-rules/admin/single/button`, `purchase-rules/admin/single/panel`, `purchase-rules/checkout`, `purchase-rules/email`, `purchase-rules/order-details`, `v2/attendee-registration/content/attendees/fields`, `v2/attendee-registration/content/attendees/remove-button`, `v2/modal/cart`, `v2/modal/item/remove`
+* Tweak - Removes ticket quantity control from attendee registration modal. [ETP-1061]
+* Language - 127 new strings added, 41 updated, 1 fuzzied, and 1 obsoleted.
 
 = [6.8.4] 2025-10-28 =
 

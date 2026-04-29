@@ -1,15 +1,15 @@
-# Copyright (C) 2025 The Events Calendar
+# Copyright (C) 2026 The Events Calendar
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Event Tickets Plus 6.8.4\n"
+"Project-Id-Version: Event Tickets Plus 6.9.2\n"
 "Report-Msgid-Bugs-To: https://evnt.is/191x\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-27T21:36:33+00:00\n"
+"POT-Creation-Date: 2026-03-10T22:13:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: event-tickets-plus\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: event-tickets-plus.php
 #: event-tickets-plus.php:67
-#: src/Tribe/Main.php:525
+#: src/Tribe/Main.php:528
 msgid "Event Tickets Plus"
 msgstr ""
 
@@ -449,6 +449,7 @@ msgid "Attendee Name"
 msgstr ""
 
 #: src/admin-views/manual-attendees/fields/rsvp-status.php:41
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:142
 #: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Table.php:300
 #: src/Tribe/Commerce/EDD/Orders/Table.php:132
 #: src/Tribe/Commerce/WooCommerce/Orders/Table.php:125
@@ -781,6 +782,556 @@ msgstr ""
 msgid "WeChat Pay"
 msgstr ""
 
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:51
+msgid "Search by purchase rule name"
+msgstr ""
+
+#. translators: %d: Rule's ID.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:115
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:172
+#, php-format
+msgid "Edit Rule with id &#8220;%d&#8221;"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:141
+msgid "Rule Name"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:143
+msgid "Type"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:173
+#: src/Tickets_Plus/Ticket_Presets/Admin/Presets_Table.php:198
+msgid "Edit"
+msgstr ""
+
+#. translators: %d: Rule's ID.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:182
+#, php-format
+msgid "Deactivate Rule with id &#8220;%d&#8221;"
+msgstr ""
+
+#. translators: %d: Rule's ID.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:184
+#, php-format
+msgid "Activate Rule with id &#8220;%d&#8221;"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:188
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:236
+msgid "Deactivate"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:188
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:235
+msgid "Activate"
+msgstr ""
+
+#. translators: %d: Rule's ID.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:194
+#, php-format
+msgid "Delete Rule with id &#8220;%d&#8221; permanently"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:195
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:237
+#: src/Tickets_Plus/Ticket_Presets/Admin/Presets_Table.php:208
+#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Table.php:342
+#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Table.php:368
+msgid "Delete"
+msgstr ""
+
+#. translators: %d: Number of purchase rules.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:262
+#, php-format
+msgid "All <span class=\"count\">(%d)</span>"
+msgstr ""
+
+#. translators: %d: Number of active purchase rules.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:268
+#, php-format
+msgid "Active <span class=\"count\">(%d)</span>"
+msgstr ""
+
+#. translators: %d: Number of inactive purchase rules.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/List_Table.php:274
+#, php-format
+msgid "Inactive <span class=\"count\">(%d)</span>"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:147
+#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Page.php:176
+msgid "Sorry, you are not allowed to delete this item."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:165
+msgid "Sorry, you are not allowed to change the status of this item."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:338
+#: src/views/purchase-rules/admin/list.php:27
+#: src/views/purchase-rules/admin/single/button.php:16
+msgid "Purchase Rules"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:396
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:445
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:482
+msgid "Purchase rule not found."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:431
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:468
+#: src/Tickets_Plus/Ticket_Presets/Admin/Classic_UI.php:231
+#: src/Tickets_Plus/Ticket_Presets/Admin/Classic_UI.php:358
+#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Page.php:338
+msgid "Invalid nonce."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:436
+msgid "You do not have permission to delete this purchase rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Admin/Page.php:473
+msgid "You do not have permission to toggle the status of this purchase rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Exceptions/RestrictionNotMetException.php:108
+msgid "This purchase does not meet the requirements for this event."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:337
+msgid "Active"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:338
+msgid "Inactive"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:339
+msgid "Order discount"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:340
+msgid "Ticket discount"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:341
+msgid "Event purchase limit"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:342
+msgid "Ticket purchase limit"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:343
+msgid "Event purchase minimum"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:344
+msgid "Ticket purchase minimum"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:345
+msgid "User role restriction"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:346
+msgid "Combined purchase"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:384
+msgid "Apply a discount to an order."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:385
+msgid "Apply a discount to specific tickets."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:386
+msgid "Limit the total number of tickets per order."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:387
+msgid "Limit the number of specific tickets per order."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:388
+msgid "Require a minimum ticket quantity or total value per order."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:389
+msgid "Require a minimum number of specific tickets per order."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:390
+msgid "Restrict purchases to specific user roles."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:391
+msgid "Require tickets to be purchased in specific combinations."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:461
+msgid "Unique identifier for the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:468
+msgid "The type of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:477
+msgid "The name of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:488
+msgid "A named status for the entity."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:497
+msgid "The start date of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:504
+msgid "The end date of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Models/Rule.php:511
+msgid "The updated at date of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:51
+msgid "The message of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:58
+msgid "The requirement of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:67
+msgid "The requirement value of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:76
+msgid "The discount type of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:85
+msgid "The discount value of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:96
+msgid "The ticket limit of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:105
+msgid "The limited ticket of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:112
+msgid "The ticket minimum of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:121
+msgid "The user roles of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:134
+msgid "The restricted ticket of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:141
+msgid "The required tickets of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:149
+msgid "The required quantity of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:158
+msgid "The specific quantity of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:166
+msgid "Rule_Config"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Config_Definition.php:167
+msgid "A rule config object as returned by the REST API"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Requirements_Definition.php:47
+msgid "The ticket of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Requirements_Definition.php:54
+msgid "The quantity of the rule."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Requirements_Definition.php:60
+msgid "Rule_Requirements"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Requirements_Definition.php:61
+msgid "A rule requirements object as returned by the REST API"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/RuleToggle_Definition.php:48
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:80
+msgid "The ID of the rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/RuleToggle_Definition.php:53
+msgid "Whether the rule is enabled"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/RuleToggle_Definition.php:58
+msgid "RuleToggle"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/RuleToggle_Definition.php:59
+msgid "A rule toggle object as returned by the REST API"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Rule_Definition.php:47
+msgid "Rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Rule_Definition.php:48
+msgid "A rule object as returned by the REST API"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Rule_Request_Body_Definition.php:46
+msgid "Rule Request Body"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Rule_Request_Body_Definition.php:47
+msgid "A rule object as expected by the REST API"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Scope_Definition.php:47
+msgid "The connector of the scope."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Scope_Definition.php:54
+msgid "The criteria of the scope."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Scope_Definition.php:71
+msgid "Rule_Scope"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Documentation/Scope_Definition.php:72
+msgid "A rule scope object as returned by the REST API"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:86
+msgid "The post ID is required."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:93
+msgid "The post is not a ticket enabled post."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:102
+msgid "The toggles specifications are required."
+msgstr ""
+
+#. translators: %d: The rule ID.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:115
+#, php-format
+msgid "The rule with ID %d does not exist."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:144
+msgid "The ID of the post"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:175
+msgid "The rule toggles to create"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:180
+msgid "The rule toggles to create."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:190
+msgid "Create a RuleToggle"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:191
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:244
+msgid "Create a new rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:202
+msgid "Your request was processed successfully."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:207
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:182
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:160
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:268
+msgid "A required parameter is missing or an input parameter is in the wrong format"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:212
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:187
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:233
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:273
+msgid "The request was not authorized"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Posts_Rules.php:217
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:278
+msgid "Failed to create the rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:102
+msgid "Retrieve a Rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:103
+msgid "Retrieve a rule by ID"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:117
+msgid "Returns the rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:125
+msgid "The rule ID is invalid"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:130
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:192
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:238
+msgid "The rule does not exist"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:147
+msgid "The rule data to update."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:157
+msgid "Update a Rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:158
+msgid "Update a rule by ID"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:174
+msgid "Returns the updated rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:197
+msgid "Failed to update the rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:208
+msgid "Delete a Rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:209
+msgid "Delete a rule by ID"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:225
+msgid "Returns the deleted rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:243
+msgid "The rule has already been deleted"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:248
+msgid "Failed to delete the rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rule.php:253
+msgid "The rule does not support deletion. Set force=true to delete"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:104
+msgid "Retrieve Rules"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:105
+msgid "Returns a list of rules"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:116
+msgid "The total number of rules matching the request."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:125
+msgid "The total number of pages for the request."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:134
+msgid ""
+"RFC 5988 Link header for pagination. Contains navigation links with relationships:\n"
+"\t\t\t\t`rel=\"next\"` for the next page (if not on last page),\n"
+"\t\t\t\t`rel=\"prev\"` for the previous page (if not on first page).\n"
+"\t\t\t\tHeader is omitted entirely if there's only one page"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:152
+msgid "Returns the list of rules"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:165
+msgid "The requested page was not found"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:183
+msgid "The collection page number."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:190
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:198
+msgid "Limit results to those matching a string."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:203
+msgid "Limit result set to rules assigned matching an event."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:208
+msgid "Sort collection by rule status."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:215
+msgid "Sort collection by rule type."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:233
+msgid "The rule data to create."
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:243
+msgid "Create a Rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/REST/TEC/V1/Endpoints/Rules.php:260
+msgid "Returns the created rule"
+msgstr ""
+
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Tables.php:51
+msgid "Purchase rules tables could not be registered. The Purchase Rules feature will remain disabled until this issue is resolved."
+msgstr ""
+
+#. Translators: %s is the query error message.
+#: src/Tickets_Plus/Commerce/Purchase_Rules/Tables.php:53
+#, php-format
+msgid "The below query failed with the message(s): %s"
+msgstr ""
+
 #: src/Tickets_Plus/Emails/Email/Components.php:27
 #: src/Tickets_Plus/Integrations/Tickets_Wallet_Plus/Passes/Apple_Wallet/Attendee_Registration_Fields_Data.php:107
 #: src/Tickets_Plus/Integrations/Tickets_Wallet_Plus/Passes/Pdf.php:116
@@ -974,12 +1525,6 @@ msgstr ""
 msgid "No IAC provided"
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Admin/Classic_UI.php:231
-#: src/Tickets_Plus/Ticket_Presets/Admin/Classic_UI.php:358
-#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Page.php:338
-msgid "Invalid nonce."
-msgstr ""
-
 #: src/Tickets_Plus/Ticket_Presets/Admin/Classic_UI.php:236
 #: src/Tickets_Plus/Ticket_Presets/Admin/Classic_UI.php:363
 #: src/Tickets_Plus/Ticket_Presets/Admin/Controller.php:89
@@ -1101,18 +1646,8 @@ msgstr ""
 msgid "Unlimited"
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Admin/Presets_Table.php:198
-msgid "Edit"
-msgstr ""
-
 #: src/Tickets_Plus/Ticket_Presets/Admin/Presets_Table.php:203
 msgid "Duplicate"
-msgstr ""
-
-#: src/Tickets_Plus/Ticket_Presets/Admin/Presets_Table.php:208
-#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Table.php:342
-#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Table.php:368
-msgid "Delete"
 msgstr ""
 
 #: src/Tickets_Plus/Ticket_Presets/Admin/Presets_Table.php:228
@@ -1316,137 +1851,137 @@ msgstr ""
 msgid "available"
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:125
+#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:110
 msgid "post_id is required."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:131
+#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:116
 msgid "The post_id must be a valid post (event) ID."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:148
+#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:133
 msgid "group_id is required."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:165
+#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:150
 msgid "The type is required."
 msgstr ""
 
 #. Translators: %1$s: Comma separated list of allowed keys.
-#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:174
+#: src/Tickets_Plus/Ticket_Presets/Models/Post_And_Ticket_Preset.php:159
 #, php-format
 msgid "The type must be one of: %1$s."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:354
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:325
 msgid "Data is required."
 msgstr ""
 
 #. Translators: %1$s is the key of the data property that is required.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:362
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:333
 #, php-format
 msgid "%1$s is required."
 msgstr ""
 
 #. Translators: %1$s is the key of the data property that must be an array.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:372
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:343
 #, php-format
 msgid "%1$s must be an array."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:416
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:387
 msgid "Invalid IAC setting."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:436
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:407
 msgid "Sale date logic type is required."
 msgstr ""
 
 #. Translators: %1$s is a comma-separated list of allowed type values.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:443
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:414
 #, php-format
 msgid "Invalid type value. Allowed values are: %1$s"
 msgstr ""
 
 #. Translators: %1$s is the key of the sale date logic property that is required.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:460
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:431
 #, php-format
 msgid "Sale date logic %1$s is required for relative type."
 msgstr ""
 
 #. Translators: %1$s is a comma-separated list of allowed relative_to values.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:471
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:442
 #, php-format
 msgid "Invalid relative_to value. Allowed values are: %1$s"
 msgstr ""
 
 #. Translators: %1$s is a comma-separated list of allowed direction values.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:481
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:452
 #, php-format
 msgid "Invalid direction value. Allowed values are: %1$s"
 msgstr ""
 
 #. Translators: %1$s is a comma-separated list of allowed period values.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:491
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:462
 #, php-format
 msgid "Invalid period value. Allowed values are: %1$s"
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:498
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:469
 msgid "Length must be a number."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:502
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:473
 msgid "Length must be greater than 0."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:521
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:492
 msgid "Name is required."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:540
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:511
 msgid "Slug is required."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:559
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:530
 msgid "Ticket name is required."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:578
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:549
 msgid "Ticket type is required."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:663
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:634
 msgid "Cost must be a number."
 msgstr ""
 
 #. Translators: %d is the number of decimal places allowed.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:670
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:641
 #, php-format
 msgid "Cost must have no more than %d decimal places."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:692
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:663
 msgid "Capacity must be -1 for unlimited or greater than 0."
 msgstr ""
 
 #. Translators: %1$s is the key of the capacity property that is required.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:715
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:686
 #, php-format
 msgid "Capacity %1$s is required."
 msgstr ""
 
 #. Translators: %1$s is a comma-separated list of allowed capacity types.
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:726
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:697
 #, php-format
 msgid "Invalid capacity type. Allowed types are: %1$s"
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:733
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:704
 msgid "Capacity amount must be greater than 0."
 msgstr ""
 
-#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:737
+#: src/Tickets_Plus/Ticket_Presets/Models/Ticket_Preset.php:708
 msgid "Capacity amount must be -1 for unlimited."
 msgstr ""
 
@@ -1454,10 +1989,6 @@ msgstr ""
 #: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Page.php:270
 #: src/views/waitlist/admin/page.php:25
 msgid "Waitlist Subscribers"
-msgstr ""
-
-#: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Page.php:176
-msgid "Sorry, you are not allowed to delete this item."
 msgstr ""
 
 #: src/Tickets_Plus/Waitlist/Admin/Waitlist_Subscribers_Page.php:343
@@ -1751,7 +2282,7 @@ msgid "Shows before RSVP start date and after RSVP reaches maximum capacity"
 msgstr ""
 
 #. translators: %1$d is the total number of subscribers, %2$d is the number of errors.
-#: src/Tickets_Plus/Waitlist/Waitlists.php:427
+#: src/Tickets_Plus/Waitlist/Waitlists.php:430
 #, php-format
 msgid "Errors occurred while processing subscribers. Out of the %1$d subscribers, %2$d failed to be processed. Check your log file for more details."
 msgstr ""
@@ -2210,7 +2741,7 @@ msgstr ""
 
 #: src/Tribe/Commerce/EDD/Orders/Report.php:146
 #: src/Tribe/Commerce/EDD/Tabbed_View/Orders_Report_Tab.php:30
-#: src/Tribe/Commerce/WooCommerce/Orders/Report.php:156
+#: src/Tribe/Commerce/WooCommerce/Orders/Report.php:155
 #: src/Tribe/Commerce/WooCommerce/Tabbed_View/Orders_Report_Tab.php:16
 msgid "Orders"
 msgstr ""
@@ -2430,11 +2961,11 @@ msgstr ""
 msgid "%1$s with ID %2$s does not exist."
 msgstr ""
 
-#: src/Tribe/Commerce/WooCommerce/Orders/Report.php:154
+#: src/Tribe/Commerce/WooCommerce/Orders/Report.php:153
 msgid "See purchases for this event"
 msgstr ""
 
-#: src/Tribe/Commerce/WooCommerce/Orders/Report.php:184
+#: src/Tribe/Commerce/WooCommerce/Orders/Report.php:183
 #, php-format
 msgctxt "Browser title"
 msgid "%s - Order list"
@@ -2626,11 +3157,11 @@ msgctxt "Notice message for the forced deactivation of the Event Automator plugi
 msgid "%1$s could not be activated. The %1$s functionality has been merged into %2$s. %3$sLearn More%4$s."
 msgstr ""
 
-#: src/Tribe/Main.php:531
+#: src/Tribe/Main.php:534
 msgid "Event Tickets Plus - Legacy"
 msgstr ""
 
-#: src/Tribe/Main.php:608
+#: src/Tribe/Main.php:611
 msgid "Require users to log in before they purchase tickets"
 msgstr ""
 
@@ -3065,6 +3596,63 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
+#: src/views/purchase-rules/admin/edit.php:31
+msgid "Edit Purchase Rule"
+msgstr ""
+
+#: src/views/purchase-rules/admin/edit.php:31
+msgid "New Purchase Rule"
+msgstr ""
+
+#: src/views/purchase-rules/admin/empty-content.php:30
+#: src/views/waitlist/admin/empty-content.php:30
+msgid "Nothing here yet."
+msgstr ""
+
+#. Translators: 1) is opening link tag, 2) is closing link tag.
+#: src/views/purchase-rules/admin/empty-content.php:36
+#, php-format
+msgid "There are no purchase rules at the moment. Once someone creates a purchase rule they will appear here. Learn more about purchase rules at the %1$sknowledgebase%2$s."
+msgstr ""
+
+#: src/views/purchase-rules/admin/list.php:29
+msgid "Add New Rule"
+msgstr ""
+
+#. translators: %s: Search query.
+#: src/views/purchase-rules/admin/list.php:36
+#: src/views/waitlist/admin/page.php:33
+#, php-format
+msgid "Search results for: %s"
+msgstr ""
+
+#. Translators: %s is the number of purchase rules that were deleted.
+#: src/views/purchase-rules/admin/list.php:49
+#, php-format
+msgid "%s purchase rule permanently deleted."
+msgid_plural "%s purchase rules permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %s is the number of purchase rules that were updated.
+#: src/views/purchase-rules/admin/list.php:61
+#, php-format
+msgid "%s purchase rule was updated."
+msgid_plural "%s purchase rules were updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/views/purchase-rules/admin/list.php:76
+msgid "Search Rules"
+msgstr ""
+
+#: src/views/purchase-rules/admin/single-order.php:20
+#: src/views/purchase-rules/checkout.php:24
+#: src/views/purchase-rules/email.php:28
+#: src/views/purchase-rules/order-details.php:25
+msgid "Discount:"
+msgstr ""
+
 #: src/views/tickets-plus/attendee-list-checkbox-rsvp.php:39
 #: src/views/tickets-plus/attendee-list-checkbox-tickets.php:46
 #: src/views/tpp/attendees-list-optout.php:60
@@ -3143,15 +3731,10 @@ msgid "An error occurred while saving, please try again."
 msgstr ""
 
 #. Translators: 1 the attendee number, 2 the seat label if the ticket has a seat assigned in the format of " - Seat C8".
-#: src/views/v2/attendee-registration/content/attendees/fields.php:48
+#: src/views/v2/attendee-registration/content/attendees/fields.php:49
 #, php-format
 msgctxt "Tickets modal attendee fields"
 msgid "Attendee %1$s%2$s"
-msgstr ""
-
-#: src/views/v2/attendee-registration/content/attendees/remove-button.php:39
-msgctxt "Tickets modal attendee remove button."
-msgid "Remove"
 msgstr ""
 
 #. Translators: %s HTML wrapped number of tickets.
@@ -3258,10 +3841,6 @@ msgctxt "Get Tickets button."
 msgid "Get %s"
 msgstr ""
 
-#: src/views/waitlist/admin/empty-content.php:30
-msgid "Nothing here yet."
-msgstr ""
-
 #. Translators: 1) is opening link tag, 2) is closing link tag.
 #: src/views/waitlist/admin/empty-content.php:36
 #, php-format
@@ -3355,12 +3934,6 @@ msgstr ""
 
 #: src/views/waitlist/admin/metabox.php:182
 msgid "When RSVP reaches capacity"
-msgstr ""
-
-#. translators: %s: Search query.
-#: src/views/waitlist/admin/page.php:33
-#, php-format
-msgid "Search results for: %s"
 msgstr ""
 
 #. Translators: %s is the number of subscribers that were deleted.
