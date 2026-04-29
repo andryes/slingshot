@@ -747,7 +747,7 @@ function slingshot_lp_default_ai_faq() {
 	return [
 		[
 			'question' => 'How do I get started with AI?',
-			'answer'   => '<p>The right starting point depends on your team\'s clarity and urgency.</p><p>If you\'re exploring where AI fits in your organization, our free 60-minute <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion">AI Discovery Discussion</a> is the fastest way to uncover possibilities and get expert guidance, with no commitment. We\'ll review your tools, goals, and brainstorm practical use cases.</p><p>If you already have ideas but need focus and prioritization, the <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=AI+Opportunity+Assessment">AI Opportunity Assessment</a> turns concepts into an actionable strategy in just one week. You\'ll walk away with executive alignment, a prioritized shortlist of use cases, and clear recommendations to move forward.</p><p>If you\'re ready to bring a specific AI idea to life, our <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=AI+Rapid+Prototyping">AI Rapid Prototyping</a> service transforms your idea into a tangible prototype in just 1 to 2 weeks. We frame the concept, shape the user experience, and deliver an interactive prototype that fosters buy-in and builds momentum quickly.</p>',
+			'answer'   => '<p>The right starting point depends on your team\'s clarity and urgency.</p><p>If you\'re exploring where AI fits in your organization, our free 60-minute <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion">AI Discovery Discussion</a> is the fastest way to uncover possibilities and get expert guidance, with no commitment. We\'ll review your tools, goals, and brainstorm practical use cases.</p><p>If you already have ideas but need focus and prioritization, the <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=AI+Opportunity+Assessment">AI Opportunity Assessment</a> turns concepts into an actionable strategy in just one week. You\'ll walk away with executive alignment, a prioritized shortlist of use cases, and clear recommendations to move forward.</p><p>If you\'re ready to bring a specific AI idea to life, our <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=AI+Rapid+Prototyping">AI Rapid Prototyping</a> service transforms your idea into a tangible prototype in just 1 to 2 weeks. We frame the concept, shape the user experience, and deliver an interactive prototype that fosters buy-in and builds momentum quickly.</p>',
 		],
 		[
 			'question' => 'How do I know if AI will work for my business?',
@@ -767,15 +767,15 @@ function slingshot_lp_default_ai_faq() {
 		],
 		[
 			'question' => 'How do I best leverage AI in my organization if I don\'t have a specific idea yet?',
-			'answer'   => '<p>Start with a conversation. Our <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion">AI Discovery Discussion</a> is designed for leaders who are curious about AI but unsure where it fits. In just 60 minutes, we\'ll explore your goals, tools, and team structure to identify real opportunities.</p><p>If you\'re looking to go deeper, the <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=AI+Opportunity+Assessment">AI Opportunity Assessment</a> helps turn early ideas into a clear, prioritized roadmap tailored to your organization. Both offerings are built to bring clarity and momentum, even if you\'re starting from zero.</p>',
+			'answer'   => '<p>Start with a conversation. Our <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=AI+Discovery+Discussion">AI Discovery Discussion</a> is designed for leaders who are curious about AI but unsure where it fits. In just 60 minutes, we\'ll explore your goals, tools, and team structure to identify real opportunities.</p><p>If you\'re looking to go deeper, the <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=AI+Opportunity+Assessment">AI Opportunity Assessment</a> helps turn early ideas into a clear, prioritized roadmap tailored to your organization. Both offerings are built to bring clarity and momentum, even if you\'re starting from zero.</p>',
 		],
 		[
 			'question' => 'How can I quickly validate an AI idea before making a larger investment?',
-			'answer'   => '<p>If you\'re ready to move beyond theory and see your idea in action, our <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=AI+Rapid+Prototyping">AI Rapid Prototyping</a> service helps turn concepts into something tangible, fast. In just 1 to 2 weeks, we\'ll help frame your idea, shape a user experience, and deliver a wokring prototype that shows what the solution could be.</p><p>You\'ll walk away with a functional, interactive model that brings the concept to life and helps you communicate it clearly to stakeholders. Whether you\'re building buy-in or making key decisions, it\'s the fastest way to go from vision to momentum.</p>',
+			'answer'   => '<p>If you\'re ready to move beyond theory and see your idea in action, our <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=AI+Rapid+Prototyping">AI Rapid Prototyping</a> service helps turn concepts into something tangible, fast. In just 1 to 2 weeks, we\'ll help frame your idea, shape a user experience, and deliver a working prototype that shows what the solution could be.</p><p>You\'ll walk away with a functional, interactive model that brings the concept to life and helps you communicate it clearly to stakeholders. Whether you\'re building buy-in or making key decisions, it\'s the fastest way to go from vision to momentum.</p>',
 		],
 		[
 			'question' => 'What if I\'m ready to fully implement an AI solution in my business?',
-			'answer'   => '<p>If you\'re ready to move from strategy to execution, our <a href="\' . esc_url( $u ) . \'contact/?looking=Artificial+Intelligence&ai-service=Full+AI+Implementation">Full AI Implementation</a> offering is built to take your AI vision all the way to launch. We help you design, build, and deploy real solutions that deliver measurable business impact. This could include automating workflows, enhancing customer experience, or embedding AI into your product.</p><p>Beyond just building, we help you make the right foundational decisions. We recommend tools and models based on your specific needs, and we guide you through critical decisions like build versus buy versus integrate. From technical architecture to user experience, we cover every angle to ensure a successful launch.</p>',
+			'answer'   => '<p>If you\'re ready to move from strategy to execution, our <a href="' . esc_url( $u ) . 'contact/?looking=Artificial+Intelligence&ai-service=Full+AI+Implementation">Full AI Implementation</a> offering is built to take your AI vision all the way to launch. We help you design, build, and deploy real solutions that deliver measurable business impact. This could include automating workflows, enhancing customer experience, or embedding AI into your product.</p><p>Beyond just building, we help you make the right foundational decisions. We recommend tools and models based on your specific needs, and we guide you through critical decisions like build versus buy versus integrate. From technical architecture to user experience, we cover every angle to ensure a successful launch.</p>',
 		],
 	];
 }
@@ -789,6 +789,26 @@ function slingshot_lp_ai_faq_items() {
 			return ! empty( $row['question'] );
 		}
 	);
-	return $clean ? $clean : slingshot_lp_default_ai_faq();
+	if ( $clean ) {
+		$base_url = esc_url( home_url( '/' ) );
+		foreach ( $clean as &$row ) {
+			if ( empty( $row['answer'] ) ) {
+				continue;
+			}
+			$row['answer'] = str_replace(
+				[
+					'href="\' . esc_url( $u ) . \'contact/',
+					'wokring',
+				],
+				[
+					'href="' . $base_url . 'contact/',
+					'working',
+				],
+				$row['answer']
+			);
+		}
+		unset( $row );
+		return $clean;
+	}
+	return slingshot_lp_default_ai_faq();
 }
-
