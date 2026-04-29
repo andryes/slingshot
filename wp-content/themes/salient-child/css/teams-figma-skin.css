@@ -77,3 +77,27 @@ body.sl-redesign-skin--teams-staffaug .teams-model-card-image--placeholder,
 body.sl-redesign-skin--teams-whitepaper .teams-model-card-image--placeholder {
 	background: linear-gradient(135deg, #004d43 0%, #006d5b 55%, #0a8f7a 100%);
 }
+
+body.page-template-page-teams .teams-hero,
+body.page-template-page-teams-dedicated .teams-hero {
+	background-color: #087566;
+	background-image:
+		radial-gradient(circle at 59% -3%, rgba(97, 205, 186, .33) 0 11%, transparent 27%),
+		radial-gradient(circle at 38% 93%, rgba(5, 82, 72, .62) 0 12%, transparent 29%),
+		radial-gradient(circle at 88% 62%, rgba(62, 181, 157, .22) 0 18%, transparent 39%),
+		url("../img/bg-tools-block.png"),
+		linear-gradient(119deg, #0c7667 0%, #0e8a79 49%, #026453 100%);
+	background-position: center;
+	background-size: auto, auto, auto, cover, cover;
+}
+
+body.page-template-page-teams .teams-hero-btn,
+body.page-template-page-teams-dedicated .teams-hero-btn,
+body.page-template-page-teams .teams-model-cta,
+body.page-template-page-teams .teams-outline-btn,
+body.page-template-page-teams-dedicated .teams-btn-primary,
+body.page-template-page-teams-dedicated .teams-cta-btn,
+body.page-template-page-teams .teams-cta-btn {
+	background: #fff;
+	color: #242328 !important;
+}

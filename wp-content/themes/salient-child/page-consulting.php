@@ -10,7 +10,7 @@ wp_enqueue_style(
 	array(), null
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.21' );
-wp_enqueue_style( 'consulting-style', get_stylesheet_directory_uri() . '/css/consulting.css', array(), '1.2' );
+wp_enqueue_style( 'consulting-style', get_stylesheet_directory_uri() . '/css/consulting.css', array(), '1.3' );
 wp_enqueue_script( 'consulting-script', get_stylesheet_directory_uri() . '/js/consulting.js', array( 'jquery' ), '1.2', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.7', true );
 
@@ -20,7 +20,7 @@ $img_dir     = get_stylesheet_directory_uri() . '/img';
 $uploads_dir = content_url( 'uploads' );
 
 $consulting_hero_img_a  = $uploads_dir . '/2026/03/Your-Brand-Guidelines-Are-Invisible-to-AI.-Heres-the-Business-Cost_Featured-Image-LN-1000x500.png';
-$consulting_hero_img_b  = $uploads_dir . '/2025/07/From-Cost-to-Capability-How-CEOs-Are-Rethinking-ROI-with-AI_Featured-Image-LN-1000x500.png';
+$consulting_hero_img_b  = $uploads_dir . '/2025/12/AWS-Bedrock-at-Scale-What-Breaks-What-Holds-and-What-Surprised-Us-_Featured-Image-LN-900x600.png';
 $consulting_stats_img   = $img_dir . '/bg-first-block.png';
 $consulting_event_imgs  = [
 	$uploads_dir . '/2025/09/BCPS-Blog-Header-1000x442.jpg',
@@ -66,16 +66,40 @@ $cta_mascot       = slingshot_pm_image( 'con_cta_mascot', '' );
 
 $blog_n = (int) slingshot_pm( 'con_blog_posts', 3 );
 $blog_n = max( 1, min( 12, $blog_n ) );
+$blog_ids_raw = trim( (string) slingshot_pm( 'con_blog_post_ids', '' ) );
+$blog_ids     = [];
+if ( '' !== $blog_ids_raw ) {
+	$blog_ids = array_values(
+		array_filter(
+			array_map( 'absint', preg_split( '/[\s,]+/', $blog_ids_raw ) )
+		)
+	);
+}
 
-$blog_query = new WP_Query(
-	array(
-		'post_type'      => 'post',
-		'post_status'    => 'publish',
-		'posts_per_page' => $blog_n,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-	)
+$blog_args = array(
+	'post_type'      => 'post',
+	'post_status'    => 'publish',
+	'posts_per_page' => $blog_n,
+	'orderby'        => 'date',
+	'order'          => 'DESC',
 );
+if ( $blog_ids ) {
+	$blog_args['post__in']       = array_slice( $blog_ids, 0, $blog_n );
+	$blog_args['orderby']        = 'post__in';
+	$blog_args['posts_per_page'] = count( $blog_args['post__in'] );
+}
+
+$blog_query = new WP_Query( $blog_args );
+
+$events_desc = slingshot_pm( 'con_events_desc', "We don't just build; we share. Explore upcoming events for leaders building in AI, product, and tech strategy." );
+if ( "We don't just build — we share. Explore upcoming events for leaders navigating technology strategy, AI, and product development." === $events_desc ) {
+	$events_desc = "We don't just build; we share. Explore upcoming events for leaders building in AI, product, and tech strategy.";
+}
+
+$blog_desc = slingshot_pm( 'con_blog_desc', 'Get actionable ideas on software strategy, AI adoption, and scaling product delivery straight from the minds of our team.' );
+if ( 'Actionable thinking on software strategy, AI adoption, and how high-performing teams build and scale.' === $blog_desc ) {
+	$blog_desc = 'Get actionable ideas on software strategy, AI adoption, and scaling product delivery straight from the minds of our team.';
+}
 ?>
 
 <style id="dynamic-css-inline-css" type="text/css">
@@ -198,7 +222,7 @@ slingshot_render_redesign_header(
 			<div class="home-events-header">
 				<h2 class="home-events-title"><?php echo esc_html( slingshot_pm('con_events_title', 'Join the Conversation' ) ); ?></h2>
 				<div class="home-events-meta">
-					<p class="home-events-desc"><?php echo esc_html( slingshot_pm('con_events_desc', "We don't just build — we share. Explore upcoming events for leaders navigating technology strategy, AI, and product development." ) ); ?></p>
+					<p class="home-events-desc"><?php echo esc_html( $events_desc ); ?></p>
 					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_events_all_url', '/events' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('con_events_all_text', 'All Events →' ) ); ?></a>
 				</div>
 			</div>
@@ -220,7 +244,7 @@ slingshot_render_redesign_header(
 				<a href="<?php echo slingshot_lp_h_attr( $ev_url ); ?>" class="event-card">
 					<div class="event-card-image"<?php echo ! empty( $ev['image_bg_css'] ) ? ' style="background:' . esc_attr( $ev['image_bg_css'] ) . ';"' : ''; ?>>
 						<?php if ( $img_url && empty( $ev['image_bg_css'] ) ) : ?>
-						<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $ev['title'] ); ?>" loading="lazy">
+						<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $ev['title'] ); ?>">
 						<?php endif; ?>
 					</div>
 					<div class="event-card-body">
@@ -276,7 +300,7 @@ slingshot_render_redesign_header(
 			<div class="home-blog-header">
 				<h2 class="home-blog-title"><?php echo nl2br( esc_html( slingshot_pm('con_blog_title', "Insights That Move\nBusiness Forward" ) ) ); ?></h2>
 				<div class="home-blog-meta">
-					<p class="home-blog-desc"><?php echo esc_html( slingshot_pm('con_blog_desc', 'Actionable thinking on software strategy, AI adoption, and how high-performing teams build and scale.' ) ); ?></p>
+					<p class="home-blog-desc"><?php echo esc_html( $blog_desc ); ?></p>
 					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('con_blog_cta_url', '/blog' ) ); ?>" class="home-section-link"><?php echo esc_html( slingshot_pm('con_blog_cta_text', 'All Insights →' ) ); ?></a>
 				</div>
 			</div>
@@ -289,7 +313,7 @@ slingshot_render_redesign_header(
 						<a href="<?php the_permalink(); ?>" class="blog-card">
 							<div class="blog-card-image">
 								<?php if ( has_post_thumbnail() ) : ?>
-									<?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
+									<?php the_post_thumbnail( 'medium_large' ); ?>
 								<?php endif; ?>
 							</div>
 							<div class="blog-card-body">

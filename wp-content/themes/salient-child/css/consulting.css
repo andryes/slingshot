@@ -690,6 +690,21 @@ body.page-template-page-consulting .con-hero {
     box-shadow: none;
 }
 
+body.page-template-page-consulting .con-hero::before,
+body.page-template-page-consulting .con-help-item.active::before,
+body.page-template-page-consulting .con-cta-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 620px 520px at -4% 72%, rgba(255,255,255,.2) 0 38%, rgba(255,255,255,0) 39%),
+        radial-gradient(ellipse 520px 460px at 57% -7%, rgba(255,255,255,.16) 0 34%, rgba(255,255,255,0) 35%),
+        radial-gradient(ellipse 360px 320px at 36% 104%, rgba(35,18,85,.32) 0 43%, rgba(35,18,85,0) 44%),
+        radial-gradient(ellipse 380px 330px at 91% 104%, rgba(125,80,190,.28) 0 42%, rgba(125,80,190,0) 43%);
+    mix-blend-mode: screen;
+}
+
 body.page-template-page-consulting .con-hero-blob {
     display: none;
 }
@@ -787,6 +802,10 @@ body.page-template-page-consulting .con-hero-photo img {
     filter: none;
 }
 
+body.page-template-page-consulting .con-hero-photo-b img {
+    object-position: 42% center;
+}
+
 body.page-template-page-consulting .con-stats-section {
     padding: 96px var(--con-page-pad);
     background: #fff;
@@ -802,6 +821,7 @@ body.page-template-page-consulting .con-stats-inner {
 
 body.page-template-page-consulting .con-stats-card {
     min-height: 538px;
+    height: 557px;
     border-radius: 14px;
     overflow: hidden;
 }
@@ -981,6 +1001,11 @@ body.page-template-page-consulting .con-help-item.active {
         radial-gradient(circle at 16% 76%, rgba(151,76,208,.48) 0 18%, transparent 39%),
         radial-gradient(circle at 91% 95%, rgba(106,58,174,.44) 0 20%, transparent 41%),
         linear-gradient(132deg, #6428bf 0%, #41179b 56%, #321080 100%);
+}
+
+body.page-template-page-consulting .con-help-item.active > * {
+    position: relative;
+    z-index: 1;
 }
 
 body.page-template-page-consulting .con-help-item-row {
@@ -1319,7 +1344,7 @@ body.page-template-page-consulting .con-clients-section .logo-item img {
 }
 
 body.page-template-page-consulting .con-blog-section {
-    padding: 108px var(--con-page-pad) 104px;
+    padding: 96px var(--con-page-pad) 78px;
     border-top: 1px solid var(--con-border);
     background: #fff !important;
 }
@@ -1332,7 +1357,7 @@ body.page-template-page-consulting .blog-card {
 }
 
 body.page-template-page-consulting .blog-card-image {
-    aspect-ratio: 390 / 330;
+    aspect-ratio: 390 / 286;
     border-radius: 12px;
     overflow: hidden;
 }
@@ -1348,6 +1373,11 @@ body.page-template-page-consulting .blog-card-title {
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0;
+    display: -webkit-box;
+    min-height: 65px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 body.page-template-page-consulting .blog-card-desc {
@@ -1356,6 +1386,11 @@ body.page-template-page-consulting .blog-card-desc {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.45;
+    display: -webkit-box;
+    min-height: 46px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 body.page-template-page-consulting .blog-card-tags {
@@ -1379,7 +1414,7 @@ body.page-template-page-consulting .con-cta-section {
 
 body.page-template-page-consulting .con-cta-inner {
     max-width: var(--con-inner);
-    min-height: 572px;
+    min-height: 480px;
     display: grid;
     grid-template-columns: 560px minmax(0, 600px);
     gap: 72px;
@@ -1392,14 +1427,16 @@ body.page-template-page-consulting .home-cta-mascot {
 }
 
 body.page-template-page-consulting .home-cta-mascot img {
-    width: 700px;
+    width: 620px;
     max-width: none;
-    margin-left: -72px;
+    margin-left: -56px;
 }
 
 body.page-template-page-consulting .con-cta-card {
-    min-height: 300px;
-    padding: 58px 64px;
+    position: relative;
+    overflow: hidden;
+    min-height: 286px;
+    padding: 52px 64px;
     border-radius: 14px;
     gap: 22px;
     background:
@@ -1410,6 +1447,51 @@ body.page-template-page-consulting .con-cta-card {
 
 body.page-template-page-consulting .con-cta-card::before {
     display: none;
+}
+
+body.page-template-page-consulting .con-cta-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+body.page-template-page-consulting .con-blog-section .home-carousel-footer {
+    margin-top: 52px;
+}
+
+body.page-template-page-consulting .sl-footer-main {
+    padding-top: 30px;
+    padding-bottom: 28px;
+}
+
+body.page-template-page-consulting .sl-footer-links {
+    gap: 7px;
+}
+
+body.page-template-page-consulting .sl-footer-links a {
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+body.page-template-page-consulting .sl-footer-col-heading {
+    margin-bottom: 20px;
+}
+
+body.page-template-page-consulting .sl-footer-contact {
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+body.page-template-page-consulting .sl-contact-phone {
+    font-size: 28px;
+}
+
+body.page-template-page-consulting .sl-footer-social {
+    margin-bottom: 22px;
+}
+
+body.page-template-page-consulting .sl-footer-bar {
+    padding-top: 14px;
+    padding-bottom: 14px;
 }
 
 body.page-template-page-consulting .con-cta-title {

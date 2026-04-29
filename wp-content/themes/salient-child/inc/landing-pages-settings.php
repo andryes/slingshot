@@ -197,6 +197,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'con_blog_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'con_blog_cta_text', 'name' => 'Link label', 'type' => 'text', 'std' => 'All Insights →' ],
 			[ 'id' => 'con_blog_cta_url', 'name' => 'Link URL', 'type' => 'text', 'std' => '/blog' ],
+			[ 'id' => 'con_blog_post_ids', 'name' => 'Post IDs, in display order', 'type' => 'text', 'desc' => 'Optional. Comma-separated post IDs override latest posts.' ],
 			[ 'id' => 'con_blog_posts', 'name' => 'Number of posts', 'type' => 'number', 'std' => 3, 'min' => 1, 'max' => 12 ],
 		],
 	];
@@ -217,6 +218,22 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
 		[ 'id' => 'subtitle', 'name' => 'Subtitle', 'type' => 'text' ],
 		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 4 ],
+	];
+
+	$boot_program_fields = [
+		[ 'id' => 'icon', 'name' => 'Icon image', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
+		[ 'id' => 'subtitle', 'name' => 'Subtitle', 'type' => 'text' ],
+		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 5 ],
+		[ 'id' => 'gains', 'name' => 'What You\'ll Gain (one per line)', 'type' => 'textarea', 'rows' => 6 ],
+		[ 'id' => 'ideal', 'name' => 'Ideal for', 'type' => 'textarea', 'rows' => 2 ],
+		[ 'id' => 'instructor_avatar', 'name' => 'Instructor avatar', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'instructor_name', 'name' => 'Instructor name', 'type' => 'text' ],
+		[ 'id' => 'instructor_role', 'name' => 'Instructor role', 'type' => 'text' ],
+		[ 'id' => 'instructor_bio', 'name' => 'Instructor bio', 'type' => 'textarea', 'rows' => 4 ],
+		[ 'id' => 'cta_text', 'name' => 'CTA label', 'type' => 'text' ],
+		[ 'id' => 'cta_url', 'name' => 'CTA URL', 'type' => 'text' ],
+		[ 'id' => 'open', 'name' => 'Show expanded details', 'type' => 'checkbox' ],
 	];
 
 	$boot_why_fields = [
@@ -280,6 +297,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'boot_hero_primary_url', 'name' => 'Primary CTA URL', 'type' => 'text' ],
 			[ 'id' => 'boot_hero_secondary_text', 'name' => 'Secondary CTA label', 'type' => 'text', 'std' => 'See the Curriculum' ],
 			[ 'id' => 'boot_hero_secondary_url', 'name' => 'Secondary CTA URL (or #anchor)', 'type' => 'text', 'std' => '#boot-curriculum' ],
+			[ 'id' => 'boot_hero_img_left', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'boot_hero_img_right', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'boot_hero_img_left_alt', 'name' => 'Photo left alt', 'type' => 'text' ],
+			[ 'id' => 'boot_hero_img_right_alt', 'name' => 'Photo right alt', 'type' => 'text' ],
 			[
 				'id'         => 'boot_hero_cards',
 				'name'       => 'Stack cards',
@@ -293,12 +314,36 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	$meta_boxes[] = $boot_sp + [
+		'title'  => 'Bootcamp · Program cards',
+		'id'     => 'lp_boot_programs',
+		'fields' => [
+			[ 'id' => 'boot_program_intro_image', 'name' => 'Left image', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'boot_program_intro_image_alt', 'name' => 'Left image alt', 'type' => 'text' ],
+			[ 'id' => 'boot_program_intro_title', 'name' => 'Left card heading', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'boot_program_intro_desc', 'name' => 'Left card text', 'type' => 'textarea', 'rows' => 4 ],
+			[ 'id' => 'boot_program_intro_cta_text', 'name' => 'Left card CTA label', 'type' => 'text' ],
+			[ 'id' => 'boot_program_intro_cta_url', 'name' => 'Left card CTA URL', 'type' => 'text' ],
+			[
+				'id'         => 'boot_program_cards',
+				'name'       => 'Bootcamp cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Bootcamp card',
+				'fields'     => $boot_program_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $boot_sp + [
 		'title'  => 'Bootcamp · Why section',
 		'id'     => 'lp_boot_why',
 		'fields' => [
 			[ 'id' => 'boot_why_eyebrow', 'name' => 'Eyebrow', 'type' => 'text' ],
 			[ 'id' => 'boot_why_heading', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'boot_why_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'boot_why_cta_text', 'name' => 'Button label', 'type' => 'text' ],
+			[ 'id' => 'boot_why_cta_url', 'name' => 'Button URL', 'type' => 'text' ],
 			[
 				'id'         => 'boot_why_cards',
 				'name'       => 'Cards',
@@ -423,6 +468,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'boot_cta_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'boot_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'boot_cta_mascot', 'name' => 'Mascot image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'boot_cta_primary_text', 'name' => 'Primary button', 'type' => 'text' ],
 			[ 'id' => 'boot_cta_primary_url', 'name' => 'Primary URL', 'type' => 'text' ],
 			[ 'id' => 'boot_cta_secondary_text', 'name' => 'Secondary button', 'type' => 'text' ],
@@ -434,9 +480,11 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$ai_step_fields = [
 		[ 'id' => 'step_badge_img', 'name' => 'Step number image', 'type' => 'single_image', 'force_delete' => false ],
 		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
+		[ 'id' => 'best', 'name' => 'Best for', 'type' => 'textarea', 'rows' => 2 ],
+		[ 'id' => 'why', 'name' => 'Why it matters', 'type' => 'textarea', 'rows' => 3 ],
 		[ 'id' => 'price', 'name' => 'Price line', 'type' => 'text' ],
 		[ 'id' => 'duration', 'name' => 'Duration line', 'type' => 'text' ],
-		[ 'id' => 'intro', 'name' => 'Intro', 'type' => 'textarea' ],
+		[ 'id' => 'intro', 'name' => 'Legacy intro fallback', 'type' => 'textarea' ],
 		[ 'id' => 'bullets', 'name' => 'What you get (one per line)', 'type' => 'textarea', 'rows' => 8 ],
 		[ 'id' => 'show_price_row', 'name' => 'Show price/duration row', 'type' => 'checkbox', 'std' => 1 ],
 	];
@@ -446,6 +494,28 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'title', 'name' => 'Title', 'type' => 'textarea', 'rows' => 2 ],
 		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea' ],
 	];
+
+	$ai_feature_card_fields = [
+		[ 'id' => 'image', 'name' => 'Image', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
+		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'url', 'name' => 'Link URL', 'type' => 'text' ],
+	];
+
+	$ai_case_card_fields = [
+		[ 'id' => 'image', 'name' => 'Image', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
+		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'tags', 'name' => 'Tags (comma-separated)', 'type' => 'text' ],
+		[ 'id' => 'url', 'name' => 'Link URL', 'type' => 'text' ],
+	];
+
+	$ai_insight_card_fields = array_merge(
+		$ai_case_card_fields,
+		[
+			[ 'id' => 'video', 'name' => 'Show video badge', 'type' => 'checkbox' ],
+		]
+	);
 
 	$ai_faq_fields = [
 		[ 'id' => 'question', 'name' => 'Question', 'type' => 'text' ],
@@ -536,12 +606,59 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	$meta_boxes[] = $ai_sp + [
+		'title'  => 'AI · Experiences',
+		'id'     => 'lp_ai_experiences',
+		'fields' => [
+			[ 'id' => 'ai_experiences_title', 'name' => 'Heading', 'type' => 'text', 'std' => 'Real-World AI Experiences' ],
+			[ 'id' => 'ai_experiences_desc', 'name' => 'Intro text', 'type' => 'textarea' ],
+			[
+				'id'         => 'ai_experiences',
+				'name'       => 'Cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Experience',
+				'fields'     => $ai_feature_card_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $ai_sp + [
+		'title'  => 'AI · Work',
+		'id'     => 'lp_ai_work',
+		'fields' => [
+			[ 'id' => 'ai_work_title', 'name' => 'Heading', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'ai_work_cta_text', 'name' => 'Button label', 'type' => 'text' ],
+			[ 'id' => 'ai_work_cta_url', 'name' => 'Button URL', 'type' => 'text' ],
+			[
+				'id'         => 'ai_work_cards',
+				'name'       => 'Cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Work card',
+				'fields'     => $ai_case_card_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $ai_sp + [
 		'title'  => 'AI · Insights (blog)',
 		'id'     => 'lp_ai_blog',
 		'fields' => [
 			[ 'id' => 'ai_blog_title', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'ai_insights_intro', 'name' => 'Intro text beside heading', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'ai_blog_cta_text', 'name' => 'Button label', 'type' => 'text' ],
 			[ 'id' => 'ai_blog_cta_url', 'name' => 'Button URL', 'type' => 'text' ],
+			[
+				'id'         => 'ai_insight_cards',
+				'name'       => 'Cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Insight card',
+				'fields'     => $ai_insight_card_fields,
+			],
 			[ 'id' => 'ai_blog_category', 'name' => 'Category slug', 'type' => 'text', 'std' => 'artificial-intelligence', 'desc' => 'Posts from this category slug.' ],
 			[ 'id' => 'ai_blog_posts', 'name' => 'Post count', 'type' => 'number', 'std' => 10, 'min' => 1, 'max' => 24 ],
 		],
@@ -569,6 +686,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_ai_cta',
 		'fields' => [
 			[ 'id' => 'ai_cta_title', 'name' => 'Heading', 'type' => 'text' ],
+			[ 'id' => 'ai_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ai_cta_mascot', 'name' => 'Mascot image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ai_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
 			[ 'id' => 'ai_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
@@ -585,6 +704,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	$testimonial_fields = [
+		[ 'id' => 'company_name', 'name' => 'Company name (logo fallback)', 'type' => 'text' ],
 		[ 'id' => 'photo', 'name' => 'Photo', 'type' => 'single_image', 'force_delete' => false ],
 		[ 'id' => 'name', 'name' => 'Name', 'type' => 'text' ],
 		[ 'id' => 'title', 'name' => 'Title / Company', 'type' => 'text' ],
@@ -600,6 +720,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	$feature_card_fields = [
+		[ 'id' => 'icon_key', 'name' => 'Icon key (optional)', 'type' => 'text' ],
 		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
 		[ 'id' => 'title', 'name' => 'Title', 'type' => 'text' ],
 		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
@@ -643,16 +764,20 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_teams_models',
 		'fields' => [
 			[ 'id' => 'teams_model_ded_tag', 'name' => 'Dedicated Teams — tag', 'type' => 'text', 'std' => 'Dedicated Teams' ],
+			[ 'id' => 'teams_model_ded_icon_svg', 'name' => 'Dedicated Teams — icon SVG', 'type' => 'textarea', 'rows' => 3 ],
 			[ 'id' => 'teams_model_ded_heading', 'name' => 'Dedicated Teams — heading', 'type' => 'text' ],
 			[ 'id' => 'teams_model_ded_desc', 'name' => 'Dedicated Teams — description', 'type' => 'textarea' ],
-			[ 'id' => 'teams_model_ded_cta_text', 'name' => 'Dedicated Teams — CTA label', 'type' => 'text', 'std' => 'Learn more' ],
-			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'text', 'std' => '/teams/dedicated/' ],
+			[ 'id' => 'teams_model_ded_bullets', 'name' => 'Dedicated Teams — bullets (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+			[ 'id' => 'teams_model_ded_cta_text', 'name' => 'Dedicated Teams — CTA label', 'type' => 'text', 'std' => 'Explore' ],
+			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'text', 'std' => '/teams-dedicated/' ],
 			[ 'id' => 'teams_model_ded_img', 'name' => 'Dedicated Teams — image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'teams_model_aug_tag', 'name' => 'Staff Aug — tag', 'type' => 'text', 'std' => 'Staff Augmentation' ],
+			[ 'id' => 'teams_model_aug_icon_svg', 'name' => 'Staff Aug — icon SVG', 'type' => 'textarea', 'rows' => 3 ],
 			[ 'id' => 'teams_model_aug_heading', 'name' => 'Staff Aug — heading', 'type' => 'text' ],
 			[ 'id' => 'teams_model_aug_desc', 'name' => 'Staff Aug — description', 'type' => 'textarea' ],
-			[ 'id' => 'teams_model_aug_cta_text', 'name' => 'Staff Aug — CTA label', 'type' => 'text', 'std' => 'Learn more' ],
-			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'text', 'std' => '/teams/staff-augmentation/' ],
+			[ 'id' => 'teams_model_aug_bullets', 'name' => 'Staff Aug — bullets (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+			[ 'id' => 'teams_model_aug_cta_text', 'name' => 'Staff Aug — CTA label', 'type' => 'text', 'std' => 'Explore' ],
+			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'text', 'std' => '/teams-staff-augmentation/' ],
 			[ 'id' => 'teams_model_aug_img', 'name' => 'Staff Aug — image', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
@@ -663,7 +788,22 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'teams_map_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Where Our Teams Work' ],
 			[ 'id' => 'teams_map_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_map_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Start Hiring Now' ],
+			[ 'id' => 'teams_map_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Teams' ],
 			[ 'id' => 'teams_map_img', 'name' => 'Map / Globe image', 'type' => 'single_image', 'force_delete' => false ],
+			[
+				'id'         => 'teams_map_regions',
+				'name'       => 'Map region cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add region',
+				'fields'     => [
+					[ 'id' => 'name', 'name' => 'Region name', 'type' => 'text' ],
+					[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'featured', 'name' => 'Featured green card', 'type' => 'checkbox' ],
+				],
+			],
 			[
 				'id'         => 'teams_map_logos',
 				'name'       => 'Partner logos',
@@ -693,7 +833,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'sort_clone' => true,
 				'add_button' => '+ Add category',
 				'fields'     => [
+					[ 'id' => 'icon_key', 'name' => 'Icon key (optional)', 'type' => 'text' ],
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
 					[ 'id' => 'category_name', 'name' => 'Category name', 'type' => 'text' ],
+					[ 'id' => 'desc', 'name' => 'Card description', 'type' => 'textarea', 'rows' => 2 ],
 					[
 						'id'         => 'skills',
 						'name'       => 'Skills (one per item)',
@@ -713,6 +856,15 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_teams_clients',
 		'fields' => [
 			[ 'id' => 'teams_clients_label', 'name' => 'Label', 'type' => 'text', 'std' => 'Teams & Staffing Client Insights' ],
+			[
+				'id'         => 'teams_client_cards',
+				'name'       => 'Client testimonial cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add client card',
+				'fields'     => $testimonial_fields,
+			],
 			[
 				'id'         => 'teams_clients_logos',
 				'name'       => 'Client names (marquee)',
@@ -743,6 +895,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'teams_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'teams_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'teams_cta_visual', 'name' => 'CTA visual image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'teams_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
 			[ 'id' => 'teams_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
@@ -789,8 +942,18 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'ded_get_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'What You Get' ],
 			[ 'id' => 'ded_get_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ded_get_kicker', 'name' => 'Cards kicker label', 'type' => 'text', 'std' => 'Why Slingshot Global Talent Delivers' ],
 			[ 'id' => 'ded_get_team_img', 'name' => 'Team photo', 'type' => 'single_image', 'force_delete' => false ],
-			[ 'id' => 'ded_get_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Build Your Team' ],
+			[
+				'id'         => 'ded_get_cards',
+				'name'       => 'What You Get cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add card',
+				'fields'     => $feature_card_fields,
+			],
+			[ 'id' => 'ded_get_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Start Hiring Now' ],
 			[ 'id' => 'ded_get_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Dedicated+Teams' ],
 		],
 	];
@@ -908,6 +1071,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'ded_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ded_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ded_cta_visual', 'name' => 'CTA visual image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ded_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
 			[ 'id' => 'ded_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],

@@ -130,13 +130,19 @@ body.page-template-page-ai .ai-hero-section {
     padding: 0;
     border-radius: 20px;
     overflow: hidden;
-    background:
+    background-color: #1349bd;
+    background-image:
+        linear-gradient(90deg, rgba(18, 70, 190, .76) 0%, rgba(18, 70, 190, .38) 45%, rgba(11, 55, 164, .12) 100%),
         radial-gradient(circle at 60% 6%, rgba(255, 255, 255, .12) 0 12%, transparent 30%),
         radial-gradient(circle at 35% 42%, rgba(255, 255, 255, .09) 0 15%, transparent 34%),
         radial-gradient(circle at 32% 96%, rgba(100, 152, 255, .28) 0 10%, transparent 25%),
         radial-gradient(circle at 89% 6%, rgba(5, 39, 138, .55) 0 16%, transparent 34%),
         radial-gradient(circle at 93% 70%, rgba(109, 151, 255, .25) 0 18%, transparent 38%),
+        url("../img/bg-tools-block.png"),
         linear-gradient(120deg, #1f62d8 0%, #1349bd 38%, #0b37a4 100%);
+    background-position: center, center, center, center, center, center, center, center;
+    background-size: cover, auto, auto, auto, auto, auto, cover, cover;
+    background-repeat: no-repeat;
 }
 
 body.page-template-page-ai .ai-hero-inner {
@@ -257,6 +263,7 @@ body.page-template-page-ai .main-block-step > img {
     height: 100%;
     display: block;
     object-fit: cover;
+    object-position: 42% center;
     border-radius: 12px;
 }
 
@@ -559,11 +566,16 @@ body.page-template-page-ai .capabilities-block-bg {
     padding: 62px;
     border-radius: 12px;
     overflow: hidden;
-    background:
+    background-color: #114fc4;
+    background-image:
         radial-gradient(circle at 77% 12%, rgba(110, 154, 255, .46) 0 15%, transparent 32%),
         radial-gradient(circle at 49% 100%, rgba(106, 150, 255, .34) 0 20%, transparent 39%),
         radial-gradient(circle at 24% 109%, rgba(104, 157, 255, .36) 0 18%, transparent 36%),
+        url("../img/bg-tools-block.png"),
         linear-gradient(130deg, #1b5fd3 0%, #0f49b4 56%, #0a3192 100%);
+    background-position: center;
+    background-size: auto, auto, auto, cover, cover;
+    background-repeat: no-repeat;
 }
 
 body.page-template-page-ai .capabilities-block {
@@ -673,7 +685,7 @@ body.page-template-page-ai .tools-title h2 {
 body.page-template-page-ai .tools-content {
     width: max-content;
     min-width: 100%;
-    gap: 72px;
+    gap: 40px;
     overflow: visible;
 }
 
@@ -681,14 +693,11 @@ body.page-template-page-ai .tools-item {
     flex: 0 0 auto;
 }
 
-body.page-template-page-ai .tools-item span {
+body.page-template-page-ai .tools-item img {
     display: block;
-    font-family: var(--ai-font);
-    font-size: 25px;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: 0;
-    color: #050505;
+    width: 135px;
+    height: 100px;
+    object-fit: contain;
 }
 
 body.page-template-page-ai .ai-work-section,
@@ -1072,10 +1081,15 @@ body.page-template-page-ai .ai-cta-card {
     padding: 45px 64px;
     gap: 24px;
     border-radius: 12px;
-    background:
+    background-color: #1c55bd;
+    background-image:
         radial-gradient(circle at 88% 8%, rgba(255, 255, 255, .18) 0 14%, transparent 32%),
         radial-gradient(circle at 86% 90%, rgba(2, 36, 145, .62) 0 24%, transparent 46%),
+        url("../img/bg-tools-block.png"),
         linear-gradient(120deg, #255fc9 0%, #1c55bd 50%, #0e3aa1 100%);
+    background-position: center;
+    background-size: auto, auto, cover, cover;
+    background-repeat: no-repeat;
 }
 
 body.page-template-page-ai .ai-cta-card::before {
@@ -1178,6 +1192,11 @@ body.page-template-page-ai footer {
         gap: 36px;
     }
 
+    body.page-template-page-ai .ai-hero-section {
+        height: auto;
+        min-height: 0;
+    }
+
     body.page-template-page-ai .ai-hero-content {
         width: auto;
         padding-top: 0;
@@ -1227,6 +1246,7 @@ body.page-template-page-ai footer {
     }
 
     body.page-template-page-ai .capabilities-block-bg {
+        width: auto;
         margin-left: 20px;
         margin-right: 20px;
         max-width: none;
@@ -1270,6 +1290,7 @@ body.page-template-page-ai footer {
 
     body.page-template-page-ai .ai-cta-card {
         order: 2;
+        height: auto;
         margin-bottom: 40px;
     }
 }
@@ -1379,7 +1400,8 @@ body.page-template-page-ai footer {
     }
 
     body.page-template-page-ai .tools-block-bg {
-        height: 300px;
+        height: auto;
+        padding-bottom: 58px;
     }
 
     body.page-template-page-ai .tools-title h2 {
@@ -1387,11 +1409,20 @@ body.page-template-page-ai footer {
     }
 
     body.page-template-page-ai .tools-content {
-        gap: 38px;
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px 24px;
     }
 
-    body.page-template-page-ai .tools-item span {
-        font-size: 20px;
+    body.page-template-page-ai .tools-item img {
+        width: 112px;
+        height: 60px;
     }
 
     body.page-template-page-ai .ai-case-card,
@@ -1430,6 +1461,7 @@ body.page-template-page-ai footer {
     }
 
     body.page-template-page-ai .ai-cta-card {
+        height: auto;
         min-height: auto;
         padding: 34px 24px;
     }

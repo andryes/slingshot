@@ -10,8 +10,8 @@ wp_enqueue_style(
 	array(), null
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
-wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.0' );
-wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.0' );
+wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.1' );
+wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.1' );
 wp_enqueue_script( 'teams-script', get_stylesheet_directory_uri() . '/js/teams.js', array( 'jquery' ), '1.0', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
@@ -44,6 +44,68 @@ $skills_cats  = is_array( $skills_cats ) ? $skills_cats : [];
 
 $clients_logos = slingshot_pm( 'ded_clients_logos', [] );
 $clients_logos = is_array( $clients_logos ) ? $clients_logos : [];
+
+$ded_icon_svg = static function ( $key ) {
+	$icons = array(
+		'bag'    => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M14 16v-3a6 6 0 0 1 12 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="8" y="16" width="24" height="17" rx="4" stroke="currentColor" stroke-width="2"/><path d="M26 26a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z" fill="#f3f2f8"/><path d="M29 26l2 2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+		'org'    => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="10" r="4" stroke="currentColor" stroke-width="2"/><circle cx="11" cy="28" r="4" stroke="currentColor" stroke-width="2"/><circle cx="29" cy="28" r="4" stroke="currentColor" stroke-width="2"/><path d="M20 14v5M20 19H11v5M20 19h9v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'doc'    => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M13 7h11l6 6v20H13V7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M24 7v7h6M17 20h9M17 25h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'clock'  => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="22" r="11" stroke="currentColor" stroke-width="2"/><path d="M20 16v7l5 3M13 8l-4 4M27 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'bulb'   => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M14 18a6 6 0 1 1 12 0c0 3.8-3 5.1-3 9h-6c0-3.9-3-5.2-3-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 31h6M18 35h4M30 9l3-3M10 9 7 6M32 19h4M4 19h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'spark'  => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M17 7l2.3 7.7L27 17l-7.7 2.3L17 27l-2.3-7.7L7 17l7.7-2.3L17 7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M29 24l1.2 3.8L34 29l-3.8 1.2L29 34l-1.2-3.8L24 29l3.8-1.2L29 24Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+		'globe'  => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2"/><path d="M6 20h28M20 6c4 4.2 6 8.8 6 14s-2 9.8-6 14M20 6c-4 4.2-6 8.8-6 14s2 9.8 6 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'chat'   => '<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M10 11h20v15H18l-8 6V11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 18h.1M22 18h.1M27 18h.1" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+	);
+	return isset( $icons[ $key ] ) ? $icons[ $key ] : $icons['spark'];
+};
+
+$ded_has_rows = static function ( $rows ) {
+	if ( ! is_array( $rows ) || empty( $rows ) ) {
+		return false;
+	}
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		foreach ( $row as $value ) {
+			if ( is_array( $value ) && ! empty( $value ) ) {
+				return true;
+			}
+			if ( ! is_array( $value ) && trim( (string) $value ) !== '' ) {
+				return true;
+			}
+		}
+	}
+	return false;
+};
+
+if ( ! $ded_has_rows( $why_cards ) ) {
+	$why_cards = array(
+		array( 'icon_key' => 'bag', 'title' => 'Smarter Than Hiring', 'desc' => 'Compared to full-time hires, our dedicated teams ramp up faster, reduce risk, and deliver outcomes without the overhead cost.' ),
+		array( 'icon_key' => 'org', 'title' => 'Real Leadership', 'desc' => "You don't just get hands on keyboards; you get senior product team leads and managers who move initiatives forward without overloading your leadership." ),
+		array( 'icon_key' => 'doc', 'title' => 'Deep Skill Coverage', 'desc' => 'From AI and mobile to DevOps, cloud, and product design, we build teams with the right blend of skills for your tech stack and business goals.' ),
+		array( 'icon_key' => 'clock', 'title' => 'Built-In Velocity', 'desc' => 'When you need to move faster than your current team allows, our dedicated teams accelerate delivery without adding management drag.' ),
+	);
+}
+
+$ded_get_cards = slingshot_pm( 'ded_get_cards', [] );
+if ( ! $ded_has_rows( $ded_get_cards ) ) {
+	$ded_get_cards = array(
+		array( 'icon_key' => 'bulb', 'title' => 'Specialized talent in AI, mobile, design, and more' ),
+		array( 'icon_key' => 'spark', 'title' => 'Cross-functional delivery squads led by Slingshot' ),
+		array( 'icon_key' => 'globe', 'title' => 'U.S.-based leadership with global scale' ),
+		array( 'icon_key' => 'chat', 'title' => 'Embedded communication and alignment with your team' ),
+	);
+}
+
+if ( ! $ded_has_rows( $test_items ) ) {
+	$test_items = array(
+		array( 'company_name' => 'HealthRev', 'quote' => "Slingshot's dedicated team model gave us a level of focus and continuity we couldn't find elsewhere. They integrated seamlessly with our internal staff, accelerated delivery, and felt like they were part of our own organization.", 'name' => 'John Doe', 'title' => 'Director of marketing and new business' ),
+		array( 'company_name' => 'ProjectTeam', 'quote' => "Slingshot's dedicated team model gave us a level of focus and continuity we couldn't find elsewhere. They integrated seamlessly with our internal staff, accelerated delivery, and felt like they were part of our own organization.", 'name' => 'John Doe', 'title' => 'Director of marketing and new business' ),
+		array( 'company_name' => 'Schneider Electric', 'quote' => "Slingshot's dedicated team model gave us a level of focus and continuity we couldn't find elsewhere. They integrated seamlessly with our internal staff, accelerated delivery, and felt like they were part of our own organization.", 'name' => 'John Doe', 'title' => 'Director of marketing and new business' ),
+		array( 'company_name' => 'Texas Roadhouse', 'quote' => "Slingshot's dedicated team model gave us a level of focus and continuity we couldn't find elsewhere. They integrated seamlessly with our internal staff, accelerated delivery, and felt like they were part of our own organization.", 'name' => 'John Doe', 'title' => 'Director of marketing and new business' ),
+	);
+}
 ?>
 
 <style id="dynamic-css-inline-css" type="text/css">
@@ -75,7 +137,7 @@ slingshot_render_redesign_header( array(
 					<span class="teams-hero-sep">/</span>
 					<span><?php echo esc_html( slingshot_pm( 'ded_hero_bc_leaf', 'DEDICATED TEAMS' ) ); ?></span>
 				</div>
-				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_pm( 'ded_hero_heading', 'Dedicated Teams That Deliver' ) ); ?></h1>
+				<h1 class="teams-hero-heading"><?php echo nl2br( esc_html( slingshot_pm( 'ded_hero_heading', 'Dedicated Teams That Deliver' ) ) ); ?></h1>
 				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'ded_hero_subtext', 'A fully managed, embedded squad — engineers, a tech lead, and a PM — built around your product.' ) ); ?></p>
 				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-hero-btn">
 					<?php echo esc_html( slingshot_pm( 'ded_hero_cta_text', 'Build Your Team' ) ); ?> <span>&#8594;</span>
@@ -85,10 +147,10 @@ slingshot_render_redesign_header( array(
 			<div class="teams-hero-photos">
 				<div class="teams-hero-photo-grid">
 					<div class="teams-hero-photo teams-hero-photo-a">
-						<img src="<?php echo esc_url( slingshot_pm_image( 'ded_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="Dedicated team">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'ded_hero_img_a', $img_dir . '/teams-hero-a.png' ) ); ?>" alt="Dedicated team">
 					</div>
 					<div class="teams-hero-photo teams-hero-photo-b">
-						<img src="<?php echo esc_url( slingshot_pm_image( 'ded_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="Dedicated team member">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'ded_hero_img_b', $img_dir . '/teams-hero-b.png' ) ); ?>" alt="Dedicated team member">
 					</div>
 				</div>
 			</div>
@@ -108,11 +170,11 @@ slingshot_render_redesign_header( array(
 
 			<?php if ( ! empty( $why_cards ) ) : ?>
 			<div class="teams-feature-cards">
-				<?php foreach ( $why_cards as $card ) : ?>
+				<?php foreach ( $why_cards as $card ) :
+					$icon_svg = ! empty( $card['icon_svg'] ) ? (string) $card['icon_svg'] : $ded_icon_svg( (string) ( $card['icon_key'] ?? 'spark' ) );
+					?>
 				<div class="teams-feature-card">
-					<?php if ( ! empty( $card['icon_svg'] ) ) : ?>
-					<div class="teams-feature-card-icon"><?php echo $card['icon_svg']; // phpcs:ignore ?></div>
-					<?php endif; ?>
+					<div class="teams-feature-card-icon"><?php echo $icon_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 					<h3 class="teams-feature-card-title"><?php echo esc_html( (string) ( $card['title'] ?? '' ) ); ?></h3>
 					<p class="teams-feature-card-desc"><?php echo esc_html( (string) ( $card['desc'] ?? '' ) ); ?></p>
 				</div>
@@ -128,12 +190,23 @@ slingshot_render_redesign_header( array(
 			<div class="teams-get-content">
 				<h2 class="teams-get-heading"><?php echo esc_html( slingshot_pm( 'ded_get_heading', 'What You Get' ) ); ?></h2>
 				<p class="teams-get-desc"><?php echo esc_html( slingshot_pm( 'ded_get_desc', 'A cross-functional, dedicated squad that slots into your workflow and starts shipping in weeks, not months.' ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_get_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-btn-primary">
-					<?php echo esc_html( slingshot_pm( 'ded_get_cta_text', 'Build Your Team' ) ); ?> &#8594;
+				<p class="teams-get-kicker"><?php echo esc_html( slingshot_pm( 'ded_get_kicker', 'Why Slingshot Global Talent Delivers' ) ); ?></p>
+				<div class="teams-get-card-grid">
+					<?php foreach ( $ded_get_cards as $card ) :
+						$icon_svg = ! empty( $card['icon_svg'] ) ? (string) $card['icon_svg'] : $ded_icon_svg( (string) ( $card['icon_key'] ?? 'spark' ) );
+						?>
+					<div class="teams-get-mini-card">
+						<div class="teams-get-mini-icon"><?php echo $icon_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+						<p><?php echo esc_html( (string) ( $card['title'] ?? '' ) ); ?></p>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_get_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-btn-primary teams-get-cta">
+					<?php echo esc_html( slingshot_pm( 'ded_get_cta_text', 'Start Hiring Now' ) ); ?> <span aria-hidden="true">&#8594;</span>
 				</a>
 			</div>
 
-			<?php $team_img = slingshot_pm_image( 'ded_get_team_img', '' ); ?>
+			<?php $team_img = slingshot_pm_image( 'ded_get_team_img', $img_dir . '/teams-dedicated-team-photo.png' ); ?>
 			<div class="teams-get-photo<?php echo $team_img ? '' : ' teams-get-photo--placeholder'; ?>">
 				<?php if ( $team_img ) : ?>
 					<img src="<?php echo esc_url( $team_img ); ?>" alt="Dedicated team" loading="lazy">
@@ -226,11 +299,17 @@ slingshot_render_redesign_header( array(
 				<?php foreach ( $test_items as $t ) :
 					$photo = ! empty( $t['photo'] ) ? slingshot_lp_attachment_url( $t['photo'], '', 'thumbnail' ) : '';
 					$logo  = ! empty( $t['company_logo'] ) ? slingshot_lp_attachment_url( $t['company_logo'], '', 'medium' ) : '';
+					$company = (string) ( $t['company_name'] ?? $t['company'] ?? '' );
+					if ( ! $logo ) {
+						$logo = slingshot_client_logo_url( $company );
+					}
 					?>
 				<div class="teams-testimonial-card">
 					<div class="teams-testimonial-logo-row">
 						<?php if ( $logo ) : ?>
-							<img class="teams-testimonial-company-logo" src="<?php echo esc_url( $logo ); ?>" alt="">
+							<img class="teams-testimonial-company-logo" src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $company ); ?>">
+						<?php elseif ( $company ) : ?>
+							<span class="teams-testimonial-company-text"><?php echo esc_html( $company ); ?></span>
 						<?php endif; ?>
 					</div>
 					<p class="teams-testimonial-quote">&ldquo;<?php echo esc_html( (string) ( $t['quote'] ?? '' ) ); ?>&rdquo;</p>
@@ -247,6 +326,13 @@ slingshot_render_redesign_header( array(
 					</div>
 				</div>
 				<?php endforeach; ?>
+			</div>
+			<div class="home-carousel-footer teams-carousel-footer">
+				<div class="home-carousel-progress"><span></span></div>
+				<div class="carousel-nav">
+					<button class="carousel-nav-btn" type="button" aria-label="Previous">&#8249;</button>
+					<button class="carousel-nav-btn" type="button" aria-label="Next">&#8250;</button>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -343,10 +429,12 @@ slingshot_render_redesign_header( array(
 		<div class="teams-cta-inner">
 			<div class="home-cta-mascot">
 				<?php
-				$mascot_file_path = get_stylesheet_directory() . '/img/cta-mascot.png';
-				$mascot_file_url  = get_stylesheet_directory_uri() . '/img/cta-mascot.png';
-				if ( file_exists( $mascot_file_path ) ) : ?>
-					<img src="<?php echo esc_url( $mascot_file_url ); ?>" alt="Slingshot mascot">
+				$cta_visual_default_path = get_stylesheet_directory() . '/img/teams-cta-visual.png';
+				$cta_visual_default_url  = get_stylesheet_directory_uri() . '/img/teams-cta-visual.png';
+				$cta_visual_fallback     = file_exists( $cta_visual_default_path ) ? $cta_visual_default_url : get_stylesheet_directory_uri() . '/img/cta-mascot.png';
+				$cta_visual_url          = slingshot_pm_image( 'ded_cta_visual', $cta_visual_fallback, 'large' );
+				if ( $cta_visual_url ) : ?>
+					<img src="<?php echo esc_url( $cta_visual_url ); ?>" alt="Slingshot team call">
 				<?php else : ?>
 				<svg class="home-cta-mascot-svg" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<ellipse cx="140" cy="290" rx="55" ry="16" fill="rgba(75,35,176,.12)"/>

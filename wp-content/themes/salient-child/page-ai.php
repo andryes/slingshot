@@ -12,7 +12,7 @@ wp_enqueue_style(
 );
 wp_enqueue_style( 'ai-style', get_stylesheet_directory_uri() . '/css/updated.css', array(), '1.1' );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.21' );
-wp_enqueue_style( 'ai-page-style', get_stylesheet_directory_uri() . '/css/ai.css', array( 'ai-style', 'home-style' ), '1.1' );
+wp_enqueue_style( 'ai-page-style', get_stylesheet_directory_uri() . '/css/ai.css', array( 'ai-style', 'home-style' ), '1.2' );
 wp_enqueue_script( 'ai-script', get_stylesheet_directory_uri() . '/js/updated.js', array( 'jquery' ), '1.2', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.7', true );
 
@@ -22,6 +22,18 @@ $img_dir      = get_stylesheet_directory_uri() . '/img';
 $contact_url  = slingshot_lp_h_attr( slingshot_pm( 'ai_hero_cta_url', '/contact/' ) );
 $cta_mascot   = slingshot_pm_image( 'ai_cta_mascot', $img_dir . '/ai-cta-mascot.png' );
 $impact_image = slingshot_pm_image( 'ai_impact_image', $img_dir . '/ai-impact.png' );
+$clean_ai_cta_label = static function ( $value, $fallback ) {
+	$value = trim( html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' ) );
+	$value = preg_replace( '/\s*(?:→|›|&rarr;|&#8594;|\?)+\s*$/u', '', $value );
+	return $value !== '' ? $value : $fallback;
+};
+$ai_image_from_field = static function ( $value, $fallback = '' ) {
+	if ( is_numeric( $value ) ) {
+		return slingshot_lp_attachment_url( (int) $value, $fallback );
+	}
+	$value = trim( (string) $value );
+	return $value !== '' ? $value : $fallback;
+};
 if ( ! $impact_image || $impact_image === $img_dir . '/ai-impact.png' ) {
 	$impact_image = content_url( 'uploads/2025/06/4-Ways-to-Jumpstart-Real-AI-Product-Development_Featured-Image-LN-1000x500.png' );
 }
@@ -40,6 +52,19 @@ $impact_text = slingshot_pm( 'ai_impact_text', 'Slingshot partners with innovati
 if ( false !== strpos( $impact_text, 'Harness the power of artificial intelligence' ) ) {
 	$impact_text = 'Slingshot partners with innovation leaders to move from curiosity to clarity, and from pilot to production with real use cases, expert advice, and working software.';
 }
+
+$ai_faq_title = slingshot_pm( 'ai_faq_title', "Still wondering\nif AI is right for you?" );
+if ( false !== strpos( $ai_faq_title, 'wonderingif' ) ) {
+	$ai_faq_title = "Still wondering\nif AI is right for you?";
+}
+
+$ai_cta_title = slingshot_pm( 'ai_cta_title', "Start Smart. Move Fast.\nBuild What Matters" );
+if ( false !== strpos( $ai_cta_title, 'Fast.Build' ) ) {
+	$ai_cta_title = str_replace( 'Fast.Build', "Fast.\nBuild", $ai_cta_title );
+}
+
+$ai_cta_btn_text  = $clean_ai_cta_label( slingshot_pm( 'ai_cta_btn_text', 'Book a Free AI Discussion' ), 'Book a Free AI Discussion' );
+$ai_blog_cta_text = $clean_ai_cta_label( slingshot_pm( 'ai_blog_cta_text', 'All Insights' ), 'All Insights' );
 
 $ai_steps = array(
 	array(
@@ -77,6 +102,7 @@ $ai_steps = array(
 		'bullets'  => "Technical discovery and integration planning\nModel/tooling selection aligned to your ecosystem\nAI-powered workflow or feature deployment\nTraining and support for long-term success",
 	),
 );
+$ai_default_steps = $ai_steps;
 
 $ai_caps = array(
 	array( 'title' => "Operational Efficiency\n& Automation", 'desc' => 'Reduce manual work, lower costs, and speed up operations' ),
@@ -86,6 +112,7 @@ $ai_caps = array(
 	array( 'title' => 'Process Intelligence', 'desc' => 'Uncover inefficiencies using AI-driven pattern recognition' ),
 	array( 'title' => "Sentiment\n& Intent Analysis", 'desc' => 'Understand what customers really need, not just what they say' ),
 );
+$ai_default_caps = $ai_caps;
 
 $ai_experiences = array(
 	array(
@@ -101,6 +128,7 @@ $ai_experiences = array(
 		'url'   => '/ai-bootcamp/',
 	),
 );
+$ai_default_experiences = $ai_experiences;
 
 $ai_work_cards = array(
 	array(
@@ -132,6 +160,7 @@ $ai_work_cards = array(
 		'url'   => '/work/',
 	),
 );
+$ai_default_work_cards = $ai_work_cards;
 
 $ai_insights = array(
 	array(
@@ -140,7 +169,7 @@ $ai_insights = array(
 		'image' => $img_dir . '/ai-insight-david.png',
 		'tags'  => array( 'AI', 'Product', 'Mobile' ),
 		'url'   => '/blog/',
-		'video' => true,
+		'video' => false,
 	),
 	array(
 		'title' => 'How AI has rewired the hackathon',
@@ -164,6 +193,116 @@ $ai_insights = array(
 		'url'   => '/blog/',
 	),
 );
+
+$ai_default_insights = $ai_insights;
+
+$ai_step_rows = slingshot_lp_filter_group(
+	slingshot_pm( 'ai_steps' ),
+	static function ( $row ) {
+		return ! empty( $row['title'] );
+	}
+);
+if ( $ai_step_rows && count( $ai_step_rows ) >= 5 && ! empty( $ai_step_rows[0]['best'] ) ) {
+	$ai_steps = array_map(
+		static function ( $row ) {
+			return array(
+				'step_badge_img' => $row['step_badge_img'] ?? 0,
+				'title'          => $row['title'] ?? '',
+				'best'           => $row['best'] ?? '',
+				'why'            => $row['why'] ?? ( $row['intro'] ?? '' ),
+				'bullets'        => $row['bullets'] ?? '',
+				'price'          => $row['price'] ?? '',
+				'duration'       => $row['duration'] ?? '',
+				'show_price_row' => $row['show_price_row'] ?? 1,
+			);
+		},
+		$ai_step_rows
+	);
+}
+
+$ai_cap_rows = slingshot_lp_filter_group(
+	slingshot_pm( 'ai_capabilities' ),
+	static function ( $row ) {
+		return ! empty( $row['title'] );
+	}
+);
+if ( $ai_cap_rows && count( $ai_cap_rows ) >= 6 ) {
+	$ai_caps = $ai_cap_rows;
+}
+
+$ai_experience_rows = slingshot_lp_filter_group(
+	slingshot_pm( 'ai_experiences' ),
+	static function ( $row ) {
+		return ! empty( $row['title'] );
+	}
+);
+if ( $ai_experience_rows ) {
+	$ai_experiences = $ai_experience_rows;
+}
+foreach ( $ai_experiences as $idx => &$experience ) {
+	$experience['image'] = $ai_image_from_field( $experience['image'] ?? '', $ai_default_experiences[ $idx ]['image'] ?? '' );
+	$experience['url']   = $experience['url'] ?? ( $ai_default_experiences[ $idx ]['url'] ?? '#' );
+	$experience['desc']  = $experience['desc'] ?? '';
+}
+unset( $experience );
+
+$ai_work_rows = slingshot_lp_filter_group(
+	slingshot_pm( 'ai_work_cards' ),
+	static function ( $row ) {
+		return ! empty( $row['title'] );
+	}
+);
+if ( $ai_work_rows ) {
+	$ai_work_cards = $ai_work_rows;
+}
+foreach ( $ai_work_cards as $idx => &$card ) {
+	$card['image'] = $ai_image_from_field( $card['image'] ?? '', $ai_default_work_cards[ $idx ]['image'] ?? '' );
+	$card['url']   = $card['url'] ?? ( $ai_default_work_cards[ $idx ]['url'] ?? '#' );
+	$card['desc']  = $card['desc'] ?? '';
+	$card['tags']  = is_array( $card['tags'] ?? null ) ? $card['tags'] : slingshot_lp_bullet_lines( str_replace( ',', "\n", (string) ( $card['tags'] ?? '' ) ) );
+}
+unset( $card );
+
+$ai_insight_rows = slingshot_lp_filter_group(
+	slingshot_pm( 'ai_insight_cards' ),
+	static function ( $row ) {
+		return ! empty( $row['title'] );
+	}
+);
+if ( $ai_insight_rows ) {
+	$ai_insights = $ai_insight_rows;
+}
+foreach ( $ai_insights as $idx => &$card ) {
+	$card['image'] = $ai_image_from_field( $card['image'] ?? '', $ai_default_insights[ $idx ]['image'] ?? '' );
+	$card['url']   = $card['url'] ?? ( $ai_default_insights[ $idx ]['url'] ?? '#' );
+	$card['desc']  = $card['desc'] ?? '';
+	$card['tags']  = is_array( $card['tags'] ?? null ) ? $card['tags'] : slingshot_lp_bullet_lines( str_replace( ',', "\n", (string) ( $card['tags'] ?? '' ) ) );
+	$card['video'] = ! empty( $card['video'] );
+}
+unset( $card );
+
+$ai_tool_logos = slingshot_lp_filter_group(
+	slingshot_pm( 'ai_tools_logos' ),
+	static function ( $row ) {
+		return ! empty( $row['image'] );
+	}
+);
+if ( ! $ai_tool_logos ) {
+	$ai_tool_names = array( 'Copilot', 'OpenAI', 'Azure AI', 'Claude', 'Amazon Bedrock', 'LangChain', 'Model Context Protocol', 'Windsurf', 'GPT Builder', 'Gemini', 'Perplexity' );
+	$ai_tool_logos = array();
+	foreach ( range( 1, 11 ) as $tool_idx ) {
+		$ai_tool_logos[] = array(
+			'image' => $img_dir . '/tools-' . $tool_idx . '.png',
+			'alt'   => $ai_tool_names[ $tool_idx - 1 ] ?? 'AI platform logo',
+		);
+	}
+} else {
+	foreach ( $ai_tool_logos as &$logo ) {
+		$logo['image'] = $ai_image_from_field( $logo['image'] ?? '', '' );
+		$logo['alt']   = $logo['alt'] ?? 'AI platform logo';
+	}
+	unset( $logo );
+}
 ?>
 
 <style id="dynamic-css-inline-css" type="text/css">
@@ -222,7 +361,8 @@ slingshot_render_redesign_header(
 				$si = 0;
 				foreach ( $ai_steps as $step ) :
 					$si++;
-					$badge_src = $img_dir . '/ai-step-' . min( $si, 5 ) . '.png';
+					$badge_src = $ai_image_from_field( $step['step_badge_img'] ?? 0, $img_dir . '/ai-step-' . min( $si, 5 ) . '.png' );
+					$show_price_row = ! array_key_exists( 'show_price_row', $step ) || ! empty( $step['show_price_row'] );
 					?>
 				<div class="block-step">
 					<div class="block-step-title">
@@ -244,7 +384,7 @@ slingshot_render_redesign_header(
 								<?php endforeach; ?>
 							</ul>
 						</div>
-						<?php if ( ! empty( $step['price'] ) || ! empty( $step['duration'] ) ) : ?>
+						<?php if ( $show_price_row && ( ! empty( $step['price'] ) || ! empty( $step['duration'] ) ) ) : ?>
 						<div class="block-step-price">
 							<?php if ( ! empty( $step['price'] ) ) : ?>
 							<img src="<?php echo esc_url( $img_dir . '/coin.png' ); ?>" alt=""/>
@@ -269,8 +409,8 @@ slingshot_render_redesign_header(
 	<section class="ai-experience-section">
 		<div class="ai-experience-inner">
 			<div class="ai-section-header">
-				<h2>Real-World AI Experiences</h2>
-				<p>Real conversations, hands-on learning, and practical AI experience for builders, teams, and leaders.</p>
+				<h2><?php echo esc_html( slingshot_pm( 'ai_experiences_title', 'Real-World AI Experiences' ) ); ?></h2>
+				<p><?php echo esc_html( slingshot_pm( 'ai_experiences_desc', 'Real conversations, hands-on learning, and practical AI experience for builders, teams, and leaders.' ) ); ?></p>
 			</div>
 			<div class="ai-experience-grid">
 				<?php foreach ( $ai_experiences as $experience ) : ?>
@@ -300,7 +440,7 @@ slingshot_render_redesign_header(
 				$ci = 0;
 				foreach ( $ai_caps as $cap ) :
 					$ci++;
-					$icon = $img_dir . '/capabilities-' . $ci . '.png';
+					$icon = $ai_image_from_field( $cap['image'] ?? 0, $img_dir . '/capabilities-' . $ci . '.png' );
 					?>
 				<div class="capabilitie-item">
 					<img src="<?php echo esc_url( $icon ); ?>" alt="">
@@ -318,9 +458,9 @@ slingshot_render_redesign_header(
 				<h2><?php echo esc_html( slingshot_pm( 'ai_tools_title', 'Trusted Platforms We Build With' ) ); ?></h2>
 			</div>
 		</div>
-		<div class="tools-content marquee">
-			<?php foreach ( array( 'Copilot', 'OpenAI', 'Azure AI', 'Claude', 'Amazon Bedrock', 'LangChain', 'Model Context Protocol', 'Windsurf', 'GPT Builder' ) as $tool_name ) : ?>
-			<div class="tools-item"><span><?php echo esc_html( $tool_name ); ?></span></div>
+		<div class="tools-content">
+			<?php foreach ( $ai_tool_logos as $logo ) : ?>
+			<div class="tools-item"><img src="<?php echo esc_url( $logo['image'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?? 'AI platform logo' ); ?>"></div>
 			<?php endforeach; ?>
 		</div>
 	</section>
@@ -328,8 +468,8 @@ slingshot_render_redesign_header(
 	<section class="ai-work-section">
 		<div class="ai-work-inner">
 			<div class="ai-section-header">
-				<h2>From Solution<br>to Success Stories</h2>
-				<a href="/work/" class="ai-outline-btn">All Work <span>&rarr;</span></a>
+				<h2><?php echo nl2br( esc_html( slingshot_pm( 'ai_work_title', "From Solution\nto Success Stories" ) ) ); ?></h2>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ai_work_cta_url', '/work/' ) ); ?>" class="ai-outline-btn"><?php echo esc_html( $clean_ai_cta_label( slingshot_pm( 'ai_work_cta_text', 'All Work' ), 'All Work' ) ); ?> <span>&rarr;</span></a>
 			</div>
 			<div class="ai-card-track" id="aiWorkTrack">
 				<?php foreach ( $ai_work_cards as $card ) : ?>
@@ -362,8 +502,8 @@ slingshot_render_redesign_header(
 			<div class="innovations-title">
 				<h2><?php echo esc_html( slingshot_pm( 'ai_blog_title', 'Insights That Move Business Forward' ) ); ?></h2>
 				<div class="ai-insights-kicker">
-					<p>AI-powered legal assistant that streamlined paralegal workflows by 60 percent</p>
-					<a class="ai-outline-btn" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ai_blog_cta_url', '/blog/' ) ); ?>">All Insights <span>&rarr;</span></a>
+					<p><?php echo esc_html( slingshot_pm( 'ai_insights_intro', 'AI-powered legal assistant that streamlined paralegal workflows by 60 percent' ) ); ?></p>
+					<a class="ai-outline-btn" role="button" href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ai_blog_cta_url', '/blog/' ) ); ?>"><?php echo esc_html( $ai_blog_cta_text ); ?> <span>&rarr;</span></a>
 				</div>
 			</div>
 			<div class="innovations-content" id="aiInsightsTrack">
@@ -399,7 +539,7 @@ slingshot_render_redesign_header(
 	<section class="answers-block-bg">
 		<div class="answers-block">
 			<div class="answers-title">
-				<h2><?php echo nl2br( esc_html( slingshot_pm( 'ai_faq_title', "Still wondering\nif AI is right for you?" ) ) ); ?></h2>
+				<h2><?php echo nl2br( esc_html( $ai_faq_title ) ); ?></h2>
 				<p>If you didn't find the answer you were looking for, please reach out. We pride ourselves on providing not just excellent care, but also extraordinary service. All questions are welcome.</p>
 				<a class="ai-outline-btn" href="/contact/">Contact us <span>&rarr;</span></a>
 			</div>
@@ -425,9 +565,9 @@ slingshot_render_redesign_header(
 				<img src="<?php echo esc_url( $cta_mascot ); ?>" alt="Slingshot mascot">
 			</div>
 			<div class="ai-cta-card">
-				<h2 class="ai-cta-title"><?php echo nl2br( esc_html( slingshot_pm( 'ai_cta_title', "Start Smart. Move Fast.\nBuild What Matters" ) ) ); ?></h2>
+				<h2 class="ai-cta-title"><?php echo nl2br( esc_html( $ai_cta_title ) ); ?></h2>
 				<p class="ai-cta-desc"><?php echo esc_html( slingshot_pm( 'ai_cta_desc', "Let's turn AI into something real, valuable, and aligned to your business" ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ai_cta_btn_url', '/contact/' ) ); ?>" class="ai-cta-btn"><?php echo esc_html( slingshot_pm( 'ai_cta_btn_text', 'Book a Free AI Discussion' ) ); ?> <span>&rarr;</span></a>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ai_cta_btn_url', '/contact/' ) ); ?>" class="ai-cta-btn"><?php echo esc_html( $ai_cta_btn_text ); ?> <span>&rarr;</span></a>
 			</div>
 		</div>
 	</section>

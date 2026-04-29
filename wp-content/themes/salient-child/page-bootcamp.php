@@ -10,13 +10,100 @@ wp_enqueue_style(
 	array(), null
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
-wp_enqueue_style( 'bootcamp-style', get_stylesheet_directory_uri() . '/css/bootcamp.css', array(), '1.0' );
+wp_enqueue_style( 'bootcamp-style', get_stylesheet_directory_uri() . '/css/bootcamp.css', array(), '1.2' );
 wp_enqueue_script( 'bootcamp-script', get_stylesheet_directory_uri() . '/js/bootcamp.js', array( 'jquery' ), '1.0', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
 get_header();
 
 $img_dir = get_stylesheet_directory_uri() . '/img';
+
+$clean_boot_label = static function ( $value, $fallback ) {
+	$value = trim( html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' ) );
+	$value = preg_replace( '/\s*(?:→|›|&rarr;|&#8594;|\?)+\s*$/u', '', $value );
+	return $value !== '' ? $value : $fallback;
+};
+
+$boot_image_from_field = static function ( $value, $fallback = '' ) {
+	if ( is_numeric( $value ) ) {
+		return slingshot_lp_attachment_url( (int) $value, $fallback );
+	}
+	$value = trim( (string) $value );
+	return $value !== '' ? $value : $fallback;
+};
+
+$boot_hero_img_left  = slingshot_pm_image( 'boot_hero_img_left', $img_dir . '/ai-hero-left.png' );
+$boot_hero_img_right = slingshot_pm_image( 'boot_hero_img_right', $img_dir . '/ai-hero-right.png' );
+$boot_intro_image    = slingshot_pm_image( 'boot_program_intro_image', $img_dir . '/bg-first-block.png' );
+$cta_mascot          = slingshot_pm_image( 'boot_cta_mascot', $img_dir . '/bootcamp-cta-visual.png' );
+
+$boot_program_cards = array(
+	array(
+		'title'           => 'AI Developer Bootcamp',
+		'subtitle'        => 'Chatbots, RAG, and Agents in a Day',
+		'desc'            => "A hands-on, full-day session for developers and architects who want to move beyond AI concepts and start building real functionality. You'll design and deploy intelligent agents, implement RAG pipelines, and explore Model Context Protocol for tool coordination.",
+		'gains'           => "A functional AI chatbot built from scratch\nA RAG system for chatting with your own data\nAn AI agent capable of taking actions through tool execution",
+		'ideal'           => 'Software engineers, solution architects, AI-leaning devs',
+		'instructor_name' => 'Doug Compton',
+		'instructor_role' => 'Principal AI Developer',
+		'instructor_avatar' => content_url( 'uploads/2022/05/Doug-01.png' ),
+		'instructor_bio'  => 'Doug brings 20+ years of experience in systems architecture and AI product development. His bootcamps focus on building stable, scalable, and usable AI systems with modern tools.',
+		'cta_text'        => 'View Upcoming Dates',
+		'cta_url'         => '#boot-programs',
+		'open'            => 1,
+	),
+	array(
+		'title'           => 'AI Product Bootcamp',
+		'subtitle'        => 'One-Day, Hands-On AI Experience',
+		'desc'            => 'This one-day bootcamp gives product managers, marketers, designers, and business leaders a practical foundation in using AI tools to create faster, smarter outcomes. From designing GPTs to launching live prototypes, your team will learn how to apply AI in meaningful ways.',
+		'gains'           => "Your own custom GPT built and deployed.\nA live landing page created using AI and no-code tools.\nA prototype product you designed using AI-assisted workflows.",
+		'ideal'           => 'Product managers, marketing teams, innovation leaders',
+		'instructor_name' => 'Sarah Bhatia',
+		'instructor_role' => 'Director of AI Product Innovation',
+		'instructor_avatar' => content_url( 'uploads/2022/05/Sarah-B-01.png' ),
+		'instructor_bio'  => '',
+		'cta_text'        => 'View Upcoming Dates',
+		'cta_url'         => '#boot-programs',
+		'open'            => 0,
+	),
+);
+
+$boot_program_rows = slingshot_lp_filter_group(
+	slingshot_pm( 'boot_program_cards' ),
+	static function ( $row ) {
+		return ! empty( $row['title'] );
+	}
+);
+if ( $boot_program_rows ) {
+	$boot_program_cards = $boot_program_rows;
+}
+foreach ( $boot_program_cards as $idx => &$program ) {
+	$program['icon']              = $boot_image_from_field( $program['icon'] ?? 0, $img_dir . '/ai-step-' . min( $idx + 1, 5 ) . '.png' );
+	$program['instructor_avatar'] = $boot_image_from_field( $program['instructor_avatar'] ?? 0, '' );
+	if ( empty( $program['instructor_avatar'] ) && ! empty( $program['instructor_name'] ) ) {
+		$name = strtolower( (string) $program['instructor_name'] );
+		if ( false !== strpos( $name, 'doug' ) ) {
+			$program['instructor_avatar'] = content_url( 'uploads/2022/05/Doug-01.png' );
+		} elseif ( false !== strpos( $name, 'sarah' ) ) {
+			$program['instructor_avatar'] = content_url( 'uploads/2022/05/Sarah-B-01.png' );
+		}
+	}
+	$program['cta_text']          = $clean_boot_label( $program['cta_text'] ?? 'View Upcoming Dates', 'View Upcoming Dates' );
+	$program['cta_url']           = $program['cta_url'] ?? '#boot-programs';
+	$program['open']              = ! empty( $program['open'] );
+}
+unset( $program );
+
+$boot_why_cards = slingshot_lp_bootcamp_why_cards();
+if ( count( $boot_why_cards ) < 4 ) {
+	$boot_why_cards[] = array(
+		'title'    => 'Private, custom options',
+		'text'     => 'Tailored sessions built around your goals and roles.',
+		'icon_svg' => '<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="rgba(255,255,255,.12)"/><circle cx="14" cy="14" r="4" stroke="#fff" stroke-width="2"/><circle cx="23" cy="15" r="3" stroke="#fff" stroke-width="2"/><path d="M8 27c0-4 3-7 7-7h3c4 0 7 3 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+		'style'    => 'default',
+		'badge'    => '',
+	);
+}
 
 $blog_n = (int) slingshot_pm( 'boot_blog_posts', 3 );
 $blog_n = max( 1, min( 12, $blog_n ) );
@@ -68,23 +155,76 @@ slingshot_render_redesign_header(
 				<h1 class="boot-hero-heading"><?php echo nl2br( esc_html( slingshot_pm('boot_hero_heading', "Hands-On\nAI Bootcamps" ) ) ); ?></h1>
 				<p class="boot-hero-subtext"><?php echo esc_html( slingshot_pm('boot_hero_subtext', 'Two immersive one-day bootcamps designed to help your team stop experimenting and start delivering with AI. Whether you\'re building multi-agent systems or launching faster with AI tools, you\'ll leave with real progress, not just notes.' ) ); ?></p>
 				<div class="boot-hero-actions">
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-hero-btn boot-hero-btn-primary"><?php echo esc_html( slingshot_pm('boot_hero_primary_text', 'Send Request' ) ); ?> <span>&#8594;</span></a>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_hero_secondary_url', '#boot-curriculum' ) ); ?>" class="boot-hero-btn boot-hero-btn-ghost"><?php echo esc_html( slingshot_pm('boot_hero_secondary_text', 'See the Curriculum' ) ); ?></a>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_hero_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-hero-btn boot-hero-btn-primary"><?php echo esc_html( $clean_boot_label( slingshot_pm('boot_hero_primary_text', 'Send Request' ), 'Send Request' ) ); ?> <span>&#8594;</span></a>
 				</div>
 			</div>
 
 			<div class="boot-hero-visual">
-				<div class="boot-hero-card-stack">
-					<?php foreach ( slingshot_lp_bootcamp_hero_cards() as $hci => $hc ) : ?>
-					<div class="boot-hero-card boot-hero-card-<?php echo esc_attr( (string) ( $hci + 1 ) ); ?>">
-						<div class="boot-hero-card-icon"><?php echo $hc['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-						<div>
-							<div class="boot-hero-card-title"><?php echo esc_html( $hc['title'] ); ?></div>
-							<div class="boot-hero-card-sub"><?php echo esc_html( $hc['subtitle'] ); ?></div>
-						</div>
-					</div>
-					<?php endforeach; ?>
+				<div class="boot-hero-photo boot-hero-photo-left">
+					<img src="<?php echo esc_url( $boot_hero_img_left ); ?>" alt="<?php echo esc_attr( slingshot_pm( 'boot_hero_img_left_alt', 'Slingshot team collaborating on AI' ) ); ?>">
 				</div>
+				<div class="boot-hero-photo boot-hero-photo-right">
+					<img src="<?php echo esc_url( $boot_hero_img_right ); ?>" alt="<?php echo esc_attr( slingshot_pm( 'boot_hero_img_right_alt', 'Slingshot engineer working on AI solution' ) ); ?>">
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="boot-programs-section" id="boot-programs">
+		<div class="boot-programs-inner">
+			<div class="boot-program-feature">
+				<img src="<?php echo esc_url( $boot_intro_image ); ?>" alt="<?php echo esc_attr( slingshot_pm( 'boot_program_intro_image_alt', 'Slingshot AI bootcamp team session' ) ); ?>">
+				<div class="boot-program-feature-content">
+					<h2><?php echo nl2br( esc_html( slingshot_pm( 'boot_program_intro_title', "Build real skills.\nCreate Real Outcomes" ) ) ); ?></h2>
+					<p><?php echo esc_html( slingshot_pm( 'boot_program_intro_desc', slingshot_pm('boot_hero_subtext', "Two immersive one-day bootcamps designed to help your team stop experimenting and start delivering with AI. Whether you're building multi-agent systems or launching faster with AI tools, you'll leave with real progress, not just notes." ) ) ); ?></p>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'boot_program_intro_cta_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-program-feature-btn"><?php echo esc_html( $clean_boot_label( slingshot_pm( 'boot_program_intro_cta_text', 'Request a Private Bootcamp' ), 'Request a Private Bootcamp' ) ); ?> <span>&#8594;</span></a>
+				</div>
+			</div>
+			<div class="boot-program-list">
+				<?php foreach ( $boot_program_cards as $program ) : ?>
+				<article class="boot-program-card<?php echo ! empty( $program['open'] ) ? ' is-open' : ''; ?>">
+					<header class="boot-program-card-header">
+						<span class="boot-program-icon"><img src="<?php echo esc_url( $program['icon'] ); ?>" alt=""></span>
+						<div>
+							<h2><?php echo esc_html( $program['title'] ?? '' ); ?></h2>
+							<p><?php echo esc_html( $program['subtitle'] ?? '' ); ?></p>
+						</div>
+					</header>
+					<div class="boot-program-rule"></div>
+					<p class="boot-program-desc"><?php echo esc_html( $program['desc'] ?? '' ); ?></p>
+					<div class="boot-program-gains">
+						<strong>What You'll Gain:</strong>
+						<ul>
+							<?php foreach ( slingshot_lp_bullet_lines( $program['gains'] ?? '' ) as $gain ) : ?>
+							<li><?php echo esc_html( $gain ); ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<div class="boot-program-ideal">
+						<strong>Ideal for:</strong>
+						<p><?php echo esc_html( $program['ideal'] ?? '' ); ?></p>
+					</div>
+					<div class="boot-program-rule"></div>
+					<div class="boot-program-instructor">
+						<strong>Instructor:</strong>
+						<div class="boot-program-instructor-row">
+							<?php if ( ! empty( $program['instructor_avatar'] ) ) : ?>
+							<img src="<?php echo esc_url( $program['instructor_avatar'] ); ?>" alt="<?php echo esc_attr( $program['instructor_name'] ?? 'Instructor' ); ?>">
+							<?php else : ?>
+							<span class="boot-program-avatar"><?php echo esc_html( strtoupper( substr( (string) ( $program['instructor_name'] ?? 'AI' ), 0, 1 ) ) ); ?></span>
+							<?php endif; ?>
+							<div>
+								<p><?php echo esc_html( $program['instructor_name'] ?? '' ); ?></p>
+								<span><?php echo esc_html( $program['instructor_role'] ?? '' ); ?></span>
+							</div>
+						</div>
+						<?php if ( ! empty( $program['instructor_bio'] ) ) : ?>
+						<p class="boot-program-bio"><?php echo esc_html( $program['instructor_bio'] ); ?></p>
+						<?php endif; ?>
+					</div>
+					<a href="<?php echo slingshot_lp_h_attr( $program['cta_url'] ?? '#' ); ?>" class="boot-program-card-btn"><?php echo esc_html( $program['cta_text'] ?? 'View Upcoming Dates' ); ?> <span>&#8594;</span></a>
+				</article>
+				<?php endforeach; ?>
 			</div>
 		</div>
 	</section>
@@ -95,10 +235,11 @@ slingshot_render_redesign_header(
 				<p class="boot-why-eyebrow"><?php echo esc_html( slingshot_pm('boot_why_eyebrow', 'Why It Works' ) ); ?></p>
 				<h2 class="boot-why-heading"><?php echo nl2br( esc_html( slingshot_pm('boot_why_heading', "Why Teams Choose\nSlingshot's AI Bootcamps" ) ) ); ?></h2>
 				<p class="boot-why-desc"><?php echo esc_html( slingshot_pm('boot_why_desc', "Most AI training stays theoretical. Ours doesn't. Every bootcamp is built around your team's real goals — with outcomes you can ship." ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'boot_why_cta_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-why-cta"><?php echo esc_html( $clean_boot_label( slingshot_pm( 'boot_why_cta_text', 'Book a call' ), 'Book a call' ) ); ?> <span>&#8594;</span></a>
 			</div>
 
 			<div class="boot-why-cards">
-				<?php foreach ( slingshot_lp_bootcamp_why_cards() as $wc ) : ?>
+				<?php foreach ( $boot_why_cards as $wc ) : ?>
 				<div class="boot-why-card<?php echo ( isset( $wc['style'] ) && 'featured' === $wc['style'] ) ? ' boot-why-card-featured' : ''; ?>">
 					<div class="boot-why-card-icon <?php echo ( isset( $wc['style'] ) && 'featured' === $wc['style'] ) ? 'boot-why-card-icon-teal' : 'boot-why-card-icon-purple'; ?>">
 						<?php echo $wc['icon_svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -385,7 +526,7 @@ endif;
 				<h2 class="boot-cta-title"><?php echo nl2br( esc_html( slingshot_pm('boot_cta_title', "Bring a Bootcamp\nto Your Org" ) ) ); ?></h2>
 				<p class="boot-cta-desc"><?php echo esc_html( slingshot_pm('boot_cta_desc', "Want to upskill your team in AI, fast? We offer private sessions tailored to your company's goals and team mix." ) ); ?></p>
 				<div class="boot-cta-actions">
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_cta_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-cta-btn-primary"><?php echo esc_html( slingshot_pm('boot_cta_primary_text', 'Request a Private Bootcamp →' ) ); ?></a>
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_cta_primary_url', '/contact/?looking=Bootcamp' ) ); ?>" class="boot-cta-btn-primary"><?php echo esc_html( $clean_boot_label( slingshot_pm('boot_cta_primary_text', 'Request a Private Bootcamp' ), 'Request a Private Bootcamp' ) ); ?> <span>&#8594;</span></a>
 					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm('boot_cta_secondary_url', '/contact/?looking=Bootcamp+Custom' ) ); ?>" class="boot-cta-btn-ghost"><?php echo esc_html( slingshot_pm('boot_cta_secondary_text', 'Talk to Us First' ) ); ?></a>
 				</div>
 			</div>

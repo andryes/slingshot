@@ -106,6 +106,10 @@ function slingshot_client_logo_url( $name ) {
 		'univ. of louisville'     => '/wp-content/uploads/2022/09/uofl.svg',
 		'university of louisville'=> '/wp-content/uploads/2022/09/uofl.svg',
 		'metlife'                 => '/wp-content/uploads/2022/09/metlife.svg',
+		'healthrev'               => '/wp-content/uploads/2024/05/HealthRev-1-300x127.png',
+		'projectteam'             => '/wp-content/uploads/2024/05/Navy-ProjectTeam-Logo-300x43.png',
+		'project team'            => '/wp-content/uploads/2024/05/Navy-ProjectTeam-Logo-300x43.png',
+		'texas roadhouse'         => '/wp-content/uploads/2022/09/texas-roadhouse.svg',
 	);
 
 	if ( isset( $map[ $key ] ) ) {
