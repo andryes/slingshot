@@ -127,6 +127,19 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_work_title',        'name' => 'Section heading (HTML allowed, use &lt;br&gt; for line break)', 'type' => 'textarea', 'rows' => 2, 'std' => 'From Solution<br>to Success Stories' ],
 			[ 'id' => 'home_work_cta_text',     'name' => 'CTA label',       'type' => 'text', 'std' => 'All Work' ],
 			[ 'id' => 'home_work_cta_url',      'name' => 'CTA URL',         'type' => 'text',  'std' => '/work' ],
+			[
+				'id'         => 'home_work_posts',
+				'name'       => 'Featured portfolio posts',
+				'type'       => 'post',
+				'post_type'  => 'portfolio',
+				'field_type' => 'select_advanced',
+				'multiple'   => true,
+				'query_args' => [
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+				],
+				'desc'       => 'Optional. If empty, Home uses design-matched featured portfolio defaults, then falls back to latest portfolio posts.',
+			],
 			[ 'id' => 'home_work_empty_notice', 'name' => 'Fallback text when no portfolio items (optional)', 'type' => 'text', 'std' => '' ],
 			[
 				'id'         => 'home_work_fallback',
@@ -198,6 +211,19 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_blog_desc',  'name' => 'Description', 'type' => 'textarea', 'std' => 'Get actionable ideas on software strategy, AI adoption, and scaling product delivery—straight from the minds of our team.' ],
 			[ 'id' => 'home_blog_cta_text', 'name' => 'CTA label', 'type' => 'text',     'std' => 'All Insights' ],
 			[ 'id' => 'home_blog_cta_url',  'name' => 'CTA URL',   'type' => 'text',      'std' => '/blog' ],
+			[
+				'id'         => 'home_blog_posts',
+				'name'       => 'Featured blog posts',
+				'type'       => 'post',
+				'post_type'  => 'post',
+				'field_type' => 'select_advanced',
+				'multiple'   => true,
+				'query_args' => [
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+				],
+				'desc'       => 'Optional. If empty, Home uses design-matched featured insight defaults, then falls back to latest posts.',
+			],
 			[
 				'id'         => 'home_blog_fallback',
 				'name'       => 'Fallback cards (used when no Blog posts exist)',

@@ -102,7 +102,7 @@ function slingshot_client_logo_url( $name ) {
 	$key = strtolower( trim( (string) $name ) );
 	$map = array(
 		'churchill downs'         => '/wp-content/uploads/2022/09/churchilldowns.svg',
-		'schneider electric'      => '/wp-content/uploads/2022/09/schneider-electric.svg',
+		'schneider electric'      => '/wp-content/uploads/2022/09/schneider-electric-1.svg',
 		'univ. of louisville'     => '/wp-content/uploads/2022/09/uofl.svg',
 		'university of louisville'=> '/wp-content/uploads/2022/09/uofl.svg',
 		'metlife'                 => '/wp-content/uploads/2022/09/metlife.svg',

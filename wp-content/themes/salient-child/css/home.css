@@ -23,6 +23,9 @@
     box-sizing: border-box;
 }
 .home-page-wrapper a { text-decoration: none; }
+.home-page-wrapper p {
+    padding-bottom: 0;
+}
 
 /* ─── Home Header ───────────────────────────────── */
 .home-site-header {
@@ -1267,13 +1270,14 @@ body.home #ajax-content-wrap {
 
     .home-logos-strip .logo-item img {
         max-height: 34px;
-        height: auto;
+        height: 34px;
+        width: auto;
     }
 
     .home-services-section {
         margin: 0 var(--hp-page-pad);
         border-radius: 0 0 var(--hp-radius) var(--hp-radius);
-        padding: 110px 0 173px;
+        padding: 110px 0 112px;
         background:
             radial-gradient(circle at 51% 36%, rgba(125,114,211,.34) 0 18%, transparent 38%),
             radial-gradient(circle at 20% 81%, rgba(140,78,206,.55) 0 15%, transparent 34%),
@@ -1503,6 +1507,9 @@ body.home #ajax-content-wrap {
     .event-card-tag {
         letter-spacing: 0;
         font-size: 11px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
         padding: 6px 13px;
         color: #3f3263;
         background: #e8e5f0;

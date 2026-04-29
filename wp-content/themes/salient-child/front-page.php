@@ -12,7 +12,7 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.21'
+	array(), '1.22'
 );
 wp_enqueue_script(
 	'hp-script',
@@ -47,22 +47,107 @@ function hp_image_url( $field, $default = '', $size = 'large' ) {
 	return slingshot_pm_image( $field, $default, $size );
 }
 
-/* ── Queries ─────────────────────────────────────── */
-$blog_query = new WP_Query( array(
-	'post_type'      => 'post',
-	'post_status'    => 'publish',
-	'posts_per_page' => 3,
-	'orderby'        => 'date',
-	'order'          => 'DESC',
-) );
+/**
+ * Meta Box clone fields can save one empty row after the editor is opened.
+ * Keep rows that contain meaningful content and let the template fall back otherwise.
+ *
+ * @param mixed $rows Cloned rows value.
+ * @return array<int,array<string,mixed>>
+ */
+function hp_clean_rows( $rows ) {
+	if ( ! is_array( $rows ) ) {
+		return [];
+	}
 
-$work_query = new WP_Query( array(
-	'post_type'      => 'salient_portfolio',
-	'post_status'    => 'publish',
-	'posts_per_page' => 6,
-	'orderby'        => 'date',
-	'order'          => 'DESC',
-) );
+	return array_values( array_filter( $rows, function( $row ) {
+		if ( ! is_array( $row ) ) {
+			return false;
+		}
+		foreach ( $row as $value ) {
+			if ( is_array( $value ) ) {
+				if ( ! empty( array_filter( $value ) ) ) {
+					return true;
+				}
+				continue;
+			}
+			if ( '' !== trim( (string) $value ) && '0' !== (string) $value ) {
+				return true;
+			}
+		}
+		return false;
+	} ) );
+}
+
+/**
+ * Normalize a Meta Box post field into a list of integer IDs.
+ *
+ * @param string $field Field ID.
+ * @return array<int>
+ */
+function hp_post_ids_setting( $field ) {
+	$value = hp_setting( $field, [] );
+	if ( empty( $value ) ) {
+		return [];
+	}
+	if ( ! is_array( $value ) ) {
+		$value = [ $value ];
+	}
+	return array_values( array_filter( array_map( 'absint', $value ) ) );
+}
+
+/**
+ * Resolve ordered post IDs by slug for stable design-friendly defaults.
+ *
+ * @param string        $post_type Post type.
+ * @param array<string> $slugs     Post slugs.
+ * @return array<int>
+ */
+function hp_ids_by_slugs( $post_type, $slugs ) {
+	$posts = get_posts( [
+		'post_type'      => $post_type,
+		'post_status'    => 'publish',
+		'posts_per_page' => count( $slugs ),
+		'post_name__in'  => $slugs,
+		'orderby'        => 'post_name__in',
+		'fields'         => 'ids',
+	] );
+
+	return array_values( array_map( 'absint', $posts ) );
+}
+
+/**
+ * Return the best image URL for a portfolio card.
+ *
+ * @param int $post_id Portfolio post ID.
+ * @return string
+ */
+function hp_portfolio_image_url( $post_id ) {
+	$image_id = absint( get_post_meta( $post_id, '_nectar_portfolio_custom_thumbnail', true ) );
+	if ( ! $image_id ) {
+		$image_id = absint( get_post_thumbnail_id( $post_id ) );
+	}
+	if ( ! $image_id ) {
+		$image_id = absint( get_post_meta( $post_id, 'portfolio_image', true ) );
+	}
+	return $image_id ? wp_get_attachment_image_url( $image_id, 'medium_large' ) : '';
+}
+
+/**
+ * Return a clean portfolio card excerpt.
+ *
+ * @param int $post_id Portfolio post ID.
+ * @return string
+ */
+function hp_portfolio_excerpt( $post_id ) {
+	$excerpt = trim( (string) get_post_meta( $post_id, '_nectar_project_excerpt', true ) );
+	if ( ! $excerpt ) {
+		$excerpt = get_the_excerpt( $post_id );
+	}
+	if ( ! trim( wp_strip_all_tags( $excerpt ) ) ) {
+		$excerpt = 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.';
+	}
+	return wp_trim_words( wp_strip_all_tags( $excerpt ), 18, '...' );
+}
 
 $img_dir = get_stylesheet_directory_uri() . '/img';
 
@@ -86,21 +171,21 @@ $home_menu_location = has_nav_menu( 'top_nav' ) ? 'top_nav' : ( has_nav_menu( 'm
 
 // Hero
 $hero_title      = hp_setting( 'home_hero_title',     'For Big Kids &amp; Daredevils' );
+if ( 'For Big Kids & Daredevils' === wp_strip_all_tags( html_entity_decode( (string) $hero_title ) ) ) {
+	$hero_title = 'For Big Kids<br>&amp; Daredevils';
+}
 $hero_subtitle   = hp_setting( 'home_hero_subtitle',  'A Tech Consultancy &amp; Creation Studio' );
 $hero_cta_text   = hp_setting( 'home_hero_cta_text',  'Book a call' );
 $hero_cta_url    = hp_setting( 'home_hero_cta_url',   '/contact' );
 $hero_card_img   = hp_image_url( 'home_hero_card_image', '' );
-if ( ! $hero_card_img && ! empty( $blog_query->posts[0] ) ) {
-	$hero_card_img = get_the_post_thumbnail_url( $blog_query->posts[0]->ID, 'large' );
-}
 if ( ! $hero_card_img ) {
-	$hero_card_img = $img_dir . '/main-block-article.png';
+	$hero_card_img = $img_dir . '/ai-insight-david.png';
 }
 $hero_card_text  = hp_setting( 'home_hero_card_text', '20 Years of Software &amp; Tech Expertise, at Your Service' );
 
 // Logos
 $logos_raw = hp_setting( 'home_logos', [] );
-$logos     = is_array( $logos_raw ) ? $logos_raw : [];
+$logos     = hp_clean_rows( $logos_raw );
 if ( empty( $logos ) ) {
 	$logos = array_map( fn( $t ) => [ 'text' => $t ], [
 		'Connected Caregiver', 'Churchill Downs', 'HealthRev', 'Paysign',
@@ -114,8 +199,8 @@ $services_title    = hp_setting( 'home_services_title',    'We help companies mo
 $services_cta_text = hp_setting( 'home_services_cta_text', 'Our Services' );
 $services_cta_url  = hp_setting( 'home_services_cta_url',  '/services' );
 $services_raw      = hp_setting( 'home_services', [] );
-$services          = is_array( $services_raw ) ? $services_raw : [];
-// Strip empty group rows (auto-created when admin opens but doesn't save real data)
+$services          = hp_clean_rows( $services_raw );
+// Strip rows without a title (auto-created when admin opens but doesn't save real data).
 $services          = array_values( array_filter( $services, fn( $c ) => ! empty( $c['title'] ) ) );
 
 // Default fallback service cards (used when no data saved yet)
@@ -154,7 +239,7 @@ if ( empty( $services ) ) {
 }
 
 // About
-$about_img      = hp_image_url( 'home_about_image',    $img_dir . '/hero-person-2.jpg' );
+$about_img      = hp_image_url( 'home_about_image',    $img_dir . '/bg-first-block.png' );
 $about_title    = hp_setting( 'home_about_title',    'Built for Real-World Delivery' );
 $about_desc     = hp_setting( 'home_about_desc',     'Slingshot was built by a collective of strategists, creatives, and data scientists who care deeply about outcomes.' );
 $about_btn_text = hp_setting( 'home_about_btn_text', 'Get in Touch' );
@@ -163,7 +248,7 @@ $about_tagline  = hp_setting( 'home_about_tagline',  'Slingshot helps organizati
 
 // Stats
 $stats_raw = hp_setting( 'home_stats', [] );
-$stats     = is_array( $stats_raw ) ? $stats_raw : [];
+$stats     = hp_clean_rows( $stats_raw );
 if ( empty( $stats ) ) {
 	$stats = [
 		[ 'number' => '15+',  'label' => 'Industries served' ],
@@ -180,20 +265,20 @@ $events_cta_text = hp_setting( 'home_events_cta_text', 'All Events' );
 $events_cta_url = hp_setting( 'home_events_cta_url', '/events' );
 $events_register_text = hp_setting( 'home_events_register_text', 'Register' );
 $events_raw     = hp_setting( 'home_events', [] );
-$events         = is_array( $events_raw ) ? $events_raw : [];
+$events         = hp_clean_rows( $events_raw );
 $events_fallback_raw = hp_setting( 'home_events_fallback', [] );
-$events_fallback     = is_array( $events_fallback_raw ) ? $events_fallback_raw : [];
+$events_fallback     = hp_clean_rows( $events_fallback_raw );
 if ( empty( $events_fallback ) ) {
 	$events_fallback = [
 		[
-			'image_url'      => $img_dir . '/hero-person-1.jpg',
+			'image_url'      => $img_dir . '/ai-experience-louisville.png',
 			'tag'            => 'Conference',
 			'title'          => 'Louisville IA Exchange and TechFest',
 			'date_location'  => 'October 21, 2025 · Louisville, KY',
 			'url'            => '#',
 		],
 		[
-			'image_url'      => $img_dir . '/hero-person-2.jpg',
+			'image_url'      => $img_dir . '/ai-experience-bootcamps.png',
 			'tag'            => 'Conference',
 			'title'          => 'Louisville IA Exchange and TechFest',
 			'date_location'  => 'October 21, 2025 · Louisville, KY',
@@ -215,7 +300,7 @@ $blog_desc     = hp_setting( 'home_blog_desc',  'Get actionable ideas on softwar
 $blog_cta_text = hp_setting( 'home_blog_cta_text', 'All Insights' );
 $blog_cta_url  = hp_setting( 'home_blog_cta_url', '/blog' );
 $blog_fallback_raw = hp_setting( 'home_blog_fallback', [] );
-$blog_fallback     = is_array( $blog_fallback_raw ) ? $blog_fallback_raw : [];
+$blog_fallback     = hp_clean_rows( $blog_fallback_raw );
 if ( empty( $blog_fallback ) ) {
 	$blog_fallback = [
 		[
@@ -253,7 +338,7 @@ $work_empty_notice = hp_setting( 'home_work_empty_notice', '' );
 
 // Work fallback cards (shown when no salient_portfolio CPT posts exist)
 $work_fallback_raw = hp_setting( 'home_work_fallback', [] );
-$work_fallback     = is_array( $work_fallback_raw ) ? array_filter( $work_fallback_raw, fn( $c ) => ! empty( $c['title'] ) ) : [];
+$work_fallback     = array_filter( hp_clean_rows( $work_fallback_raw ), fn( $c ) => ! empty( $c['title'] ) );
 
 // CTA
 $cta_mascot   = hp_image_url( 'home_cta_mascot', '' );
@@ -261,6 +346,79 @@ $cta_title    = hp_setting( 'home_cta_title',    'Ready to Launch Something Bold
 $cta_desc     = hp_setting( 'home_cta_desc',     "Let's talk about how we help teams like yours bring new products to life—and make them work in the real world." );
 $cta_btn_text = hp_setting( 'home_cta_btn_text', "Let's talk" );
 $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
+
+/* ── Queries ─────────────────────────────────────── */
+$work_ids = hp_post_ids_setting( 'home_work_posts' );
+$work_uses_design_defaults = empty( $work_ids );
+if ( $work_uses_design_defaults ) {
+	$work_ids = hp_ids_by_slugs( 'portfolio', [ 'horizon', 'southeast', 'hide-ccg', 'healthrev', 'paysign', 'churchill-downs' ] );
+}
+$work_design_cards = [
+	'horizon'  => [
+		'title' => 'Horizon Engage',
+		'image' => $img_dir . '/ai-work-horizon.png',
+		'desc'  => 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.',
+		'tags'  => [ 'AI', 'Product', 'Mobile' ],
+	],
+	'southeast' => [
+		'title' => 'Southeast Christian Church',
+		'image' => $img_dir . '/ai-work-southeast.png',
+		'desc'  => 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.',
+		'tags'  => [ 'AI', 'Product', 'Mobile' ],
+	],
+	'hide-ccg' => [
+		'title' => 'Connected Caregiver',
+		'image' => $img_dir . '/ai-work-caregiver.png',
+		'desc'  => 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.',
+		'tags'  => [ 'AI', 'Product', 'Mobile' ],
+	],
+];
+$work_query_args = [
+	'post_type'      => 'portfolio',
+	'post_status'    => 'publish',
+	'posts_per_page' => 6,
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+];
+if ( ! empty( $work_ids ) ) {
+	$work_query_args['post__in']       = $work_ids;
+	$work_query_args['orderby']        = 'post__in';
+	$work_query_args['posts_per_page'] = count( $work_ids );
+}
+$work_query = new WP_Query( $work_query_args );
+
+$blog_ids = hp_post_ids_setting( 'home_blog_posts' );
+$blog_uses_design_defaults = empty( $blog_ids );
+if ( $blog_uses_design_defaults ) {
+	$blog_ids = hp_ids_by_slugs( 'post', [ 'replaced-by-ai-video', 'ai-hackathon', 'jumpstart-ai-product-development' ] );
+}
+$blog_design_cards = [
+	'replaced-by-ai-video' => [
+		'image' => $img_dir . '/ai-insight-david.png',
+		'tags'  => [ 'AI', 'Product', 'Mobile' ],
+	],
+	'ai-hackathon' => [
+		'image' => $img_dir . '/ai-insight-hackathon.png',
+		'tags'  => [ 'AI', 'Product', 'Mobile' ],
+	],
+	'jumpstart-ai-product-development' => [
+		'image' => $img_dir . '/ai-insight-product.png',
+		'tags'  => [ 'AI', 'Product', 'Mobile' ],
+	],
+];
+$blog_query_args = [
+	'post_type'      => 'post',
+	'post_status'    => 'publish',
+	'posts_per_page' => 3,
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+];
+if ( ! empty( $blog_ids ) ) {
+	$blog_query_args['post__in']       = $blog_ids;
+	$blog_query_args['orderby']        = 'post__in';
+	$blog_query_args['posts_per_page'] = count( $blog_ids );
+}
+$blog_query = new WP_Query( $blog_query_args );
 ?>
 
 <style>
@@ -450,23 +608,33 @@ body.home #header-space {
 
 					<?php if ( $work_query->have_posts() ) : ?>
 						<?php while ( $work_query->have_posts() ) : $work_query->the_post(); ?>
+							<?php
+							$work_slug     = get_post_field( 'post_name', get_the_ID() );
+							$work_override = ( $work_uses_design_defaults && isset( $work_design_cards[ $work_slug ] ) ) ? $work_design_cards[ $work_slug ] : [];
+							$work_img_url  = ! empty( $work_override['image'] ) ? $work_override['image'] : hp_portfolio_image_url( get_the_ID() );
+							$work_card_title = ! empty( $work_override['title'] ) ? $work_override['title'] : get_the_title();
+							$work_card_desc  = ! empty( $work_override['desc'] ) ? $work_override['desc'] : hp_portfolio_excerpt( get_the_ID() );
+							$work_card_tags  = ! empty( $work_override['tags'] ) ? $work_override['tags'] : [];
+							if ( empty( $work_card_tags ) ) {
+								$terms = get_the_terms( get_the_ID(), 'project-type' );
+								if ( $terms && ! is_wp_error( $terms ) ) {
+									$work_card_tags = array_map( fn( $t ) => $t->name, array_slice( $terms, 0, 3 ) );
+								}
+							}
+							?>
 							<a href="<?php the_permalink(); ?>" class="work-card">
 								<div class="work-card-image">
-									<?php if ( has_post_thumbnail() ) : ?>
-										<?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
+									<?php if ( $work_img_url ) : ?>
+										<img src="<?php echo esc_url( $work_img_url ); ?>" alt="<?php echo esc_attr( $work_card_title ); ?>" loading="lazy">
 									<?php endif; ?>
 								</div>
 								<div class="work-card-body">
-									<h3 class="work-card-title"><?php the_title(); ?></h3>
-									<p class="work-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 18, '...' ); ?></p>
+									<h3 class="work-card-title"><?php echo esc_html( $work_card_title ); ?></h3>
+									<p class="work-card-desc"><?php echo esc_html( $work_card_desc ); ?></p>
 									<div class="work-card-tags">
-										<?php
-										$terms = get_the_terms( get_the_ID(), 'portfolio_category' );
-										if ( $terms && ! is_wp_error( $terms ) ) :
-											foreach ( array_slice( $terms, 0, 3 ) as $t ) :
-										?>
-											<span class="work-card-tag"><?php echo esc_html( $t->name ); ?></span>
-										<?php endforeach; endif; ?>
+										<?php foreach ( $work_card_tags as $tag ) : ?>
+											<span class="work-card-tag"><?php echo esc_html( $tag ); ?></span>
+										<?php endforeach; ?>
 									</div>
 								</div>
 							</a>
@@ -719,10 +887,22 @@ body.home #header-space {
 				<div class="home-blog-cards" id="blogTrack">
 					<?php if ( $blog_query->have_posts() ) : ?>
 						<?php while ( $blog_query->have_posts() ) : $blog_query->the_post(); ?>
+							<?php
+							$blog_slug     = get_post_field( 'post_name', get_the_ID() );
+							$blog_override = ( $blog_uses_design_defaults && isset( $blog_design_cards[ $blog_slug ] ) ) ? $blog_design_cards[ $blog_slug ] : [];
+							$blog_img_url  = ! empty( $blog_override['image'] ) ? $blog_override['image'] : get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
+							$blog_card_tags = ! empty( $blog_override['tags'] ) ? $blog_override['tags'] : [];
+							if ( empty( $blog_card_tags ) ) {
+								$cats = get_the_category();
+								if ( $cats ) {
+									$blog_card_tags = array_map( fn( $cat ) => $cat->name, array_slice( $cats, 0, 2 ) );
+								}
+							}
+							?>
 							<a href="<?php the_permalink(); ?>" class="blog-card">
 								<div class="blog-card-image">
-									<?php if ( has_post_thumbnail() ) : ?>
-										<?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
+									<?php if ( $blog_img_url ) : ?>
+										<img src="<?php echo esc_url( $blog_img_url ); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy">
 									<?php endif; ?>
 									<?php if ( get_post_format() === 'video' ) : ?>
 										<span class="blog-card-badge">VIDEO</span>
@@ -732,13 +912,9 @@ body.home #header-space {
 									<h3 class="blog-card-title"><?php the_title(); ?></h3>
 									<p class="blog-card-desc"><?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?></p>
 									<div class="blog-card-tags">
-										<?php
-										$cats = get_the_category();
-										if ( $cats ) :
-											foreach ( array_slice( $cats, 0, 2 ) as $cat ) :
-										?>
-											<span class="blog-card-tag"><?php echo esc_html( $cat->name ); ?></span>
-										<?php endforeach; endif; ?>
+										<?php foreach ( $blog_card_tags as $tag ) : ?>
+											<span class="blog-card-tag"><?php echo esc_html( $tag ); ?></span>
+										<?php endforeach; ?>
 									</div>
 								</div>
 							</a>
