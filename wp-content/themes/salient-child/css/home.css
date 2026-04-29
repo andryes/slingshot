@@ -386,7 +386,9 @@
     scrollbar-width: none;
 }
 .home-logos-strip::-webkit-scrollbar { display: none; }
-.home-logos-strip .logo-item {
+.home-logos-strip .logo-item,
+.home-logos-strip > span,
+.home-logos-strip > a {
     color: rgba(255,255,255,.74);
     font-size: 13px;
     font-weight: 700;
@@ -398,8 +400,12 @@
     display: inline-flex;
     align-items: center;
 }
-.home-logos-strip .logo-item:hover { color: rgba(255,255,255,.95); }
-.home-logos-strip .logo-item img {
+.home-logos-strip .logo-item:hover,
+.home-logos-strip > span:hover,
+.home-logos-strip > a:hover { color: rgba(255,255,255,.95); }
+.home-logos-strip .logo-item img,
+.home-logos-strip > span img,
+.home-logos-strip > a img {
     height: 28px;
     width: auto;
     display: block;
@@ -1260,7 +1266,9 @@ body.home #ajax-content-wrap {
         justify-content: space-between;
     }
 
-    .home-logos-strip .logo-item {
+    .home-logos-strip .logo-item,
+    .home-logos-strip > span,
+    .home-logos-strip > a {
         font-size: 23px;
         font-weight: 700;
         min-height: 34px;
@@ -1268,7 +1276,9 @@ body.home #ajax-content-wrap {
         opacity: .9;
     }
 
-    .home-logos-strip .logo-item img {
+    .home-logos-strip .logo-item img,
+    .home-logos-strip > span img,
+    .home-logos-strip > a img {
         max-height: 34px;
         height: 34px;
         width: auto;

@@ -12,7 +12,7 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.22'
+	array(), '1.24'
 );
 wp_enqueue_script(
 	'hp-script',
@@ -96,6 +96,44 @@ function hp_post_ids_setting( $field ) {
 }
 
 /**
+ * Restrict free-form logos markup to the tags needed for the strip.
+ *
+ * @return array<string,array<string,bool>>
+ */
+function hp_allowed_logos_html() {
+	return [
+		'span' => [
+			'class'       => true,
+			'style'       => true,
+			'aria-label'  => true,
+			'aria-hidden' => true,
+			'role'        => true,
+		],
+		'img'  => [
+			'src'           => true,
+			'alt'           => true,
+			'class'         => true,
+			'width'         => true,
+			'height'        => true,
+			'loading'       => true,
+			'decoding'      => true,
+			'srcset'        => true,
+			'sizes'         => true,
+			'style'         => true,
+			'fetchpriority' => true,
+		],
+		'a'    => [
+			'href'        => true,
+			'class'       => true,
+			'style'       => true,
+			'aria-label'  => true,
+			'target'      => true,
+			'rel'         => true,
+		],
+	];
+}
+
+/**
  * Resolve ordered post IDs by slug for stable design-friendly defaults.
  *
  * @param string        $post_type Post type.
@@ -113,6 +151,33 @@ function hp_ids_by_slugs( $post_type, $slugs ) {
 	] );
 
 	return array_values( array_map( 'absint', $posts ) );
+}
+
+/**
+ * Fill a hand-picked list with recent published posts from the same CPT.
+ *
+ * @param string $post_type Post type.
+ * @param array<int> $ids Preferred IDs.
+ * @param int $limit Number of IDs to return.
+ * @return array<int>
+ */
+function hp_fill_post_ids( $post_type, $ids, $limit = 6 ) {
+	$ids = array_values( array_unique( array_filter( array_map( 'absint', (array) $ids ) ) ) );
+	if ( count( $ids ) >= $limit ) {
+		return array_slice( $ids, 0, $limit );
+	}
+
+	$more = get_posts( [
+		'post_type'      => $post_type,
+		'post_status'    => 'publish',
+		'posts_per_page' => $limit - count( $ids ),
+		'post__not_in'   => $ids,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'fields'         => 'ids',
+	] );
+
+	return array_slice( array_merge( $ids, array_map( 'absint', $more ) ), 0, $limit );
 }
 
 /**
@@ -147,6 +212,46 @@ function hp_portfolio_excerpt( $post_id ) {
 		$excerpt = 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.';
 	}
 	return wp_trim_words( wp_strip_all_tags( $excerpt ), 18, '...' );
+}
+
+/**
+ * Return the Event Calendar date/location line used on home cards.
+ *
+ * @param int $post_id Event post ID.
+ * @return string
+ */
+function hp_event_date_location( $post_id ) {
+	$start = get_post_meta( $post_id, '_EventStartDate', true );
+	$line  = $start ? wp_date( 'F j, Y', strtotime( $start ) ) : get_the_date( 'F j, Y', $post_id );
+
+	$venue_id = absint( get_post_meta( $post_id, '_EventVenueID', true ) );
+	$parts    = [];
+	if ( $venue_id ) {
+		$city  = trim( (string) get_post_meta( $venue_id, '_VenueCity', true ) );
+		$state = trim( (string) get_post_meta( $venue_id, '_VenueState', true ) );
+		if ( $city ) {
+			$parts[] = $city;
+		}
+		if ( $state ) {
+			$parts[] = $state;
+		}
+	}
+
+	return $parts ? $line . ' · ' . implode( ', ', $parts ) : $line;
+}
+
+/**
+ * Return the first event category name or a design-friendly default.
+ *
+ * @param int $post_id Event post ID.
+ * @return string
+ */
+function hp_event_tag( $post_id ) {
+	$terms = get_the_terms( $post_id, 'tribe_events_cat' );
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		return $terms[0]->name;
+	}
+	return 'Conference';
 }
 
 $img_dir = get_stylesheet_directory_uri() . '/img';
@@ -184,6 +289,7 @@ if ( ! $hero_card_img ) {
 $hero_card_text  = hp_setting( 'home_hero_card_text', '20 Years of Software &amp; Tech Expertise, at Your Service' );
 
 // Logos
+$logos_html = trim( (string) hp_setting( 'home_logos_html', '' ) );
 $logos_raw = hp_setting( 'home_logos', [] );
 $logos     = hp_clean_rows( $logos_raw );
 if ( empty( $logos ) ) {
@@ -293,6 +399,11 @@ if ( empty( $events_fallback ) ) {
 		],
 	];
 }
+$event_default_images = [
+	$img_dir . '/ai-experience-louisville.png',
+	$img_dir . '/ai-experience-bootcamps.png',
+	$img_dir . '/ai-insight-hackathon.png',
+];
 
 // Blog
 $blog_title    = hp_setting( 'home_blog_title', 'Insights That Move Business Forward' );
@@ -352,6 +463,7 @@ $work_ids = hp_post_ids_setting( 'home_work_posts' );
 $work_uses_design_defaults = empty( $work_ids );
 if ( $work_uses_design_defaults ) {
 	$work_ids = hp_ids_by_slugs( 'portfolio', [ 'horizon', 'southeast', 'hide-ccg', 'healthrev', 'paysign', 'churchill-downs' ] );
+	$work_ids = hp_fill_post_ids( 'portfolio', $work_ids, 6 );
 }
 $work_design_cards = [
 	'horizon'  => [
@@ -391,6 +503,7 @@ $blog_ids = hp_post_ids_setting( 'home_blog_posts' );
 $blog_uses_design_defaults = empty( $blog_ids );
 if ( $blog_uses_design_defaults ) {
 	$blog_ids = hp_ids_by_slugs( 'post', [ 'replaced-by-ai-video', 'ai-hackathon', 'jumpstart-ai-product-development' ] );
+	$blog_ids = hp_fill_post_ids( 'post', $blog_ids, 6 );
 }
 $blog_design_cards = [
 	'replaced-by-ai-video' => [
@@ -409,7 +522,7 @@ $blog_design_cards = [
 $blog_query_args = [
 	'post_type'      => 'post',
 	'post_status'    => 'publish',
-	'posts_per_page' => 3,
+	'posts_per_page' => 6,
 	'orderby'        => 'date',
 	'order'          => 'DESC',
 ];
@@ -419,6 +532,22 @@ if ( ! empty( $blog_ids ) ) {
 	$blog_query_args['posts_per_page'] = count( $blog_ids );
 }
 $blog_query = new WP_Query( $blog_query_args );
+
+$event_ids = hp_post_ids_setting( 'home_events_posts' );
+$events_query_args = [
+	'post_type'      => 'tribe_events',
+	'post_status'    => 'publish',
+	'posts_per_page' => 6,
+	'meta_key'       => '_EventStartDate',
+	'orderby'        => 'meta_value',
+	'order'          => 'ASC',
+];
+if ( ! empty( $event_ids ) ) {
+	$events_query_args['post__in']       = $event_ids;
+	$events_query_args['orderby']        = 'post__in';
+	$events_query_args['posts_per_page'] = count( $event_ids );
+}
+$events_query = new WP_Query( $events_query_args );
 ?>
 
 <style>
@@ -518,6 +647,9 @@ body.home #header-space {
 		<!-- Logos strip -->
 		<div class="home-logos-strip-wrapper">
 			<div class="home-logos-strip">
+				<?php if ( $logos_html ) : ?>
+					<?php echo wp_kses( $logos_html, hp_allowed_logos_html() ); ?>
+				<?php else : ?>
 				<?php foreach ( $logos as $logo ) : ?>
 					<?php
 					$logo_text = (string) ( $logo['text'] ?? '' );
@@ -535,6 +667,7 @@ body.home #header-space {
 						<?php endif; ?>
 					</span>
 				<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 		</div>
 
@@ -799,7 +932,38 @@ body.home #header-space {
 
 			<div class="home-events-carousel">
 				<div class="home-events-cards" id="eventsTrack">
-					<?php if ( ! empty( $events ) ) : ?>
+					<?php if ( $events_query->have_posts() ) : ?>
+						<?php $event_index = 0; ?>
+						<?php while ( $events_query->have_posts() ) : $events_query->the_post(); ?>
+							<?php
+							$event_id      = get_the_ID();
+							$ev_url        = get_permalink( $event_id );
+							$ev_tag        = hp_event_tag( $event_id );
+							$ev_title      = get_the_title( $event_id );
+							$ev_date       = hp_event_date_location( $event_id );
+							$ev_img_url    = get_the_post_thumbnail_url( $event_id, 'large' );
+							if ( ! $ev_img_url && ! empty( $event_default_images ) ) {
+								$ev_img_url = $event_default_images[ $event_index % count( $event_default_images ) ];
+							}
+							$event_index++;
+							?>
+							<a href="<?php echo esc_url( $ev_url ); ?>" class="event-card">
+								<div class="event-card-image">
+									<?php if ( $ev_img_url ) : ?>
+										<img src="<?php echo esc_url( $ev_img_url ); ?>" alt="<?php echo esc_attr( $ev_title ); ?>" loading="lazy">
+									<?php endif; ?>
+								</div>
+								<div class="event-card-body">
+									<div class="event-card-info">
+										<?php if ( $ev_tag ) : ?><span class="event-card-tag"><?php echo esc_html( $ev_tag ); ?></span><?php endif; ?>
+										<h3 class="event-card-title"><?php echo esc_html( $ev_title ); ?></h3>
+										<?php if ( $ev_date ) : ?><p class="event-card-date"><?php echo esc_html( $ev_date ); ?></p><?php endif; ?>
+									</div>
+									<span class="event-register-btn"><?php echo esc_html( $events_register_text ); ?> &rarr;</span>
+								</div>
+							</a>
+						<?php endwhile; wp_reset_postdata(); ?>
+					<?php elseif ( ! empty( $events ) ) : ?>
 						<?php foreach ( $events as $ev ) :
 							$ev_url   = esc_url( $ev['url'] ?? '#' );
 							$ev_tag   = esc_html( $ev['tag'] ?? '' );

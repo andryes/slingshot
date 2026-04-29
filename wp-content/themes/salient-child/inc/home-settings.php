@@ -42,6 +42,13 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'home_logos_mb',
 		'fields' => [
 			[
+				'id'   => 'home_logos_html',
+				'name' => 'Logos strip HTML',
+				'type' => 'textarea',
+				'rows' => 8,
+				'desc' => 'Optional. Paste ready slider markup here, e.g. <span class="logo-item"><img src="..." alt="..."></span>. When filled, this HTML is used instead of the logo rows below.',
+			],
+			[
 				'id'         => 'home_logos',
 				'name'       => 'Client logos',
 				'type'       => 'group',
@@ -169,6 +176,19 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_events_cta_text','name' => 'All Events label','type' => 'text',     'std' => 'All Events' ],
 			[ 'id' => 'home_events_cta_url', 'name' => 'All Events URL',  'type' => 'text',      'std' => '/events' ],
 			[ 'id' => 'home_events_register_text', 'name' => 'Register label', 'type' => 'text', 'std' => 'Register' ],
+			[
+				'id'         => 'home_events_posts',
+				'name'       => 'Featured event posts',
+				'type'       => 'post',
+				'post_type'  => 'tribe_events',
+				'field_type' => 'select_advanced',
+				'multiple'   => true,
+				'query_args' => [
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+				],
+				'desc'       => 'Optional. If empty, Home shows upcoming Events posts automatically.',
+			],
 			[
 				'id'         => 'home_events',
 				'name'       => 'Event cards',

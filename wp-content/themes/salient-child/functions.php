@@ -101,6 +101,7 @@ function slingshot_render_redesign_header( $args = array() ) {
 function slingshot_client_logo_url( $name ) {
 	$key = strtolower( trim( (string) $name ) );
 	$map = array(
+		'connected caregiver'      => '/wp-content/uploads/2024/05/ccg.png',
 		'churchill downs'         => '/wp-content/uploads/2022/09/churchilldowns.svg',
 		'schneider electric'      => '/wp-content/uploads/2022/09/schneider-electric-1.svg',
 		'univ. of louisville'     => '/wp-content/uploads/2022/09/uofl.svg',
