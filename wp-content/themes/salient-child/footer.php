@@ -3,7 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $child_uri = get_stylesheet_directory_uri();
-wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.8' );
+wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '2.1' );
 wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.9' );
 wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.1' );
 
@@ -20,6 +20,21 @@ $sl_modal_heading = (string) $sl_page_meta( 'sl_contact_modal_heading', 'Hit us 
 $sl_modal_options_raw = (string) $sl_page_meta( 'sl_contact_modal_looking_options', "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" );
 $sl_modal_options = array_values( array_filter( array_map( 'trim', explode( "\n", $sl_modal_options_raw ) ) ) );
 $sl_modal_submit = (string) $sl_page_meta( 'sl_contact_modal_submit', "Let's Talk →" );
+$sl_modal_gf_id = (int) $sl_page_meta( 'sl_contact_modal_gf_id', get_option( 'slingshot_contact_modal_gf_id', 0 ) );
+$sl_modal_select_placeholder = (string) $sl_page_meta( 'sl_contact_modal_select_placeholder', 'What are you looking for?' );
+$sl_modal_first_placeholder = (string) $sl_page_meta( 'sl_contact_modal_first_placeholder', 'First Name*' );
+$sl_modal_last_placeholder = (string) $sl_page_meta( 'sl_contact_modal_last_placeholder', 'Last Name*' );
+$sl_modal_company_placeholder = (string) $sl_page_meta( 'sl_contact_modal_company_placeholder', 'Company' );
+$sl_modal_email_placeholder = (string) $sl_page_meta( 'sl_contact_modal_email_placeholder', 'Email*' );
+$sl_modal_phone_placeholder = (string) $sl_page_meta( 'sl_contact_modal_phone_placeholder', 'Phone*' );
+$sl_modal_message_placeholder = (string) $sl_page_meta( 'sl_contact_modal_message_placeholder', "How can we help?\nTell us a little bit about what you have going on!" );
+$sl_modal_field_label = static function ( $label ) {
+    $label = trim( (string) $label );
+    if ( substr( $label, -1 ) === '*' ) {
+        return esc_html( trim( substr( $label, 0, -1 ) ) ) . '<span class="sl-modal-required" aria-hidden="true">*</span>';
+    }
+    return nl2br( esc_html( $label ) );
+};
 $sl_subscribe_heading = (string) $sl_page_meta( 'sl_subscribe_modal_heading', 'Get the latest news from Slingshot with our bi-weekly newsletter.' );
 $sl_subscribe_first_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_first_placeholder', 'First Name*' );
 $sl_subscribe_last_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_last_placeholder', 'Last Name*' );
@@ -146,51 +161,62 @@ $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
 </div><!--/ajax-content-wrap-->
 
 <!-- ── Global "Hit us up" Contact Modal ────────────────────────────────── -->
-<div class="sl-modal-overlay" id="slContactModal" role="dialog" aria-modal="true" aria-label="Contact form">
+<div class="sl-modal-overlay" id="slContactModal" role="dialog" aria-modal="true" aria-labelledby="slContactModalTitle">
     <div class="sl-modal">
         <button class="sl-modal-close" id="slModalClose" aria-label="Close">&times;</button>
         <div class="sl-modal-inner">
-            <h2 class="sl-modal-heading"><?php echo esc_html( $sl_modal_heading ); ?></h2>
+            <h2 class="sl-modal-heading" id="slContactModalTitle"><?php echo esc_html( $sl_modal_heading ); ?></h2>
             <div class="sl-modal-divider"></div>
             <?php
-            // Use Gravity Form if a global form ID is set via option, else static HTML
-            $sl_modal_gf_id = (int) get_option( 'slingshot_contact_modal_gf_id', 0 );
+            // Use Gravity Form when configured in the page admin; keep static fields as the editable fallback.
             if ( $sl_modal_gf_id && function_exists( 'gravity_form' ) ) :
                 gravity_form( $sl_modal_gf_id, false, false, false, null, true, 1 );
             else : ?>
             <form class="sl-modal-form" method="post" action="#">
-                <div class="sl-modal-select-wrap">
-                    <select class="sl-modal-select">
-                        <option value="" disabled selected>What are you looking for?</option>
+                <div class="sl-modal-select-wrap" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+                    <select class="sl-modal-select" aria-label="<?php echo esc_attr( $sl_modal_select_placeholder ); ?>">
+                        <option value="" disabled selected><?php echo esc_html( $sl_modal_select_placeholder ); ?></option>
                         <?php foreach ( $sl_modal_options as $opt ) : ?>
                             <option><?php echo esc_html( $opt ); ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <span class="sl-modal-select-arrow">&#8964;</span>
+                    <span class="sl-modal-select-text"><?php echo esc_html( $sl_modal_select_placeholder ); ?></span>
+                    <span class="sl-modal-select-arrow" aria-hidden="true"></span>
+                    <div class="sl-modal-select-menu" role="listbox" hidden>
+                        <?php foreach ( $sl_modal_options as $opt ) : ?>
+                            <button type="button" class="sl-modal-select-option" role="option" data-value="<?php echo esc_attr( $opt ); ?>"><?php echo esc_html( $opt ); ?></button>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
                 <div class="sl-modal-row">
-                    <div class="sl-modal-field">
-                        <input type="text" class="sl-modal-input" placeholder="First Name*" required>
-                    </div>
-                    <div class="sl-modal-field">
-                        <input type="text" class="sl-modal-input" placeholder="Last Name*" required>
-                    </div>
+                    <label class="sl-modal-field">
+                        <input type="text" class="sl-modal-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_modal_first_placeholder ); ?>" autocomplete="given-name" required>
+                        <span class="sl-modal-label"><?php echo $sl_modal_field_label( $sl_modal_first_placeholder ); ?></span>
+                    </label>
+                    <label class="sl-modal-field">
+                        <input type="text" class="sl-modal-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_modal_last_placeholder ); ?>" autocomplete="family-name" required>
+                        <span class="sl-modal-label"><?php echo $sl_modal_field_label( $sl_modal_last_placeholder ); ?></span>
+                    </label>
                 </div>
-                <div class="sl-modal-field">
-                    <input type="text" class="sl-modal-input" placeholder="Company">
-                </div>
+                <label class="sl-modal-field">
+                    <input type="text" class="sl-modal-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_modal_company_placeholder ); ?>" autocomplete="organization">
+                    <span class="sl-modal-label"><?php echo $sl_modal_field_label( $sl_modal_company_placeholder ); ?></span>
+                </label>
                 <div class="sl-modal-row">
-                    <div class="sl-modal-field">
-                        <input type="email" class="sl-modal-input" placeholder="Email*" required>
-                    </div>
-                    <div class="sl-modal-field">
-                        <input type="tel" class="sl-modal-input" placeholder="Phone*">
-                    </div>
+                    <label class="sl-modal-field">
+                        <input type="email" class="sl-modal-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_modal_email_placeholder ); ?>" autocomplete="email" required>
+                        <span class="sl-modal-label"><?php echo $sl_modal_field_label( $sl_modal_email_placeholder ); ?></span>
+                    </label>
+                    <label class="sl-modal-field">
+                        <input type="tel" class="sl-modal-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_modal_phone_placeholder ); ?>" autocomplete="tel" required>
+                        <span class="sl-modal-label"><?php echo $sl_modal_field_label( $sl_modal_phone_placeholder ); ?></span>
+                    </label>
                 </div>
-                <div class="sl-modal-field">
-                    <textarea class="sl-modal-textarea" placeholder="How can we help? Tell us a little bit about what you have going on"></textarea>
-                </div>
-                <div>
+                <label class="sl-modal-field sl-modal-message-field">
+                    <textarea class="sl-modal-textarea" placeholder=" " aria-label="<?php echo esc_attr( $sl_modal_message_placeholder ); ?>"></textarea>
+                    <span class="sl-modal-label"><?php echo $sl_modal_field_label( $sl_modal_message_placeholder ); ?></span>
+                </label>
+                <div class="sl-modal-submit-wrap">
                     <button type="submit" class="sl-modal-submit"><?php echo esc_html( $sl_modal_submit ); ?></button>
                 </div>
             </form>
@@ -203,6 +229,49 @@ $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
     var overlay = document.getElementById('slContactModal');
     var closeBtn = document.getElementById('slModalClose');
     if ( ! overlay ) return;
+    var modalSelect = overlay.querySelector('.sl-modal-select');
+    var modalSelectText = overlay.querySelector('.sl-modal-select-text');
+    var modalSelectWrap = overlay.querySelector('.sl-modal-select-wrap');
+    var modalSelectMenu = overlay.querySelector('.sl-modal-select-menu');
+    if ( modalSelect && modalSelectText && modalSelectWrap && modalSelectMenu ) {
+        function setSelectMenuOpen(isOpen) {
+            modalSelectMenu.hidden = ! isOpen;
+            modalSelectWrap.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+        modalSelect.addEventListener('change', function(){
+            var option = modalSelect.options[modalSelect.selectedIndex];
+            modalSelectText.textContent = option ? option.textContent : modalSelectText.textContent;
+        });
+        modalSelectWrap.addEventListener('click', function(e){
+            var optionButton = e.target.closest('.sl-modal-select-option');
+            if ( optionButton ) {
+                var value = optionButton.getAttribute('data-value');
+                for ( var i = 0; i < modalSelect.options.length; i++ ) {
+                    if ( modalSelect.options[i].textContent === value ) {
+                        modalSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+                modalSelectText.textContent = value;
+                setSelectMenuOpen(false);
+                return;
+            }
+            setSelectMenuOpen(modalSelectMenu.hidden);
+        });
+        modalSelectWrap.addEventListener('keydown', function(e){
+            if ( e.key === 'Enter' || e.key === ' ' ) {
+                e.preventDefault();
+                setSelectMenuOpen(modalSelectMenu.hidden);
+            } else if ( e.key === 'Escape' ) {
+                setSelectMenuOpen(false);
+            }
+        });
+        document.addEventListener('click', function(e){
+            if ( ! modalSelectWrap.contains(e.target) ) {
+                setSelectMenuOpen(false);
+            }
+        });
+    }
 
     function openModal() {
         overlay.classList.add('is-open');
