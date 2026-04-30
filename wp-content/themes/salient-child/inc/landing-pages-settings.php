@@ -1790,6 +1790,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	$wrk_project_fields = [
 		[ 'id' => 'image',      'name' => 'Project image', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'image_url',  'name' => 'Project image URL fallback', 'type' => 'text', 'desc' => 'Used when no media-library image is selected.' ],
 		[ 'id' => 'title',      'name' => 'Project title', 'type' => 'text' ],
 		[ 'id' => 'subtitle',   'name' => 'Subtitle (optional)', 'type' => 'text' ],
 		[ 'id' => 'tags',       'name' => 'Display tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. Mobile, iOS' ],
@@ -1804,6 +1805,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'wrk_hero_heading', 'name' => 'Heading',        'type' => 'text',         'std' => 'Explore Our Work' ],
 			[ 'id' => 'wrk_hero_eyebrow', 'name' => 'Eyebrow text',   'type' => 'text' ],
 			[ 'id' => 'wrk_hero_desc',    'name' => 'Description',    'type' => 'textarea' ],
+			[ 'id' => 'wrk_hero_cta_text', 'name' => 'CTA label',      'type' => 'text',         'std' => 'Book a call' ],
+			[ 'id' => 'wrk_hero_cta_url',  'name' => 'CTA URL',        'type' => 'text',         'std' => '/contact/' ],
 			[ 'id' => 'wrk_hero_img_a',   'name' => 'Hero photo A',   'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'wrk_hero_img_b',   'name' => 'Hero photo B',   'type' => 'single_image', 'force_delete' => false ],
 		],
@@ -1837,6 +1840,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'wrk_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
 			[ 'id' => 'wrk_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
 			[ 'id' => 'wrk_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
+			[ 'id' => 'wrk_cta_mascot',   'name' => 'Mascot image', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
 

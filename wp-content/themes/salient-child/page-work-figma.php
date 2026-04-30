@@ -10,15 +10,16 @@ wp_enqueue_style(
 	array(), null
 );
 wp_enqueue_style( 'home-style',          get_stylesheet_directory_uri() . '/css/home.css',          array(), '1.18' );
-wp_enqueue_style( 'service-figma-style', get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
-wp_enqueue_style( 'pages-figma-style',   get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.0' );
+wp_enqueue_style( 'service-figma-style', get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '2.3' );
+wp_enqueue_style( 'pages-figma-style',   get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.3' );
 wp_enqueue_script( 'hp-script',          get_stylesheet_directory_uri() . '/js/home.js',             array( 'jquery' ), '1.6', true );
 
 get_header();
 
-$img_dir = get_stylesheet_directory_uri() . '/img';
-$mascot_path = get_stylesheet_directory() . '/img/cta-mascot.png';
-$mascot_url  = $img_dir . '/cta-mascot.png';
+$img_dir     = get_stylesheet_directory_uri() . '/img';
+$mascot_url  = slingshot_pm_image( 'wrk_cta_mascot', $img_dir . '/cta-mascot.png', 'full' );
+$hero_cta    = slingshot_pm( 'wrk_hero_cta_text', 'Book a call' );
+$hero_cta_url = slingshot_pm( 'wrk_hero_cta_url', '/contact/' );
 
 // Meta
 $projects = slingshot_pm( 'wrk_projects', array() );
@@ -29,6 +30,11 @@ $filter_tabs = array_values( array_filter( array_map( 'trim', explode( "\n", $fi
 
 // How many to show initially before "Load More"
 $initial_visible = max( 6, (int) slingshot_pm( 'wrk_initial_visible', 9 ) );
+$default_project_images = array(
+	$img_dir . '/ai-work-caregiver.png',
+	$img_dir . '/ai-work-horizon.png',
+	$img_dir . '/ai-work-southeast.png',
+);
 ?>
 <style>
 	body.page-template-page-work-figma #header-outer,
@@ -53,11 +59,16 @@ $initial_visible = max( 6, (int) slingshot_pm( 'wrk_initial_visible', 9 ) );
 				<h1 class="wrk-hero-heading"><?php echo esc_html( slingshot_pm( 'wrk_hero_heading', 'Explore Our Work' ) ); ?></h1>
 				<?php $desc = slingshot_pm( 'wrk_hero_desc', 'From mobile apps to enterprise platforms — real products built for ambitious clients.' ); ?>
 				<?php if ( $desc ) : ?><p class="wrk-hero-desc"><?php echo esc_html( $desc ); ?></p><?php endif; ?>
+				<?php if ( $hero_cta ) : ?>
+				<a href="<?php echo slingshot_lp_h_attr( $hero_cta_url ); ?>" class="wrk-hero-btn" data-sl-modal="contact">
+					<?php echo esc_html( $hero_cta ); ?> <span>&rarr;</span>
+				</a>
+				<?php endif; ?>
 			</div>
 
 			<?php
-			$img_a = slingshot_pm_image( 'wrk_hero_img_a', '' );
-			$img_b = slingshot_pm_image( 'wrk_hero_img_b', $img_dir . '/hero-person-2.jpg' );
+			$img_a = slingshot_pm_image( 'wrk_hero_img_a', $img_dir . '/work-hero-a.png', 'full' );
+			$img_b = slingshot_pm_image( 'wrk_hero_img_b', $img_dir . '/work-hero-b.png', 'full' );
 			?>
 			<div class="wrk-hero-photos">
 				<?php if ( $img_a ) : ?>
@@ -93,7 +104,14 @@ $initial_visible = max( 6, (int) slingshot_pm( 'wrk_initial_visible', 9 ) );
 		<?php if ( ! empty( $projects ) ) : ?>
 		<div class="wrk-grid" id="wrkGrid">
 			<?php foreach ( $projects as $idx => $proj ) :
+				$default_project_img = $default_project_images[ $idx % count( $default_project_images ) ];
 				$proj_img  = ! empty( $proj['image'] ) ? slingshot_lp_attachment_url( $proj['image'], '', 'large' ) : '';
+				if ( ! $proj_img && ! empty( $proj['image_url'] ) ) {
+					$proj_img = slingshot_lp_link_href( $proj['image_url'] );
+				}
+				if ( ! $proj_img ) {
+					$proj_img = $default_project_img;
+				}
 				$proj_title = $proj['title'] ?? 'Project';
 				$proj_tags_raw = $proj['tags'] ?? '';
 				$proj_cats_raw = $proj['categories'] ?? '';
@@ -115,16 +133,16 @@ $initial_visible = max( 6, (int) slingshot_pm( 'wrk_initial_visible', 9 ) );
 					<?php endif; ?>
 				</div>
 				<div class="wrk-card-body">
+					<h3 class="wrk-card-title"><?php echo esc_html( $proj_title ); ?></h3>
+					<?php if ( ! empty( $proj['subtitle'] ) ) : ?>
+					<p class="wrk-card-subtitle"><?php echo esc_html( $proj['subtitle'] ); ?></p>
+					<?php endif; ?>
 					<?php if ( $tags ) : ?>
 					<div class="wrk-card-tags">
 						<?php foreach ( $tags as $tag ) : ?>
 						<span class="wrk-card-tag"><?php echo esc_html( $tag ); ?></span>
 						<?php endforeach; ?>
 					</div>
-					<?php endif; ?>
-					<h3 class="wrk-card-title"><?php echo esc_html( $proj_title ); ?></h3>
-					<?php if ( ! empty( $proj['subtitle'] ) ) : ?>
-					<p class="wrk-card-subtitle"><?php echo esc_html( $proj['subtitle'] ); ?></p>
 					<?php endif; ?>
 				</div>
 			</a>
@@ -149,7 +167,7 @@ $initial_visible = max( 6, (int) slingshot_pm( 'wrk_initial_visible', 9 ) );
 	<section class="wrk-cta-section">
 		<div class="wrk-cta-blob wrk-cta-blob-1"></div>
 		<div class="wrk-cta-mascot">
-			<?php if ( file_exists( $mascot_path ) ) : ?>
+			<?php if ( $mascot_url ) : ?>
 			<img src="<?php echo esc_url( $mascot_url ); ?>" alt="Slingshot mascot">
 			<?php endif; ?>
 		</div>

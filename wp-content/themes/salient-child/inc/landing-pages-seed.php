@@ -681,25 +681,36 @@ function slingshot_lp_build_contact_meta() {
 
 /** @return array<string,mixed> */
 function slingshot_lp_build_work_meta() {
+	$img_base = '/wp-content/themes/salient-child/img/';
+	$project_desc = 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.gcc';
+	$project_images = array(
+		$img_base . 'ai-work-caregiver.png',
+		$img_base . 'ai-work-horizon.png',
+		$img_base . 'ai-work-southeast.png',
+	);
+	$projects = array();
+	for ( $i = 0; $i < 18; $i++ ) {
+		$projects[] = array(
+			'image_url'  => $project_images[ $i % count( $project_images ) ],
+			'title'      => 'Horizon Engage',
+			'subtitle'   => $project_desc,
+			'tags'       => 'AI, PRODUCT, MOBILE',
+			'categories' => 'ai, product',
+			'link_url'   => '/work/horizon-engage/',
+		);
+	}
+
 	return [
 		'wrk_hero_heading'     => 'Explore Our Work',
 		'wrk_hero_eyebrow'     => '',
-		'wrk_hero_desc'        => 'From mobile apps to enterprise platforms — real products built for ambitious clients.',
-		'wrk_filter_tabs'      => "All\nMobile\nWeb\nDesign\nAI",
-		'wrk_initial_visible'  => 9,
-		'wrk_projects'         => [
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Mobile', 'categories' => 'mobile', 'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Web',    'categories' => 'web',    'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Design', 'categories' => 'design', 'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Mobile', 'categories' => 'mobile', 'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Web',    'categories' => 'web',    'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'AI',     'categories' => 'ai',     'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Mobile', 'categories' => 'mobile', 'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Design', 'categories' => 'design', 'link_url' => '/work/horizon-engage/' ],
-			[ 'title' => 'Horizon Engage',  'subtitle' => '', 'tags' => 'Web',    'categories' => 'web',    'link_url' => '/work/horizon-engage/' ],
-		],
+		'wrk_hero_desc'        => 'From innovation to implementation, the proof is in the practice. Our expertise in delivering custom solutions has driven results across industries.',
+		'wrk_hero_cta_text'    => 'Book a call',
+		'wrk_hero_cta_url'     => '/contact/',
+		'wrk_filter_tabs'      => "All\nConsulting\nAI\nTeams\nProduct",
+		'wrk_initial_visible'  => 15,
+		'wrk_projects'         => $projects,
 		'wrk_cta_heading'      => 'Ready to Launch Something Bold?',
-		'wrk_cta_desc'         => "We partner with ambitious companies to design and build products people love. Let's talk.",
+		'wrk_cta_desc'         => "Let's talk about how we help teams like yours bring new products to life—and make them work in the real world.",
 		'wrk_cta_btn_text'     => "Let's Talk",
 		'wrk_cta_btn_url'      => '/contact/',
 	];
@@ -1077,3 +1088,36 @@ function slingshot_lp_maybe_seed_legal_pages_v2() {
 	update_option( SLINGSHOT_LP_FIGMA_LEGAL_CONTENT_OPTION_V2, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_legal_pages_v2', 18 );
+
+define( 'SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V2', 'slingshot_lp_figma_work_content_v2' );
+
+/**
+ * Seed the Work page aliases with editable Figma project data.
+ */
+function slingshot_lp_maybe_seed_work_page_v2() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V2 ) ) {
+		return;
+	}
+
+	$meta = slingshot_lp_build_work_meta();
+	foreach ( array( 'work', 'our-work' ) as $slug ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+
+		wp_update_post(
+			array(
+				'ID'         => (int) $page->ID,
+				'post_title' => 'Work',
+			)
+		);
+		update_post_meta( (int) $page->ID, '_wp_page_template', 'page-work-figma.php' );
+		foreach ( $meta as $key => $value ) {
+			update_post_meta( (int) $page->ID, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V2, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_work_page_v2', 19 );
