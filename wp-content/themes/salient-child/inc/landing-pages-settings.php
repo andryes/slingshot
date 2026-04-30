@@ -2382,9 +2382,13 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Lead Magnet · Download Form',
 		'id'     => 'lp_ldmg_form',
 		'fields' => [
-			[ 'id' => 'ldmg_form_heading', 'name' => 'Form heading',       'type' => 'text', 'std' => 'Download The Checklist' ],
-			[ 'id' => 'ldmg_form_gf_id',   'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
-			[ 'id' => 'ldmg_form_dl_url',  'name' => 'PDF download URL (shown after submit)', 'type' => 'text' ],
+			[ 'id' => 'ldmg_form_heading',             'name' => 'Form heading',       'type' => 'text', 'std' => 'Download The Checklist' ],
+			[ 'id' => 'ldmg_form_name_placeholder',    'name' => 'Name field label',   'type' => 'text', 'std' => 'Name*' ],
+			[ 'id' => 'ldmg_form_email_placeholder',   'name' => 'Email field label',  'type' => 'text', 'std' => 'Email*' ],
+			[ 'id' => 'ldmg_form_company_placeholder', 'name' => 'Company field label','type' => 'text', 'std' => 'Company' ],
+			[ 'id' => 'ldmg_form_submit',              'name' => 'Submit button label','type' => 'text', 'std' => 'Download Now' ],
+			[ 'id' => 'ldmg_form_gf_id',               'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+			[ 'id' => 'ldmg_form_dl_url',              'name' => 'PDF download URL (static fallback action)', 'type' => 'text' ],
 		],
 	];
 

@@ -8,7 +8,7 @@ wp_enqueue_style( 'pages-figma-jakarta',  'https://fonts.googleapis.com/css2?fam
 wp_enqueue_style( 'home-style',           get_stylesheet_directory_uri() . '/css/home.css',          array(), '1.18' );
 wp_enqueue_style( 'service-figma-style',  get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
 wp_enqueue_style( 'pages-figma-style',    get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.0' );
-wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.0' );
+wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.4' );
 wp_enqueue_script( 'hp-script',           get_stylesheet_directory_uri() . '/js/home.js',            array( 'jquery' ), '1.6', true );
 
 get_header();
@@ -22,6 +22,12 @@ $hero_desc     = slingshot_pm( 'ldmg_hero_desc',     'Your checklist to comprehe
 $hero_btn_text = slingshot_pm( 'ldmg_hero_btn_text', 'Download Now' );
 $hero_img_a    = slingshot_pm_image( 'ldmg_hero_img_a', '' );
 $hero_img_b    = slingshot_pm_image( 'ldmg_hero_img_b', '' );
+if ( ! $hero_img_a ) {
+	$hero_img_a = $img_dir . '/security-checklist-hero-a.png';
+}
+if ( ! $hero_img_b ) {
+	$hero_img_b = $img_dir . '/security-checklist-hero-b.png';
+}
 
 // ── Expect ────────────────────────────────────────────────────
 $expect_heading = slingshot_pm( 'ldmg_expect_heading', 'What to Expect in This Checklist' );
@@ -30,17 +36,17 @@ $expect_cards   = is_array( $expect_cards ) ? $expect_cards : [];
 if ( empty( $expect_cards ) ) {
 	$expect_cards = [
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#6D44B7" fill-opacity=".1"/><rect x="12" y="14" width="20" height="16" rx="3" stroke="#6D44B7" stroke-width="1.8"/><path d="M16 20h12M16 24h8" stroke="#6D44B7" stroke-width="1.5" stroke-linecap="round"/></svg>',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 14.5v-3h3M30.5 14.5v-3h-3M13.5 29.5v3h3M30.5 29.5v3h-3" stroke="#8B52F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="22" r="8" stroke="#8B52F6" stroke-width="2"/></svg>',
 			'heading'  => 'Six Focus Areas',
-			'desc'     => 'Including secure coding practices, authentication and authorization, data protection, compliance frameworks, security testing, and monitoring.',
+			'desc'     => 'including secure coding practices, authentication and authorization, data protection, security testing, infrastructure security, and incident response and monitoring.',
 		],
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#23B7B4" fill-opacity=".1"/><path d="M22 12l7 4v7l-7 4-7-4v-7z" stroke="#23B7B4" stroke-width="1.8" stroke-linejoin="round"/><path d="M22 20v7M15 16l7 4 7-4" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="19" stroke="#F04A6B" stroke-width="2"/><rect x="14.5" y="20" width="15" height="11" rx="3" stroke="#F04A6B" stroke-width="2"/><path d="M18 20v-4a4 4 0 0 1 8 0v4" stroke="#F04A6B" stroke-width="2" stroke-linecap="round"/></svg>',
 			'heading'  => 'Security Quiz',
-			'desc'     => 'Complete the security checklist to see how your company compares: are you a Malware Magnet or a Cybersecurity Champion?',
+			'desc'     => 'Complete the security rating to see how you compare: are you a Malware Magnet or a Cybersecurity Champion?',
 		],
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#6D44B7" fill-opacity=".1"/><path d="M22 11l7 3v7c0 4-3 7.5-7 9-4-1.5-7-5-7-9v-7z" stroke="#6D44B7" stroke-width="1.8" stroke-linejoin="round"/><path d="M18 22l2.5 2.5L26 19" stroke="#6D44B7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26.5 3.5C36.5 8.5 39 21 32 31.5C25.2 41.7 12.5 39.5 7.8 29.5C3.3 20 7.6 9.2 17.5 5.2" stroke="#2D7DFF" stroke-width="2" stroke-linecap="round"/><path d="M15.5 23.5l4.5 4.5 9-13" stroke="#2D7DFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 			'heading'  => 'Safety Rating',
 			'desc'     => "Learn the security best practices you should use to improve your security, allowing you to focus on what's important.",
 		],
@@ -51,6 +57,17 @@ if ( empty( $expect_cards ) ) {
 $form_heading = slingshot_pm( 'ldmg_form_heading', 'Download The Checklist' );
 $form_gf_id   = (int) slingshot_pm( 'ldmg_form_gf_id', 0 );
 $form_dl_url  = slingshot_pm( 'ldmg_form_dl_url', '' ); // direct PDF download URL after submit
+$form_name_placeholder    = slingshot_pm( 'ldmg_form_name_placeholder', 'Name*' );
+$form_email_placeholder   = slingshot_pm( 'ldmg_form_email_placeholder', 'Email*' );
+$form_company_placeholder = slingshot_pm( 'ldmg_form_company_placeholder', 'Company' );
+$form_submit              = slingshot_pm( 'ldmg_form_submit', $hero_btn_text );
+$ldmg_field_label = static function ( $label ) {
+	$label = trim( (string) $label );
+	if ( substr( $label, -1 ) === '*' ) {
+		return esc_html( trim( substr( $label, 0, -1 ) ) ) . '<span class="ldmg-required" aria-hidden="true">*</span>';
+	}
+	return esc_html( $label );
+};
 ?>
 <style>
 body.page-template-page-security-checklist-figma #header-outer,
@@ -76,7 +93,7 @@ body.page-template-page-security-checklist-figma #header-space { display:none !i
 				<p class="ldmg-hero-desc"><?php echo esc_html( $hero_desc ); ?></p>
 				<?php endif; ?>
 				<button type="button" class="ldmg-hero-btn" onclick="document.getElementById('ldmg-download-form').scrollIntoView({behavior:'smooth'})">
-					<?php echo esc_html( $hero_btn_text ); ?> &darr;
+					<?php echo esc_html( $hero_btn_text ); ?> <span aria-hidden="true">&rarr;</span>
 				</button>
 			</div>
 
@@ -115,22 +132,33 @@ body.page-template-page-security-checklist-figma #header-space { display:none !i
 
 	<!-- ── DOWNLOAD FORM ─────────────────────────────────── -->
 	<section class="ldmg-form-section" id="ldmg-download-form">
-		<h2 class="ldmg-form-heading"><?php echo esc_html( $form_heading ); ?></h2>
-		<?php if ( $form_gf_id && function_exists( 'gravity_form' ) ) :
-			gravity_form( $form_gf_id, false, false, false, null, true, 1 );
-		else : ?>
-		<form class="ldmg-form" method="post" action="#">
-			<div class="ldmg-form-divider"></div>
-			<div class="ldmg-form-row">
-				<input type="text" class="ldmg-form-input" placeholder="Name*" required>
-				<input type="email" class="ldmg-form-input" placeholder="Email*" required>
-			</div>
-			<input type="text" class="ldmg-form-input" placeholder="Company">
-			<button type="submit" class="ldmg-form-submit">
-				<?php echo esc_html( $hero_btn_text ); ?>
-			</button>
-		</form>
-		<?php endif; ?>
+		<div class="ldmg-form-card">
+			<h2 class="ldmg-form-heading"><?php echo esc_html( $form_heading ); ?></h2>
+			<?php if ( $form_gf_id && function_exists( 'gravity_form' ) ) :
+				gravity_form( $form_gf_id, false, false, false, null, true, 1 );
+			else : ?>
+			<form class="ldmg-form" method="post" action="<?php echo esc_url( $form_dl_url ? $form_dl_url : '#' ); ?>"<?php echo $form_dl_url ? ' target="_blank"' : ''; ?>>
+				<div class="ldmg-form-divider"></div>
+				<div class="ldmg-form-row">
+					<label class="ldmg-form-field">
+						<input type="text" class="ldmg-form-input" placeholder=" " aria-label="<?php echo esc_attr( $form_name_placeholder ); ?>" autocomplete="name" required>
+						<span class="ldmg-form-label"><?php echo $ldmg_field_label( $form_name_placeholder ); ?></span>
+					</label>
+					<label class="ldmg-form-field">
+						<input type="email" class="ldmg-form-input" placeholder=" " aria-label="<?php echo esc_attr( $form_email_placeholder ); ?>" autocomplete="email" required>
+						<span class="ldmg-form-label"><?php echo $ldmg_field_label( $form_email_placeholder ); ?></span>
+					</label>
+				</div>
+				<label class="ldmg-form-field ldmg-form-field--company">
+					<input type="text" class="ldmg-form-input" placeholder=" " aria-label="<?php echo esc_attr( $form_company_placeholder ); ?>" autocomplete="organization">
+					<span class="ldmg-form-label"><?php echo $ldmg_field_label( $form_company_placeholder ); ?></span>
+				</label>
+				<button type="submit" class="ldmg-form-submit">
+					<?php echo esc_html( $form_submit ); ?>
+				</button>
+			</form>
+			<?php endif; ?>
+		</div>
 	</section>
 
 </div><!-- .ldmg-page-wrapper -->
