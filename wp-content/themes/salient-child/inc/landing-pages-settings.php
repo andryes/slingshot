@@ -2185,8 +2185,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Achievements · Hero',
 		'id'     => 'lp_achv_hero',
 		'fields' => [
-			[ 'id' => 'achv_hero_heading',  'name' => 'Heading',      'type' => 'text',         'std' => 'Achievements & Impact' ],
-			[ 'id' => 'achv_hero_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'achv_hero_heading',  'name' => 'Heading',      'type' => 'text',         'std' => 'Achievements' ],
+			[ 'id' => 'achv_hero_desc',     'name' => 'Description',  'type' => 'textarea',     'std' => "Our team's hard work and passion pays off. We're proud of the awards, recognition, and media moments they've earned." ],
 			[ 'id' => 'achv_hero_btn_text', 'name' => 'Button label', 'type' => 'text',         'std' => 'See Our Work' ],
 			[ 'id' => 'achv_hero_btn_url',  'name' => 'Button URL',   'type' => 'text',         'std' => '/work/' ],
 			[ 'id' => 'achv_hero_img_a',    'name' => 'Photo left',   'type' => 'single_image', 'force_delete' => false ],
@@ -2198,7 +2198,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Achievements · Why section',
 		'id'     => 'lp_achv_why',
 		'fields' => [
-			[ 'id' => 'achv_why_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Why Top Companies Choose Slingshot' ],
+			[ 'id' => 'achv_why_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Recognition Built on Real Outcomes' ],
 			[
 				'id'         => 'achv_why_cards',
 				'name'       => 'Cards',
@@ -2219,7 +2219,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Achievements · Credentials list',
 		'id'     => 'lp_achv_creds',
 		'fields' => [
-			[ 'id' => 'achv_creds_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Key Credentials & Recognitions' ],
+			[ 'id' => 'achv_creds_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Awards & Recognition' ],
 			[
 				'id'         => 'achv_creds_items',
 				'name'       => 'Credential items',
@@ -2232,6 +2232,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 					[ 'id' => 'badge_svg', 'name' => 'Badge SVG (fallback)',        'type' => 'textarea', 'rows' => 3 ],
 					[ 'id' => 'heading',   'name' => 'Credential name',             'type' => 'text' ],
 					[ 'id' => 'desc',      'name' => 'Description',                 'type' => 'textarea' ],
+					[ 'id' => 'url',       'name' => 'External URL',                'type' => 'text' ],
 				],
 			],
 		],
@@ -2252,6 +2253,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'fields'     => [
 					[ 'id' => 'image', 'name' => 'Logo image', 'type' => 'single_image', 'force_delete' => false ],
 					[ 'id' => 'name',  'name' => 'Alt text',   'type' => 'text' ],
+					[ 'id' => 'url',   'name' => 'External URL', 'type' => 'text' ],
 				],
 			],
 		],
@@ -2261,8 +2263,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Achievements · Bottom CTA',
 		'id'     => 'lp_achv_cta',
 		'fields' => [
-			[ 'id' => 'achv_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Ready to Launch Something Bold?' ],
-			[ 'id' => 'achv_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'achv_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Want to Build Something Worth Recognizing?' ],
+			[ 'id' => 'achv_cta_desc',     'name' => 'Description',  'type' => 'textarea', 'std' => "Let's talk about the product, platform, or team you want to bring to life next." ],
 			[ 'id' => 'achv_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
 			[ 'id' => 'achv_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
 		],
@@ -2347,6 +2349,70 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'amb_form_event_placeholder',   'name' => 'Event field label',        'type' => 'text', 'std' => 'Event*' ],
 			[ 'id' => 'amb_form_message_placeholder', 'name' => 'Message field label',      'type' => 'text', 'std' => 'What are you looking for?' ],
 			[ 'id' => 'amb_form_submit',              'name' => 'Submit button label',      'type' => 'text', 'std' => 'Submit Request' ],
+		],
+	];
+
+	// ── Technologies Figma ───────────────────────────────────────────────────
+	$tech_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-technologies-figma.php' ] ] ];
+
+	$meta_boxes[] = $tech_sp + [
+		'title'  => 'Technologies · Hero',
+		'id'     => 'lp_tech_hero',
+		'fields' => [
+			[ 'id' => 'tech_hero_label',          'name' => 'Label (eyebrow)',       'type' => 'text',     'std' => 'TECHNOLOGIES' ],
+			[ 'id' => 'tech_hero_heading',        'name' => 'Heading',               'type' => 'text',     'std' => 'Technologies We Use' ],
+			[ 'id' => 'tech_hero_desc',           'name' => 'Description',           'type' => 'textarea', 'std' => 'We provide full-stack development services across web, mobile, and desktop, utilizing an expansive set of technologies.' ],
+			[ 'id' => 'tech_hero_btn_text',       'name' => 'Primary button label',  'type' => 'text',     'std' => 'Talk Tech With Us' ],
+			[ 'id' => 'tech_hero_btn_url',        'name' => 'Primary button URL',    'type' => 'text',     'std' => '/contact/?looking=Technology' ],
+			[ 'id' => 'tech_hero_secondary_text', 'name' => 'Secondary link label',  'type' => 'text',     'std' => 'See Our Work' ],
+			[ 'id' => 'tech_hero_secondary_url',  'name' => 'Secondary link URL',    'type' => 'text',     'std' => '/work/' ],
+		],
+	];
+
+	$meta_boxes[] = $tech_sp + [
+		'title'  => 'Technologies · Intro',
+		'id'     => 'lp_tech_intro',
+		'fields' => [
+			[ 'id' => 'tech_intro_heading', 'name' => 'Heading',     'type' => 'text',     'std' => 'The Right Stack for the Job' ],
+			[ 'id' => 'tech_intro_desc',    'name' => 'Description', 'type' => 'textarea', 'std' => "We are tool-agnostic and outcome-focused. The stack is chosen around your product, team, data, scale, and long-term maintainability, not around what's fashionable this week." ],
+		],
+	];
+
+	$meta_boxes[] = $tech_sp + [
+		'title'  => 'Technologies · Categories',
+		'id'     => 'lp_tech_categories',
+		'fields' => [
+			[
+				'id'         => 'tech_categories',
+				'name'       => 'Technology categories',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add category',
+				'fields'     => [
+					[ 'id' => 'kicker', 'name' => 'Kicker / number', 'type' => 'text' ],
+					[ 'id' => 'title',  'name' => 'Title',           'type' => 'text' ],
+					[ 'id' => 'desc',   'name' => 'Description',     'type' => 'textarea', 'rows' => 3 ],
+					[
+						'id'   => 'items',
+						'name' => 'Technology items',
+						'type' => 'textarea',
+						'rows' => 10,
+						'desc' => 'One per line: Name|Attachment ID or image URL|Optional note',
+					],
+				],
+			],
+		],
+	];
+
+	$meta_boxes[] = $tech_sp + [
+		'title'  => 'Technologies · CTA',
+		'id'     => 'lp_tech_cta',
+		'fields' => [
+			[ 'id' => 'tech_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Want to See Our Work?' ],
+			[ 'id' => 'tech_cta_desc',     'name' => 'Description',  'type' => 'textarea', 'std' => 'Explore case studies showing how strategy, design, engineering, and modern platforms come together.' ],
+			[ 'id' => 'tech_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Go!" ],
+			[ 'id' => 'tech_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/work/' ],
 		],
 	];
 

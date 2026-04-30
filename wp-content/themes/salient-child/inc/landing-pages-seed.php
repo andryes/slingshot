@@ -1034,6 +1034,33 @@ function slingshot_lp_maybe_retarget_figma_templates_v2() {
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v2', 17 );
 
+define( 'SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V3', 'slingshot_lp_figma_template_retarget_v3' );
+
+/**
+ * Retarget pages added after the first Figma template batches.
+ */
+function slingshot_lp_maybe_retarget_figma_templates_v3() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V3 ) ) {
+		return;
+	}
+
+	$map = array(
+		'technologies'               => 'page-technologies-figma.php',
+		'edits_technologies-we-use'  => 'page-technologies-figma.php',
+	);
+
+	foreach ( $map as $slug => $template ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $template );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V3, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v3', 18 );
+
 if ( ! function_exists( 'slingshot_lp_default_legal_content' ) ) {
 	/**
 	 * Default editor content for Figma legal pages.
