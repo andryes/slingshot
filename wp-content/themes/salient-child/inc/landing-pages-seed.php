@@ -1061,6 +1061,33 @@ function slingshot_lp_maybe_retarget_figma_templates_v3() {
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v3', 18 );
 
+define( 'SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V4', 'slingshot_lp_figma_template_retarget_v4' );
+
+/**
+ * Retarget live legacy URLs that differ from the figma builder slugs.
+ */
+function slingshot_lp_maybe_retarget_figma_templates_v4() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V4 ) ) {
+		return;
+	}
+
+	$map = array(
+		'about'    => 'page-about-figma.php',
+		'about-us' => 'page-about-figma.php',
+	);
+
+	foreach ( $map as $slug => $template ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $template );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V4, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v4', 19 );
+
 if ( ! function_exists( 'slingshot_lp_default_legal_content' ) ) {
 	/**
 	 * Default editor content for Figma legal pages.

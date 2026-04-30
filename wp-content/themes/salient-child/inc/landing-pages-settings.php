@@ -2081,8 +2081,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_abt_hero',
 		'fields' => [
 			[ 'id' => 'abt_hero_label',    'name' => 'Label',        'type' => 'text',         'std' => 'ABOUT US' ],
-			[ 'id' => 'abt_hero_heading',  'name' => 'Heading',      'type' => 'text' ],
-			[ 'id' => 'abt_hero_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'abt_hero_heading',  'name' => 'Heading',      'type' => 'text',         'std' => 'For Big Kids & Daredevils' ],
+			[ 'id' => 'abt_hero_desc',     'name' => 'Description',  'type' => 'textarea',     'std' => 'Embrace the big kid and daredevil inside. Release your curiosity, take the leap, and build software with people who care about impact.' ],
 			[ 'id' => 'abt_hero_btn_text', 'name' => 'Button label', 'type' => 'text',         'std' => 'Meet the Team' ],
 			[ 'id' => 'abt_hero_btn_url',  'name' => 'Button URL',   'type' => 'text',         'std' => '#team' ],
 			[ 'id' => 'abt_hero_img_a',    'name' => 'Photo left',   'type' => 'single_image', 'force_delete' => false ],
@@ -2094,8 +2094,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'About · Stats',
 		'id'     => 'lp_abt_stats',
 		'fields' => [
-			[ 'id' => 'abt_stats_heading', 'name' => 'Heading',     'type' => 'text' ],
-			[ 'id' => 'abt_stats_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'abt_stats_heading', 'name' => 'Heading',     'type' => 'text',     'std' => '20 Years of Software & Tech Expertise' ],
+			[ 'id' => 'abt_stats_desc',    'name' => 'Description', 'type' => 'textarea', 'std' => "Two decades of helping ambitious companies move faster, build smarter, and grow stronger. Here's what that looks like in numbers." ],
 			[
 				'id'         => 'abt_stats_items',
 				'name'       => 'Stats',
@@ -2115,11 +2115,33 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'About · Story section',
 		'id'     => 'lp_abt_story',
 		'fields' => [
-			[ 'id' => 'abt_story_heading', 'name' => 'Heading', 'type' => 'text' ],
-			[ 'id' => 'abt_story_text',    'name' => 'Text (paragraphs separated by blank line)', 'type' => 'textarea', 'rows' => 6 ],
+			[ 'id' => 'abt_story_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'The Story' ],
+			[ 'id' => 'abt_story_text',    'name' => 'Text (paragraphs separated by blank line)', 'type' => 'textarea', 'rows' => 6, 'std' => "In 2005, a big kid with big dreams founded the company he wanted to work for. He built Slingshot on the idea that creating impactful software comes from being intensely inquisitive while remaining adventurous.\n\nToday, that dream thrives in Slingshot's culture of creativity, curiosity, fun, and exploration. With age comes wisdom, but the spirit of adventure is still alive. Most importantly, Slingshot still defines success as building software that has a profound impact for clients." ],
 			[ 'id' => 'abt_story_img_a',   'name' => 'Photo 1 (tall left)',   'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'abt_story_img_b',   'name' => 'Photo 2 (top right)',   'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'abt_story_img_c',   'name' => 'Photo 3 (bottom right)','type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $abt_sp + [
+		'title'  => 'About · Values',
+		'id'     => 'lp_abt_values',
+		'fields' => [
+			[ 'id' => 'abt_values_heading', 'name' => 'Heading',     'type' => 'text',     'std' => 'The Values That Keep Us Moving' ],
+			[ 'id' => 'abt_values_desc',    'name' => 'Description', 'type' => 'textarea', 'std' => 'We keep the work grounded in curiosity, honesty, courage, and a little bit of play.' ],
+			[
+				'id'         => 'abt_values_items',
+				'name'       => 'Values',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add value',
+				'fields'     => [
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG',    'type' => 'textarea', 'rows' => 3 ],
+					[ 'id' => 'heading',  'name' => 'Heading',     'type' => 'text' ],
+					[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea' ],
+				],
+			],
 		],
 	];
 
@@ -2128,7 +2150,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_abt_team',
 		'fields' => [
 			[ 'id' => 'abt_team_heading', 'name' => 'Heading',     'type' => 'text', 'std' => 'Meet the Team That Makes it Happen' ],
-			[ 'id' => 'abt_team_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'abt_team_desc',    'name' => 'Description', 'type' => 'textarea', 'std' => 'Product thinkers, designers, engineers, strategists, and operators working together across the U.S. and Europe.' ],
 			[
 				'id'         => 'abt_team_members',
 				'name'       => 'Team members',
@@ -2172,7 +2194,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_abt_cta',
 		'fields' => [
 			[ 'id' => 'abt_cta_heading',  'name' => 'Heading',      'type' => 'text',     'std' => 'Ready to Launch Something Bold?' ],
-			[ 'id' => 'abt_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'abt_cta_desc',     'name' => 'Description',  'type' => 'textarea', 'std' => "We partner with ambitious companies to design and build products people love. Let's talk." ],
 			[ 'id' => 'abt_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
 			[ 'id' => 'abt_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
 		],

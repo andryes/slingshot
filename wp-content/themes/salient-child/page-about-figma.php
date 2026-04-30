@@ -4,12 +4,12 @@ Template Name: About Us Figma
  * Content: Edit Page meta fields (Meta Box).
  */
 
-wp_enqueue_style( 'pages-figma-jakarta',  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', array(), null );
-wp_enqueue_style( 'home-style',           get_stylesheet_directory_uri() . '/css/home.css',          array(), '1.18' );
-wp_enqueue_style( 'service-figma-style',  get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
-wp_enqueue_style( 'pages-figma-style',    get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.0' );
-wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.0' );
-wp_enqueue_script( 'hp-script',           get_stylesheet_directory_uri() . '/js/home.js',            array( 'jquery' ), '1.6', true );
+wp_enqueue_style( 'pages-figma-jakarta', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', array(), null );
+wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
+wp_enqueue_style( 'service-figma-style', get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
+wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.0' );
+wp_enqueue_style( 'pages-figma-2-style', get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.8' );
+wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
 get_header();
 
@@ -17,68 +17,191 @@ $img_dir     = get_stylesheet_directory_uri() . '/img';
 $mascot_path = get_stylesheet_directory() . '/img/cta-mascot.png';
 $mascot_url  = $img_dir . '/cta-mascot.png';
 
-// ── Hero ──────────────────────────────────────────────────────
-$hero_label    = slingshot_pm( 'abt_hero_label',    'ABOUT US' );
-$hero_heading  = slingshot_pm( 'abt_hero_heading',  'For Big Kids & Daredevils' );
-$hero_desc     = slingshot_pm( 'abt_hero_desc',     "A Tech Consultancy & Creative Studio. We've helped companies move faster, build smarter with modern solutions that drive your business momentum." );
-$hero_btn_text = slingshot_pm( 'abt_hero_btn_text', 'Meet the Team' );
-$hero_btn_url  = slingshot_pm( 'abt_hero_btn_url',  '#team' );
-$hero_img_a    = slingshot_pm_image( 'abt_hero_img_a', '' );
-$hero_img_b    = slingshot_pm_image( 'abt_hero_img_b', '' );
-
-// ── Stats ─────────────────────────────────────────────────────
-$stats_heading = slingshot_pm( 'abt_stats_heading', '20 Years of Software & Tech Expertise' );
-$stats_desc    = slingshot_pm( 'abt_stats_desc',    "Two decades of helping ambitious companies move faster, build smarter, and grow stronger. Here's what that looks like in numbers." );
-$stats_items   = slingshot_pm( 'abt_stats_items', [] );
-$stats_items   = is_array( $stats_items ) ? $stats_items : [];
-if ( empty( $stats_items ) ) {
-	$stats_items = [
-		[ 'number' => '65+',  'label' => 'Companies served' ],
-		[ 'number' => '20+',  'label' => 'Years of expertise' ],
-		[ 'number' => '100+', 'label' => 'Team members' ],
-		[ 'number' => '15+',  'label' => 'Industries' ],
-	];
+if ( ! function_exists( 'slingshot_abt_parse_records' ) ) {
+	function slingshot_abt_parse_records( $raw, $keys ) {
+		$records = array();
+		foreach ( preg_split( '/\R+/', (string) $raw ) as $line ) {
+			$line = trim( $line );
+			if ( '' === $line ) {
+				continue;
+			}
+			$parts  = array_map( 'trim', explode( '|', $line ) );
+			$record = array();
+			foreach ( $keys as $index => $key ) {
+				$record[ $key ] = $parts[ $index ] ?? '';
+			}
+			$records[] = $record;
+		}
+		return $records;
+	}
 }
 
-// ── Story ─────────────────────────────────────────────────────
-$story_heading = slingshot_pm( 'abt_story_heading', '20 Years of Software & Tech Expertise' );
-$story_text    = slingshot_pm( 'abt_story_text',    "We started as a small team with a big idea: that great software doesn't require a big company — just the right people, driven by craft and honesty.\n\nOver 20 years later, we've built products for startups, enterprises, and everyone in between. Our team of engineers, designers, and strategists bring the kind of experience you can't manufacture — earned project by project, client by client." );
+if ( ! function_exists( 'slingshot_abt_img_url' ) ) {
+	function slingshot_abt_img_url( $value, $size = 'medium_large' ) {
+		if ( is_array( $value ) ) {
+			$value = $value['ID'] ?? $value['id'] ?? reset( $value );
+		}
+		$value = trim( (string) $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		if ( ctype_digit( $value ) ) {
+			return slingshot_lp_attachment_url( (int) $value, '', $size );
+		}
+		return $value;
+	}
+}
+
+if ( ! function_exists( 'slingshot_abt_paragraphs' ) ) {
+	function slingshot_abt_paragraphs( $text ) {
+		return array_filter( array_map( 'trim', preg_split( '/\R{2,}/', (string) $text ) ) );
+	}
+}
+
+$default_team_raw = <<<'TXT'
+David Galownia|CEO & President|34280
+Chris Howard|CIO & Chief Product Lead|34274
+Rachel Foster|Principal Product Designer|34257
+Mike Hurd|Principal Developer|34259
+Doug Compton|Principal AI Developer|34267
+Steve Anderson|Principal Developer & AWS Architect|34276
+Dan Murphy|Executive Director of Slingshot Ventures|34268
+Maria Poole|Director of Operations|34261
+Nathan Thomas|Senior Developer|34258
+Michael Thornberry|Senior Developer|34277
+Savannah Cherry|Director of Marketing and New Business|34253
+Tim Samasiuk|Senior UX/UI Designer|34278
+Dan Harrigan|Principal Developer|34269
+Sarah Bhatia|Director of AI Product Innovation|34275
+Jem Holbrook|Associate Product Lead|34265
+Joe Calvert|Principal Developer|34264
+Michael Upton|Product Lead|34260
+Andrew Meyer|Principal Senior Developer|34271
+Iryna Doroshenko|Senior Mobile Developer|34266
+Whitney Powell|Sales and Marketing Coordinator|364185
+Geoff Ritter|Lead Sales Representative|454887
+Brad Green|Senior Developer|454897
+Alicja Kempa|Senior Developer|454025
+Artem Shynkarenko|Ukraine Delivery Manager|46639
+Yulia Shchyhel|Principal QA Analyst|46664
+Bohdan Skyba|Principal QA Analyst|46640
+Petro Chemerys|QA Engineer|46652
+Lyubomyr Krupey|Senior Mobile Developer|46641
+Andrii Hlova|Principal Full Stack Developer|46634
+Ihor Havrylov|QA Engineer|252491
+Oksana Kalitovska|QA Engineer|252493
+Orest Pashkevych|Senior Software Engineer|252495
+Yurii Marshal|Senior Frontend Developer|46671
+Andriy Smetyukh|Principal Full Stack Developer|252488
+Oleksandr Lovas|Principal Full Stack Developer|46647
+Ivan Shelemba|Full Stack Developer|252492
+Andrii Vakhula|Software Engineer|252489
+Andriy Maherovskyi|Principal Mobile Developer|452268
+Volodymyr Buryi|Senior Software Engineer|252497
+Oleh Kachmar|Full Stack Developer|46644
+Taras Yarchak|Frontend Developer|252496
+TXT;
+
+$default_values = array(
+	array(
+		'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#F2EEFF"/><path d="M21 10v4M21 28v4M13.2 13.2l2.8 2.8M26 26l2.8 2.8M10 21h4M28 21h4M13.2 28.8l2.8-2.8M26 16l2.8-2.8" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="21" r="4.5" stroke="#7A4FEB" stroke-width="2"/></svg>',
+		'heading'  => 'Ingenuity',
+		'desc'     => 'The ability to be clever, original, and inventive. Creative, innovative, and imaginative.',
+	),
+	array(
+		'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#EAF8F8"/><path d="M13 22l5 5 11-12" stroke="#23B7B4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 31h18" stroke="#23B7B4" stroke-width="2" stroke-linecap="round"/></svg>',
+		'heading'  => 'Integrity',
+		'desc'     => 'Free from pretense, deceit, or hypocrisy. Honest and having strong moral principles.',
+	),
+	array(
+		'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#FFF3EE"/><path d="M13 29l5-16 11 11-16 5z" stroke="#EF6D63" stroke-width="2" stroke-linejoin="round"/><path d="M18 13l11 11" stroke="#EF6D63" stroke-width="2" stroke-linecap="round"/></svg>',
+		'heading'  => 'Adventure',
+		'desc'     => 'Having the courage to take risks. Be bold, daring, enterprising, and gutsy.',
+	),
+	array(
+		'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#F1F6FF"/><path d="M14 20c2-5 12-5 14 0M16 25c2.5 3 7.5 3 10 0" stroke="#4D86D9" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="20" r="1.5" fill="#4D86D9"/><circle cx="25" cy="20" r="1.5" fill="#4D86D9"/></svg>',
+		'heading'  => 'Childlike Spirit',
+		'desc'     => 'Curious, spontaneous, fun-loving, inquisitive, and full of energy.',
+	),
+);
+
+// Hero.
+$hero_label    = slingshot_pm( 'abt_hero_label', 'ABOUT US' );
+$hero_heading  = slingshot_pm( 'abt_hero_heading', 'For Big Kids & Daredevils' );
+$hero_desc     = slingshot_pm( 'abt_hero_desc', 'Embrace the big kid and daredevil inside. Release your curiosity, take the leap, and build software with people who care about impact.' );
+$hero_btn_text = slingshot_pm( 'abt_hero_btn_text', 'Meet the Team' );
+$hero_btn_url  = slingshot_pm( 'abt_hero_btn_url', '#team' );
+$hero_img_a    = slingshot_pm_image( 'abt_hero_img_a', '' );
+$hero_img_b    = slingshot_pm_image( 'abt_hero_img_b', '' );
+if ( ! $hero_img_a ) {
+	$hero_img_a = slingshot_abt_img_url( '384527', 'large' );
+}
+if ( ! $hero_img_b ) {
+	$hero_img_b = slingshot_abt_img_url( '396611', 'large' );
+}
+
+// Stats.
+$stats_heading = slingshot_pm( 'abt_stats_heading', '20 Years of Software & Tech Expertise' );
+$stats_desc    = slingshot_pm( 'abt_stats_desc', "Two decades of helping ambitious companies move faster, build smarter, and grow stronger. Here's what that looks like in numbers." );
+$stats_items   = slingshot_pm( 'abt_stats_items', array() );
+$stats_items   = is_array( $stats_items ) ? $stats_items : array();
+if ( empty( $stats_items ) ) {
+	$stats_items = array(
+		array( 'number' => '2005', 'label' => 'Founded in Louisville' ),
+		array( 'number' => '20+', 'label' => 'Years of expertise' ),
+		array( 'number' => '40+', 'label' => 'Team members' ),
+		array( 'number' => '100+', 'label' => 'Products and platforms launched' ),
+	);
+}
+
+// Story.
+$story_heading = slingshot_pm( 'abt_story_heading', 'The Story' );
+$story_text    = slingshot_pm( 'abt_story_text', "In 2005, a big kid with big dreams founded the company he wanted to work for. He built Slingshot on the idea that creating impactful software comes from being intensely inquisitive while remaining adventurous.\n\nToday, that dream thrives in Slingshot's culture of creativity, curiosity, fun, and exploration. With age comes wisdom, but the spirit of adventure is still alive. Most importantly, Slingshot still defines success as building software that has a profound impact for clients." );
 $story_img_a   = slingshot_pm_image( 'abt_story_img_a', '' );
 $story_img_b   = slingshot_pm_image( 'abt_story_img_b', '' );
 $story_img_c   = slingshot_pm_image( 'abt_story_img_c', '' );
-
-// ── Team ─────────────────────────────────────────────────────
-$team_heading = slingshot_pm( 'abt_team_heading', 'Meet the Team That Makes it Happen' );
-$team_desc    = slingshot_pm( 'abt_team_desc',    '' );
-$team_members = slingshot_pm( 'abt_team_members', [] );
-$team_members = is_array( $team_members ) ? $team_members : [];
-
-// ── Testimonials ──────────────────────────────────────────────
-$test_heading = slingshot_pm( 'abt_test_heading', 'Our Clients Are the Best Stories' );
-$test_items   = slingshot_pm( 'abt_test_items', [] );
-$test_items   = is_array( $test_items ) ? $test_items : [];
-if ( empty( $test_items ) ) {
-	$test_items = [
-		[
-			'quote'   => '"Slingshot understood our vision better than we did. They helped us turn a concept into a product our customers love."',
-			'name'    => 'CEO',
-			'company' => 'Healthcare startup',
-			'avatar'  => '',
-		],
-		[
-			'quote'   => '"The team moved fast without cutting corners. We launched on time, under budget, and the quality was exceptional."',
-			'name'    => 'CTO',
-			'company' => 'Fintech company',
-			'avatar'  => '',
-		],
-	];
+if ( ! $story_img_a ) {
+	$story_img_a = slingshot_abt_img_url( '451086', 'large' );
+}
+if ( ! $story_img_b ) {
+	$story_img_b = slingshot_abt_img_url( '391757', 'large' );
+}
+if ( ! $story_img_c ) {
+	$story_img_c = slingshot_abt_img_url( '455325', 'large' );
 }
 
-// ── CTA ───────────────────────────────────────────────────────
-$cta_heading  = slingshot_pm( 'abt_cta_heading',  'Ready to Launch Something Bold?' );
-$cta_desc     = slingshot_pm( 'abt_cta_desc',     "We partner with ambitious companies to design and build products people love. Let's talk." );
+// Values.
+$values_heading = slingshot_pm( 'abt_values_heading', 'The Values That Keep Us Moving' );
+$values_desc    = slingshot_pm( 'abt_values_desc', 'We keep the work grounded in curiosity, honesty, courage, and a little bit of play.' );
+$values_items   = slingshot_pm( 'abt_values_items', array() );
+$values_items   = is_array( $values_items ) && $values_items ? $values_items : $default_values;
+
+// Team.
+$team_heading = slingshot_pm( 'abt_team_heading', 'Meet the Team That Makes it Happen' );
+$team_desc    = slingshot_pm( 'abt_team_desc', 'Product thinkers, designers, engineers, strategists, and operators working together across the U.S. and Europe.' );
+$team_members = slingshot_pm( 'abt_team_members', array() );
+$team_members = is_array( $team_members ) && $team_members ? $team_members : slingshot_abt_parse_records( $default_team_raw, array( 'name', 'role', 'photo' ) );
+
+// Testimonials.
+$test_heading = slingshot_pm( 'abt_test_heading', 'Our Clients Are the Best Stories' );
+$test_items   = slingshot_pm( 'abt_test_items', array() );
+$test_items   = is_array( $test_items ) ? $test_items : array();
+if ( empty( $test_items ) ) {
+	$test_items = array(
+		array(
+			'quote'   => "Slingshot understood our unique vision; it was clear they had a high level of expertise. They came up with a solution that fit our needs, and we felt involved during the entire process. We plan on working with Slingshot again, and see them as partners rather than another software vendor.",
+			'name'    => 'Mary Clyde Pierce, MD',
+			'company' => "Professor of Pediatrics | Ann & Robert H. Lurie Children's Hospital of Chicago",
+			'avatar'  => '7027',
+		),
+	);
+}
+
+// CTA.
+$cta_heading  = slingshot_pm( 'abt_cta_heading', 'Ready to Launch Something Bold?' );
+$cta_desc     = slingshot_pm( 'abt_cta_desc', "We partner with ambitious companies to design and build products people love. Let's talk." );
 $cta_btn_text = slingshot_pm( 'abt_cta_btn_text', "Let's Talk" );
-$cta_btn_url  = slingshot_pm( 'abt_cta_btn_url',  '/contact/' );
+$cta_btn_url  = slingshot_pm( 'abt_cta_btn_url', '/contact/' );
 ?>
 <style>
 body.page-template-page-about-figma #header-outer,
@@ -88,9 +211,7 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 <?php slingshot_render_redesign_header( array( 'variant' => 'light' ) ); ?>
 
 <div class="abt-page-wrapper">
-
-	<!-- ── HERO ──────────────────────────────────────────── -->
-	<section class="fig-hero">
+	<section class="fig-hero abt-hero">
 		<div class="fig-hero-blob fig-hero-blob-1"></div>
 		<div class="fig-hero-blob fig-hero-blob-2"></div>
 
@@ -113,12 +234,12 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 			<?php if ( $hero_img_a || $hero_img_b ) : ?>
 			<div class="abt-hero-photos">
 				<?php if ( $hero_img_a ) : ?>
-				<div class="abt-hero-photo-a">
+				<div class="abt-hero-photo abt-hero-photo-a">
 					<img src="<?php echo esc_url( $hero_img_a ); ?>" alt="">
 				</div>
 				<?php endif; ?>
 				<?php if ( $hero_img_b ) : ?>
-				<div class="abt-hero-photo-b">
+				<div class="abt-hero-photo abt-hero-photo-b">
 					<img src="<?php echo esc_url( $hero_img_b ); ?>" alt="">
 				</div>
 				<?php endif; ?>
@@ -127,15 +248,16 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 		</div>
 	</section>
 
-	<!-- ── STATS ─────────────────────────────────────────── -->
 	<section class="abt-stats-section">
-		<?php if ( $stats_heading ) : ?>
-		<div class="fig-eyebrow">By the numbers</div>
-		<h2 class="fig-section-heading"><?php echo esc_html( $stats_heading ); ?></h2>
-		<?php endif; ?>
-		<?php if ( $stats_desc ) : ?>
-		<p class="fig-section-desc"><?php echo esc_html( $stats_desc ); ?></p>
-		<?php endif; ?>
+		<div class="abt-section-head abt-section-head--split">
+			<div>
+				<div class="fig-eyebrow">By the numbers</div>
+				<h2 class="fig-section-heading"><?php echo esc_html( $stats_heading ); ?></h2>
+			</div>
+			<?php if ( $stats_desc ) : ?>
+			<p><?php echo esc_html( $stats_desc ); ?></p>
+			<?php endif; ?>
+		</div>
 		<div class="abt-stats-grid">
 			<?php foreach ( $stats_items as $stat ) : ?>
 			<div class="abt-stat">
@@ -146,55 +268,74 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 		</div>
 	</section>
 
-	<!-- ── STORY ─────────────────────────────────────────── -->
-	<?php if ( $story_text || $story_img_a ) : ?>
 	<section class="abt-story-section">
-		<div>
+		<div class="abt-story-copy">
 			<?php if ( $story_heading ) : ?>
 			<h2 class="fig-section-heading"><?php echo esc_html( $story_heading ); ?></h2>
 			<?php endif; ?>
-			<?php if ( $story_text ) : ?>
-			<?php foreach ( explode( "\n\n", $story_text ) as $para ) :
-				$para = trim( $para );
-				if ( $para ) : ?>
-			<p style="font-size:16px;line-height:1.75;color:#4A4A6A;margin:0 0 18px;"><?php echo esc_html( $para ); ?></p>
-			<?php endif; endforeach; ?>
-			<?php endif; ?>
+			<?php foreach ( slingshot_abt_paragraphs( $story_text ) as $para ) : ?>
+			<p><?php echo esc_html( $para ); ?></p>
+			<?php endforeach; ?>
 		</div>
 		<?php if ( $story_img_a ) : ?>
 		<div class="abt-story-imgs">
-			<div class="abt-story-img" style="aspect-ratio:2/3;">
-				<img src="<?php echo esc_url( $story_img_a ); ?>" alt="" style="height:100%;">
+			<div class="abt-story-img abt-story-img--a">
+				<img src="<?php echo esc_url( $story_img_a ); ?>" alt="" loading="lazy">
 			</div>
 			<?php if ( $story_img_b ) : ?>
-			<div class="abt-story-img" style="aspect-ratio:1;">
-				<img src="<?php echo esc_url( $story_img_b ); ?>" alt="">
+			<div class="abt-story-img abt-story-img--b">
+				<img src="<?php echo esc_url( $story_img_b ); ?>" alt="" loading="lazy">
 			</div>
 			<?php endif; ?>
 			<?php if ( $story_img_c ) : ?>
-			<div class="abt-story-img" style="aspect-ratio:1;">
-				<img src="<?php echo esc_url( $story_img_c ); ?>" alt="">
+			<div class="abt-story-img abt-story-img--c">
+				<img src="<?php echo esc_url( $story_img_c ); ?>" alt="" loading="lazy">
 			</div>
 			<?php endif; ?>
 		</div>
 		<?php endif; ?>
 	</section>
-	<?php endif; ?>
 
-	<!-- ── TEAM ──────────────────────────────────────────── -->
+	<section class="abt-values-section">
+		<div class="abt-section-head abt-section-head--split">
+			<div>
+				<div class="fig-eyebrow">How we work</div>
+				<h2 class="fig-section-heading"><?php echo esc_html( $values_heading ); ?></h2>
+			</div>
+			<?php if ( $values_desc ) : ?>
+			<p><?php echo esc_html( $values_desc ); ?></p>
+			<?php endif; ?>
+		</div>
+		<div class="abt-values-grid">
+			<?php foreach ( $values_items as $item ) : ?>
+			<div class="abt-value-card">
+				<?php if ( ! empty( $item['icon_svg'] ) ) : ?>
+				<div class="abt-value-icon"><?php echo $item['icon_svg']; ?></div>
+				<?php endif; ?>
+				<h3><?php echo esc_html( $item['heading'] ?? '' ); ?></h3>
+				<p><?php echo esc_html( $item['desc'] ?? '' ); ?></p>
+			</div>
+			<?php endforeach; ?>
+		</div>
+	</section>
+
 	<?php if ( ! empty( $team_members ) ) : ?>
 	<section class="abt-team-section" id="team">
-		<div class="fig-eyebrow">Our People</div>
-		<h2 class="fig-section-heading"><?php echo esc_html( $team_heading ); ?></h2>
-		<?php if ( $team_desc ) : ?>
-		<p class="fig-section-desc"><?php echo esc_html( $team_desc ); ?></p>
-		<?php endif; ?>
+		<div class="abt-section-head abt-section-head--split">
+			<div>
+				<div class="fig-eyebrow">Our People</div>
+				<h2 class="fig-section-heading"><?php echo esc_html( $team_heading ); ?></h2>
+			</div>
+			<?php if ( $team_desc ) : ?>
+			<p><?php echo esc_html( $team_desc ); ?></p>
+			<?php endif; ?>
+		</div>
 		<div class="abt-team-grid">
 			<?php foreach ( $team_members as $member ) :
-				$photo = ! empty( $member['photo'] ) ? slingshot_lp_attachment_url( $member['photo'], '', 'medium' ) : '';
+				$photo = ! empty( $member['photo'] ) ? slingshot_abt_img_url( $member['photo'], 'medium' ) : '';
 				$name  = $member['name'] ?? '';
 				$role  = $member['role'] ?? '';
-			?>
+				?>
 			<div class="abt-team-card">
 				<div class="abt-team-photo">
 					<?php if ( $photo ) : ?>
@@ -209,14 +350,15 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 	</section>
 	<?php endif; ?>
 
-	<!-- ── TESTIMONIALS ──────────────────────────────────── -->
 	<section class="abt-testimonial-section">
-		<div class="fig-eyebrow">Client Stories</div>
-		<h2 class="fig-section-heading"><?php echo esc_html( $test_heading ); ?></h2>
+		<div class="abt-section-head">
+			<div class="fig-eyebrow">Client Stories</div>
+			<h2 class="fig-section-heading"><?php echo esc_html( $test_heading ); ?></h2>
+		</div>
 		<div class="abt-testimonials-grid">
 			<?php foreach ( $test_items as $item ) :
-				$avatar = ! empty( $item['avatar'] ) ? slingshot_lp_attachment_url( $item['avatar'], '', 'thumbnail' ) : '';
-			?>
+				$avatar = ! empty( $item['avatar'] ) ? slingshot_abt_img_url( $item['avatar'], 'thumbnail' ) : '';
+				?>
 			<div class="abt-testimonial-card">
 				<p class="abt-testimonial-quote"><?php echo esc_html( $item['quote'] ?? '' ); ?></p>
 				<div class="abt-testimonial-person">
@@ -235,8 +377,7 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 		</div>
 	</section>
 
-	<!-- ── CTA ───────────────────────────────────────────── -->
-	<section class="fig-cta">
+	<section class="fig-cta abt-cta">
 		<div class="fig-cta-blob"></div>
 		<div class="fig-cta-mascot">
 			<?php if ( file_exists( $mascot_path ) ) : ?>
@@ -253,7 +394,6 @@ body.page-template-page-about-figma #header-space { display:none !important; }
 			</a>
 		</div>
 	</section>
-
-</div><!-- .abt-page-wrapper -->
+</div>
 
 <?php get_footer(); ?>
