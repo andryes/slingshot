@@ -10,8 +10,8 @@ wp_enqueue_style(
 	array(), null
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
-wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.0' );
-wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.0' );
+wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.3' );
+wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.3' );
 wp_enqueue_script( 'teams-script', get_stylesheet_directory_uri() . '/js/teams.js', array( 'jquery' ), '1.0', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
@@ -30,6 +30,78 @@ $roles        = is_array( $roles ) ? $roles : [];
 
 $test_items   = slingshot_pm( 'staug_test_items', [] );
 $test_items   = is_array( $test_items ) ? $test_items : [];
+
+$staug_icon_svg = static function ( $key ) {
+	$icons = array(
+		'bolt-box' => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><rect x="7" y="7" width="28" height="28" rx="7" stroke="currentColor" stroke-width="2"/><path d="M22 12l-6 10h6l-2 8 7-12h-6l1-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+		'bolt'     => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><path d="M22 6l-9 16h9l-3 14 11-20h-9l1-10Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 18h7M8 25h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+		'bag'      => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><path d="M15 17v-3a6 6 0 0 1 12 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="8" y="17" width="26" height="17" rx="5" stroke="currentColor" stroke-width="2"/><path d="M27 28l2 2 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+		'people'   => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><circle cx="21" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="24" r="4" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="24" r="4" stroke="currentColor" stroke-width="2"/><path d="M7 35c1.3-4 3.7-6 7-6s5.7 2 7 6M21 35c1.3-4 3.7-6 7-6s5.7 2 7 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'dollar'   => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><circle cx="21" cy="21" r="13" stroke="currentColor" stroke-width="2"/><path d="M21 12v18M25 16c-1.1-1.2-2.6-1.8-4.5-1.6-2.1.2-3.6 1.4-3.6 3.2 0 4.8 8.5 2.4 8.5 7.1 0 1.9-1.6 3.2-4 3.4-2.2.2-4-.5-5.2-1.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'clock'    => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><circle cx="21" cy="22" r="11" stroke="currentColor" stroke-width="2"/><path d="M21 16v7l5 3M12 10l-4 4M30 10l4 4M5 22h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'person'   => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><circle cx="21" cy="13" r="5" stroke="currentColor" stroke-width="2"/><path d="M10 34c1.7-7 5.4-10.5 11-10.5S30.3 27 32 34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 20v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+		'globe'    => '<svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><circle cx="21" cy="21" r="13" stroke="currentColor" stroke-width="2"/><path d="M8 21h26M21 8c4 4 6 8.4 6 13s-2 9-6 13M21 8c-4 4-6 8.4-6 13s2 9 6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+	);
+	return isset( $icons[ $key ] ) ? $icons[ $key ] : $icons['bolt'];
+};
+
+$staug_has_rows = static function ( $rows ) {
+	if ( ! is_array( $rows ) || empty( $rows ) ) {
+		return false;
+	}
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		foreach ( $row as $value ) {
+			if ( is_array( $value ) && ! empty( $value ) ) {
+				return true;
+			}
+			if ( ! is_array( $value ) && trim( (string) $value ) !== '' ) {
+				return true;
+			}
+		}
+	}
+	return false;
+};
+
+if ( ! $staug_has_rows( $offer_cards ) ) {
+	$offer_cards = array(
+		array( 'icon_key' => 'bolt-box', 'title' => 'Tech Expertise', 'desc' => 'Deep experience across modern stacks and platforms' ),
+		array( 'icon_key' => 'bolt', 'title' => 'Hassle-Free Hiring', 'desc' => 'We source, vet, and onboard talent that aligns with your delivery needs' ),
+		array( 'icon_key' => 'bag', 'title' => 'Results That Scale', 'desc' => 'Improve delivery velocity, reduce dev backlog, and unblock stalled initiatives' ),
+	);
+}
+
+if ( ! $staug_has_rows( $why_points ) ) {
+	$why_points = array(
+		array( 'icon_key' => 'people', 'title' => 'Broad Talent Pool', 'desc' => 'Access a diverse range of skill sets from a mature tech market ready to scale with you' ),
+		array( 'icon_key' => 'dollar', 'title' => 'Cost Optimization', 'desc' => 'Reduce hiring costs by up to 40 percent without sacrificing quality or experience' ),
+		array( 'icon_key' => 'clock', 'title' => 'Speed and Flexibility', 'desc' => 'Ramp up full teams or individual contributors in days, not months' ),
+		array( 'icon_key' => 'person', 'title' => 'Cultural Fit', 'desc' => 'Our engineers ask the right questions, push for better outcomes.' ),
+	);
+}
+
+$region_cards = slingshot_pm( 'staug_region_cards', [] );
+$region_cards = is_array( $region_cards ) ? $region_cards : [];
+if ( ! $staug_has_rows( $region_cards ) ) {
+	$region_cards = array(
+		array( 'title' => 'Eastern Europe', 'body' => "Ideal for complex, innovation-driven products\nTalent known for autonomy, deep developer ability, and proactive problem solving\nBest fit for teams with strong product direction", 'featured' => 1 ),
+		array( 'title' => 'Latin America', 'body' => '', 'featured' => 0 ),
+	);
+}
+
+if ( ! $staug_has_rows( $roles ) ) {
+	$roles = array(
+		array( 'name' => 'Andrew Meyer', 'role' => 'Principal Senior Developer', 'category' => 'Development', 'experience' => 'Eastern Europe, 10+ years experience', 'story' => 'Helped Schneider Electric streamline onboarding by reducing manual entry across departments' ),
+		array( 'name' => 'Joe Calvert', 'role' => 'Principal Developer', 'category' => 'Development', 'experience' => 'Latin America, 7+ years experience', 'story' => 'Embedded with a global non-profit to redesign a multilingual mobile app serving 10,000+ users' ),
+		array( 'name' => 'Doug Compton', 'role' => 'Principal AI Developer', 'category' => 'Development', 'experience' => 'Eastern Europe, 10+ years experience', 'story' => 'Helped Schneider Electric streamline onboarding by reducing manual entry across departments' ),
+		array( 'name' => 'Mike Hurd', 'role' => 'Principal Developer', 'category' => 'Development', 'experience' => 'Eastern Europe, 10+ years experience', 'story' => 'Helped Schneider Electric streamline onboarding by reducing manual entry across departments' ),
+		array( 'name' => 'Microsoft Consultant', 'role' => 'QA Specialist', 'category' => 'QA', 'experience' => 'Latin America, 6+ years experience', 'story' => 'Supported a high-volume enterprise release cycle with automation and regression coverage' ),
+	);
+}
+
+$role_filters = slingshot_lp_bullet_lines( slingshot_pm( 'staug_roles_filters', "All Roles\nDevelopment\nProject Manager\nDesigners\nQA" ) );
 ?>
 
 <style id="dynamic-css-inline-css" type="text/css">
@@ -41,8 +113,8 @@ $test_items   = is_array( $test_items ) ? $test_items : [];
 <?php
 slingshot_render_redesign_header( array(
 	'variant' => 'light',
-	'cta_url' => slingshot_lp_h_attr( slingshot_pm( 'staug_hero_cta_url', '/contact/?looking=Staff+Aug' ) ),
-	'cta_text' => slingshot_pm( 'staug_hero_cta_text', 'Scale Your Team' ),
+	'cta_url' => slingshot_lp_h_attr( slingshot_pm( 'staug_header_cta_url', '/contact/?looking=Staff+Aug' ) ),
+	'cta_text' => slingshot_pm( 'staug_header_cta_text', "Let's talk" ),
 ) );
 ?>
 
@@ -57,24 +129,24 @@ slingshot_render_redesign_header( array(
 		<div class="teams-hero-inner">
 			<div class="teams-hero-content">
 				<div class="teams-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_pm( 'staug_hero_bc_parent', 'TEAMS' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'staug_hero_bc_parent', 'SERVICES / TEAMS' ) ); ?></span>
 					<span class="teams-hero-sep">/</span>
-					<span><?php echo esc_html( slingshot_pm( 'staug_hero_bc_leaf', 'STAFF AUGMENTATION' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'staug_hero_bc_leaf', 'STAFF AUG' ) ); ?></span>
 				</div>
-				<h1 class="teams-hero-heading"><?php echo esc_html( slingshot_pm( 'staug_hero_heading', 'Scale Smarter with Global Talent' ) ); ?></h1>
-				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'staug_hero_subtext', 'Plug senior engineers and specialists into your team in days. No long recruitment cycles, no quality compromise.' ) ); ?></p>
+				<h1 class="teams-hero-heading"><?php echo nl2br( esc_html( slingshot_pm( 'staug_hero_heading', "Scale Smarter\nwith Global Talent" ) ) ); ?></h1>
+				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'staug_hero_subtext', 'Augment your team with vetted, high-performing developers who integrate fast and deliver from day one.' ) ); ?></p>
 				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'staug_hero_cta_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-hero-btn">
-					<?php echo esc_html( slingshot_pm( 'staug_hero_cta_text', 'Scale Your Team' ) ); ?> <span>&#8594;</span>
+					<?php echo esc_html( slingshot_pm( 'staug_hero_cta_text', 'Start Building Your Team' ) ); ?> <span>&#8594;</span>
 				</a>
 			</div>
 
 			<div class="teams-hero-photos">
 				<div class="teams-hero-photo-grid">
 					<div class="teams-hero-photo teams-hero-photo-a">
-						<img src="<?php echo esc_url( slingshot_pm_image( 'staug_hero_img_a', $img_dir . '/hero-person-1.jpg' ) ); ?>" alt="Global talent">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'staug_hero_img_a', $img_dir . '/teams-hero-a.png' ) ); ?>" alt="Global talent">
 					</div>
 					<div class="teams-hero-photo teams-hero-photo-b">
-						<img src="<?php echo esc_url( slingshot_pm_image( 'staug_hero_img_b', $img_dir . '/hero-person-2.jpg' ) ); ?>" alt="Remote engineer">
+						<img src="<?php echo esc_url( slingshot_pm_image( 'staug_hero_img_b', $img_dir . '/teams-hero-b.png' ) ); ?>" alt="Remote engineer">
 					</div>
 				</div>
 			</div>
@@ -87,12 +159,11 @@ slingshot_render_redesign_header( array(
 			<h2 class="teams-offer-heading"><?php echo esc_html( slingshot_pm( 'staug_offer_heading', 'What We Offer' ) ); ?></h2>
 
 			<?php if ( ! empty( $offer_cards ) ) : ?>
-			<div class="teams-offer-cards">
+				<div class="teams-offer-cards">
 				<?php foreach ( $offer_cards as $card ) : ?>
 				<div class="teams-offer-card">
-					<?php if ( ! empty( $card['icon_svg'] ) ) : ?>
-					<div class="teams-offer-card-icon"><?php echo $card['icon_svg']; // phpcs:ignore ?></div>
-					<?php endif; ?>
+					<?php $icon_svg = ! empty( $card['icon_svg'] ) ? (string) $card['icon_svg'] : $staug_icon_svg( (string) ( $card['icon_key'] ?? 'bolt' ) ); ?>
+					<div class="teams-offer-card-icon"><?php echo $icon_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 					<h3 class="teams-offer-card-title"><?php echo esc_html( (string) ( $card['title'] ?? '' ) ); ?></h3>
 					<p class="teams-offer-card-desc"><?php echo esc_html( (string) ( $card['desc'] ?? '' ) ); ?></p>
 				</div>
@@ -109,45 +180,55 @@ slingshot_render_redesign_header( array(
 				<h2 class="teams-why-deliver-heading"><?php echo esc_html( slingshot_pm( 'staug_why_heading', 'Why Slingshot Global Talent Delivers' ) ); ?></h2>
 				<p class="teams-why-deliver-desc"><?php echo esc_html( slingshot_pm( 'staug_why_desc', 'Our talent network spans Latin America and Eastern Europe — time-zone-aligned, culturally compatible senior engineers.' ) ); ?></p>
 
+				<?php $why_kicker = slingshot_pm( 'staug_why_kicker', 'Why Slingshot Global Talent Delivers' ); if ( $why_kicker ) : ?>
+				<p class="teams-why-deliver-kicker"><?php echo esc_html( $why_kicker ); ?></p>
+				<?php endif; ?>
+
 				<?php if ( ! empty( $why_points ) ) : ?>
-				<ul class="teams-why-points">
-					<?php foreach ( $why_points as $pt ) : ?>
-					<li class="teams-why-point">
-						<div class="teams-why-point-icon">
-							<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#23B7B4" fill-opacity="0.15"/><path d="M5 9l3 3 5-5" stroke="#23B7B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-						</div>
-						<div>
-							<strong class="teams-why-point-title"><?php echo esc_html( (string) ( $pt['title'] ?? '' ) ); ?></strong>
-							<?php if ( ! empty( $pt['desc'] ) ) : ?>
-							<p class="teams-why-point-desc"><?php echo esc_html( (string) $pt['desc'] ); ?></p>
-							<?php endif; ?>
-						</div>
-					</li>
+				<div class="teams-why-points">
+					<?php foreach ( $why_points as $pt ) :
+						$icon_svg = ! empty( $pt['icon_svg'] ) ? (string) $pt['icon_svg'] : $staug_icon_svg( (string) ( $pt['icon_key'] ?? 'globe' ) );
+						?>
+					<div class="teams-why-point">
+						<div class="teams-why-point-icon"><?php echo $icon_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+						<strong class="teams-why-point-title"><?php echo esc_html( (string) ( $pt['title'] ?? '' ) ); ?></strong>
+						<?php if ( ! empty( $pt['desc'] ) ) : ?>
+						<p class="teams-why-point-desc"><?php echo esc_html( (string) $pt['desc'] ); ?></p>
+						<?php endif; ?>
+					</div>
 					<?php endforeach; ?>
-				</ul>
+				</div>
 				<?php endif; ?>
 			</div>
 
-			<div class="teams-why-deliver-image">
+			<div class="teams-why-deliver-image teams-staug-map-wrap">
 				<?php $why_img = slingshot_pm_image( 'staug_why_img', '' ); ?>
 				<?php if ( $why_img ) : ?>
 					<img src="<?php echo esc_url( $why_img ); ?>" alt="Global team" loading="lazy">
 				<?php else : ?>
-					<div class="teams-why-deliver-visual">
-						<!-- World map placeholder graphic -->
-						<svg viewBox="0 0 480 320" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-							<rect width="480" height="320" rx="20" fill="linear-gradient(135deg,#0d0630,#1d0d58)"/>
-							<ellipse cx="240" cy="160" rx="160" ry="130" fill="rgba(75,35,176,0.1)" stroke="rgba(75,35,176,0.2)" stroke-width="1"/>
-							<ellipse cx="240" cy="160" rx="110" ry="130" fill="none" stroke="rgba(75,35,176,0.12)" stroke-width="1"/>
-							<circle cx="160" cy="130" r="6" fill="#23B7B4"/>
-							<circle cx="160" cy="130" r="12" fill="rgba(35,183,180,0.2)"/>
-							<circle cx="310" cy="120" r="6" fill="#23B7B4"/>
-							<circle cx="310" cy="120" r="12" fill="rgba(35,183,180,0.2)"/>
-							<circle cx="200" cy="200" r="5" fill="#4B23B0"/>
-							<circle cx="200" cy="200" r="10" fill="rgba(75,35,176,0.25)"/>
-							<line x1="160" y1="130" x2="310" y2="120" stroke="rgba(35,183,180,0.3)" stroke-width="1" stroke-dasharray="4 4"/>
-							<line x1="160" y1="130" x2="200" y2="200" stroke="rgba(75,35,176,0.3)" stroke-width="1" stroke-dasharray="4 4"/>
-						</svg>
+					<div class="teams-staug-map" aria-hidden="true">
+						<div class="teams-staug-map-dots"></div>
+						<?php foreach ( array_values( $region_cards ) as $idx => $region ) :
+							$is_featured = ! empty( $region['featured'] );
+							$lines       = slingshot_lp_bullet_lines( (string) ( $region['body'] ?? '' ) );
+							?>
+						<div class="teams-staug-region-card teams-staug-region-card-<?php echo esc_attr( (string) ( $idx + 1 ) ); ?><?php echo $is_featured ? ' teams-staug-region-card--featured' : ''; ?>">
+							<div class="teams-staug-region-head">
+								<strong><?php echo esc_html( (string) ( $region['title'] ?? '' ) ); ?></strong>
+								<span><?php echo $is_featured ? '&#8722;' : '+'; ?></span>
+							</div>
+							<div class="teams-staug-region-avatars">
+								<i></i><i></i><i></i><i></i><i></i>
+							</div>
+							<?php if ( ! empty( $lines ) ) : ?>
+							<ul>
+								<?php foreach ( $lines as $line ) : ?>
+								<li><?php echo esc_html( $line ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+							<?php endif; ?>
+						</div>
+						<?php endforeach; ?>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -161,12 +242,20 @@ slingshot_render_redesign_header( array(
 			<div class="teams-roles-header">
 				<h2 class="teams-roles-heading"><?php echo esc_html( slingshot_pm( 'staug_roles_heading', 'Roles We Have Staffed' ) ); ?></h2>
 				<?php
-				$vall_url  = slingshot_pm( 'staug_roles_view_all_url', '' );
-				$vall_text = slingshot_pm( 'staug_roles_view_all_text', 'View All' );
+				$vall_url  = slingshot_pm( 'staug_roles_view_all_url', slingshot_pm( 'staug_why_cta_url', '/contact/?looking=Staff+Aug' ) );
+				$vall_text = slingshot_pm( 'staug_roles_view_all_text', 'Start Hiring Now' );
 				if ( $vall_url ) : ?>
 				<a href="<?php echo slingshot_lp_h_attr( $vall_url ); ?>" class="teams-roles-view-all"><?php echo esc_html( $vall_text ); ?></a>
 				<?php endif; ?>
 			</div>
+
+			<?php if ( ! empty( $role_filters ) ) : ?>
+			<div class="teams-roles-filters" aria-label="Role filters">
+				<?php foreach ( $role_filters as $idx => $filter ) : ?>
+				<button type="button" class="teams-role-filter<?php echo 0 === $idx ? ' is-active' : ''; ?>"><?php echo esc_html( $filter ); ?></button>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
 
 			<div class="teams-roles-grid">
 				<?php foreach ( $roles as $role ) :
@@ -190,8 +279,21 @@ slingshot_render_redesign_header( array(
 						</span>
 						<?php endif; ?>
 					</div>
+					<?php if ( ! empty( $role['experience'] ) || ! empty( $role['story'] ) ) : ?>
+					<div class="teams-role-card-details">
+						<?php if ( ! empty( $role['experience'] ) ) : ?><p class="teams-role-experience"><?php echo esc_html( (string) $role['experience'] ); ?></p><?php endif; ?>
+						<?php if ( ! empty( $role['story'] ) ) : ?><p class="teams-role-story"><?php echo esc_html( (string) $role['story'] ); ?></p><?php endif; ?>
+					</div>
+					<?php endif; ?>
 				</div>
 				<?php endforeach; ?>
+			</div>
+			<div class="home-carousel-footer teams-carousel-footer">
+				<div class="home-carousel-progress"><span></span></div>
+				<div class="carousel-nav">
+					<button class="carousel-nav-btn" type="button" aria-label="Previous">&#8249;</button>
+					<button class="carousel-nav-btn" type="button" aria-label="Next">&#8250;</button>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -235,10 +337,11 @@ slingshot_render_redesign_header( array(
 		<div class="teams-cta-inner">
 			<div class="home-cta-mascot">
 				<?php
-				$mascot_file_path = get_stylesheet_directory() . '/img/cta-mascot.png';
-				$mascot_file_url  = get_stylesheet_directory_uri() . '/img/cta-mascot.png';
-				if ( file_exists( $mascot_file_path ) ) : ?>
-					<img src="<?php echo esc_url( $mascot_file_url ); ?>" alt="Slingshot mascot">
+				$cta_visual_file_path = get_stylesheet_directory() . '/img/teams-cta-visual.png';
+				$cta_visual_file_url  = get_stylesheet_directory_uri() . '/img/teams-cta-visual.png';
+				$mascot_file_url      = slingshot_pm_image( 'staug_cta_visual', file_exists( $cta_visual_file_path ) ? $cta_visual_file_url : get_stylesheet_directory_uri() . '/img/cta-mascot.png' );
+				if ( $mascot_file_url ) : ?>
+					<img src="<?php echo esc_url( $mascot_file_url ); ?>" alt="Slingshot team call">
 				<?php else : ?>
 				<svg class="home-cta-mascot-svg" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<ellipse cx="140" cy="290" rx="55" ry="16" fill="rgba(75,35,176,.12)"/>
@@ -253,8 +356,8 @@ slingshot_render_redesign_header( array(
 			</div>
 			<div class="teams-cta-card">
 				<h2 class="teams-cta-title"><?php echo esc_html( slingshot_pm( 'staug_cta_title', 'Ready to Move Faster?' ) ); ?></h2>
-				<p class="teams-cta-desc"><?php echo esc_html( slingshot_pm( 'staug_cta_desc', "Tell us the roles you need and we'll have qualified candidates in front of you within 48 hours." ) ); ?></p>
-				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'staug_cta_btn_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-cta-btn"><?php echo esc_html( slingshot_pm( 'staug_cta_btn_text', 'Start the Conversation →' ) ); ?></a>
+				<p class="teams-cta-desc"><?php echo esc_html( slingshot_pm( 'staug_cta_desc', "Let's build the right team to hit your next milestone, without slowing down or hiring full-time." ) ); ?></p>
+				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'staug_cta_btn_url', '/contact/?looking=Staff+Aug' ) ); ?>" class="teams-cta-btn"><?php echo esc_html( slingshot_pm( 'staug_cta_btn_text', 'Start Your Team →' ) ); ?></a>
 			</div>
 		</div>
 	</section>

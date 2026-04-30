@@ -10,8 +10,8 @@ wp_enqueue_style(
 	array(), null
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
-wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.1' );
-wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.1' );
+wp_enqueue_style( 'teams-style', get_stylesheet_directory_uri() . '/css/teams.css', array(), '1.3' );
+wp_enqueue_style( 'teams-figma-skin', get_stylesheet_directory_uri() . '/css/teams-figma-skin.css', array( 'teams-style' ), '1.3' );
 wp_enqueue_script( 'teams-script', get_stylesheet_directory_uri() . '/js/teams.js', array( 'jquery' ), '1.0', true );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
@@ -117,8 +117,8 @@ if ( ! $ded_has_rows( $test_items ) ) {
 <?php
 slingshot_render_redesign_header( array(
 	'variant' => 'light',
-	'cta_url' => slingshot_lp_h_attr( slingshot_pm( 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ),
-	'cta_text' => slingshot_pm( 'ded_hero_cta_text', 'Build Your Team' ),
+	'cta_url' => slingshot_lp_h_attr( slingshot_pm( 'ded_header_cta_url', '/contact/?looking=Dedicated+Teams' ) ),
+	'cta_text' => slingshot_pm( 'ded_header_cta_text', "Let's talk" ),
 ) );
 ?>
 
@@ -133,14 +133,14 @@ slingshot_render_redesign_header( array(
 		<div class="teams-hero-inner">
 			<div class="teams-hero-content">
 				<div class="teams-hero-breadcrumb">
-					<span><?php echo esc_html( slingshot_pm( 'ded_hero_bc_parent', 'TEAMS' ) ); ?></span>
+					<span><?php echo esc_html( slingshot_pm( 'ded_hero_bc_parent', 'SERVICES / TEAMS' ) ); ?></span>
 					<span class="teams-hero-sep">/</span>
 					<span><?php echo esc_html( slingshot_pm( 'ded_hero_bc_leaf', 'DEDICATED TEAMS' ) ); ?></span>
 				</div>
 				<h1 class="teams-hero-heading"><?php echo nl2br( esc_html( slingshot_pm( 'ded_hero_heading', 'Dedicated Teams That Deliver' ) ) ); ?></h1>
-				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'ded_hero_subtext', 'A fully managed, embedded squad — engineers, a tech lead, and a PM — built around your product.' ) ); ?></p>
+				<p class="teams-hero-subtext"><?php echo esc_html( slingshot_pm( 'ded_hero_subtext', 'When you need more execution power without adding headcount or creating overhead, a Slingshot team plugs in and drives delivery.' ) ); ?></p>
 				<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_hero_cta_url', '/contact/?looking=Dedicated+Teams' ) ); ?>" class="teams-hero-btn">
-					<?php echo esc_html( slingshot_pm( 'ded_hero_cta_text', 'Build Your Team' ) ); ?> <span>&#8594;</span>
+					<?php echo esc_html( slingshot_pm( 'ded_hero_cta_text', 'Book a call' ) ); ?> <span>&#8594;</span>
 				</a>
 			</div>
 
@@ -189,7 +189,7 @@ slingshot_render_redesign_header( array(
 		<div class="teams-get-inner">
 			<div class="teams-get-content">
 				<h2 class="teams-get-heading"><?php echo esc_html( slingshot_pm( 'ded_get_heading', 'What You Get' ) ); ?></h2>
-				<p class="teams-get-desc"><?php echo esc_html( slingshot_pm( 'ded_get_desc', 'A cross-functional, dedicated squad that slots into your workflow and starts shipping in weeks, not months.' ) ); ?></p>
+				<p class="teams-get-desc"><?php echo esc_html( slingshot_pm( 'ded_get_desc', 'A Slingshot Dedicated Team plugs into your org and drives delivery, from an idea to launch. Built with U.S.-based leadership and global technical talent, these teams bring process, skill, and momentum. You get execution without micromanagement.' ) ); ?></p>
 				<p class="teams-get-kicker"><?php echo esc_html( slingshot_pm( 'ded_get_kicker', 'Why Slingshot Global Talent Delivers' ) ); ?></p>
 				<div class="teams-get-card-grid">
 					<?php foreach ( $ded_get_cards as $card ) :

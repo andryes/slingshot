@@ -101,3 +101,18 @@ body.page-template-page-teams .teams-cta-btn {
 	background: #fff;
 	color: #242328 !important;
 }
+
+body.page-template-page-teams .teams-hero,
+body.page-template-page-teams-dedicated .teams-hero,
+body.page-template-page-teams-staffaug .teams-hero,
+body.page-template-page-teams-whitepaper .teams-hero {
+	background-color: #087566;
+	background-image:
+		radial-gradient(ellipse 860px 720px at 57% 1%, rgba(255,255,255,.11) 0 22%, transparent 23%),
+		radial-gradient(ellipse 980px 860px at 35% 77%, rgba(86,210,183,.25) 0 30%, transparent 31%),
+		radial-gradient(ellipse 510px 420px at 31% 104%, rgba(2,75,65,.52) 0 29%, transparent 54%),
+		radial-gradient(ellipse 680px 560px at 93% 56%, rgba(65,190,165,.31) 0 34%, transparent 59%),
+		linear-gradient(119deg, #096f62 0%, #168f7f 47%, #025f52 100%);
+	background-position: center;
+	background-size: cover;
+}

@@ -717,6 +717,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'name', 'name' => 'Name', 'type' => 'text' ],
 		[ 'id' => 'role', 'name' => 'Role title', 'type' => 'text' ],
 		[ 'id' => 'location', 'name' => 'Location', 'type' => 'text' ],
+		[ 'id' => 'category', 'name' => 'Category / filter', 'type' => 'text' ],
+		[ 'id' => 'experience', 'name' => 'Experience line', 'type' => 'text' ],
+		[ 'id' => 'story', 'name' => 'Short result / story', 'type' => 'textarea', 'rows' => 3 ],
 	];
 
 	$feature_card_fields = [
@@ -726,7 +729,14 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
 	];
 
+	$staug_region_fields = [
+		[ 'id' => 'title', 'name' => 'Region title', 'type' => 'text' ],
+		[ 'id' => 'body', 'name' => 'Bullets / description (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+		[ 'id' => 'featured', 'name' => 'Featured teal card', 'type' => 'checkbox' ],
+	];
+
 	$whitepaper_section_fields = [
+		[ 'id' => 'icon_key', 'name' => 'Icon key (optional)', 'type' => 'text' ],
 		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
 		[ 'id' => 'title', 'name' => 'Section title', 'type' => 'text' ],
 		[ 'id' => 'desc', 'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
@@ -906,11 +916,13 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Dedicated · Hero',
 		'id'     => 'lp_ded_hero',
 		'fields' => [
-			[ 'id' => 'ded_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'TEAMS' ],
+			[ 'id' => 'ded_header_cta_text', 'name' => 'Header CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'ded_header_cta_url', 'name' => 'Header CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Dedicated+Teams' ],
+			[ 'id' => 'ded_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'SERVICES / TEAMS' ],
 			[ 'id' => 'ded_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'DEDICATED TEAMS' ],
 			[ 'id' => 'ded_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ded_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
-			[ 'id' => 'ded_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Build Your Team' ],
+			[ 'id' => 'ded_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Book a call' ],
 			[ 'id' => 'ded_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Dedicated+Teams' ],
 			[ 'id' => 'ded_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'ded_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
@@ -1082,11 +1094,13 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Staff Aug · Hero',
 		'id'     => 'lp_staug_hero',
 		'fields' => [
-			[ 'id' => 'staug_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'TEAMS' ],
-			[ 'id' => 'staug_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'STAFF AUGMENTATION' ],
+			[ 'id' => 'staug_header_cta_text', 'name' => 'Header CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'staug_header_cta_url', 'name' => 'Header CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Staff+Aug' ],
+			[ 'id' => 'staug_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'SERVICES / TEAMS' ],
+			[ 'id' => 'staug_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'STAFF AUG' ],
 			[ 'id' => 'staug_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'staug_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
-			[ 'id' => 'staug_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Scale Your Team' ],
+			[ 'id' => 'staug_hero_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Start Building Your Team' ],
 			[ 'id' => 'staug_hero_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Staff+Aug' ],
 			[ 'id' => 'staug_hero_img_a', 'name' => 'Photo left', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'staug_hero_img_b', 'name' => 'Photo right', 'type' => 'single_image', 'force_delete' => false ],
@@ -1116,6 +1130,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'staug_why_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'staug_why_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'staug_why_kicker', 'name' => 'Cards kicker label', 'type' => 'text', 'std' => 'Why Slingshot Global Talent Delivers' ],
+			[ 'id' => 'staug_why_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Start Hiring Now' ],
+			[ 'id' => 'staug_why_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Staff+Aug' ],
 			[ 'id' => 'staug_why_img', 'name' => 'Side image', 'type' => 'single_image', 'force_delete' => false ],
 			[
 				'id'         => 'staug_why_points',
@@ -1125,9 +1142,20 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'sort_clone' => true,
 				'add_button' => '+ Add point',
 				'fields'     => [
+					[ 'id' => 'icon_key', 'name' => 'Icon key (optional)', 'type' => 'text' ],
+					[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
 					[ 'id' => 'title', 'name' => 'Point title', 'type' => 'text' ],
 					[ 'id' => 'desc', 'name' => 'Point description', 'type' => 'textarea', 'rows' => 2 ],
 				],
+			],
+			[
+				'id'         => 'staug_region_cards',
+				'name'       => 'Map region cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add region',
+				'fields'     => $staug_region_fields,
 			],
 		],
 	];
@@ -1137,8 +1165,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_staug_roles',
 		'fields' => [
 			[ 'id' => 'staug_roles_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Roles We Have Staffed' ],
-			[ 'id' => 'staug_roles_view_all_text', 'name' => 'View all label', 'type' => 'text', 'std' => 'View All' ],
+			[ 'id' => 'staug_roles_view_all_text', 'name' => 'View all label', 'type' => 'text', 'std' => 'Start Hiring Now' ],
 			[ 'id' => 'staug_roles_view_all_url', 'name' => 'View all URL', 'type' => 'text' ],
+			[ 'id' => 'staug_roles_filters', 'name' => 'Filter labels (one per line)', 'type' => 'textarea', 'rows' => 4, 'std' => "All Roles\nDevelopment\nProject Manager\nDesigners\nQA" ],
 			[
 				'id'         => 'staug_roles_items',
 				'name'       => 'Role cards',
@@ -1174,6 +1203,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'staug_cta_title', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'staug_cta_desc', 'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'staug_cta_visual', 'name' => 'CTA visual image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'staug_cta_btn_text', 'name' => 'Button label', 'type' => 'text' ],
 			[ 'id' => 'staug_cta_btn_url', 'name' => 'Button URL', 'type' => 'text' ],
 		],
@@ -1184,7 +1214,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Whitepaper · Hero',
 		'id'     => 'lp_wp_hero',
 		'fields' => [
-			[ 'id' => 'wp_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'TEAMS' ],
+			[ 'id' => 'wp_header_cta_text', 'name' => 'Header CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'wp_header_cta_url', 'name' => 'Header CTA URL', 'type' => 'text', 'std' => '/contact/?looking=Whitepaper' ],
+			[ 'id' => 'wp_hero_bc_parent', 'name' => 'Breadcrumb left', 'type' => 'text', 'std' => 'SERVICES / TEAMS' ],
 			[ 'id' => 'wp_hero_bc_leaf', 'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'WHITEPAPER' ],
 			[ 'id' => 'wp_hero_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'wp_hero_subtext', 'name' => 'Subtext', 'type' => 'textarea' ],
@@ -1216,12 +1248,15 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Whitepaper · Download block',
 		'id'     => 'lp_wp_download',
 		'fields' => [
-			[ 'id' => 'wp_dl_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Download The Whitepaper' ],
+			[ 'id' => 'wp_dl_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Download The Paper' ],
 			[ 'id' => 'wp_dl_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'wp_dl_cover_img', 'name' => 'Cover / record image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'wp_dl_file_url', 'name' => 'PDF download URL', 'type' => 'text' ],
-			[ 'id' => 'wp_dl_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Download Free Guide' ],
+			[ 'id' => 'wp_dl_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Download Now' ],
 			[ 'id' => 'wp_dl_gravity_form_id', 'name' => 'Gravity Form ID (optional)', 'type' => 'number', 'min' => 0 ],
+			[ 'id' => 'wp_dl_name_label', 'name' => 'Name label', 'type' => 'text', 'std' => 'Name' ],
+			[ 'id' => 'wp_dl_email_label', 'name' => 'Email label', 'type' => 'text', 'std' => 'Email' ],
+			[ 'id' => 'wp_dl_company_label', 'name' => 'Company label', 'type' => 'text', 'std' => 'Company' ],
 		],
 	];
 
