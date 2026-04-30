@@ -8,7 +8,7 @@ wp_enqueue_style( 'pages-figma-jakarta',  'https://fonts.googleapis.com/css2?fam
 wp_enqueue_style( 'home-style',           get_stylesheet_directory_uri() . '/css/home.css',          array(), '1.18' );
 wp_enqueue_style( 'service-figma-style',  get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
 wp_enqueue_style( 'pages-figma-style',    get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.0' );
-wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.0' );
+wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.6' );
 wp_enqueue_script( 'hp-script',           get_stylesheet_directory_uri() . '/js/home.js',            array( 'jquery' ), '1.6', true );
 
 get_header();
@@ -20,37 +20,44 @@ $mascot_url  = $img_dir . '/cta-mascot.png';
 // ── Hero ──────────────────────────────────────────────────────
 $hero_label    = slingshot_pm( 'amb_hero_label',    'SLINGSHOT AMBASSADORS' );
 $hero_heading  = slingshot_pm( 'amb_hero_heading',  "Be the Voice of What's Next" );
-$hero_desc     = slingshot_pm( 'amb_hero_desc',     "Slingshot Ambassadors are innovators, champions, and connectors shaping the future of tech strategy, startup thinking, and driving the next generation of digital leaders." );
-$hero_btn_text = slingshot_pm( 'amb_hero_btn_text', 'Become an Ambassador' );
+$hero_desc     = slingshot_pm( 'amb_hero_desc',     'Slingshot Ambassadors are innovation champions, leaders, founders, product owners, and bold thinkers helping shape the future of tech, strategy, and business outcomes.' );
+$hero_btn_text = slingshot_pm( 'amb_hero_btn_text', 'Join the Ambassador Circle' );
 $hero_btn_url  = slingshot_pm( 'amb_hero_btn_url',  '#ambassador-form' );
 $hero_img      = slingshot_pm_image( 'amb_hero_img', '' );
+$hero_img_b    = slingshot_pm_image( 'amb_hero_img_b', '' );
+if ( ! $hero_img ) {
+	$hero_img = $img_dir . '/ambassadors-hero-a.png';
+}
+if ( ! $hero_img_b ) {
+	$hero_img_b = $img_dir . '/ambassadors-hero-b.png';
+}
 
 // ── Benefits ──────────────────────────────────────────────────
-$ben_heading = slingshot_pm( 'amb_ben_heading', "You've Helped Build What's Next — Now Help Amplify It" );
-$ben_desc    = slingshot_pm( 'amb_ben_desc',    "As a Slingshot Ambassador, you'll become a strategic partner, thought leader, and key connector in a network that's shaping the next generation of digital leaders." );
+$ben_heading = slingshot_pm( 'amb_ben_heading', "You've Helped Build What's Next—Now Help Amplify It" );
+$ben_desc    = slingshot_pm( 'amb_ben_desc',    "As a Slingshot Ambassador, you've seen firsthand what's possible when vision meets capability. Now, you can amplify that momentum, helping more people bring big ideas to life.\n\nThis isn't about being a fan. It's about being part of a forward-looking group of product-minded, change-focused professionals who want to influence what innovation looks like across industries.\n\nWhether you're a CEO, a product leader, or a strategic partner, you belong here." );
 $ben_cards   = slingshot_pm( 'amb_ben_cards', [] );
 $ben_cards   = is_array( $ben_cards ) ? $ben_cards : [];
 if ( empty( $ben_cards ) ) {
 	$ben_cards = [
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#6D44B7" fill-opacity=".1"/><path d="M22 12v20M12 22h20" stroke="#6D44B7" stroke-width="2" stroke-linecap="round"/></svg>',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="13" r="3" stroke="#23B7B4" stroke-width="2"/><circle cx="13" cy="29" r="3" stroke="#23B7B4" stroke-width="2"/><circle cx="31" cy="29" r="3" stroke="#23B7B4" stroke-width="2"/><path d="M20.5 15.8 14.6 26M23.5 15.8 29.4 26M16 29h12" stroke="#23B7B4" stroke-width="2" stroke-linecap="round"/></svg>',
 			'heading'  => 'Early Access to Innovation',
-			'desc'     => "Be the first to preview Slingshot's new capabilities, AI tools, and strategic frameworks before they're publicly available.",
+			'desc'     => 'Be first to explore new Slingshot tech pilots, design tools, and product launches',
 		],
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#23B7B4" fill-opacity=".1"/><path d="M15 22l5 5 9-10" stroke="#23B7B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-			'heading'  => 'EU Referral Bonus + Public Recognition',
-			'desc'     => 'Earn meaningful referral bonuses when you introduce companies to Slingshot — and get recognized publicly for your impact.',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="14" stroke="#7A4FEB" stroke-width="2"/><path d="M22 14v16M18 18.5c0-1.9 1.7-3 4.1-3 2.1 0 3.8.8 4.5 2.2M17.8 26.5c.9 1.5 2.6 2.3 4.8 2.3 2.5 0 4.2-1.1 4.2-3 0-1.6-1.3-2.6-4.2-3.1-2.9-.6-4.5-1.6-4.5-3.3" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/></svg>',
+			'heading'  => '$1K Referral Bonus + Public Recognition',
+			'desc'     => 'Your intros matter—and when they lead to partnerships, we celebrate them (and you)',
 		],
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#6D44B7" fill-opacity=".1"/><circle cx="22" cy="19" r="5" stroke="#6D44B7" stroke-width="2"/><path d="M12 34c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#6D44B7" stroke-width="2" stroke-linecap="round"/></svg>',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><path d="M15 27c-2.3-2.2-3.4-4.7-3.4-7.6 0-5.6 4.5-10.1 10.1-10.1 4.5 0 8.3 2.8 9.6 6.8" stroke="#EF6D63" stroke-width="2" stroke-linecap="round"/><path d="M28.5 22.5l2 1.1 2.1-1.1 1.3 2-1.8 1.6.2 2.4-2.3.5-1-2.1-2.4-.2-.5-2.3 2.1-1 .3-2.4z" stroke="#EF6D63" stroke-width="1.8" stroke-linejoin="round"/><path d="M17 31c1.1-2.6 2.8-3.9 5-3.9 1.4 0 2.6.5 3.6 1.5" stroke="#EF6D63" stroke-width="2" stroke-linecap="round"/></svg>',
 			'heading'  => 'Innovation Peer Circle',
-			'desc'     => 'Connect with a curated group of forward-thinking leaders across industries — share ideas, solve problems together, and stay ahead.',
+			'desc'     => 'Connect with a network of visionaries across industries, roles, and disciplines',
 		],
 		[
-			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#23B7B4" fill-opacity=".1"/><path d="M22 14l3 9h9l-7 5 3 9-8-6-8 6 3-9-7-5h9z" stroke="#23B7B4" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><path d="M11 31c1.5-4.2 4.1-6.4 7.8-6.4M18.8 22.4a4.6 4.6 0 1 0 0-9.2 4.6 4.6 0 0 0 0 9.2zM27 31V16h7v15M24 31h13M30.5 16v-5" stroke="#4D86D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 			'heading'  => 'Direct Access to Slingshot Leaders',
-			'desc'     => "Get direct access to Slingshot's leadership team for strategic conversations, mentorship, and collaboration opportunities.",
+			'desc'     => 'Influence our direction through strategic feedback and idea exchanges',
 		],
 	];
 }
@@ -62,38 +69,60 @@ $con_cards   = is_array( $con_cards ) ? $con_cards : [];
 if ( empty( $con_cards ) ) {
 	$con_cards = [
 		[
-			'icon_svg' => '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#f0eeff"/><path d="M12 20l5 5 11-11" stroke="#6D44B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-			'heading'  => 'Introduce Forward-Thinking Leaders',
-			'desc'     => 'Connect us with executives, founders, and innovators in your network who could benefit from what Slingshot builds.',
+			'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><circle cx="16" cy="17" r="4" stroke="#7A4FEB" stroke-width="2"/><circle cx="28" cy="16" r="3" stroke="#26B4B0" stroke-width="2"/><path d="M9 31c1.5-4.2 3.9-6.3 7-6.3s5.5 2.1 7 6.3M24 29c1.1-2.6 2.5-3.9 4.2-3.9 1.8 0 3.3 1.3 4.4 3.9" stroke="#282828" stroke-width="2" stroke-linecap="round"/></svg>',
+			'heading'  => 'Introduce Forward - Thinking Leaders',
+			'desc'     => 'Connect your network to a partner who can deliver on big ideas',
 		],
 		[
-			'icon_svg' => '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#f0eeff"/><path d="M14 20h12M20 14v12" stroke="#6D44B7" stroke-width="2" stroke-linecap="round"/></svg>',
+			'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><path d="M13 15h16M13 21h16M13 27h10" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/><path d="M29 27l3 3 5-6" stroke="#26B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 			'heading'  => 'Share What Works',
-			'desc'     => 'Share Slingshot insights, frameworks, and thinking with your audience — across talks, posts, podcasts, or conversations.',
+			'desc'     => "Your wins help others see what's possible—and how to get there faster",
 		],
 		[
-			'icon_svg' => '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#f0eeff"/><path d="M20 10v20M10 20h20" stroke="#6D44B7" stroke-width="2" stroke-linecap="round"/></svg>',
+			'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><path d="M21 11v20M11 21h20" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="21" r="12" stroke="#26B4B0" stroke-width="2"/></svg>',
 			'heading'  => "Shape What's Next",
-			'desc'     => "Offer feedback on Slingshot's direction, products, and strategy — your voice directly influences how we build and grow.",
+			'desc'     => 'Help guide future services and priorities through honest, strategic feedback',
 		],
 		[
-			'icon_svg' => '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#f0eeff"/><path d="M20 12l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" stroke="#6D44B7" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+			'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><path d="M21 12l2.8 7.1 7.6.5-5.9 4.8 1.9 7.4-6.4-4.1-6.4 4.1 1.9-7.4-5.9-4.8 7.6-.5L21 12z" stroke="#7A4FEB" stroke-width="2" stroke-linejoin="round"/></svg>',
 			'heading'  => 'Champion Innovation in Your Space',
-			'desc'     => 'Represent a culture of bold thinking, continuous learning, and real-world impact in every room you walk into.',
+			'desc'     => "Whether it's in healthcare, fintech, logistics, or SaaS—your voice matters",
 		],
 	];
 }
 $con_img = slingshot_pm_image( 'amb_con_img', '' );
+if ( ! $con_img ) {
+	$con_img = $img_dir . '/ambassadors-contribute.png';
+}
 
 // ── Form ──────────────────────────────────────────────────────
 $form_heading     = slingshot_pm( 'amb_form_heading',     "Become Part of a Circle That's Building Bold" );
-$form_desc        = slingshot_pm( 'amb_form_desc',        "We're looking for innovators, leaders, and connectors who are passionate about helping others build something bold for the future." );
+$form_desc        = slingshot_pm( 'amb_form_desc',        "We're inviting advocates, leaders, and innovators to help shape the next generation of digital impact together." );
 $form_who_label   = slingshot_pm( 'amb_form_who_label',   'Who Should Join?' );
-$form_who_bullets = slingshot_pm( 'amb_form_who_bullets', "Technology executives and thought leaders\nFounders and startup ecosystem connectors\nInvestors and advisors passionate about tech\nCommunity builders and conference speakers\nPast Slingshot clients who love what we built" );
+$form_who_bullets = slingshot_pm( 'amb_form_who_bullets', "You've worked with Slingshot as a client, collaborator, or strategic partner.\nYou're leading, building, or influencing technology, product, or business decisions.\nYou care about solving real problems, building smart, and sharing what works.\nYou want to help shape innovation, not just react to it." );
 $form_card_heading = slingshot_pm( 'amb_form_card_heading', 'Request a Speaker' );
 $form_gf_id        = (int) slingshot_pm( 'amb_form_gf_id', 0 );
+$form_action_url   = slingshot_pm( 'amb_form_action_url', '#' );
+$form_name_label   = slingshot_pm( 'amb_form_name_placeholder', 'Name*' );
+$form_org_label    = slingshot_pm( 'amb_form_org_placeholder', 'Organization' );
+$form_email_label  = slingshot_pm( 'amb_form_email_placeholder', 'Email*' );
+$form_phone_label  = slingshot_pm( 'amb_form_phone_placeholder', 'Phone*' );
+$form_event_label  = slingshot_pm( 'amb_form_event_placeholder', 'Event*' );
+$form_msg_label    = slingshot_pm( 'amb_form_message_placeholder', 'What are you looking for?' );
+$form_submit_text  = slingshot_pm( 'amb_form_submit', 'Submit Request' );
 
 $who_bullets = array_filter( array_map( 'trim', explode( "\n", $form_who_bullets ) ) );
+$ben_desc_paragraphs = array_filter( array_map( 'trim', preg_split( '/\R{2,}/', (string) $ben_desc ) ) );
+$amb_field_label = static function( $label ) {
+	$label = trim( (string) $label );
+	if ( '' === $label ) {
+		return '';
+	}
+	if ( '*' === substr( $label, -1 ) ) {
+		return esc_html( substr( $label, 0, -1 ) ) . '<span class="amb-required">*</span>';
+	}
+	return esc_html( $label );
+};
 ?>
 <style>
 body.page-template-page-ambassadors-figma #header-outer,
@@ -123,9 +152,18 @@ body.page-template-page-ambassadors-figma #header-space { display:none !importan
 				</a>
 			</div>
 
-			<?php if ( $hero_img ) : ?>
-			<div class="amb-hero-img">
-				<img src="<?php echo esc_url( $hero_img ); ?>" alt="">
+			<?php if ( $hero_img || $hero_img_b ) : ?>
+			<div class="amb-hero-imgs">
+				<?php if ( $hero_img ) : ?>
+				<div class="amb-hero-img amb-hero-img--a">
+					<img src="<?php echo esc_url( $hero_img ); ?>" alt="">
+				</div>
+				<?php endif; ?>
+				<?php if ( $hero_img_b ) : ?>
+				<div class="amb-hero-img amb-hero-img--b">
+					<img src="<?php echo esc_url( $hero_img_b ); ?>" alt="">
+				</div>
+				<?php endif; ?>
 			</div>
 			<?php endif; ?>
 		</div>
@@ -133,10 +171,16 @@ body.page-template-page-ambassadors-figma #header-space { display:none !importan
 
 	<!-- ── BENEFITS ──────────────────────────────────────── -->
 	<section class="amb-benefits-section">
-		<h2 class="fig-section-heading"><?php echo esc_html( $ben_heading ); ?></h2>
-		<?php if ( $ben_desc ) : ?>
-		<p class="fig-section-desc"><?php echo esc_html( $ben_desc ); ?></p>
-		<?php endif; ?>
+		<div class="amb-benefits-intro">
+			<h2 class="fig-section-heading"><?php echo esc_html( $ben_heading ); ?></h2>
+			<?php if ( $ben_desc_paragraphs ) : ?>
+			<div class="amb-benefits-copy">
+				<?php foreach ( $ben_desc_paragraphs as $paragraph ) : ?>
+				<p><?php echo esc_html( $paragraph ); ?></p>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
+		</div>
 		<div class="amb-help-grid">
 			<?php foreach ( $ben_cards as $card ) : ?>
 			<div class="amb-help-card">
@@ -196,15 +240,38 @@ body.page-template-page-ambassadors-figma #header-space { display:none !importan
 			<?php if ( $form_gf_id && function_exists( 'gravity_form' ) ) :
 				gravity_form( $form_gf_id, false, false, false, null, true, 1 );
 			else : ?>
-			<form class="fig-form" method="post" action="#">
-				<div class="fig-form-row">
-					<input type="text" class="fig-form-input" placeholder="First Name*" required>
-					<input type="text" class="fig-form-input" placeholder="Last Name*" required>
+			<form class="amb-static-form" method="post" action="<?php echo esc_url( $form_action_url ); ?>">
+				<div class="amb-form-card-divider"></div>
+				<div class="amb-form-row">
+					<label class="amb-form-field">
+						<input type="text" class="amb-form-input" placeholder=" " required>
+						<span class="amb-form-label"><?php echo $amb_field_label( $form_name_label ); ?></span>
+					</label>
+					<label class="amb-form-field">
+						<input type="text" class="amb-form-input" placeholder=" ">
+						<span class="amb-form-label"><?php echo $amb_field_label( $form_org_label ); ?></span>
+					</label>
 				</div>
-				<input type="email" class="fig-form-input" placeholder="Email*" required>
-				<input type="text" class="fig-form-input" placeholder="Organization">
-				<textarea class="fig-form-textarea" rows="3" placeholder="Tell us about yourself and why you'd like to join..."></textarea>
-				<button type="submit" class="fig-form-submit">Submit Request &rarr;</button>
+				<div class="amb-form-row">
+					<label class="amb-form-field">
+						<input type="email" class="amb-form-input" placeholder=" " required>
+						<span class="amb-form-label"><?php echo $amb_field_label( $form_email_label ); ?></span>
+					</label>
+					<label class="amb-form-field">
+						<input type="tel" class="amb-form-input" placeholder=" " required>
+						<span class="amb-form-label"><?php echo $amb_field_label( $form_phone_label ); ?></span>
+					</label>
+				</div>
+				<label class="amb-form-field amb-form-field--full amb-form-field--select">
+					<input type="text" class="amb-form-input" placeholder=" " required>
+					<span class="amb-form-label"><?php echo $amb_field_label( $form_event_label ); ?></span>
+					<span class="amb-form-select-arrow" aria-hidden="true"></span>
+				</label>
+				<label class="amb-form-field amb-form-field--full amb-form-field--message">
+					<textarea class="amb-form-input amb-form-textarea" rows="2" placeholder=" "></textarea>
+					<span class="amb-form-label"><?php echo $amb_field_label( $form_msg_label ); ?></span>
+				</label>
+				<button type="submit" class="amb-form-submit"><?php echo esc_html( $form_submit_text ); ?> &rarr;</button>
 			</form>
 			<?php endif; ?>
 		</div>

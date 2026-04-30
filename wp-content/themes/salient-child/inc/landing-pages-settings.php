@@ -2276,11 +2276,12 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'id'     => 'lp_amb_hero',
 		'fields' => [
 			[ 'id' => 'amb_hero_label',    'name' => 'Label (eyebrow)',  'type' => 'text',         'std' => 'SLINGSHOT AMBASSADORS' ],
-			[ 'id' => 'amb_hero_heading',  'name' => 'Heading',          'type' => 'text' ],
-			[ 'id' => 'amb_hero_desc',     'name' => 'Description',      'type' => 'textarea' ],
-			[ 'id' => 'amb_hero_btn_text', 'name' => 'Button label',     'type' => 'text',         'std' => 'Become an Ambassador' ],
+			[ 'id' => 'amb_hero_heading',  'name' => 'Heading',          'type' => 'text',         'std' => "Be the Voice of What's Next" ],
+			[ 'id' => 'amb_hero_desc',     'name' => 'Description',      'type' => 'textarea',     'std' => 'Slingshot Ambassadors are innovation champions, leaders, founders, product owners, and bold thinkers helping shape the future of tech, strategy, and business outcomes.' ],
+			[ 'id' => 'amb_hero_btn_text', 'name' => 'Button label',     'type' => 'text',         'std' => 'Join the Ambassador Circle' ],
 			[ 'id' => 'amb_hero_btn_url',  'name' => 'Button URL',       'type' => 'text',         'std' => '#ambassador-form' ],
-			[ 'id' => 'amb_hero_img',      'name' => 'Hero image',       'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'amb_hero_img',      'name' => 'Hero photo left',  'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'amb_hero_img_b',    'name' => 'Hero photo right', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
 
@@ -2288,8 +2289,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Ambassadors · Benefits',
 		'id'     => 'lp_amb_benefits',
 		'fields' => [
-			[ 'id' => 'amb_ben_heading', 'name' => 'Heading',     'type' => 'text' ],
-			[ 'id' => 'amb_ben_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'amb_ben_heading', 'name' => 'Heading',     'type' => 'text',     'std' => "You've Helped Build What's Next—Now Help Amplify It" ],
+			[ 'id' => 'amb_ben_desc',    'name' => 'Description', 'type' => 'textarea', 'rows' => 7, 'std' => "As a Slingshot Ambassador, you've seen firsthand what's possible when vision meets capability. Now, you can amplify that momentum, helping more people bring big ideas to life.\n\nThis isn't about being a fan. It's about being part of a forward-looking group of product-minded, change-focused professionals who want to influence what innovation looks like across industries.\n\nWhether you're a CEO, a product leader, or a strategic partner, you belong here." ],
 			[
 				'id'         => 'amb_ben_cards',
 				'name'       => 'Benefit cards',
@@ -2332,12 +2333,20 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Ambassadors · Form CTA',
 		'id'     => 'lp_amb_form',
 		'fields' => [
-			[ 'id' => 'amb_form_heading',      'name' => 'Section heading',   'type' => 'text' ],
-			[ 'id' => 'amb_form_desc',         'name' => 'Section description','type' => 'textarea' ],
+			[ 'id' => 'amb_form_heading',      'name' => 'Section heading',   'type' => 'text',     'std' => "Become Part of a Circle That's Building Bold" ],
+			[ 'id' => 'amb_form_desc',         'name' => 'Section description','type' => 'textarea', 'std' => "We're inviting advocates, leaders, and innovators to help shape the next generation of digital impact together." ],
 			[ 'id' => 'amb_form_who_label',    'name' => '"Who Should Join?" label', 'type' => 'text', 'std' => 'Who Should Join?' ],
-			[ 'id' => 'amb_form_who_bullets',  'name' => 'Who bullets (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+			[ 'id' => 'amb_form_who_bullets',  'name' => 'Who bullets (one per line)', 'type' => 'textarea', 'rows' => 5, 'std' => "You've worked with Slingshot as a client, collaborator, or strategic partner.\nYou're leading, building, or influencing technology, product, or business decisions.\nYou care about solving real problems, building smart, and sharing what works.\nYou want to help shape innovation, not just react to it." ],
 			[ 'id' => 'amb_form_card_heading', 'name' => 'Form card heading', 'type' => 'text', 'std' => 'Request a Speaker' ],
 			[ 'id' => 'amb_form_gf_id',        'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+			[ 'id' => 'amb_form_action_url',   'name' => 'Static form action URL', 'type' => 'text', 'std' => '#' ],
+			[ 'id' => 'amb_form_name_placeholder',    'name' => 'Name field label',         'type' => 'text', 'std' => 'Name*' ],
+			[ 'id' => 'amb_form_org_placeholder',     'name' => 'Organization field label', 'type' => 'text', 'std' => 'Organization' ],
+			[ 'id' => 'amb_form_email_placeholder',   'name' => 'Email field label',        'type' => 'text', 'std' => 'Email*' ],
+			[ 'id' => 'amb_form_phone_placeholder',   'name' => 'Phone field label',        'type' => 'text', 'std' => 'Phone*' ],
+			[ 'id' => 'amb_form_event_placeholder',   'name' => 'Event field label',        'type' => 'text', 'std' => 'Event*' ],
+			[ 'id' => 'amb_form_message_placeholder', 'name' => 'Message field label',      'type' => 'text', 'std' => 'What are you looking for?' ],
+			[ 'id' => 'amb_form_submit',              'name' => 'Submit button label',      'type' => 'text', 'std' => 'Submit Request' ],
 		],
 	];
 
