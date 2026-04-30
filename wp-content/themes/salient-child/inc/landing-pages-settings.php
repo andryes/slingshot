@@ -1439,6 +1439,17 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	// ── Careers Figma ─────────────────────────────────────────────────────────
 	$car_perk_fields = [
+		[
+			'id'      => 'icon_key',
+			'name'    => 'Icon preset',
+			'type'    => 'select',
+			'options' => [
+				'globe'     => 'Globe',
+				'briefcase' => 'Briefcase',
+				'health'    => 'Healthcare',
+				'savings'   => 'Savings',
+			],
+		],
 		[ 'id' => 'icon_svg', 'name' => 'Icon SVG',   'type' => 'textarea', 'rows' => 3 ],
 		[ 'id' => 'title',    'name' => 'Title',       'type' => 'text' ],
 		[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea', 'rows' => 2 ],
@@ -1446,7 +1457,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
 	$car_role_fields = [
 		[ 'id' => 'title',    'name' => 'Job title', 'type' => 'text' ],
-		[ 'id' => 'tags',     'name' => 'Tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. On-site, Full-time' ],
+		[ 'id' => 'type',     'name' => 'Employment type', 'type' => 'text', 'std' => 'Full-time' ],
+		[ 'id' => 'location', 'name' => 'Location', 'type' => 'text', 'std' => 'Louisville, KY' ],
+		[ 'id' => 'link_text','name' => 'Link label', 'type' => 'text', 'std' => 'Details' ],
+		[ 'id' => 'tags',     'name' => 'Legacy tags (comma-separated)', 'type' => 'text', 'desc' => 'Used as fallback only.' ],
 		[ 'id' => 'link_url', 'name' => 'Link URL',  'type' => 'text' ],
 	];
 
@@ -1454,14 +1468,19 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Careers · Hero',
 		'id'     => 'lp_car_hero',
 		'fields' => [
-			[ 'id' => 'car_hero_bc_parent', 'name' => 'Breadcrumb left',  'type' => 'text', 'std' => 'COMPANY' ],
-			[ 'id' => 'car_hero_bc_leaf',   'name' => 'Breadcrumb right', 'type' => 'text', 'std' => 'CAREERS' ],
+			[ 'id' => 'car_header_cta_text','name' => 'Header CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'car_header_cta_url', 'name' => 'Header CTA URL',   'type' => 'text', 'std' => '/contact/' ],
+			[ 'id' => 'car_hero_bc_parent', 'name' => 'Breadcrumb left (optional)',  'type' => 'text', 'std' => '' ],
+			[ 'id' => 'car_hero_bc_leaf',   'name' => 'Breadcrumb right (optional)', 'type' => 'text', 'std' => '' ],
 			[ 'id' => 'car_hero_heading',   'name' => 'Heading (use \\n for line break)', 'type' => 'textarea', 'rows' => 2 ],
 			[ 'id' => 'car_hero_subtext',   'name' => 'Subtext',          'type' => 'textarea' ],
-			[ 'id' => 'car_hero_cta_text',  'name' => 'CTA label',        'type' => 'text', 'std' => 'See Open Roles' ],
+			[ 'id' => 'car_hero_cta_text',  'name' => 'CTA label',        'type' => 'text', 'std' => 'Open Roles' ],
 			[ 'id' => 'car_hero_cta_url',   'name' => 'CTA URL',          'type' => 'text', 'std' => '#open-roles' ],
-			[ 'id' => 'car_hero_img',       'name' => 'Hero photo',       'type' => 'single_image', 'force_delete' => false ],
-			[ 'id' => 'car_hero_img_alt',   'name' => 'Photo alt text',   'type' => 'text' ],
+			[ 'id' => 'car_hero_img_a',     'name' => 'Hero photo A',     'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'car_hero_img_a_alt', 'name' => 'Hero photo A alt text', 'type' => 'text' ],
+			[ 'id' => 'car_hero_img_b',     'name' => 'Hero photo B',     'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'car_hero_img_b_alt', 'name' => 'Hero photo B alt text', 'type' => 'text' ],
+			[ 'id' => 'car_hero_img',       'name' => 'Legacy hero photo', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
 

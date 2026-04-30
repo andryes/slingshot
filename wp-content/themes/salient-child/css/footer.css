@@ -208,6 +208,39 @@
     .sl-footer-bar-inner { flex-direction: column; gap: 12px; text-align: center; }
 }
 
+@media (min-width: 1101px) {
+    body.page-template-page-careers-figma .sl-footer-main {
+        padding-top: 34px;
+        padding-bottom: 30px;
+    }
+
+    body.page-template-page-careers-figma .sl-footer-contact {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    body.page-template-page-careers-figma .sl-footer-social {
+        margin-bottom: 22px;
+    }
+
+    body.page-template-page-careers-figma .sl-footer-col-heading {
+        margin-bottom: 20px;
+    }
+
+    body.page-template-page-careers-figma .sl-footer-links {
+        gap: 8px;
+    }
+
+    body.page-template-page-careers-figma .sl-footer-links a {
+        line-height: 1.32;
+    }
+
+    body.page-template-page-careers-figma .sl-footer-bar {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+}
+
 /* ═══════════════════════════════════════════════════════════
    GLOBAL CONTACT MODAL — "Hit us up"
 ═══════════════════════════════════════════════════════════ */

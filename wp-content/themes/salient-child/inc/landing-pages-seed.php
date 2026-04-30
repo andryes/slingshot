@@ -581,37 +581,34 @@ function slingshot_lp_build_service_mobile_meta() {
 
 /** @return array<string,mixed> */
 function slingshot_lp_build_careers_meta() {
-	$icon_hybrid   = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#4B23B0" fill-opacity=".12"/><path d="M4 14c0-2.2 1.8-4 4-4h4c2.2 0 4 1.8 4 4" stroke="#4B23B0" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="7" r="3" stroke="#4B23B0" stroke-width="1.5"/></svg>';
-	$icon_pto      = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#23B7B4" fill-opacity=".12"/><circle cx="10" cy="10" r="6" stroke="#23B7B4" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>';
-	$icon_health   = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#4B23B0" fill-opacity=".12"/><path d="M10 16s-6-4.2-6-8a4 4 0 0 1 6-3.5A4 4 0 0 1 16 8c0 3.8-6 8-6 8z" stroke="#4B23B0" stroke-width="1.5" stroke-linejoin="round"/></svg>';
-	$icon_401k     = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="5" fill="#23B7B4" fill-opacity=".12"/><path d="M5 15l3-5 2 3 3-6 3 8" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
 	return [
-		'car_hero_bc_parent' => 'COMPANY',
-		'car_hero_bc_leaf'   => 'CAREERS',
-		'car_hero_heading'   => "Built for Big Kids\n& Daredevils",
-		'car_hero_subtext'   => "We're a team of builders, creators, and problem-solvers who love what we do. If you're ambitious and ready to make things happen, there's a place for you here.",
-		'car_hero_cta_text'  => 'See Open Roles',
-		'car_hero_cta_url'   => '#open-roles',
-		'car_wtl_heading'    => "What It's Like to Work Here",
-		'car_wtl_text'       => "At Slingshot, you'll work alongside talented engineers, designers, and product thinkers on real problems for real clients. We value ownership, craft, and honesty — and we believe the best work happens when people have the autonomy to do it their way.\n\nWe offer flexible hybrid work, competitive benefits, and a team that genuinely cares about your growth. Whether you're a senior engineer or just starting out, there's a place for ambitious people who want to make things happen.\n\nWe take the work seriously. We don't take ourselves too seriously.",
-		'car_perks_heading'  => 'Perks & Benefits',
-		'car_perks_items'    => [
-			[ 'icon_svg' => $icon_hybrid, 'title' => 'Flexible Hybrid Culture', 'desc' => 'Work from our Louisville office or remotely — we trust you to get things done.' ],
-			[ 'icon_svg' => $icon_pto,    'title' => 'Unlimited PTO',            'desc' => 'Take the time you need. We mean it.' ],
-			[ 'icon_svg' => $icon_health, 'title' => 'Comprehensive Healthcare', 'desc' => 'Medical, dental, and vision coverage for you and your family.' ],
-			[ 'icon_svg' => $icon_401k,   'title' => 'Matching 401(k)',          'desc' => 'We invest in your future with a competitive company match.' ],
+		'car_header_cta_text' => "Let's talk",
+		'car_header_cta_url'  => '/contact/',
+		'car_hero_bc_parent'  => '',
+		'car_hero_bc_leaf'    => '',
+		'car_hero_heading'    => "Built for Big Kids\n& Daredevils",
+		'car_hero_subtext'    => 'The curious. The bold. The ones who care deeply about building great software.',
+		'car_hero_cta_text'   => 'Open Roles',
+		'car_hero_cta_url'    => '#open-roles',
+		'car_wtl_heading'     => "What It’s Like\nto Work Here",
+		'car_wtl_text'        => "At Slingshot, we hire for mindset as much as skill. We’re a team of thinkers and makers who love the challenge, own our craft, and build software that actually makes a difference.\n\nYou’ll collaborate with designers, developers, and product managers to solve real problems. You’ll speak up, challenge ideas, and be heard. You’ll learn, build, break, and ship, without the politics or micromanagement.\n\nWe’re Big Kids and Daredevils who take our work seriously, but not ourselves.",
+		'car_perks_heading'   => 'Perks & Benefits',
+		'car_perks_items'     => [
+			[ 'icon_key' => 'globe',     'title' => 'Flexible Hybrid Culture',    'desc' => 'Work from home, the office, or a mix of both. We trust you to get the job done from wherever you work best.' ],
+			[ 'icon_key' => 'briefcase', 'title' => 'Unlimited PTO',              'desc' => 'Take time when you need it. No counting days, just open communication and real recharge.' ],
+			[ 'icon_key' => 'health',    'title' => 'Comprehensive Healthcare',   'desc' => 'You’ve got options with medical, dental, and vision plans, plus optional add-ons for what matters most.' ],
+			[ 'icon_key' => 'savings',   'title' => '401(k) with Company Match',  'desc' => 'We’ll help you build for the future with a competitive retirement savings plan and matching contributions.' ],
 		],
-		'car_roles_heading'  => 'Open Roles',
-		'car_roles_items'    => [
-			[ 'title' => 'Senior .NET Developer',    'tags' => 'On-site, Full-time', 'link_url' => '/open-position/' ],
-			[ 'title' => '.NET Developer',           'tags' => 'On-site, Full-time', 'link_url' => '/open-position/' ],
-			[ 'title' => 'Senior JS Developer',      'tags' => 'Hybrid, Full-time',  'link_url' => '/open-position/' ],
-			[ 'title' => 'Senior .NET Developer',    'tags' => 'Remote, Full-time',  'link_url' => '/open-position/' ],
+		'car_roles_heading'   => 'Open Roles',
+		'car_roles_items'     => [
+			[ 'title' => 'Senior .NET Developer', 'type' => 'Full-time', 'location' => 'Louisville, KY', 'link_text' => 'Details', 'link_url' => '/careers/senior-net-developer-p3/' ],
+			[ 'title' => '.NET Developer',        'type' => 'Full-time', 'location' => 'Louisville, KY', 'link_text' => 'Details', 'link_url' => '/careers/net-developer/' ],
+			[ 'title' => 'Senior AI Developer',   'type' => 'Full-time', 'location' => 'Louisville, KY', 'link_text' => 'Details', 'link_url' => '/careers/senior-ai-developer/' ],
+			[ 'title' => 'Senior .NET Developer', 'type' => 'Full-time', 'location' => 'Louisville, KY', 'link_text' => 'Details', 'link_url' => '/careers/senior-developer/' ],
 		],
-		'car_form_heading'   => 'Hit us up',
-		'car_form_subtext'   => "Don't see the right role? We're always looking for great people. Send us a message.",
-		'car_form_gf_id'     => 0,
+		'car_form_heading'    => 'Hit us up',
+		'car_form_subtext'    => '',
+		'car_form_gf_id'      => 3,
 	];
 }
 
