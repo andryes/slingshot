@@ -3,9 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $child_uri = get_stylesheet_directory_uri();
-wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.6' );
+wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.7' );
 wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.0' );
-wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.0' );
+wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.1' );
 
 $sl_page_meta = static function ( $key, $default = '' ) {
     if ( function_exists( 'slingshot_pm' ) ) {
@@ -21,6 +21,9 @@ $sl_modal_options_raw = (string) $sl_page_meta( 'sl_contact_modal_looking_option
 $sl_modal_options = array_values( array_filter( array_map( 'trim', explode( "\n", $sl_modal_options_raw ) ) ) );
 $sl_modal_submit = (string) $sl_page_meta( 'sl_contact_modal_submit', "Let's Talk →" );
 $sl_subscribe_heading = (string) $sl_page_meta( 'sl_subscribe_modal_heading', 'Get the latest news from Slingshot with our bi-weekly newsletter.' );
+$sl_subscribe_first_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_first_placeholder', 'First Name*' );
+$sl_subscribe_last_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_last_placeholder', 'Last Name*' );
+$sl_subscribe_email_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_email_placeholder', 'Email*' );
 $sl_subscribe_submit = (string) $sl_page_meta( 'sl_subscribe_modal_submit', 'Subscribe →' );
 $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
 ?>
@@ -130,7 +133,7 @@ $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
         <div class="sl-footer-bar-inner">
             <span>&copy; <?php echo date('Y'); ?> Slingshot - Software &amp; App Development. All Rights Reserved.</span>
             <nav class="sl-footer-legal" aria-label="Legal">
-                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/privacy/">Privacy Policy</a>
                 <span class="sl-footer-divider">|</span>
                 <a href="/terms-and-conditions">Terms and Conditions</a>
             </nav>
@@ -247,10 +250,10 @@ $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
         else : ?>
         <form class="sl-subscribe-form" method="post" action="#">
             <div class="sl-subscribe-row">
-                <input type="text" class="sl-subscribe-input" placeholder="First Name*" required>
-                <input type="text" class="sl-subscribe-input" placeholder="Last Name*" required>
+                <input type="text" class="sl-subscribe-input" placeholder="<?php echo esc_attr( $sl_subscribe_first_placeholder ); ?>" required>
+                <input type="text" class="sl-subscribe-input" placeholder="<?php echo esc_attr( $sl_subscribe_last_placeholder ); ?>" required>
             </div>
-            <input type="email" class="sl-subscribe-input" placeholder="Email*" required>
+            <input type="email" class="sl-subscribe-input" placeholder="<?php echo esc_attr( $sl_subscribe_email_placeholder ); ?>" required>
             <button type="submit" class="sl-subscribe-submit"><?php echo esc_html( $sl_subscribe_submit ); ?></button>
         </form>
         <?php endif; ?>

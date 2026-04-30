@@ -948,3 +948,132 @@ function slingshot_lp_maybe_retarget_figma_templates_v2() {
 	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V2, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v2', 17 );
+
+if ( ! function_exists( 'slingshot_lp_default_legal_content' ) ) {
+	/**
+	 * Default editor content for Figma legal pages.
+	 *
+	 * @return string
+	 */
+	function slingshot_lp_default_legal_content() {
+		return <<<HTML
+<h2>Legal Agreement</h2>
+<p>We are Slingshot (&ldquo;Company,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;), a company registered in Kentucky, United States at 700 N Hurstbourne Pkwy, #120, Louisville, KY 40222.</p>
+<p>We operate the website <a href="https://www.yslingshot.com">https://www.yslingshot.com</a> (the &ldquo;Site&rdquo;), as well as any other related products and services that refer or link to these legal terms (the &ldquo;Legal Terms&rdquo;) (collectively, the &ldquo;Services&rdquo;).</p>
+<p>Slingshot is a software and app development company specializing in taking your vision from idea to launch. Whether you&rsquo;re a small company or Fortune 50, our blend of strategy, design, and development allow us to deliver impactful, elegant, and built-to-last solutions.</p>
+<p>You can contact us by phone at 502.254.6150, email at hello@yslingshot.com, or by mail to 700 N Hurstbourne Pkwy, #120, Louisville, KY 40222, United States.</p>
+<p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity (&ldquo;you&rdquo;), and Slingshot, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
+<p>Supplemental terms and conditions or documents that may be posted on the Services from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Legal Terms at any time and for any reason. We will alert you about any changes by updating the &ldquo;Last updated&rdquo; date of these Legal Terms, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Legal Terms to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Legal Terms by your continued use of the Services after the date such revised Legal Terms are posted.</p>
+<p>All users who are minors in the jurisdiction in which they reside (generally under the age of 18) must have the permission of, and be directly supervised by, their parent or guardian to use the Services. If you are a minor, you must have your parent or guardian read and agree to these Legal Terms prior to you using the Services.</p>
+<p>We recommend that you print a copy of these Legal Terms for your records.</p>
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#section-1">Section 1</a></li>
+<li><a href="#section-2">Link 2</a></li>
+<li><a href="#section-3">Link 3</a></li>
+<li><a href="#section-4">Link 4</a></li>
+<li><a href="#section-5">Link 5</a></li>
+</ul>
+<h2 id="section-1">Section 1</h2>
+<p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity (&ldquo;you&rdquo;), and Slingshot, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
+<p>Supplemental terms and conditions or documents that may be posted on the Services from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Legal Terms at any time and for any reason. We will alert you about any changes by updating the &ldquo;Last updated&rdquo; date of these Legal Terms, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Legal Terms to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Legal Terms by your continued use of the Services after the date such revised Legal Terms are posted.</p>
+<h2 id="section-2">Section 2</h2>
+<p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity (&ldquo;you&rdquo;), and Slingshot, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
+<p>Supplemental terms and conditions or documents that may be posted on the Services from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Legal Terms at any time and for any reason. We will alert you about any changes by updating the &ldquo;Last updated&rdquo; date of these Legal Terms, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Legal Terms to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Legal Terms by your continued use of the Services after the date such revised Legal Terms are posted.</p>
+<h2 id="section-3">Section 3</h2>
+<ul>
+<li>You believe AI is more than a buzzword &ndash; it&rsquo;s a catalyst for building better software</li>
+<li>You like autonomy and want to be trusted for your judgment and skill</li>
+<li>You like helping businesses reach new heights through technology</li>
+<li>You thrive in a no-BS, high-integrity, fun-loving work culture</li>
+<li>You want to work at a place where developers are respected, empowered, and constantly learning</li>
+</ul>
+<h2 id="section-4">Section 4</h2>
+<ul>
+<li>Generous PTO and Holiday time off including your birthday</li>
+<li>401(k) with company match</li>
+<li>Quarterly bonuses</li>
+<li>Valentine&rsquo;s Day office fairy (it&rsquo;s a thing)</li>
+<li>Flexible hours and remote-friendly culture</li>
+<li>No dress code (except when needed for clients)</li>
+<li>Greenfield project opportunities with a chance to leave your mark</li>
+<li>Zero politics. Just solid people building great things.</li>
+</ul>
+<h2 id="section-5">Section 5</h2>
+<p>Slingshot is a pretty awesome software development shop in Louisville, Kentucky. We&rsquo;re smart, passionate, creative, and modest ;). We&rsquo;ve been solving real-world problems with software since 2005, helping companies across industries go further, faster, and smarter. We value curiosity, craftsmanship, and collaboration &ndash; and we&rsquo;re not afraid to challenge the status quo.</p>
+<p>Curious about this role? Apply for this job by sending your email to . Hope to hear from you soon!</p>
+HTML;
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_LEGAL_CONTENT_OPTION_V2', 'slingshot_lp_figma_legal_content_v2' );
+
+/**
+ * Seed legal Figma pages with editable content and header metadata.
+ */
+function slingshot_lp_maybe_seed_legal_pages_v2() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_LEGAL_CONTENT_OPTION_V2 ) ) {
+		return;
+	}
+
+	$pages = array(
+		'terms-and-conditions' => array(
+			'title'          => 'Terms and Conditions',
+			'replace_legacy' => false,
+		),
+		'terms'                => array(
+			'title'          => 'Terms and Conditions',
+			'replace_legacy' => true,
+		),
+		'privacy-policy'       => array(
+			'title'          => 'Privacy Policy',
+			'replace_legacy' => false,
+		),
+		'privacy'              => array(
+			'title'          => 'Privacy Policy',
+			'replace_legacy' => true,
+		),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$title = $cfg['title'];
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+
+		if ( ! $page instanceof WP_Post ) {
+			$page_id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $title,
+					'post_name'    => $slug,
+					'post_content' => slingshot_lp_default_legal_content(),
+				),
+				true
+			);
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+		} else {
+			$page_id = (int) $page->ID;
+			$is_legacy_builder_content = ! empty( $cfg['replace_legacy'] ) && false !== strpos( $page->post_content, '[vc_row' );
+			if ( '' === trim( $page->post_content ) || $is_legacy_builder_content ) {
+				wp_update_post(
+					array(
+						'ID'           => $page_id,
+						'post_title'   => $title,
+						'post_content' => slingshot_lp_default_legal_content(),
+					)
+				);
+			}
+		}
+
+		update_post_meta( $page_id, '_wp_page_template', 'page-legal-figma.php' );
+		update_post_meta( $page_id, 'leg_header_cta_text', "Let's talk" );
+		update_post_meta( $page_id, 'leg_header_cta_url', '/contact/' );
+		update_post_meta( $page_id, 'leg_title', $title );
+		update_post_meta( $page_id, 'leg_last_updated', 'June 18, 2024' );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_LEGAL_CONTENT_OPTION_V2, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_legal_pages_v2', 18 );

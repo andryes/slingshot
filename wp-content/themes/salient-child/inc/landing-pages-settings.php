@@ -56,6 +56,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'sl_contact_modal_looking_options', 'name' => 'Contact modal "What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8, 'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
 			[ 'id' => 'sl_contact_modal_submit', 'name' => 'Contact modal submit label', 'type' => 'text', 'std' => "Let's Talk →" ],
 			[ 'id' => 'sl_subscribe_modal_heading', 'name' => 'Subscribe modal heading', 'type' => 'textarea', 'rows' => 3, 'std' => 'Get the latest news from Slingshot with our bi-weekly newsletter.' ],
+			[ 'id' => 'sl_subscribe_modal_first_placeholder', 'name' => 'Subscribe first name placeholder', 'type' => 'text', 'std' => 'First Name*' ],
+			[ 'id' => 'sl_subscribe_modal_last_placeholder', 'name' => 'Subscribe last name placeholder', 'type' => 'text', 'std' => 'Last Name*' ],
+			[ 'id' => 'sl_subscribe_modal_email_placeholder', 'name' => 'Subscribe email placeholder', 'type' => 'text', 'std' => 'Email*' ],
 			[ 'id' => 'sl_subscribe_modal_submit', 'name' => 'Subscribe modal submit label', 'type' => 'text', 'std' => 'Subscribe →' ],
 			[ 'id' => 'sl_video_modal_url', 'name' => 'Video modal URL (YouTube/Vimeo/file)', 'type' => 'text', 'desc' => 'Used by play buttons when no per-button video URL is set.' ],
 		],
@@ -1916,6 +1919,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Legal · Header',
 		'id'     => 'lp_leg_header',
 		'fields' => [
+			[ 'id' => 'leg_header_cta_text', 'name' => 'Header CTA label',                 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'leg_header_cta_url',  'name' => 'Header CTA URL',                   'type' => 'text', 'std' => '/contact/' ],
 			[ 'id' => 'leg_title',        'name' => 'Page title (overrides page title)', 'type' => 'text', 'desc' => 'Leave blank to use the WordPress page title.' ],
 			[ 'id' => 'leg_last_updated', 'name' => 'Last updated date',                 'type' => 'text', 'desc' => 'e.g. January 14, 2025' ],
 		],

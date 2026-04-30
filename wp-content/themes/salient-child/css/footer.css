@@ -256,6 +256,37 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
+
+    body.page-template-page-legal-figma .sl-footer-main {
+        padding-top: 26px;
+        padding-bottom: 16px;
+    }
+
+    body.page-template-page-legal-figma .sl-footer-contact {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    body.page-template-page-legal-figma .sl-footer-social {
+        margin-bottom: 22px;
+    }
+
+    body.page-template-page-legal-figma .sl-footer-col-heading {
+        margin-bottom: 20px;
+    }
+
+    body.page-template-page-legal-figma .sl-footer-links {
+        gap: 8px;
+    }
+
+    body.page-template-page-legal-figma .sl-footer-links a {
+        line-height: 1.32;
+    }
+
+    body.page-template-page-legal-figma .sl-footer-bar {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════
