@@ -209,35 +209,52 @@
 }
 
 @media (min-width: 1101px) {
-    body.page-template-page-careers-figma .sl-footer-main {
+    body.page-template-page-careers-figma .sl-footer-main,
+    body.page-template-page-open-position-figma .sl-footer-main {
         padding-top: 34px;
         padding-bottom: 30px;
     }
 
-    body.page-template-page-careers-figma .sl-footer-contact {
+    body.page-template-page-careers-figma .sl-footer-contact,
+    body.page-template-page-open-position-figma .sl-footer-contact {
         gap: 8px;
         margin-bottom: 20px;
     }
 
-    body.page-template-page-careers-figma .sl-footer-social {
+    body.page-template-page-careers-figma .sl-footer-social,
+    body.page-template-page-open-position-figma .sl-footer-social {
         margin-bottom: 22px;
     }
 
-    body.page-template-page-careers-figma .sl-footer-col-heading {
+    body.page-template-page-careers-figma .sl-footer-col-heading,
+    body.page-template-page-open-position-figma .sl-footer-col-heading {
         margin-bottom: 20px;
     }
 
-    body.page-template-page-careers-figma .sl-footer-links {
+    body.page-template-page-careers-figma .sl-footer-links,
+    body.page-template-page-open-position-figma .sl-footer-links {
         gap: 8px;
     }
 
-    body.page-template-page-careers-figma .sl-footer-links a {
+    body.page-template-page-careers-figma .sl-footer-links a,
+    body.page-template-page-open-position-figma .sl-footer-links a {
         line-height: 1.32;
     }
 
-    body.page-template-page-careers-figma .sl-footer-bar {
+    body.page-template-page-careers-figma .sl-footer-bar,
+    body.page-template-page-open-position-figma .sl-footer-bar {
         padding-top: 14px;
         padding-bottom: 14px;
+    }
+
+    body.page-template-page-open-position-figma .sl-footer-main {
+        padding-top: 26px;
+        padding-bottom: 16px;
+    }
+
+    body.page-template-page-open-position-figma .sl-footer-bar {
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }
 

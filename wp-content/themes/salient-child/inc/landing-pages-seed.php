@@ -615,45 +615,49 @@ function slingshot_lp_build_careers_meta() {
 /** @return array<string,mixed> */
 function slingshot_lp_build_open_position_meta() {
 	return [
-		'op_job_title'    => 'Senior AI Developer',
-		'op_job_tags'     => 'On-site, Louisville KY, Full-time',
-		'op_bc_parent'    => 'Careers',
-		'op_bc_parent_url'=> '/careers/',
-		'op_sections'     => [
+		'op_header_cta_text' => "Let's talk",
+		'op_header_cta_url'  => '/contact/',
+		'op_job_title'       => 'Senior AI Developer',
+		'op_job_type'        => 'Full-time',
+		'op_job_location'    => 'Louisville, KY',
+		'op_job_tags'        => 'On-site, Louisville KY, Full-time',
+		'op_bc_parent'       => 'Open Positions',
+		'op_bc_parent_url'   => '/careers/#open-roles',
+		'op_sections'        => [
 			[
 				'section_type' => 'text',
 				'title'        => 'About this Role',
-				'body'         => "We're looking for a Senior AI Developer to join our growing engineering team. In this role, you'll work closely with our product and delivery teams to design, build, and deploy AI solutions that create real value for our clients.\n\nYou'll have the opportunity to work on a wide range of AI challenges — from building and fine-tuning language models to designing multi-agent systems and integrating AI into production applications.",
+				'body'         => "Slingshot is on the hunt for a talented and passionate Senior AI Developer who thrives at the intersection of full-stack development and artificial intelligence. You’ll be helping us push the envelope of what’s possible by building modern software with AI-first principles in mind. We’re not just adding AI to projects, we’re fundamentally changing how software is designed and delivered.\n\nYou’ll serve as both architect and hands-on developer, leveraging your full-stack experience (ideally in Node.js, React, React Native but not required) and your AI toolbelt (think Cursor, Claude Code, GitHub Copilot, etc.) to lead projects from discovery to deployment. You’ll also collaborate closely with our design team and product managers to shape intelligent, intuitive user experiences.\n\nYou’ll help Slingshot, and our clients, stay ahead of the curve by architecting scalable, secure cloud applications (web and mobile apps), mentoring devs on your team, and continually exploring how new AI capabilities can accelerate delivery and enhance user outcomes.",
 			],
 			[
 				'section_type' => 'list',
 				'title'        => 'Your focus will include',
-				'body'         => "Designing and building AI-powered features and services\nFine-tuning and deploying large language models\nBuilding multi-agent orchestration systems\nCollaborating with product and engineering teams on architecture decisions\nConducting code reviews and mentoring junior developers\nStaying current with the rapidly evolving AI/ML landscape",
+				'body'         => "Designing full-stack applications and architectures that leverage modern web, mobile, and cloud technologies\nLeading projects as the technical head, managing code quality and mentoring teammates\nApplying AI-first development practices, using tools like Cursor, Claude Code, ChatGPT, Copilot, and others\nRapidly building prototypes and proof-of-concepts using AI tools to shorten development cycles\nPrimarily working on Node.js, React, React Native, PostgreSQL while sometimes working with .NET Core, C#, Angular, and Vue.js, depending on the project\nCreating robust APIs, and cloud-native backends primarily in AWS and Azure\nActing as an internal evangelist for AI innovation, helping Slingshot continuously evolve how we build software",
 			],
 			[
 				'section_type' => 'list',
-				'title'        => "We're looking for someone who",
-				'body'         => "Has 4+ years of software development experience, with at least 2 in AI/ML\nIs proficient in Python and has experience with LLM frameworks (LangChain, LlamaIndex, etc.)\nHas built and deployed production AI systems\nUnderstands prompt engineering, RAG patterns, and vector databases\nCommunicates clearly and thrives in a collaborative, fast-paced environment",
+				'title'        => "We’re looking for someone who:",
+				'body'         => "Has deep full-stack experience with modern web and mobile frameworks\nIs genuinely excited about how AI is transforming software development\nPassionate about learning and using emerging tools (Cursor, Claude Code, Copilot) to accelerate development and enhance workflows\nKnows how to build for scale and reliability in a cloud environment (especially AWS)\nWrites clean, testable, and well-documented code\nCan clearly communicate architecture and technical decisions\nIs infinitely curious and not afraid to experiment or fail fast\nWants to work with a team of driven, creative, passionate humans who take pride in their craft",
 			],
 			[
 				'section_type' => 'list',
 				'title'        => 'Why you want to work here',
-				'body'         => "Meaningful work on real client products — not internal tooling\nA team that values craft, ownership, and honest feedback\nFlexible hybrid culture with great benefits\nOpportunity to grow fast in a company that's growing fast",
+				'body'         => "You believe AI is more than a buzzword – it’s a catalyst for building better software\nYou like autonomy and want to be trusted for your judgment and skill\nYou like helping businesses reach new heights through technology\nYou thrive in a no-BS, high-integrity, fun-loving work culture\nYou want to work at a place where developers are respected, empowered, and constantly learning",
 			],
 			[
 				'section_type' => 'list',
 				'title'        => 'Some cool benefits',
-				'body'         => "Unlimited PTO\nComprehensive health, dental & vision\nMatching 401(k)\nAnnual learning & development budget\nFlexible hybrid work",
+				'body'         => "Generous PTO and Holiday time off including your birthday\n401(k) with company match\nQuarterly bonuses\nValentine’s Day office fairy (it’s a thing)\nFlexible hours and remote-friendly culture\nNo dress code (except when needed for clients)\nGreenfield project opportunities with a chance to leave your mark\nZero politics. Just solid people building great things.",
 			],
 			[
 				'section_type' => 'text',
 				'title'        => 'Who is Slingshot?',
-				'body'         => "Slingshot is a software and app development company based in Louisville, KY. We build digital products for ambitious companies across the US — from startups to Fortune 500s.\n\nWe believe great software comes from great teams. That means hiring people who care about their craft, giving them the autonomy to do great work, and building a culture where everyone can thrive.",
+				'body'         => "Slingshot is a pretty awesome software development shop in Louisville, Kentucky. We’re smart, passionate, creative, and modest ;). We’ve been solving real-world problems with software since 2005, helping companies across industries go further, faster, and smarter. We value curiosity, craftsmanship, and collaboration – and we’re not afraid to challenge the status quo.\n\nCurious about this role? Apply for this job by sending your email to . Hope to hear from you soon!",
 			],
 		],
 		'op_form_heading' => 'Hit us up',
-		'op_form_subtext' => 'Think this could be a great fit? Tell us a bit about yourself.',
-		'op_form_gf_id'   => 0,
+		'op_form_subtext' => '',
+		'op_form_gf_id'   => 3,
 	];
 }
 

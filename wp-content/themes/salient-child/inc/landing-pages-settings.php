@@ -1558,10 +1558,14 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Open Position · Header',
 		'id'     => 'lp_op_header',
 		'fields' => [
+			[ 'id' => 'op_header_cta_text', 'name' => 'Header CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'op_header_cta_url',  'name' => 'Header CTA URL',   'type' => 'text', 'std' => '/contact/' ],
 			[ 'id' => 'op_job_title',    'name' => 'Job title (overrides page title)', 'type' => 'text' ],
-			[ 'id' => 'op_job_tags',     'name' => 'Tags (comma-separated)',           'type' => 'text', 'std' => 'On-site, Louisville KY, Full-time' ],
-			[ 'id' => 'op_bc_parent',    'name' => 'Breadcrumb parent label',          'type' => 'text', 'std' => 'Careers' ],
-			[ 'id' => 'op_bc_parent_url','name' => 'Breadcrumb parent URL',            'type' => 'text', 'std' => '/careers/' ],
+			[ 'id' => 'op_job_type',     'name' => 'Employment type',                  'type' => 'text', 'std' => 'Full-time' ],
+			[ 'id' => 'op_job_location', 'name' => 'Location',                         'type' => 'text', 'std' => 'Louisville, KY' ],
+			[ 'id' => 'op_job_tags',     'name' => 'Legacy tags (comma-separated)',    'type' => 'text', 'std' => 'On-site, Louisville KY, Full-time' ],
+			[ 'id' => 'op_bc_parent',    'name' => 'Back button label',                'type' => 'text', 'std' => 'Open Positions' ],
+			[ 'id' => 'op_bc_parent_url','name' => 'Back button URL',                 'type' => 'text', 'std' => '/careers/#open-roles' ],
 		],
 	];
 
