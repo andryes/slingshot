@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 $child_uri = get_stylesheet_directory_uri();
 wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '2.1' );
 wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.9' );
-wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.1' );
+wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.2' );
 
 $sl_page_meta = static function ( $key, $default = '' ) {
     if ( function_exists( 'slingshot_pm' ) ) {
@@ -40,6 +40,14 @@ $sl_subscribe_first_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_fi
 $sl_subscribe_last_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_last_placeholder', 'Last Name*' );
 $sl_subscribe_email_placeholder = (string) $sl_page_meta( 'sl_subscribe_modal_email_placeholder', 'Email*' );
 $sl_subscribe_submit = (string) $sl_page_meta( 'sl_subscribe_modal_submit', 'Subscribe →' );
+$sl_subscribe_gf_id = (int) $sl_page_meta( 'sl_subscribe_modal_gf_id', get_option( 'slingshot_subscribe_modal_gf_id', 0 ) );
+$sl_subscribe_field_label = static function ( $label ) {
+    $label = trim( (string) $label );
+    if ( substr( $label, -1 ) === '*' ) {
+        return esc_html( trim( substr( $label, 0, -1 ) ) ) . '<span class="sl-subscribe-required" aria-hidden="true">*</span>';
+    }
+    return esc_html( $label );
+};
 $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
 ?>
 
@@ -307,22 +315,30 @@ $sl_default_video_url = (string) $sl_page_meta( 'sl_video_modal_url', '' );
 </script>
 
 <!-- ── Subscribe Newsletter Modal ──────────────────────────────────────── -->
-<div class="sl-subscribe-overlay" id="slSubscribeModal" role="dialog" aria-modal="true" aria-label="Subscribe to newsletter">
+<div class="sl-subscribe-overlay" id="slSubscribeModal" role="dialog" aria-modal="true" aria-labelledby="slSubscribeModalTitle">
     <div class="sl-subscribe-modal">
         <button class="sl-subscribe-close" id="slSubscribeClose" aria-label="Close">&times;</button>
-        <h2 class="sl-subscribe-heading"><?php echo esc_html( $sl_subscribe_heading ); ?></h2>
+        <h2 class="sl-subscribe-heading" id="slSubscribeModalTitle"><?php echo esc_html( $sl_subscribe_heading ); ?></h2>
         <div class="sl-subscribe-divider"></div>
         <?php
-        $sl_subscribe_gf_id = (int) get_option( 'slingshot_subscribe_modal_gf_id', 0 );
         if ( $sl_subscribe_gf_id && function_exists( 'gravity_form' ) ) :
             gravity_form( $sl_subscribe_gf_id, false, false, false, null, true, 1 );
         else : ?>
         <form class="sl-subscribe-form" method="post" action="#">
             <div class="sl-subscribe-row">
-                <input type="text" class="sl-subscribe-input" placeholder="<?php echo esc_attr( $sl_subscribe_first_placeholder ); ?>" required>
-                <input type="text" class="sl-subscribe-input" placeholder="<?php echo esc_attr( $sl_subscribe_last_placeholder ); ?>" required>
+                <label class="sl-subscribe-field">
+                    <input type="text" class="sl-subscribe-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_subscribe_first_placeholder ); ?>" autocomplete="given-name" required>
+                    <span class="sl-subscribe-label"><?php echo $sl_subscribe_field_label( $sl_subscribe_first_placeholder ); ?></span>
+                </label>
+                <label class="sl-subscribe-field">
+                    <input type="text" class="sl-subscribe-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_subscribe_last_placeholder ); ?>" autocomplete="family-name" required>
+                    <span class="sl-subscribe-label"><?php echo $sl_subscribe_field_label( $sl_subscribe_last_placeholder ); ?></span>
+                </label>
             </div>
-            <input type="email" class="sl-subscribe-input" placeholder="<?php echo esc_attr( $sl_subscribe_email_placeholder ); ?>" required>
+            <label class="sl-subscribe-field">
+                <input type="email" class="sl-subscribe-input" placeholder=" " aria-label="<?php echo esc_attr( $sl_subscribe_email_placeholder ); ?>" autocomplete="email" required>
+                <span class="sl-subscribe-label"><?php echo $sl_subscribe_field_label( $sl_subscribe_email_placeholder ); ?></span>
+            </label>
             <button type="submit" class="sl-subscribe-submit"><?php echo esc_html( $sl_subscribe_submit ); ?></button>
         </form>
         <?php endif; ?>

@@ -729,6 +729,12 @@ body.single-post #footer-outer { display: none !important; }
     gap: 84px;
     margin: 0 0 90px;
 }
+.sl-subscribe-field {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 44px;
+}
 #slSubscribeModal .sl-subscribe-input {
     width: 100%;
     height: 44px;
@@ -748,6 +754,24 @@ body.single-post #footer-outer { display: none !important; }
 }
 #slSubscribeModal .sl-subscribe-input:focus { border-bottom-color: #252525 !important; }
 #slSubscribeModal .sl-subscribe-input::placeholder { color: #595959; opacity: 1; font-size: 18px; }
+.sl-subscribe-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #595959;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 400;
+    pointer-events: none;
+    transition: opacity .15s ease;
+}
+.sl-subscribe-required {
+    color: #ff0000;
+}
+#slSubscribeModal .sl-subscribe-input:not(:placeholder-shown) + .sl-subscribe-label {
+    opacity: 0;
+}
 #slSubscribeModal .sl-subscribe-submit {
     align-self: flex-end;
     min-width: 182px;
