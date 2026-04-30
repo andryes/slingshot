@@ -287,6 +287,55 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
+
+    body.page-template-page-contact-figma .sl-footer-main {
+        padding-top: 42px;
+        padding-bottom: 18px;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-contact {
+        gap: 8px;
+        margin-bottom: 22px;
+    }
+
+    body.page-template-page-contact-figma .sl-contact-phone {
+        font-size: 25px;
+        line-height: 1.2;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-address {
+        line-height: 1.45;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-social {
+        margin-bottom: 22px;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-col-heading {
+        margin-bottom: 18px;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-links {
+        gap: 6px;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-links a {
+        line-height: 1.24;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-newsletter-card {
+        padding-top: 20px;
+        padding-bottom: 18px;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-newsletter-desc {
+        margin-bottom: 22px;
+    }
+
+    body.page-template-page-contact-figma .sl-footer-bar {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════

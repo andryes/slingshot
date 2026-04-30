@@ -11,7 +11,7 @@ wp_enqueue_style(
 );
 wp_enqueue_style( 'home-style',        get_stylesheet_directory_uri() . '/css/home.css',        array(), '1.18' );
 wp_enqueue_style( 'service-figma-style', get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
-wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.0' );
+wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.9' );
 wp_enqueue_script( 'hp-script',        get_stylesheet_directory_uri() . '/js/home.js',           array( 'jquery' ), '1.6', true );
 
 get_header();
@@ -19,6 +19,25 @@ get_header();
 <style>
 	body.page-template-page-contact-figma #header-outer,
 	body.page-template-page-contact-figma #header-space { display:none !important; }
+	@media (min-width: 1101px) {
+		body.page-template-page-contact-figma .cnt-hero-form-card select.cnt-form-select {
+			-webkit-appearance: none !important;
+			appearance: none !important;
+			border-width: 0 0 1px !important;
+			border-style: solid !important;
+			border-color: #d8d8d8 !important;
+			border-radius: 0 !important;
+			background: transparent !important;
+			box-shadow: none !important;
+		}
+		body.page-template-page-contact-figma .cnt-hero-form-card select.cnt-form-select[hidden] {
+			display: none !important;
+		}
+		body.page-template-page-contact-figma .cnt-form-select-wrap .fancy-select-wrap,
+		body.page-template-page-contact-figma .cnt-form-select-wrap .select2 {
+			display: none !important;
+		}
+	}
 </style>
 
 <?php slingshot_render_redesign_header( array( 'variant' => 'light' ) ); ?>
@@ -65,9 +84,9 @@ get_header();
 				if ( ! is_array( $offices ) ) { $offices = array(); }
 				if ( empty( $offices ) ) {
 					$offices = array(
-						array( 'label' => 'Louisville', 'address_1' => '100 N Hurstbourne Pkwy #120', 'city_state_zip' => 'Louisville, KY 40222' ),
-						array( 'label' => 'Chicago',    'address_1' => '15 North Watson Ave #3108',   'city_state_zip' => 'Chicago, IL 60602' ),
-						array( 'label' => 'Nashville',  'address_1' => '6339 Charlottesville #701',   'city_state_zip' => 'Nashville, TN 37205' ),
+						array( 'label' => 'Louisville', 'address_1' => '700 N Hurstbourne Pkwy #120', 'city_state_zip' => 'Louisville, KY 40222' ),
+						array( 'label' => 'Chicago',    'address_1' => '111 North Wabash Ave #3106',  'city_state_zip' => 'Chicago, IL 60602' ),
+						array( 'label' => 'Nashville',  'address_1' => '6339 CharlottePike #781',    'city_state_zip' => 'Nashville, TN 37209' ),
 					);
 				}
 				?>
@@ -103,7 +122,8 @@ get_header();
 				?>
 				<form class="cnt-form" method="post" action="#">
 					<div class="cnt-form-select-wrap">
-						<select class="cnt-form-select">
+						<span class="cnt-form-select-text">What are you looking for?</span>
+						<select class="cnt-form-select" hidden aria-hidden="true" tabindex="-1">
 							<option value="" disabled selected>What are you looking for?</option>
 							<?php foreach ( $looking_opts as $opt ) : ?>
 							<option value="<?php echo esc_attr( $opt ); ?>"><?php echo esc_html( $opt ); ?></option>

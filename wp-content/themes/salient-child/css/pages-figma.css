@@ -300,6 +300,281 @@ body.page-template-page-legal-figma #footer-outer {
 .cnt-hero-form-card .gform_wrapper .gform_body,
 .sl-modal-inner .gform_wrapper .gform_body { margin: 0; }
 
+/* Desktop contact page fidelity pass. The early contact styles above stay as
+   the mobile/tablet fallback; these selectors match the 1440px Figma frame. */
+@media (min-width: 1101px) {
+    body.page-template-page-contact-figma .cnt-page-wrapper,
+    body.page-template-page-contact-figma .cnt-page-wrapper * {
+        box-sizing: border-box;
+    }
+
+    body.page-template-page-contact-figma .cnt-page-wrapper {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        overflow-x: hidden;
+        background: #f5f4fb;
+        font-family: 'Plus Jakarta Sans', 'Proxima Nova', sans-serif;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero {
+        position: relative;
+        max-width: none;
+        width: calc(100% - 32px);
+        height: 844px;
+        margin: 96px 16px 0;
+        border-radius: 20px;
+        overflow: hidden;
+        background:
+            radial-gradient(circle 670px at 6% 0%, rgba(176,45,225,.76) 0 51%, rgba(176,45,225,0) 52%),
+            radial-gradient(circle 520px at 53% 4%, rgba(255,255,255,.16) 0 66%, rgba(255,255,255,0) 67%),
+            radial-gradient(circle 410px at 78% 12%, rgba(110,155,220,.35) 0 60%, rgba(110,155,220,0) 61%),
+            radial-gradient(circle 540px at 52% 90%, rgba(96,76,202,.45) 0 59%, rgba(96,76,202,0) 60%),
+            radial-gradient(circle 520px at 100% 76%, rgba(73,129,203,.5) 0 57%, rgba(73,129,203,0) 58%),
+            linear-gradient(112deg, #7c1dcc 0%, #3720b2 49%, #0b5d91 100%);
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-blob {
+        display: none;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-inner {
+        position: relative;
+        display: block;
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-left {
+        position: absolute;
+        left: 68px;
+        top: 106px;
+        width: 620px;
+        display: flex;
+        flex-direction: column;
+        gap: 39px;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-heading {
+        width: 520px;
+        margin: 0;
+        color: #fff;
+        font-size: 60px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-desc {
+        max-width: 486px;
+        margin: 22px 0 0 !important;
+        padding: 0;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 1.35;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-contact-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        width: 608px;
+        padding-bottom: 35px;
+        border-bottom: 1px solid rgba(255,255,255,.18);
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-contact-label,
+    body.page-template-page-contact-figma .cnt-offices-label {
+        margin: 0 0 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.25;
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-contact-value {
+        color: #fff;
+        font-size: 25px;
+        font-weight: 400;
+        line-height: 1.25;
+        letter-spacing: 0;
+    }
+
+    body.page-template-page-contact-figma .cnt-offices-label {
+        margin-bottom: 20px;
+    }
+
+    body.page-template-page-contact-figma .cnt-offices-grid {
+        display: grid;
+        grid-template-columns: 200px 190px 185px;
+        gap: 30px;
+        width: 635px;
+    }
+
+    body.page-template-page-contact-figma .cnt-office {
+        min-width: 0;
+    }
+
+    body.page-template-page-contact-figma .cnt-office-name {
+        margin: 0 0 10px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    body.page-template-page-contact-figma .cnt-office-addr {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.4;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-form-card {
+        position: absolute;
+        left: 714px;
+        top: 68px;
+        width: 598px;
+        height: 708px;
+        padding: 42px 56px 44px;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-heading {
+        margin: 0 0 24px;
+        color: #000;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-divider {
+        margin: 0 0 35px;
+        background: #252525;
+    }
+
+    body.page-template-page-contact-figma .cnt-form {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 62px;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select-wrap {
+        height: 36px;
+        border-bottom: 1px solid #d8d8d8;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select-text {
+        display: block;
+        color: #595959;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.35;
+        pointer-events: none;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select,
+    body.page-template-page-contact-figma .cnt-form-input,
+    body.page-template-page-contact-figma .cnt-form-textarea {
+        width: 100%;
+        min-height: 36px;
+        padding: 0 0 12px;
+        border: 0 !important;
+        border-bottom: 1px solid #d8d8d8 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        color: #595959;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.35;
+    }
+
+    body.page-template-page-contact-figma .cnt-hero-form-card select.cnt-form-select {
+        border-width: 0 0 1px !important;
+        border-style: solid !important;
+        border-color: #d8d8d8 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select {
+        position: absolute;
+        inset: 0;
+        height: 36px;
+        appearance: none;
+        -webkit-appearance: none;
+        opacity: 0;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select[hidden] {
+        display: none !important;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select-wrap .fancy-select-wrap,
+    body.page-template-page-contact-figma .cnt-form-select-wrap .select2 {
+        display: none !important;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-input::placeholder,
+    body.page-template-page-contact-figma .cnt-form-textarea::placeholder {
+        color: #595959;
+        opacity: 1;
+        font-size: 14px;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-select-arrow {
+        right: 0;
+        color: #252525;
+        font-size: 15px;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-textarea {
+        min-height: 63px;
+        resize: none;
+    }
+
+    body.page-template-page-contact-figma .cnt-form-submit {
+        align-self: flex-end;
+        width: 133px;
+        height: 48px;
+        margin-top: 0;
+        padding: 0 23px;
+        justify-content: center;
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: #252525 !important;
+        color: #fff !important;
+        box-shadow: none !important;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+    }
+
+    body.page-template-page-contact-figma .cnt-form > div:last-child {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -20px;
+    }
+}
+
 /* ═══════════════════════════════════════════════════════════
    WORK / PORTFOLIO PAGE
 ═══════════════════════════════════════════════════════════ */
@@ -1772,6 +2047,16 @@ body.page-template-page-legal-figma .leg-content a:hover { opacity: .75; }
 ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 900px) {
+    body.page-template-page-contact-figma,
+    body.page-template-page-contact-figma .cnt-page-wrapper {
+        overflow-x: hidden;
+    }
+
+    body.page-template-page-contact-figma .cnt-page-wrapper,
+    body.page-template-page-contact-figma .cnt-page-wrapper * {
+        box-sizing: border-box;
+    }
+
     .cnt-page-wrapper,
     .wrk-page-wrapper,
     .cs-page-wrapper,
@@ -1780,14 +2065,67 @@ body.page-template-page-legal-figma .leg-content a:hover { opacity: .75; }
     }
 
     /* Contact */
-    .cnt-hero { margin: 72px 12px 0; }
+    .cnt-hero {
+        width: calc(100% - 24px);
+        max-width: none;
+        margin: 72px 12px 0;
+    }
     .cnt-hero-inner {
         grid-template-columns: 1fr;
+        width: 100%;
         padding: 36px 24px 36px;
         gap: 32px;
     }
+    .cnt-hero-heading {
+        font-size: 34px;
+        line-height: 1.18;
+        letter-spacing: 0;
+    }
+    .cnt-hero-desc {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
     .cnt-hero-contact-row { grid-template-columns: 1fr; gap: 20px; }
-    .cnt-offices-grid { gap: 20px; }
+    .cnt-offices-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .cnt-office,
+    .cnt-office-addr {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+    .cnt-hero-form-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 32px 24px;
+        border-radius: 18px;
+    }
+    .cnt-form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .cnt-form-select-wrap {
+        min-height: 40px;
+        border-bottom: 1px solid #e0e0ec;
+    }
+    .cnt-form-select-text {
+        display: block;
+        color: #888;
+        font-size: 14px;
+        line-height: 1.35;
+        padding: 0 0 10px;
+    }
+    .cnt-form-select-wrap .fancy-select-wrap,
+    .cnt-form-select-wrap .select2 {
+        display: none !important;
+    }
+    .cnt-form-input,
+    .cnt-form-textarea {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
 
     /* Work */
     .wrk-hero { margin: 72px 12px 0; }

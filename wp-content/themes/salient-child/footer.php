@@ -3,8 +3,8 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $child_uri = get_stylesheet_directory_uri();
-wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.7' );
-wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.4' );
+wp_enqueue_style( 'slingshot-footer',      $child_uri . '/css/footer.css',        [], '1.8' );
+wp_enqueue_style( 'slingshot-pages-figma', $child_uri . '/css/pages-figma.css',  [], '1.9' );
 wp_enqueue_style( 'slingshot-pages-figma-2', $child_uri . '/css/pages-figma-2.css', [], '1.1' );
 
 $sl_page_meta = static function ( $key, $default = '' ) {

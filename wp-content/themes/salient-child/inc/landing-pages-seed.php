@@ -669,9 +669,9 @@ function slingshot_lp_build_contact_meta() {
 		'cnt_phone'            => '502.254.6150',
 		'cnt_email'            => 'hello@Yslingshot.com',
 		'cnt_offices'          => [
-			[ 'label' => 'Louisville', 'address_1' => '100 N Hurstbourne Pkwy #120', 'address_2' => '', 'city_state_zip' => 'Louisville, KY 40222' ],
-			[ 'label' => 'Chicago',    'address_1' => '15 North Watson Ave #3108',   'address_2' => '', 'city_state_zip' => 'Chicago, IL 60602' ],
-			[ 'label' => 'Nashville',  'address_1' => '6339 Charlottesville #701',   'address_2' => '', 'city_state_zip' => 'Nashville, TN 37205' ],
+			[ 'label' => 'Louisville', 'address_1' => '700 N Hurstbourne Pkwy #120', 'address_2' => '', 'city_state_zip' => 'Louisville, KY 40222' ],
+			[ 'label' => 'Chicago',    'address_1' => '111 North Wabash Ave #3106',  'address_2' => '', 'city_state_zip' => 'Chicago, IL 60602' ],
+			[ 'label' => 'Nashville',  'address_1' => '6339 CharlottePike #781',    'address_2' => '', 'city_state_zip' => 'Nashville, TN 37209' ],
 		],
 		'cnt_form_heading'     => 'Hit us up',
 		'cnt_form_gf_id'       => 0,
@@ -839,6 +839,27 @@ function slingshot_lp_maybe_seed_figma_content() {
 	update_option( SLINGSHOT_LP_FIGMA_CONTENT_SEED_OPTION, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_figma_content', 13 );
+
+define( 'SLINGSHOT_LP_CONTACT_CONTENT_FIX_OPTION_V1', 'slingshot_lp_contact_content_fix_v1' );
+
+/**
+ * Keep existing staging DBs aligned with the current contact Figma copy.
+ */
+function slingshot_lp_maybe_seed_contact_content_fix_v1() {
+	if ( get_option( SLINGSHOT_LP_CONTACT_CONTENT_FIX_OPTION_V1 ) ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'contact', OBJECT, 'page' );
+	if ( $page instanceof WP_Post ) {
+		foreach ( slingshot_lp_build_contact_meta() as $key => $value ) {
+			update_post_meta( (int) $page->ID, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_CONTACT_CONTENT_FIX_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_contact_content_fix_v1', 13 );
 
 define( 'SLINGSHOT_LP_FIGMA_REDESIGN_BUILDER_PAGES_OPTION', 'slingshot_lp_figma_redesign_builder_pages_v1' );
 
