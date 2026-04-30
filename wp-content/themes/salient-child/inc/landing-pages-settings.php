@@ -1270,13 +1270,18 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$reg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-register-figma.php' ] ] ];
 
 	$svc_built_item_fields = [
+		[ 'id' => 'icon_key',  'name' => 'Icon key (optional)', 'type' => 'text', 'desc' => 'Use one of: web, mobile, design, strategy, prototype, systems, planning, rocket, support, ai, cart, dashboard, human, integration, workflow, security.' ],
 		[ 'id' => 'icon_svg',  'name' => 'Icon SVG',    'type' => 'textarea', 'rows' => 3 ],
 		[ 'id' => 'title',     'name' => 'Title',        'type' => 'text' ],
 		[ 'id' => 'desc',      'name' => 'Description',  'type' => 'textarea', 'rows' => 2 ],
+		[ 'id' => 'cta_text',  'name' => 'Button label', 'type' => 'text' ],
+		[ 'id' => 'cta_url',   'name' => 'Button URL',   'type' => 'text' ],
 	];
 
 	$svc_card_fields = [
 		[ 'id' => 'image',    'name' => 'Image',        'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'icon_key', 'name' => 'Icon key (optional)', 'type' => 'text', 'desc' => 'Used when Image is empty. Example: web, mobile, design, strategy, prototype, systems, ai, cart, dashboard, workflow.' ],
+		[ 'id' => 'icon_svg', 'name' => 'Icon SVG',     'type' => 'textarea', 'rows' => 3 ],
 		[ 'id' => 'tag',      'name' => 'Tag / eyebrow', 'type' => 'text' ],
 		[ 'id' => 'title',    'name' => 'Title',         'type' => 'text' ],
 		[ 'id' => 'desc',     'name' => 'Description',   'type' => 'textarea', 'rows' => 3 ],
@@ -1287,6 +1292,8 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		[ 'id' => 'image',    'name' => 'Image',   'type' => 'single_image', 'force_delete' => false ],
 		[ 'id' => 'client',   'name' => 'Client',  'type' => 'text' ],
 		[ 'id' => 'title',    'name' => 'Title',   'type' => 'text' ],
+		[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea', 'rows' => 2 ],
+		[ 'id' => 'tags',     'name' => 'Tags (comma-separated)', 'type' => 'text' ],
 		[ 'id' => 'link_url', 'name' => 'Link URL','type' => 'text' ],
 	];
 
@@ -1294,8 +1301,18 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Service · Hero',
 		'id'     => 'lp_svc_hero',
 		'fields' => [
+			[
+				'id'      => 'svc_theme',
+				'name'    => 'Theme color',
+				'type'    => 'select',
+				'options' => [ 'product' => 'Product new look', 'web' => 'Web new look', 'design' => 'Design new look', 'mobile' => 'Mobile new look' ],
+				'std'     => 'product',
+			],
+			[ 'id' => 'svc_header_cta_text', 'name' => 'Header CTA label', 'type' => 'text', 'std' => "Let's talk" ],
+			[ 'id' => 'svc_header_cta_url',  'name' => 'Header CTA URL',   'type' => 'text', 'std' => '/contact/' ],
 			[ 'id' => 'svc_hero_bc_parent',  'name' => 'Breadcrumb left',  'type' => 'text', 'std' => 'SERVICES' ],
 			[ 'id' => 'svc_hero_bc_leaf',    'name' => 'Breadcrumb right', 'type' => 'text' ],
+			[ 'id' => 'svc_hero_bc_extra',   'name' => 'Breadcrumb extra', 'type' => 'text' ],
 			[ 'id' => 'svc_hero_heading',    'name' => 'Heading',          'type' => 'text' ],
 			[ 'id' => 'svc_hero_subtext',    'name' => 'Subtext',          'type' => 'textarea' ],
 			[ 'id' => 'svc_hero_cta_text',   'name' => 'CTA label',        'type' => 'text', 'std' => 'Book a call' ],
@@ -1314,9 +1331,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'svc_built_heading_1', 'name' => 'Heading line 1', 'type' => 'text', 'std' => 'Built to Scale.' ],
 			[ 'id' => 'svc_built_heading_2', 'name' => 'Heading line 2', 'type' => 'text', 'std' => 'Designed to Win.' ],
 			[ 'id' => 'svc_built_desc',      'name' => 'Description',    'type' => 'textarea' ],
+			[ 'id' => 'svc_built_grid_label','name' => 'Feature grid label (optional)', 'type' => 'text' ],
 			[
 				'id'         => 'svc_built_items',
-				'name'       => 'Feature items (4 recommended)',
+				'name'       => 'Feature items',
 				'type'       => 'group',
 				'clone'      => true,
 				'sort_clone' => true,
@@ -1339,7 +1357,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'type'    => 'select',
 				'options' => [ 'grid' => 'Grid (3 columns)', 'alternating' => 'Alternating rows (image + text)' ],
 				'std'     => 'grid',
-				'desc'    => 'Grid works best for 3 equal cards. Alternating for image+text rows.',
+				'desc'    => 'Grid works best for icon cards. Alternating for image+text rows.',
 			],
 			[
 				'id'         => 'svc_cards_items',
@@ -1381,10 +1399,15 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'svc_spotlight_person_name',   'name' => 'Person name',            'type' => 'text' ],
 			[ 'id' => 'svc_spotlight_person_role',   'name' => 'Person role / company',  'type' => 'text' ],
 			[ 'id' => 'svc_spotlight_person_img',    'name' => 'Person photo',           'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'svc_spotlight_quote_img',     'name' => 'Quote card background',  'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'svc_spotlight_article_img',   'name' => 'Article image',          'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'svc_spotlight_article_tag',   'name' => 'Article tag / eyebrow',  'type' => 'text' ],
 			[ 'id' => 'svc_spotlight_article_title', 'name' => 'Article title',          'type' => 'text' ],
 			[ 'id' => 'svc_spotlight_article_desc',  'name' => 'Article excerpt',        'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'svc_spotlight_detail_left_title',  'name' => 'Detail left title',   'type' => 'text' ],
+			[ 'id' => 'svc_spotlight_detail_left_items',  'name' => 'Detail left bullets', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'svc_spotlight_detail_right_title', 'name' => 'Detail right title',  'type' => 'text' ],
+			[ 'id' => 'svc_spotlight_detail_right_items', 'name' => 'Detail right bullets','type' => 'textarea', 'rows' => 3 ],
 			[ 'id' => 'svc_spotlight_article_url',   'name' => 'Article link URL',       'type' => 'text' ],
 		],
 	];
@@ -1393,6 +1416,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Service · Blog',
 		'id'     => 'lp_svc_blog',
 		'fields' => [
+			[ 'id' => 'svc_blog_show',     'name' => 'Show blog section', 'type' => 'checkbox', 'std' => 0 ],
 			[ 'id' => 'svc_blog_title',    'name' => 'Heading',        'type' => 'textarea', 'rows' => 2, 'std' => "Insights That Move\nBusiness Forward" ],
 			[ 'id' => 'svc_blog_desc',     'name' => 'Description',    'type' => 'textarea' ],
 			[ 'id' => 'svc_blog_cta_text', 'name' => 'Link label',     'type' => 'text', 'std' => 'All Insights →' ],
@@ -1407,6 +1431,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'fields' => [
 			[ 'id' => 'svc_cta_title',    'name' => 'Heading',      'type' => 'text', 'std' => "Let's Build What's Next" ],
 			[ 'id' => 'svc_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
+			[ 'id' => 'svc_cta_visual',   'name' => 'CTA visual',   'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'svc_cta_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => 'Start the Conversation →' ],
 			[ 'id' => 'svc_cta_btn_url',  'name' => 'Button URL',   'type' => 'text', 'std' => '/contact/' ],
 		],
