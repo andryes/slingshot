@@ -752,6 +752,59 @@ function slingshot_lp_build_case_study_meta() {
 	];
 }
 
+/** @return array<string,mixed> */
+function slingshot_lp_build_work_internal_meta() {
+	$img_base = '/wp-content/themes/salient-child/img/';
+
+	return [
+		'cs_figma_enabled'         => '1',
+		'cs_hero_client'           => 'Southeast Christian Church',
+		'cs_hero_title'            => 'Southeast Christian Church',
+		'cs_hero_desc'             => 'Helping refugees and immigrants acclimate to new cities with live native language translation and community guide chats.',
+		'cs_hero_img_url'          => $img_base . 'case-southeast-hero-visual.png',
+		'cs_intro_heading'         => 'Southeast Christian Church works with numerous disadvantaged communities in and around Louisville, including refugees trying to acclimate to the area.',
+		'cs_intro_text'            => 'We build mobile products that solve complex problems and deliver measurable results. Our cross-functional teams pair user-focused design with high-performance development to create apps that are fast, intuitive, and secure.',
+		'cs_services'              => "AI\nUX/UI Design\nMobile Dev",
+		'cs_technology'            => "Azure AI\nAzure Cloud\nMAUI\nReact\n.NET\nDocker",
+		'cs_media_top_img_url'     => $img_base . 'case-southeast-media-top.png',
+		'cs_solution_heading'      => 'Solutions to Support Immigrants and Volunteers',
+		'cs_solution_text'         => 'We broke down language barriers and improved access to resources using AI and auto-translation. The app makes it easier to connect with experts, provide training, and scale the program to new communities.',
+		'cs_challenges'            => "Language barriers between volunteers and refugees/immigrants, especially for less common languages\nDifficulty connecting immigrants with local experts and resources\nLack of centralized resources for common issues faced\nConcerns with relationship building without in-person communication\nLimitations in the church's ability to expand the program beyond Louisville",
+		'cs_solutions'             => "Leveraged Azure AI to enable real-time language translation between users' native languages and English\nIncorporated features for volunteers to build profiles highlighting their areas of expertise\nCreated auto-translated resources for daily issues like schools, healthcare, and more\nAdded onboarding videos with local immigrants speaking in their native language\nDesigned the app for multi-tenancy to allow easy expansion to other communities",
+		'cs_gallery'               => [
+			[ 'image_url' => $img_base . 'case-southeast-gallery-a.png', 'alt' => 'HelloCity resources screen' ],
+			[ 'image_url' => $img_base . 'case-southeast-gallery-b.png', 'alt' => 'HelloCity chats screen' ],
+		],
+		'cs_onboarding_img_url'    => $img_base . 'case-southeast-onboarding.png',
+		'cs_media_middle_img_url'  => $img_base . 'case-southeast-media-middle.png',
+		'cs_admin_heading'         => 'Powerful Admin Tools for Better User Support',
+		'cs_admin_text'            => 'The admin panel lets administrators easily manage users, track activity, and offer real-time assistance. It simplifies onboarding, resolves issues faster, and ensures smooth use of the app for all communities.',
+		'cs_admin_img_url'         => $img_base . 'case-southeast-admin-panel.png',
+		'cs_design_system_img_url' => $img_base . 'case-southeast-design-system.png',
+		'cs_media_bottom_img_url'  => $img_base . 'case-southeast-media-bottom.png',
+		'cs_side_avatar_url'       => $img_base . 'case-southeast-avatar-savannah.png',
+		'cs_side_name'             => 'Savannah Cherry',
+		'cs_side_role'             => 'Director of marketing and new business',
+		'cs_side_title'            => 'Ready to discuss your project with us?',
+		'cs_side_text'             => 'Let us talk about how we can craft a user experience that not only looks great but drives real growth for you.',
+		'cs_side_btn_text'         => 'Request a quote',
+		'cs_side_btn_url'          => '/contact/',
+		'cs_review_label'          => 'Client Review',
+		'cs_review_quote'          => 'Slingshot understood our unique vision.',
+		'cs_review_stars'          => 5,
+		'cs_review_text'           => 'It was clear they had a high level of expertise. They came up with a solution that fit our needs, and we felt involved during the entire process. We plan on working with Slingshot again, and see them as partners rather than another software vendor.',
+		'cs_review_name'           => 'Maria Doe',
+		'cs_review_role'           => '(CEO & Co-Founder)',
+		'cs_review_avatar_url'     => $img_base . 'case-southeast-avatar-maria.png',
+		'cs_review_img_url'        => $img_base . 'case-southeast-review-visual.png',
+		'cs_cta_heading'           => 'Ready to Launch Something Bold?',
+		'cs_cta_desc'              => "Let's talk about how we help teams like yours bring new products to life--and make them work in the real world.",
+		'cs_cta_btn_text'          => "Let's Talk",
+		'cs_cta_btn_url'           => '/contact/',
+		'cs_cta_mascot_url'        => $img_base . 'cta-mascot.png',
+	];
+}
+
 /**
  * Seed post meta for service + careers + open-position figma pages.
  */
@@ -1121,3 +1174,24 @@ function slingshot_lp_maybe_seed_work_page_v2() {
 	update_option( SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V2, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_work_page_v2', 19 );
+
+define( 'SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V1', 'slingshot_lp_figma_work_internal_v1' );
+
+/**
+ * Seed the first redesigned Work internal page into the existing portfolio item.
+ */
+function slingshot_lp_maybe_seed_work_internal_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V1 ) ) {
+		return;
+	}
+
+	$post = get_page_by_path( 'connected-caregiver', OBJECT, 'portfolio' );
+	if ( $post instanceof WP_Post ) {
+		foreach ( slingshot_lp_build_work_internal_meta() as $key => $value ) {
+			update_post_meta( (int) $post->ID, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_work_internal_v1', 20 );

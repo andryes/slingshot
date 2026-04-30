@@ -1845,14 +1845,16 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Case Study Figma ──────────────────────────────────────────────────────
-	$cs_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-case-study-figma.php' ] ] ];
+	$cs_sp      = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-case-study-figma.php' ] ] ];
+	$cs_port_sp = [ 'post_types' => [ 'portfolio' ] ];
 
 	$cs_section_fields = [
-		[ 'id' => 'label',      'name' => 'Eyebrow label',   'type' => 'text', 'desc' => 'Small uppercase label above heading (optional)' ],
-		[ 'id' => 'heading',    'name' => 'Section heading', 'type' => 'text' ],
-		[ 'id' => 'desc',       'name' => 'Description',     'type' => 'textarea', 'rows' => 4 ],
-		[ 'id' => 'bullets',    'name' => 'Bullet points (one per line)', 'type' => 'textarea', 'rows' => 5 ],
-		[ 'id' => 'image',      'name' => 'Section image',  'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'label',     'name' => 'Eyebrow label',   'type' => 'text', 'desc' => 'Small uppercase label above heading (optional)' ],
+		[ 'id' => 'heading',   'name' => 'Section heading', 'type' => 'text' ],
+		[ 'id' => 'desc',      'name' => 'Description',     'type' => 'textarea', 'rows' => 4 ],
+		[ 'id' => 'bullets',   'name' => 'Bullet points (one per line)', 'type' => 'textarea', 'rows' => 5 ],
+		[ 'id' => 'image',     'name' => 'Section image',  'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'image_url', 'name' => 'Section image URL fallback', 'type' => 'text', 'desc' => 'Used when no media-library image is selected.' ],
 		[
 			'id'      => 'image_side',
 			'name'    => 'Image position',
@@ -1861,10 +1863,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			'std'     => 'right',
 		],
 		[
-			'id'      => 'dark_bg',
-			'name'    => 'Dark background',
-			'type'    => 'checkbox',
-			'desc'    => 'Enable dark/navy section background',
+			'id'   => 'dark_bg',
+			'name' => 'Dark background',
+			'type' => 'checkbox',
+			'desc' => 'Enable dark/navy section background',
 		],
 	];
 
@@ -1872,10 +1874,12 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Case Study · Hero',
 		'id'     => 'lp_cs_hero',
 		'fields' => [
-			[ 'id' => 'cs_hero_client', 'name' => 'Client name',    'type' => 'text', 'desc' => 'Shown in breadcrumb and below heading' ],
-			[ 'id' => 'cs_hero_title',  'name' => 'Project title (overrides page title)', 'type' => 'text' ],
-			[ 'id' => 'cs_hero_tags',   'name' => 'Tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. Mobile App, iOS, UX Design' ],
-			[ 'id' => 'cs_hero_img',    'name' => 'Hero image (device mockup etc.)', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_hero_client',  'name' => 'Client name', 'type' => 'text', 'desc' => 'Shown in breadcrumb and below heading' ],
+			[ 'id' => 'cs_hero_title',   'name' => 'Project title (overrides page title)', 'type' => 'text' ],
+			[ 'id' => 'cs_hero_tags',    'name' => 'Tags (comma-separated)', 'type' => 'text', 'desc' => 'e.g. Mobile App, iOS, UX Design' ],
+			[ 'id' => 'cs_hero_desc',    'name' => 'Hero description', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_hero_img',     'name' => 'Hero image (device mockup etc.)', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_hero_img_url', 'name' => 'Hero image URL fallback', 'type' => 'text' ],
 		],
 	];
 
@@ -1913,6 +1917,136 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'cs_cta_desc',     'name' => 'Description',  'type' => 'textarea' ],
 			[ 'id' => 'cs_cta_btn_text', 'name' => 'Button label', 'type' => 'text',     'std' => "Let's Talk" ],
 			[ 'id' => 'cs_cta_btn_url',  'name' => 'Button URL',   'type' => 'text',     'std' => '/contact/' ],
+		],
+	];
+
+	$cs_gallery_fields = [
+		[ 'id' => 'image',     'name' => 'Image', 'type' => 'single_image', 'force_delete' => false ],
+		[ 'id' => 'image_url', 'name' => 'Image URL fallback', 'type' => 'text' ],
+		[ 'id' => 'alt',       'name' => 'Alt text', 'type' => 'text' ],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Display',
+		'id'     => 'lp_cs_port_display',
+		'fields' => [
+			[ 'id' => 'cs_figma_enabled', 'name' => 'Use Figma case study template', 'type' => 'checkbox', 'desc' => 'Enable the redesigned Work internal page for this portfolio item.' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Hero',
+		'id'     => 'lp_cs_port_hero',
+		'fields' => [
+			[ 'id' => 'cs_hero_client',  'name' => 'Client name', 'type' => 'text', 'desc' => 'Shown in the Work breadcrumb.' ],
+			[ 'id' => 'cs_hero_title',   'name' => 'Hero title', 'type' => 'text' ],
+			[ 'id' => 'cs_hero_desc',    'name' => 'Hero description', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_hero_img',     'name' => 'Hero visual', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_hero_img_url', 'name' => 'Hero visual URL fallback', 'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Intro',
+		'id'     => 'lp_cs_port_intro',
+		'fields' => [
+			[ 'id' => 'cs_intro_heading', 'name' => 'Intro heading', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_intro_text',    'name' => 'Intro text', 'type' => 'textarea', 'rows' => 4 ],
+			[ 'id' => 'cs_services',      'name' => 'Services tags (one per line or comma-separated)', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_technology',    'name' => 'Technology tags (one per line or comma-separated)', 'type' => 'textarea', 'rows' => 4 ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Media',
+		'id'     => 'lp_cs_port_media',
+		'fields' => [
+			[ 'id' => 'cs_media_top_img',        'name' => 'Top full-width media', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_media_top_img_url',    'name' => 'Top media URL fallback', 'type' => 'text' ],
+			[ 'id' => 'cs_media_middle_img',     'name' => 'Middle full-width media', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_media_middle_img_url', 'name' => 'Middle media URL fallback', 'type' => 'text' ],
+			[ 'id' => 'cs_media_bottom_img',     'name' => 'Bottom full-width media', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_media_bottom_img_url', 'name' => 'Bottom media URL fallback', 'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Solution',
+		'id'     => 'lp_cs_port_solution',
+		'fields' => [
+			[ 'id' => 'cs_solution_heading', 'name' => 'Solution section heading', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_solution_text',    'name' => 'Solution section text', 'type' => 'textarea', 'rows' => 4 ],
+			[ 'id' => 'cs_challenges',       'name' => 'Challenges (one per line)', 'type' => 'textarea', 'rows' => 7 ],
+			[ 'id' => 'cs_solutions',        'name' => 'Solutions (one per line)', 'type' => 'textarea', 'rows' => 7 ],
+			[
+				'id'         => 'cs_gallery',
+				'name'       => 'Two-column image gallery',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add gallery image',
+				'fields'     => $cs_gallery_fields,
+			],
+			[ 'id' => 'cs_onboarding_img',     'name' => 'Onboarding framed media', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_onboarding_img_url', 'name' => 'Onboarding media URL fallback', 'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Admin Tools',
+		'id'     => 'lp_cs_port_admin',
+		'fields' => [
+			[ 'id' => 'cs_admin_heading',         'name' => 'Admin tools heading', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_admin_text',            'name' => 'Admin tools text', 'type' => 'textarea', 'rows' => 4 ],
+			[ 'id' => 'cs_admin_img',             'name' => 'Admin tools framed media', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_admin_img_url',         'name' => 'Admin tools media URL fallback', 'type' => 'text' ],
+			[ 'id' => 'cs_design_system_img',     'name' => 'Design system media', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_design_system_img_url', 'name' => 'Design system media URL fallback', 'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Sidebar CTA',
+		'id'     => 'lp_cs_port_sidebar',
+		'fields' => [
+			[ 'id' => 'cs_side_avatar',     'name' => 'Person avatar', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_side_avatar_url', 'name' => 'Person avatar URL fallback', 'type' => 'text' ],
+			[ 'id' => 'cs_side_name',       'name' => 'Person name', 'type' => 'text' ],
+			[ 'id' => 'cs_side_role',       'name' => 'Person role', 'type' => 'text' ],
+			[ 'id' => 'cs_side_title',      'name' => 'CTA heading', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'cs_side_text',       'name' => 'CTA text', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_side_btn_text',   'name' => 'Button label', 'type' => 'text', 'std' => 'Request a quote' ],
+			[ 'id' => 'cs_side_btn_url',    'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Client Review',
+		'id'     => 'lp_cs_port_review',
+		'fields' => [
+			[ 'id' => 'cs_review_label',      'name' => 'Label', 'type' => 'text', 'std' => 'Client Review' ],
+			[ 'id' => 'cs_review_quote',      'name' => 'Quote heading', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_review_stars',      'name' => 'Star count', 'type' => 'number', 'min' => 0, 'max' => 5, 'std' => 5 ],
+			[ 'id' => 'cs_review_text',       'name' => 'Review text', 'type' => 'textarea', 'rows' => 4 ],
+			[ 'id' => 'cs_review_name',       'name' => 'Reviewer name', 'type' => 'text' ],
+			[ 'id' => 'cs_review_role',       'name' => 'Reviewer role', 'type' => 'text' ],
+			[ 'id' => 'cs_review_avatar',     'name' => 'Reviewer avatar', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_review_avatar_url', 'name' => 'Reviewer avatar URL fallback', 'type' => 'text' ],
+			[ 'id' => 'cs_review_img',        'name' => 'Review image', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_review_img_url',    'name' => 'Review image URL fallback', 'type' => 'text' ],
+		],
+	];
+
+	$meta_boxes[] = $cs_port_sp + [
+		'title'  => 'Portfolio Case Study · Bottom CTA',
+		'id'     => 'lp_cs_port_cta',
+		'fields' => [
+			[ 'id' => 'cs_cta_heading',    'name' => 'Heading', 'type' => 'textarea', 'rows' => 2, 'std' => 'Ready to Launch Something Bold?' ],
+			[ 'id' => 'cs_cta_desc',       'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'cs_cta_btn_text',   'name' => 'Button label', 'type' => 'text', 'std' => "Let's Talk" ],
+			[ 'id' => 'cs_cta_btn_url',    'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
+			[ 'id' => 'cs_cta_mascot',     'name' => 'Mascot image', 'type' => 'single_image', 'force_delete' => false ],
+			[ 'id' => 'cs_cta_mascot_url', 'name' => 'Mascot image URL fallback', 'type' => 'text' ],
 		],
 	];
 
