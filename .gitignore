@@ -1,9 +1,31 @@
-# Migration backups (huge files)
-wp-content/ai1wm-backups/
+~*
 
-# DB dumps
-*.sql
-dump.sql
-
-# OS
 .DS_Store
+
+*.log
+*.sql
+*.sqlite
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+wp-content/*
+!wp-content/mu-plugins/
+!wp-content/plugins/
+!wp-content/themes/
+
+node_modules/
+
+/wp-content/uploads/
+
+wp-config.php
+nginx.conf
+robots.txt
+sitemap.xml
+sitemap_index.xml
