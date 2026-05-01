@@ -235,7 +235,7 @@ slingshot_render_redesign_header( array(
 						<h3 class="teams-crosssell-heading"><?php echo esc_html( slingshot_pm( 'ded_crosssell_heading', 'Need individual contributors instead?' ) ); ?></h3>
 						<p class="teams-crosssell-desc"><?php echo esc_html( slingshot_pm( 'ded_crosssell_desc', 'If you have an existing team and just need to fill specific skill gaps, our Staff Augmentation model lets you add senior talent in days.' ) ); ?></p>
 					</div>
-					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_crosssell_cta_url', '/teams/staff-augmentation/' ) ); ?>" class="teams-crosssell-cta">
+					<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'ded_crosssell_cta_url', '/eu-staff-augmentation/' ) ); ?>" class="teams-crosssell-cta">
 						<?php echo esc_html( slingshot_pm( 'ded_crosssell_cta_text', 'Learn More →' ) ); ?>
 					</a>
 				</div>

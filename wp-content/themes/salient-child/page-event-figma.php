@@ -8,12 +8,121 @@ wp_enqueue_style( 'pages-figma-jakarta',  'https://fonts.googleapis.com/css2?fam
 wp_enqueue_style( 'home-style',           get_stylesheet_directory_uri() . '/css/home.css',          array(), '1.18' );
 wp_enqueue_style( 'service-figma-style',  get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
 wp_enqueue_style( 'pages-figma-style',    get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.0' );
-wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.0' );
+wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '2.0' );
 wp_enqueue_script( 'hp-script',           get_stylesheet_directory_uri() . '/js/home.js',            array( 'jquery' ), '1.6', true );
 
 get_header();
 
 $img_dir = get_stylesheet_directory_uri() . '/img';
+
+if ( ! function_exists( 'slingshot_evt_img_url' ) ) {
+	function slingshot_evt_img_url( $value, $size = 'medium_large' ) {
+		if ( is_array( $value ) ) {
+			$value = $value['ID'] ?? $value['id'] ?? reset( $value );
+		}
+		$value = trim( (string) $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		if ( ctype_digit( $value ) ) {
+			return slingshot_lp_attachment_url( (int) $value, '', $size );
+		}
+		return $value;
+	}
+}
+
+if ( ! function_exists( 'slingshot_evt_filter_rows' ) ) {
+	function slingshot_evt_filter_rows( $rows, $content_keys ) {
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+		return array_values(
+			array_filter(
+				$rows,
+				static function ( $row ) use ( $content_keys ) {
+					if ( ! is_array( $row ) ) {
+						return false;
+					}
+					foreach ( $content_keys as $key ) {
+						if ( ! isset( $row[ $key ] ) ) {
+							continue;
+						}
+						$value = $row[ $key ];
+						if ( is_array( $value ) ) {
+							$value = $value['ID'] ?? $value['id'] ?? reset( $value );
+						}
+						$value = trim( (string) $value );
+						if ( '' !== $value && '0' !== $value ) {
+							return true;
+						}
+					}
+					return false;
+				}
+			)
+		);
+	}
+}
+
+if ( ! function_exists( 'slingshot_evt_next_event' ) ) {
+	function slingshot_evt_next_event() {
+		$events = get_posts(
+			array(
+				'post_type'      => 'tribe_events',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'meta_key'       => '_EventStartDate',
+				'orderby'        => 'meta_value',
+				'order'          => 'ASC',
+				'meta_type'      => 'DATETIME',
+				'meta_query'     => array(
+					array(
+						'key'     => '_EventStartDate',
+						'value'   => current_time( 'mysql' ),
+						'compare' => '>=',
+						'type'    => 'DATETIME',
+					),
+				),
+			)
+		);
+		if ( empty( $events ) ) {
+			return array();
+		}
+
+		$event_id = (int) $events[0]->ID;
+		$start    = get_post_meta( $event_id, '_EventStartDate', true );
+		$end      = get_post_meta( $event_id, '_EventEndDate', true );
+		$tz_name  = get_post_meta( $event_id, '_EventTimezone', true ) ?: wp_timezone_string();
+		$date     = get_the_date( 'F j, Y', $event_id );
+		$time     = '';
+		if ( $start ) {
+			try {
+				$tz       = new DateTimeZone( $tz_name );
+				$start_dt = DateTimeImmutable::createFromFormat( 'Y-m-d H:i:s', $start, $tz );
+				$end_dt   = $end ? DateTimeImmutable::createFromFormat( 'Y-m-d H:i:s', $end, $tz ) : false;
+				if ( $start_dt instanceof DateTimeImmutable ) {
+					$date = $start_dt->format( 'F j, Y' );
+					$time = $start_dt->format( 'g:i A' );
+					if ( $end_dt instanceof DateTimeImmutable ) {
+						$time .= ' - ' . $end_dt->format( 'g:i A T' );
+					}
+				}
+			} catch ( Exception $e ) {
+				$date = wp_date( 'F j, Y', strtotime( $start ) );
+				$time = wp_date( 'g:i A', strtotime( $start ) );
+				if ( $end ) {
+					$time .= ' - ' . wp_date( 'g:i A T', strtotime( $end ) );
+				}
+			}
+		}
+
+		return array(
+			'date'  => trim( $date . ( $time ? ' · ' . $time : '' ) ),
+			'title' => get_the_title( $event_id ),
+			'desc'  => wp_strip_all_tags( get_the_excerpt( $event_id ) ),
+			'url'   => get_permalink( $event_id ),
+		);
+	}
+}
 
 // ── Hero ──────────────────────────────────────────────────────
 $hero_label    = slingshot_pm( 'evt_hero_label',    'EVENTS / LOUISVILLE' );
@@ -22,12 +131,15 @@ $hero_desc     = slingshot_pm( 'evt_hero_desc',     "A monthly gathering where L
 $hero_btn_text = slingshot_pm( 'evt_hero_btn_text', 'Register Now' );
 $hero_btn_url  = slingshot_pm( 'evt_hero_btn_url',  '#next-meetup' );
 $hero_img      = slingshot_pm_image( 'evt_hero_img', '' );
+if ( ! $hero_img ) {
+	$hero_img = slingshot_evt_img_url( '455176', 'large' );
+}
 
 // ── What It Is ────────────────────────────────────────────────
 $what_heading = slingshot_pm( 'evt_what_heading', 'Explore Real-World AI in Action' );
 $what_desc    = slingshot_pm( 'evt_what_desc',    "The Louisville AI Exchange is a monthly gathering where the tech community comes together, explores real-world AI in action — candid conversations, expert insights, and a room full of people building what's next. Whether you're just starting out or have deployed AI in production, this is the place for you." );
 $what_cards   = slingshot_pm( 'evt_what_cards', [] );
-$what_cards   = is_array( $what_cards ) ? $what_cards : [];
+$what_cards   = slingshot_evt_filter_rows( $what_cards, array( 'icon_svg', 'heading', 'desc' ) );
 if ( empty( $what_cards ) ) {
 	$what_cards = [
 		[
@@ -38,7 +150,7 @@ if ( empty( $what_cards ) ) {
 		[
 			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#23B7B4" fill-opacity=".1"/><path d="M22 12v20M12 22h20" stroke="#23B7B4" stroke-width="2" stroke-linecap="round"/></svg>',
 			'heading'  => 'AI at Scale',
-			'desc'     => 'Real stories of scaling AI beyond pilots — what works in production and what doesn\'t.',
+			'desc'     => 'Real stories of scaling AI beyond pilots - what works in production and what does not.',
 		],
 		[
 			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#6D44B7" fill-opacity=".1"/><rect x="13" y="14" width="18" height="16" rx="4" stroke="#6D44B7" stroke-width="1.8"/><path d="M18 22h8M22 18v8" stroke="#6D44B7" stroke-width="1.5" stroke-linecap="round"/></svg>',
@@ -48,17 +160,17 @@ if ( empty( $what_cards ) ) {
 		[
 			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#23B7B4" fill-opacity=".1"/><path d="M14 30l7-16 7 16" stroke="#23B7B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 25h11" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>',
 			'heading'  => 'AI in Practice',
-			'desc'     => 'Practitioners share what they\'ve actually built — the messy, real version of AI projects.',
+			'desc'     => 'Practitioners share what they have actually built, including the messy, real version of AI projects.',
 		],
 		[
 			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#6D44B7" fill-opacity=".1"/><circle cx="22" cy="18" r="5" stroke="#6D44B7" stroke-width="1.8"/><path d="M13 32c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#6D44B7" stroke-width="1.8" stroke-linecap="round"/></svg>',
 			'heading'  => 'AI & Society',
-			'desc'     => 'Exploring the broader implications of AI — workforce, ethics, education, and community impact.',
+			'desc'     => 'Exploring the broader implications of AI: workforce, ethics, education, and community impact.',
 		],
 		[
 			'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#23B7B4" fill-opacity=".1"/><path d="M18 14h8M16 19h12M14 24h16M12 29h20" stroke="#23B7B4" stroke-width="1.8" stroke-linecap="round"/></svg>',
-			'heading'  => 'Starting with AI',
-			'desc'     => 'For those just beginning — how to think about AI for your business and where to start without getting overwhelmed.',
+			'heading'  => 'Starting With AI',
+			'desc'     => 'For those just beginning, how to think about AI for your business and where to start without getting overwhelmed.',
 		],
 	];
 }
@@ -73,21 +185,65 @@ $next_btn_url      = slingshot_pm( 'evt_next_btn_url',      '#' );
 $next_speaker_img  = slingshot_pm_image( 'evt_next_speaker_img', '' );
 $next_speaker_name = slingshot_pm( 'evt_next_speaker_name', '' );
 $next_speaker_role = slingshot_pm( 'evt_next_speaker_role', '' );
+$next_event        = slingshot_evt_next_event();
+if ( ! $next_date && ! empty( $next_event['date'] ) ) {
+	$next_date = $next_event['date'];
+}
+if ( ! $next_heading && ! empty( $next_event['title'] ) ) {
+	$next_heading = $next_event['title'];
+}
+if ( ! $next_desc && ! empty( $next_event['desc'] ) ) {
+	$next_desc = $next_event['desc'];
+}
+if ( '#' === $next_btn_url && ! empty( $next_event['url'] ) ) {
+	$next_btn_url = $next_event['url'];
+}
+if ( ! $next_speaker_img ) {
+	$next_speaker_img = slingshot_evt_img_url( '455236', 'large' );
+}
+if ( ! $next_speaker_name ) {
+	$next_speaker_name = 'Louisville AI Exchange';
+}
+if ( ! $next_speaker_role ) {
+	$next_speaker_role = 'Monthly AI meetup';
+}
 
 // ── Past Topics ───────────────────────────────────────────────
 $topics_heading = slingshot_pm( 'evt_topics_heading', 'Past Topics' );
 $topics_items   = slingshot_pm( 'evt_topics_items', [] );
-$topics_items   = is_array( $topics_items ) ? $topics_items : [];
+$topics_items   = slingshot_evt_filter_rows( $topics_items, array( 'image', 'date', 'title', 'desc', 'url' ) );
+if ( empty( $topics_items ) ) {
+	$topics_items = array(
+		array( 'image' => '455236', 'date' => 'April 2026', 'title' => 'AI Builders Session: Build and Learn, Together', 'desc' => 'A practical meetup for teams experimenting with real AI projects and sharing what they are learning.', 'url' => '#next-meetup' ),
+		array( 'image' => '455177', 'date' => 'March 2026', 'title' => 'Finding Balance in the Power, Possibility, and Peril of AI', 'desc' => 'A community conversation about responsible AI adoption and the tradeoffs leaders should not ignore.', 'url' => '#next-meetup' ),
+		array( 'image' => '455088', 'date' => 'February 2026', 'title' => 'AI in Product and Operations', 'desc' => 'Real-world examples from operators turning AI curiosity into useful workflow improvements.', 'url' => '#next-meetup' ),
+		array( 'image' => '454983', 'date' => 'January 2026', 'title' => 'From Experiment to Execution', 'desc' => 'Lessons for teams moving beyond demos and into production-minded AI work.', 'url' => '#next-meetup' ),
+	);
+}
 
 // ── Partner / Sponsor ─────────────────────────────────────────
+$partner_eyebrow  = slingshot_pm( 'evt_partner_eyebrow', 'Get Involved' );
 $partner_heading  = slingshot_pm( 'evt_partner_heading',  'Partner With Us' );
 $partner_desc     = slingshot_pm( 'evt_partner_desc',     "We're looking for businesses and organizations to join us in building Louisville's thriving tech ecosystem. Interested in sponsoring or becoming a community partner? Let's connect." );
 $partner_form_heading = slingshot_pm( 'evt_partner_form_heading', 'Request a Speaker' );
 $partner_gf_id    = (int) slingshot_pm( 'evt_partner_gf_id', 0 );
+$partner_form_action_url = slingshot_pm( 'evt_partner_form_action_url', '#' );
+$partner_first_ph        = slingshot_pm( 'evt_partner_first_placeholder', 'First Name*' );
+$partner_last_ph         = slingshot_pm( 'evt_partner_last_placeholder', 'Last Name*' );
+$partner_email_ph        = slingshot_pm( 'evt_partner_email_placeholder', 'Email*' );
+$partner_org_ph          = slingshot_pm( 'evt_partner_org_placeholder', 'Organization' );
+$partner_message_ph      = slingshot_pm( 'evt_partner_message_placeholder', 'How would you like to get involved?' );
+$partner_submit_text     = slingshot_pm( 'evt_partner_submit_text', 'Send Message' );
 
 $sponsor_label  = slingshot_pm( 'evt_sponsor_label', 'Sponsored By' );
 $sponsor_logos  = slingshot_pm( 'evt_sponsor_logos', [] );
-$sponsor_logos  = is_array( $sponsor_logos ) ? $sponsor_logos : [];
+$sponsor_logos  = slingshot_evt_filter_rows( $sponsor_logos, array( 'image', 'name', 'url' ) );
+if ( empty( $sponsor_logos ) ) {
+	$sponsor_logos = array(
+		array( 'image' => '/wp-content/uploads/2020/02/logo-dark.svg', 'name' => 'Slingshot', 'url' => '/' ),
+		array( 'image' => '4288', 'name' => 'University of Louisville', 'url' => 'https://louisville.edu/' ),
+	);
+}
 ?>
 <style>
 body.page-template-page-event-figma #header-outer,
@@ -126,12 +282,12 @@ body.page-template-page-event-figma #header-space { display:none !important; }
 
 	<!-- ── WHAT IT IS ────────────────────────────────────── -->
 	<section class="evt-what-section">
-		<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-bottom:32px;">
+		<div class="evt-what-head">
 			<div>
-				<h2 class="fig-section-heading" style="margin:0 0 12px;"><?php echo esc_html( $what_heading ); ?></h2>
+				<h2 class="fig-section-heading"><?php echo esc_html( $what_heading ); ?></h2>
 			</div>
 			<?php if ( $what_desc ) : ?>
-			<p style="font-size:15px;line-height:1.7;color:#4A4A6A;margin:0;"><?php echo esc_html( $what_desc ); ?></p>
+			<p class="evt-what-copy"><?php echo esc_html( $what_desc ); ?></p>
 			<?php endif; ?>
 		</div>
 		<div class="evt-what-grid">
@@ -192,13 +348,13 @@ body.page-template-page-event-figma #header-space { display:none !important; }
 		<h2 class="fig-section-heading"><?php echo esc_html( $topics_heading ); ?></h2>
 		<div class="evt-topics-list">
 			<?php foreach ( $topics_items as $topic ) :
-				$t_img = ! empty( $topic['image'] ) ? slingshot_lp_attachment_url( $topic['image'], '', 'medium' ) : '';
+				$t_img = slingshot_evt_img_url( $topic['image'] ?? '', 'medium_large' );
 				$t_url = slingshot_lp_h_attr( $topic['url'] ?? '#' );
 			?>
 			<a href="<?php echo $t_url; ?>" class="evt-topic">
 				<div class="evt-topic-img" style="<?php echo $t_img ? '' : 'background:linear-gradient(135deg,#2A1878,#6D44B7)'; ?>">
 					<?php if ( $t_img ) : ?>
-					<img src="<?php echo esc_url( $t_img ); ?>" alt="" loading="lazy">
+					<img src="<?php echo esc_url( $t_img ); ?>" alt="">
 					<?php endif; ?>
 				</div>
 				<div>
@@ -219,26 +375,28 @@ body.page-template-page-event-figma #header-space { display:none !important; }
 	<!-- ── PARTNER + FORM ────────────────────────────────── -->
 	<section class="evt-partner-section">
 		<div class="evt-partner-content">
-			<div class="fig-eyebrow">Get Involved</div>
+			<?php if ( $partner_eyebrow ) : ?>
+			<div class="fig-eyebrow"><?php echo esc_html( $partner_eyebrow ); ?></div>
+			<?php endif; ?>
 			<h2 class="fig-section-heading"><?php echo esc_html( $partner_heading ); ?></h2>
 			<?php if ( $partner_desc ) : ?>
-			<p style="font-size:15px;line-height:1.7;color:#4A4A6A;margin:0;"><?php echo esc_html( $partner_desc ); ?></p>
+			<p class="evt-partner-desc"><?php echo esc_html( $partner_desc ); ?></p>
 			<?php endif; ?>
 		</div>
 		<div class="evt-partner-form">
-			<h3 class="fig-section-heading" style="font-size:20px;margin:0 0 20px;"><?php echo esc_html( $partner_form_heading ); ?></h3>
+			<h3 class="evt-partner-form-heading"><?php echo esc_html( $partner_form_heading ); ?></h3>
 			<?php if ( $partner_gf_id && function_exists( 'gravity_form' ) ) :
 				gravity_form( $partner_gf_id, false, false, false, null, true, 1 );
 			else : ?>
-			<form class="fig-form" method="post" action="#">
+			<form class="fig-form" method="post" action="<?php echo slingshot_lp_h_attr( $partner_form_action_url ); ?>">
 				<div class="fig-form-row">
-					<input type="text" class="fig-form-input" placeholder="First Name*" required>
-					<input type="text" class="fig-form-input" placeholder="Last Name*" required>
+					<input type="text" name="first_name" class="fig-form-input" placeholder="<?php echo esc_attr( $partner_first_ph ); ?>" required>
+					<input type="text" name="last_name" class="fig-form-input" placeholder="<?php echo esc_attr( $partner_last_ph ); ?>" required>
 				</div>
-				<input type="email" class="fig-form-input" placeholder="Email*" required>
-				<input type="text" class="fig-form-input" placeholder="Organization">
-				<textarea class="fig-form-textarea" rows="3" placeholder="How would you like to get involved?"></textarea>
-				<button type="submit" class="fig-form-submit">Send Message &rarr;</button>
+				<input type="email" name="email" class="fig-form-input" placeholder="<?php echo esc_attr( $partner_email_ph ); ?>" required>
+				<input type="text" name="organization" class="fig-form-input" placeholder="<?php echo esc_attr( $partner_org_ph ); ?>">
+				<textarea name="message" class="fig-form-textarea" rows="3" placeholder="<?php echo esc_attr( $partner_message_ph ); ?>"></textarea>
+				<button type="submit" class="fig-form-submit"><?php echo esc_html( $partner_submit_text ); ?> &rarr;</button>
 			</form>
 			<?php endif; ?>
 		</div>
@@ -252,7 +410,7 @@ body.page-template-page-event-figma #header-space { display:none !important; }
 		<?php endif; ?>
 		<div class="evt-sponsors-logos">
 			<?php foreach ( $sponsor_logos as $logo ) :
-				$logo_img = ! empty( $logo['image'] ) ? slingshot_lp_attachment_url( $logo['image'], '', 'medium' ) : '';
+				$logo_img = slingshot_evt_img_url( $logo['image'] ?? '', 'medium' );
 				if ( ! $logo_img ) continue;
 				$logo_url = slingshot_lp_h_attr( $logo['url'] ?? '' );
 			?>

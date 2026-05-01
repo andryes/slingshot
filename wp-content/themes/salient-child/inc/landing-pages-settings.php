@@ -23,6 +23,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'page-careers-figma.php',
 		'page-open-position-figma.php',
 		'page-contact-figma.php',
+		'page-thank-you-figma.php',
 		'page-work-figma.php',
 		'page-case-study-figma.php',
 		'page-legal-figma.php',
@@ -791,7 +792,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'teams_model_ded_desc', 'name' => 'Dedicated Teams — description', 'type' => 'textarea' ],
 			[ 'id' => 'teams_model_ded_bullets', 'name' => 'Dedicated Teams — bullets (one per line)', 'type' => 'textarea', 'rows' => 5 ],
 			[ 'id' => 'teams_model_ded_cta_text', 'name' => 'Dedicated Teams — CTA label', 'type' => 'text', 'std' => 'Explore' ],
-			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'text', 'std' => '/teams-dedicated/' ],
+			[ 'id' => 'teams_model_ded_cta_url', 'name' => 'Dedicated Teams — CTA URL', 'type' => 'text', 'std' => '/dedicated-teams/' ],
 			[ 'id' => 'teams_model_ded_img', 'name' => 'Dedicated Teams — image', 'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'teams_model_aug_tag', 'name' => 'Staff Aug — tag', 'type' => 'text', 'std' => 'Staff Augmentation' ],
 			[ 'id' => 'teams_model_aug_icon_svg', 'name' => 'Staff Aug — icon SVG', 'type' => 'textarea', 'rows' => 3 ],
@@ -799,7 +800,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'teams_model_aug_desc', 'name' => 'Staff Aug — description', 'type' => 'textarea' ],
 			[ 'id' => 'teams_model_aug_bullets', 'name' => 'Staff Aug — bullets (one per line)', 'type' => 'textarea', 'rows' => 5 ],
 			[ 'id' => 'teams_model_aug_cta_text', 'name' => 'Staff Aug — CTA label', 'type' => 'text', 'std' => 'Explore' ],
-			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'text', 'std' => '/teams-staff-augmentation/' ],
+			[ 'id' => 'teams_model_aug_cta_url', 'name' => 'Staff Aug — CTA URL', 'type' => 'text', 'std' => '/eu-staff-augmentation/' ],
 			[ 'id' => 'teams_model_aug_img', 'name' => 'Staff Aug — image', 'type' => 'single_image', 'force_delete' => false ],
 		],
 	];
@@ -990,7 +991,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'ded_crosssell_heading', 'name' => 'Heading', 'type' => 'text' ],
 			[ 'id' => 'ded_crosssell_desc', 'name' => 'Description', 'type' => 'textarea' ],
 			[ 'id' => 'ded_crosssell_cta_text', 'name' => 'CTA label', 'type' => 'text', 'std' => 'Learn More' ],
-			[ 'id' => 'ded_crosssell_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/teams/staff-augmentation/' ],
+			[ 'id' => 'ded_crosssell_cta_url', 'name' => 'CTA URL', 'type' => 'text', 'std' => '/eu-staff-augmentation/' ],
 		],
 	];
 
@@ -1791,6 +1792,68 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'cnt_form_gf_id',        'name' => 'Gravity Forms ID',                     'type' => 'number',   'min' => 0, 'desc' => 'Leave 0 to show the built-in HTML form.' ],
 			[ 'id' => 'cnt_looking_options',   'name' => '"What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8,
 			  'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
+		],
+	];
+
+	// ── Thank You Figma ───────────────────────────────────────────────────────
+	$ty_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-thank-you-figma.php' ] ] ];
+
+	$ty_next_fields = [
+		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
+		[ 'id' => 'title',    'name' => 'Title',    'type' => 'text' ],
+		[ 'id' => 'desc',     'name' => 'Description', 'type' => 'textarea', 'rows' => 3 ],
+	];
+
+	$meta_boxes[] = $ty_sp + [
+		'title'  => 'Thank You · Hero',
+		'id'     => 'lp_ty_hero',
+		'fields' => [
+			[ 'id' => 'ty_hero_label',     'name' => 'Eyebrow label', 'type' => 'text', 'std' => 'MESSAGE SENT' ],
+			[ 'id' => 'ty_hero_heading',   'name' => 'Heading',       'type' => 'text', 'std' => 'Thank You!' ],
+			[ 'id' => 'ty_hero_desc',      'name' => 'Description',   'type' => 'textarea' ],
+			[ 'id' => 'ty_primary_text',   'name' => 'Primary button label', 'type' => 'text', 'std' => 'Back to Home' ],
+			[ 'id' => 'ty_primary_url',    'name' => 'Primary button URL',   'type' => 'text', 'std' => '/' ],
+			[ 'id' => 'ty_secondary_text', 'name' => 'Secondary button label', 'type' => 'text', 'std' => 'Explore Our Work' ],
+			[ 'id' => 'ty_secondary_url',  'name' => 'Secondary button URL',   'type' => 'text', 'std' => '/our-work/' ],
+		],
+	];
+
+	$meta_boxes[] = $ty_sp + [
+		'title'  => 'Thank You · Confirmation Card',
+		'id'     => 'lp_ty_card',
+		'fields' => [
+			[ 'id' => 'ty_card_eyebrow', 'name' => 'Card eyebrow', 'type' => 'text', 'std' => 'Ready, aimed, fired' ],
+			[ 'id' => 'ty_card_heading', 'name' => 'Card heading', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'ty_card_desc',    'name' => 'Card description', 'type' => 'textarea', 'rows' => 2 ],
+			[ 'id' => 'ty_mascot_img',   'name' => 'Card image / mascot', 'type' => 'single_image', 'force_delete' => false ],
+		],
+	];
+
+	$meta_boxes[] = $ty_sp + [
+		'title'  => 'Thank You · Next Steps',
+		'id'     => 'lp_ty_next',
+		'fields' => [
+			[ 'id' => 'ty_next_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'What Happens Next' ],
+			[
+				'id'         => 'ty_next_items',
+				'name'       => 'Next step cards',
+				'type'       => 'group',
+				'clone'      => true,
+				'sort_clone' => true,
+				'add_button' => '+ Add step',
+				'fields'     => $ty_next_fields,
+			],
+		],
+	];
+
+	$meta_boxes[] = $ty_sp + [
+		'title'  => 'Thank You · Contact Band',
+		'id'     => 'lp_ty_contact',
+		'fields' => [
+			[ 'id' => 'ty_contact_heading', 'name' => 'Heading', 'type' => 'text', 'std' => 'Need something urgent?' ],
+			[ 'id' => 'ty_contact_desc',    'name' => 'Description', 'type' => 'textarea' ],
+			[ 'id' => 'ty_contact_phone',   'name' => 'Phone number', 'type' => 'text', 'std' => '502.254.6150' ],
+			[ 'id' => 'ty_contact_email',   'name' => 'Email address', 'type' => 'text', 'std' => 'hello@yslingshot.com' ],
 		],
 	];
 
@@ -2692,10 +2755,18 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Event · Partner & Sponsor',
 		'id'     => 'lp_evt_partner',
 		'fields' => [
+			[ 'id' => 'evt_partner_eyebrow',      'name' => 'Partner section eyebrow', 'type' => 'text', 'std' => 'Get Involved' ],
 			[ 'id' => 'evt_partner_heading',      'name' => 'Partner section heading',  'type' => 'text' ],
 			[ 'id' => 'evt_partner_desc',         'name' => 'Partner section description', 'type' => 'textarea' ],
 			[ 'id' => 'evt_partner_form_heading', 'name' => 'Form card heading', 'type' => 'text', 'std' => 'Request a Speaker' ],
 			[ 'id' => 'evt_partner_gf_id',        'name' => 'Gravity Form ID (0 = static HTML)', 'type' => 'number', 'std' => 0 ],
+			[ 'id' => 'evt_partner_form_action_url', 'name' => 'Static form action URL', 'type' => 'text', 'std' => '#' ],
+			[ 'id' => 'evt_partner_first_placeholder', 'name' => 'First name placeholder', 'type' => 'text', 'std' => 'First Name*' ],
+			[ 'id' => 'evt_partner_last_placeholder',  'name' => 'Last name placeholder', 'type' => 'text', 'std' => 'Last Name*' ],
+			[ 'id' => 'evt_partner_email_placeholder', 'name' => 'Email placeholder', 'type' => 'text', 'std' => 'Email*' ],
+			[ 'id' => 'evt_partner_org_placeholder',   'name' => 'Organization placeholder', 'type' => 'text', 'std' => 'Organization' ],
+			[ 'id' => 'evt_partner_message_placeholder', 'name' => 'Message placeholder', 'type' => 'textarea', 'std' => 'How would you like to get involved?' ],
+			[ 'id' => 'evt_partner_submit_text', 'name' => 'Submit button label', 'type' => 'text', 'std' => 'Send Message' ],
 			[ 'id' => 'evt_sponsor_label',        'name' => 'Sponsors label', 'type' => 'text', 'std' => 'Sponsored By' ],
 			[
 				'id'         => 'evt_sponsor_logos',

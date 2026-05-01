@@ -182,7 +182,7 @@ slingshot_render_redesign_header( array(
 		<div class="teams-models-inner">
 			<h2 class="teams-models-title"><?php echo esc_html( slingshot_pm( 'teams_intro_tagline', 'Two Models. One Strategic Partner' ) ); ?></h2>
 
-			<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'teams_model_ded_cta_url', '/teams-dedicated/' ) ); ?>" class="teams-model-card teams-model-card--dedicated">
+			<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'teams_model_ded_cta_url', '/dedicated-teams/' ) ); ?>" class="teams-model-card teams-model-card--dedicated">
 				<div class="teams-model-card-body">
 					<div class="teams-model-card-icon">
 						<?php echo slingshot_pm( 'teams_model_ded_icon_svg', $teams_icon_svg( 'people' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -200,7 +200,7 @@ slingshot_render_redesign_header( array(
 				</div>
 			</a>
 
-			<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'teams_model_aug_cta_url', '/teams-staff-augmentation/' ) ); ?>" class="teams-model-card teams-model-card--aug">
+			<a href="<?php echo slingshot_lp_h_attr( slingshot_pm( 'teams_model_aug_cta_url', '/eu-staff-augmentation/' ) ); ?>" class="teams-model-card teams-model-card--aug">
 				<div class="teams-model-card-body">
 					<div class="teams-model-card-icon">
 						<?php echo slingshot_pm( 'teams_model_aug_icon_svg', $teams_icon_svg( 'globe' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

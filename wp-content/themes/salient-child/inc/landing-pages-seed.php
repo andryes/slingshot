@@ -208,8 +208,11 @@ function slingshot_lp_maybe_force_new_landing_templates() {
 		'artificial-intelligence'     => 'page-ai.php',
 		'teams'                       => 'page-teams.php',
 		'teams-dedicated'             => 'page-teams-dedicated.php',
+		'dedicated-teams'             => 'page-teams-dedicated.php',
 		'teams-staff-augmentation'    => 'page-teams-staffaug.php',
+		'eu-staff-augmentation'       => 'page-teams-staffaug.php',
 		'teams-offshoring-whitepaper' => 'page-teams-whitepaper.php',
+		'selecting-offshoring-region-whitepaper' => 'page-teams-whitepaper.php',
 	);
 
 	foreach ( $map as $slug => $template_file ) {
@@ -384,6 +387,7 @@ function slingshot_lp_build_service_product_meta() {
 	$icon_ai     = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><path d="M11 5v3M11 14v3M5 11h3M14 11h3M7.1 7.1l2.1 2.1M12.8 12.8l2.1 2.1M14.9 7.1l-2.1 2.1M9.2 12.8l-2.1 2.1" stroke="#23B7B4" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
 	return [
+		'svc_theme'            => 'product',
 		'svc_hero_bc_parent'  => 'SERVICES',
 		'svc_hero_bc_leaf'    => 'PRODUCT',
 		'svc_hero_heading'    => 'From Vision to Velocity',
@@ -444,6 +448,7 @@ function slingshot_lp_build_service_web_meta() {
 	$icon_support     = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><path d="M11 6a5 5 0 0 1 5 5v2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-2a5 5 0 0 1 5-5z" stroke="#23B7B4" stroke-width="1.6"/><path d="M9 15v1a2 2 0 0 0 4 0v-1" stroke="#23B7B4" stroke-width="1.5"/></svg>';
 
 	return [
+		'svc_theme'            => 'web',
 		'svc_hero_bc_parent'  => 'SERVICES',
 		'svc_hero_bc_leaf'    => 'WEB',
 		'svc_hero_heading'    => 'Web Products Built to Scale and Convert',
@@ -491,6 +496,7 @@ function slingshot_lp_build_service_design_meta() {
 	$icon_factory= '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#4B23B0" fill-opacity=".12"/><rect x="5" y="10" width="12" height="8" rx="1.5" stroke="#4B23B0" stroke-width="1.6"/><path d="M8 10V8a3 3 0 0 1 6 0v2" stroke="#4B23B0" stroke-width="1.6" stroke-linecap="round"/></svg>';
 
 	return [
+		'svc_theme'            => 'design',
 		'svc_hero_bc_parent'  => 'SERVICES',
 		'svc_hero_bc_leaf'    => 'DESIGN',
 		'svc_hero_heading'    => 'UX Design That Gets Built',
@@ -539,6 +545,7 @@ function slingshot_lp_build_service_mobile_meta() {
 	$icon_incl = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="6" fill="#23B7B4" fill-opacity=".12"/><circle cx="11" cy="11" r="6" stroke="#23B7B4" stroke-width="1.6"/><path d="M8 11l2 2 4-4" stroke="#23B7B4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 	return [
+		'svc_theme'            => 'mobile',
 		'svc_hero_bc_parent'  => 'SERVICES',
 		'svc_hero_bc_leaf'    => 'MOBILE',
 		'svc_hero_heading'    => 'Mobile App Development',
@@ -815,9 +822,12 @@ function slingshot_lp_maybe_seed_figma_content() {
 
 	$pages = array(
 		'product'       => 'slingshot_lp_build_service_product_meta',
+		'services'      => 'slingshot_lp_build_service_product_meta',
 		'web'           => 'slingshot_lp_build_service_web_meta',
+		'web-development' => 'slingshot_lp_build_service_web_meta',
 		'design'        => 'slingshot_lp_build_service_design_meta',
 		'mobile'        => 'slingshot_lp_build_service_mobile_meta',
+		'mobile-app-development' => 'slingshot_lp_build_service_mobile_meta',
 		'careers'       => 'slingshot_lp_build_careers_meta',
 		'open-position' => 'slingshot_lp_build_open_position_meta',
 		'contact'       => 'slingshot_lp_build_contact_meta',
@@ -1113,6 +1123,265 @@ function slingshot_lp_maybe_retarget_figma_templates_v5() {
 	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V5, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v5', 20 );
+
+if ( ! function_exists( 'slingshot_lp_seed_missing_post_meta' ) ) {
+	/**
+	 * Seed defaults without overwriting values already managed from the admin.
+	 *
+	 * @param int                  $post_id  Post ID.
+	 * @param array<string, mixed> $defaults Meta defaults.
+	 */
+	function slingshot_lp_seed_missing_post_meta( $post_id, $defaults ) {
+		foreach ( $defaults as $key => $value ) {
+			if ( metadata_exists( 'post', $post_id, $key ) && '' !== get_post_meta( $post_id, $key, true ) ) {
+				continue;
+			}
+			update_post_meta( $post_id, $key, $value );
+		}
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_LIVE_URL_RETARGET_OPTION_V1', 'slingshot_lp_figma_live_url_retarget_v1' );
+
+/**
+ * Retarget the real public URLs from the project spreadsheet.
+ *
+ * Earlier seed passes created design-preview slugs such as /web/ and /mobile/.
+ * This pass attaches the same admin-managed templates to the live legacy URLs.
+ */
+function slingshot_lp_maybe_retarget_live_urls_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_LIVE_URL_RETARGET_OPTION_V1 ) ) {
+		return;
+	}
+
+	$template_map = array(
+		'dedicated-teams'                         => 'page-teams-dedicated.php',
+		'eu-staff-augmentation'                  => 'page-teams-staffaug.php',
+		'selecting-offshoring-region-whitepaper' => 'page-teams-whitepaper.php',
+		'security-checklist-software'            => 'page-security-checklist-figma.php',
+		'slingshot-ambassadors'                  => 'page-ambassadors-figma.php',
+		'technologies'                           => 'page-technologies-figma.php',
+		'achievements'                           => 'page-achievements-figma.php',
+		'about'                                  => 'page-about-figma.php',
+		'contact'                                => 'page-contact-figma.php',
+		'thank-you'                              => 'page-thank-you-figma.php',
+		'our-work'                               => 'page-work-figma.php',
+		'terms'                                  => 'page-legal-figma.php',
+		'privacy'                                => 'page-legal-figma.php',
+	);
+
+	foreach ( $template_map as $slug => $template ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $template );
+	}
+
+	$service_pages = array(
+		'services'               => 'slingshot_lp_build_service_product_meta',
+		'web-development'        => 'slingshot_lp_build_service_web_meta',
+		'design'                 => 'slingshot_lp_build_service_design_meta',
+		'mobile-app-development' => 'slingshot_lp_build_service_mobile_meta',
+	);
+
+	foreach ( $service_pages as $slug => $builder ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post || ! function_exists( $builder ) ) {
+			continue;
+		}
+
+		$page_id = (int) $page->ID;
+		update_post_meta( $page_id, '_wp_page_template', 'page-service-figma.php' );
+		slingshot_lp_seed_missing_post_meta( $page_id, call_user_func( $builder ) );
+	}
+
+	$link_fixes = array(
+		'teams' => array(
+			'teams_model_ded_cta_url' => array( '/teams-dedicated/', '/dedicated-teams/' ),
+			'teams_model_aug_cta_url' => array( '/teams-staff-augmentation/', '/eu-staff-augmentation/' ),
+		),
+		'dedicated-teams' => array(
+			'ded_crosssell_cta_url' => array( '/teams/staff-augmentation/', '/eu-staff-augmentation/' ),
+		),
+	);
+
+	foreach ( $link_fixes as $slug => $fixes ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		foreach ( $fixes as $key => $pair ) {
+			$current = (string) get_post_meta( (int) $page->ID, $key, true );
+			if ( $current === $pair[0] ) {
+				update_post_meta( (int) $page->ID, $key, $pair[1] );
+			}
+		}
+	}
+
+	$portfolio = get_page_by_path( 'connected-caregiver', OBJECT, 'portfolio' );
+	if ( $portfolio instanceof WP_Post && ! metadata_exists( 'post', (int) $portfolio->ID, 'cs_figma_enabled' ) ) {
+		update_post_meta( (int) $portfolio->ID, 'cs_figma_enabled', 1 );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_LIVE_URL_RETARGET_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_retarget_live_urls_v1', 22 );
+
+if ( ! function_exists( 'slingshot_lp_default_thank_you_meta' ) ) {
+	function slingshot_lp_default_thank_you_meta() {
+		return array(
+			'ty_hero_label'     => 'MESSAGE SENT',
+			'ty_hero_heading'   => 'Thank You!',
+			'ty_hero_desc'      => 'Your message landed with our team. We will review it and get back to you soon.',
+			'ty_primary_text'   => 'Back to Home',
+			'ty_primary_url'    => '/',
+			'ty_secondary_text' => 'Explore Our Work',
+			'ty_secondary_url'  => '/our-work/',
+			'ty_card_eyebrow'  => 'Ready, aimed, fired',
+			'ty_card_heading'  => 'Your question is ready, aimed, and fired our way.',
+			'ty_card_desc'     => "We'll get back to you soon.",
+			'ty_next_heading'  => 'What Happens Next',
+			'ty_next_items'    => array(
+				array(
+					'icon_svg' => '<svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect width="44" height="44" rx="14" fill="#F1EEFF"/><path d="M14 17h16M14 22h12M14 27h9" stroke="#6D44B7" stroke-width="2" stroke-linecap="round"/></svg>',
+					'title'    => 'We review the details',
+					'desc'     => 'A Slingshot team member looks over your message and routes it to the right person.',
+				),
+				array(
+					'icon_svg' => '<svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect width="44" height="44" rx="14" fill="#EAF8F8"/><path d="M14 28c2.4-4 5.1-6 8-6s5.6 2 8 6M18 17a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" stroke="#23B7B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+					'title'    => 'We follow up',
+					'desc'     => 'You will hear from us with next steps, answers, or a time to talk through your project.',
+				),
+				array(
+					'icon_svg' => '<svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect width="44" height="44" rx="14" fill="#F5F7FF"/><path d="M15 28l6-13 4 8 2-4 3 9H15Z" stroke="#4D86D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+					'title'    => 'You keep moving',
+					'desc'     => 'Explore our work and services while we get the right context together.',
+				),
+			),
+			'ty_contact_heading' => 'Need something urgent?',
+			'ty_contact_desc'    => 'You can reach us directly while your message is making its way through our team.',
+			'ty_contact_phone'   => '502.254.6150',
+			'ty_contact_email'   => 'hello@yslingshot.com',
+		);
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_THANK_YOU_OPTION_V1', 'slingshot_lp_figma_thank_you_v1' );
+
+/**
+ * Attach the live confirmation page to the admin-managed thank-you template.
+ */
+function slingshot_lp_maybe_seed_thank_you_page_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_THANK_YOU_OPTION_V1 ) ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'thank-you', OBJECT, 'page' );
+	if ( $page instanceof WP_Post ) {
+		$page_id = (int) $page->ID;
+		update_post_meta( $page_id, '_wp_page_template', 'page-thank-you-figma.php' );
+		slingshot_lp_seed_missing_post_meta( $page_id, slingshot_lp_default_thank_you_meta() );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_THANK_YOU_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_thank_you_page_v1', 23 );
+
+if ( ! function_exists( 'slingshot_lp_default_laix_meta' ) ) {
+	function slingshot_lp_default_laix_meta() {
+		return array(
+			'evt_hero_label'    => 'EVENTS / LOUISVILLE',
+			'evt_hero_heading'  => 'Louisville AI Exchange',
+			'evt_hero_desc'     => 'Join our monthly meetups for real-world insights, shared learning, and community-driven AI conversations.',
+			'evt_hero_btn_text' => 'Register for This Month',
+			'evt_hero_btn_url'  => '#next-meetup',
+			'evt_hero_img'      => '455176',
+
+			'evt_what_heading' => 'Explore Real-World AI in Action',
+			'evt_what_desc'    => "Louisville AI Exchange is a monthly gathering where the tech community comes together to talk about AI in practice. It is candid, practical, and built for people who want to learn what is working now.",
+			'evt_what_cards'   => array(
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#F2EEFF"/><path d="M15 22l4 4 10-10" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+					'heading'  => 'Strategic AI',
+					'desc'     => 'How executives and product leaders think about AI at the strategy and organizational level.',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#EAF8F8"/><path d="M22 12v20M12 22h20" stroke="#23B7B4" stroke-width="2" stroke-linecap="round"/></svg>',
+					'heading'  => 'AI at Scale',
+					'desc'     => 'Real stories about moving AI beyond pilots and into production-minded workflows.',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="12" fill="#F1F6FF"/><rect x="13" y="14" width="18" height="16" rx="4" stroke="#4D86D9" stroke-width="1.8"/><path d="M18 22h8M22 18v8" stroke="#4D86D9" stroke-width="1.5" stroke-linecap="round"/></svg>',
+					'heading'  => 'AI in Practice',
+					'desc'     => 'Practitioners share the useful, messy, and honest parts of building with AI.',
+				),
+			),
+
+			'evt_next_label'        => 'NEXT MEETUP',
+			'evt_next_btn_text'     => 'Register Now',
+			'evt_next_btn_url'      => '/event/louisville-ai-exchange-techfest/',
+			'evt_next_speaker_img'  => '455236',
+			'evt_next_speaker_name' => 'Louisville AI Exchange',
+			'evt_next_speaker_role' => 'Monthly AI meetup',
+
+			'evt_topics_heading' => 'Past Topics',
+			'evt_topics_items'   => array(
+				array( 'image' => '455236', 'date' => 'April 2026', 'title' => 'AI Builders Session: Build and Learn, Together', 'desc' => 'A practical meetup for teams experimenting with real AI projects and sharing what they are learning.', 'url' => '#next-meetup' ),
+				array( 'image' => '455177', 'date' => 'March 2026', 'title' => 'Finding Balance in the Power, Possibility, and Peril of AI', 'desc' => 'A community conversation about responsible AI adoption and the tradeoffs leaders should not ignore.', 'url' => '#next-meetup' ),
+				array( 'image' => '455088', 'date' => 'February 2026', 'title' => 'AI in Product and Operations', 'desc' => 'Real-world examples from operators turning AI curiosity into useful workflow improvements.', 'url' => '#next-meetup' ),
+				array( 'image' => '454983', 'date' => 'January 2026', 'title' => 'From Experiment to Execution', 'desc' => 'Lessons for teams moving beyond demos and into production-minded AI work.', 'url' => '#next-meetup' ),
+			),
+
+			'evt_partner_eyebrow'      => 'Get Involved',
+			'evt_partner_heading'      => 'Partner With Us',
+			'evt_partner_desc'         => "We are looking for businesses and organizations to join us in building Louisville's thriving tech ecosystem. Interested in sponsoring, speaking, or becoming a community partner? Let's connect.",
+			'evt_partner_form_heading' => 'Get Involved',
+			'evt_partner_gf_id'        => 0,
+			'evt_partner_form_action_url' => '#',
+			'evt_partner_first_placeholder' => 'First Name*',
+			'evt_partner_last_placeholder'  => 'Last Name*',
+			'evt_partner_email_placeholder' => 'Email*',
+			'evt_partner_org_placeholder'   => 'Organization',
+			'evt_partner_message_placeholder' => 'How would you like to get involved?',
+			'evt_partner_submit_text' => 'Send Message',
+			'evt_sponsor_label'       => 'Sponsored By',
+			'evt_sponsor_logos'       => array(
+				array( 'image' => '/wp-content/uploads/2020/02/logo-dark.svg', 'name' => 'Slingshot', 'url' => '/' ),
+				array( 'image' => '4288', 'name' => 'University of Louisville', 'url' => 'https://louisville.edu/' ),
+			),
+		);
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_LAIX_PAGE_OPTION_V1', 'slingshot_lp_figma_laix_page_v1' );
+
+/**
+ * Seed the live Louisville AI Exchange page into the dedicated event-series template.
+ */
+function slingshot_lp_maybe_seed_laix_page_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_LAIX_PAGE_OPTION_V1 ) ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'louisville-ai-exchange', OBJECT, 'page' );
+	if ( $page instanceof WP_Post ) {
+		$page_id = (int) $page->ID;
+		wp_update_post(
+			array(
+				'ID'         => $page_id,
+				'post_title' => 'Louisville AI Exchange',
+			)
+		);
+		update_post_meta( $page_id, '_wp_page_template', 'page-event-figma.php' );
+		foreach ( slingshot_lp_default_laix_meta() as $key => $value ) {
+			update_post_meta( $page_id, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_LAIX_PAGE_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_laix_page_v1', 21 );
 
 if ( ! function_exists( 'slingshot_lp_default_legal_content' ) ) {
 	/**

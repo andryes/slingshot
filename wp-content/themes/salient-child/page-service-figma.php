@@ -65,8 +65,8 @@ $svc_item_icon = static function ( $item, $fallback = 'strategy' ) use ( $svc_ic
 };
 
 $svc_product_built_defaults = array(
-	array( 'icon_key' => 'web', 'title' => 'Web Platforms', 'desc' => 'Create modern, responsive web apps engineered for scale, security, and conversion.', 'cta_text' => 'Web Solutions', 'cta_url' => '/web/' ),
-	array( 'icon_key' => 'mobile', 'title' => 'Mobile Apps', 'desc' => 'Launch polished iOS, Android, and cross-platform experiences that users keep coming back to.', 'cta_text' => 'Mobile Solutions', 'cta_url' => '/mobile/' ),
+	array( 'icon_key' => 'web', 'title' => 'Web Platforms', 'desc' => 'Create modern, responsive web apps engineered for scale, security, and conversion.', 'cta_text' => 'Web Solutions', 'cta_url' => '/web-development/' ),
+	array( 'icon_key' => 'mobile', 'title' => 'Mobile Apps', 'desc' => 'Launch polished iOS, Android, and cross-platform experiences that users keep coming back to.', 'cta_text' => 'Mobile Solutions', 'cta_url' => '/mobile-app-development/' ),
 	array( 'icon_key' => 'design', 'title' => 'Design', 'desc' => 'Turn product ideas into intuitive interfaces, validated flows, and design systems ready for delivery.', 'cta_text' => 'Design Solutions', 'cta_url' => '/design/' ),
 );
 
