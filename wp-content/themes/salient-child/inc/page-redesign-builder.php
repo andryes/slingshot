@@ -135,6 +135,65 @@ add_action(
 );
 
 /**
+ * Render the admin-managed Events Figma page for the public Events Calendar archive.
+ *
+ * @return bool
+ */
+function slingshot_render_events_figma_listing() {
+	$events_page = get_page_by_path( 'events-old', OBJECT, 'page' );
+	if ( ! $events_page instanceof WP_Post ) {
+		return false;
+	}
+
+	add_filter(
+		'body_class',
+		static function ( $classes ) {
+			$classes[] = 'page-template-page-events-figma';
+			$classes[] = 'page-template-page-events-figma-php';
+			return array_values( array_unique( $classes ) );
+		}
+	);
+	add_filter(
+		'document_title_parts',
+		static function ( $parts ) use ( $events_page ) {
+			$parts['title'] = get_the_title( $events_page );
+			unset( $parts['page'] );
+			return $parts;
+		}
+	);
+
+	global $post;
+	$original_post = $post;
+	$post          = $events_page;
+	setup_postdata( $post );
+
+	include get_stylesheet_directory() . '/page-events-figma.php';
+
+	$post = $original_post;
+	wp_reset_postdata();
+
+	return true;
+}
+
+/**
+ * The Events Calendar owns /events/ before normal page templates can run.
+ * Swap that archive with the custom Figma Events page.
+ */
+add_action(
+	'template_redirect',
+	static function () {
+		if ( is_admin() || wp_doing_ajax() || ! is_post_type_archive( 'tribe_events' ) ) {
+			return;
+		}
+
+		if ( slingshot_render_events_figma_listing() ) {
+			exit;
+		}
+	},
+	0
+);
+
+/**
  * Blog posts index (Settings > Reading > Posts page) usually ignores page templates.
  * If the assigned posts page uses Redesign — WPBakery, force this template.
  */

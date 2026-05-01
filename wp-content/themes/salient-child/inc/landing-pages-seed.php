@@ -1088,6 +1088,32 @@ function slingshot_lp_maybe_retarget_figma_templates_v4() {
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v4', 19 );
 
+define( 'SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V5', 'slingshot_lp_figma_template_retarget_v5' );
+
+/**
+ * Retarget event aliases that are blocked by The Events Calendar archive slug.
+ */
+function slingshot_lp_maybe_retarget_figma_templates_v5() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V5 ) ) {
+		return;
+	}
+
+	$map = array(
+		'events-old' => 'page-events-figma.php',
+	);
+
+	foreach ( $map as $slug => $template ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+		update_post_meta( (int) $page->ID, '_wp_page_template', $template );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_TEMPLATE_RETARGET_OPTION_V5, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_retarget_figma_templates_v5', 20 );
+
 if ( ! function_exists( 'slingshot_lp_default_legal_content' ) ) {
 	/**
 	 * Default editor content for Figma legal pages.
