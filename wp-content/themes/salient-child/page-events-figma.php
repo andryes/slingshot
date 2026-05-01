@@ -16,6 +16,46 @@ get_header();
 $img_dir     = get_stylesheet_directory_uri() . '/img';
 $mascot_path = get_stylesheet_directory() . '/img/cta-mascot.png';
 $mascot_url  = $img_dir . '/cta-mascot.png';
+$slingshot_events_meta_post_id = is_singular( 'page' ) ? (int) get_queried_object_id() : 0;
+if ( ! $slingshot_events_meta_post_id ) {
+	$events_meta_page = get_page_by_path( 'events-old', OBJECT, 'page' );
+	if ( $events_meta_page instanceof WP_Post ) {
+		$slingshot_events_meta_post_id = (int) $events_meta_page->ID;
+	}
+}
+if ( ! $slingshot_events_meta_post_id ) {
+	$slingshot_events_meta_post_id = (int) get_the_ID();
+}
+$GLOBALS['slingshot_events_meta_post_id'] = $slingshot_events_meta_post_id;
+
+if ( ! function_exists( 'slingshot_evts_pm' ) ) {
+	function slingshot_evts_pm( $field, $default = '' ) {
+		global $slingshot_events_meta_post_id;
+		$post_id = (int) $slingshot_events_meta_post_id;
+		if ( function_exists( 'rwmb_meta' ) && $post_id ) {
+			$val = rwmb_meta( $field, [], $post_id );
+			if ( $val !== '' && $val !== null && $val !== false && $val !== [] ) {
+				return $val;
+			}
+		}
+		$val = $post_id ? get_post_meta( $post_id, $field, true ) : '';
+		if ( $val !== '' && $val !== null && $val !== false ) {
+			return $val;
+		}
+		return $default;
+	}
+}
+
+if ( ! function_exists( 'slingshot_evts_pm_image' ) ) {
+	function slingshot_evts_pm_image( $field, $default_url = '', $size = 'large' ) {
+		$id = slingshot_evts_pm( $field, 0 );
+		if ( ! $id ) {
+			return $default_url;
+		}
+		$url = wp_get_attachment_image_url( (int) $id, $size );
+		return $url ? $url : $default_url;
+	}
+}
 
 if ( ! function_exists( 'slingshot_evts_img_url' ) ) {
 	function slingshot_evts_img_url( $value, $size = 'medium_large' ) {
@@ -128,12 +168,12 @@ if ( ! function_exists( 'slingshot_evts_event_cards' ) ) {
 }
 
 // ── Hero ──────────────────────────────────────────────────────
-$hero_heading  = slingshot_pm( 'evts_hero_heading',  'Bring Slingshot to Your Stage' );
-$hero_desc     = slingshot_pm( 'evts_hero_desc',     "We speak at conferences, lead workshops, and host events that bring clarity to leaders navigating technology, AI, and building great teams. Let's show up where it matters." );
-$hero_btn_text = slingshot_pm( 'evts_hero_btn_text', 'Request a Speaker' );
-$hero_btn_url  = slingshot_pm( 'evts_hero_btn_url',  '#request-speaker' );
-$hero_img_a    = slingshot_pm_image( 'evts_hero_img_a', '' );
-$hero_img_b    = slingshot_pm_image( 'evts_hero_img_b', '' );
+$hero_heading  = slingshot_evts_pm( 'evts_hero_heading',  'Bring Slingshot to Your Stage' );
+$hero_desc     = slingshot_evts_pm( 'evts_hero_desc',     "We speak at conferences, lead workshops, and host events that bring clarity to leaders navigating technology, AI, and building great teams. Let's show up where it matters." );
+$hero_btn_text = slingshot_evts_pm( 'evts_hero_btn_text', 'Request a Speaker' );
+$hero_btn_url  = slingshot_evts_pm( 'evts_hero_btn_url',  '#request-speaker' );
+$hero_img_a    = slingshot_evts_pm_image( 'evts_hero_img_a', '' );
+$hero_img_b    = slingshot_evts_pm_image( 'evts_hero_img_b', '' );
 if ( ! $hero_img_a ) {
 	$hero_img_a = slingshot_evts_img_url( '455236', 'large' );
 }
@@ -142,8 +182,8 @@ if ( ! $hero_img_b ) {
 }
 
 // ── Upcoming ──────────────────────────────────────────────────
-$upcoming_heading = slingshot_pm( 'evts_upcoming_heading', 'Upcoming Speaking Engagements' );
-$upcoming_cards   = slingshot_pm( 'evts_upcoming_cards', [] );
+$upcoming_heading = slingshot_evts_pm( 'evts_upcoming_heading', 'Upcoming Speaking Engagements' );
+$upcoming_cards   = slingshot_evts_pm( 'evts_upcoming_cards', [] );
 $upcoming_cards   = slingshot_evts_filter_rows( $upcoming_cards, array( 'image', 'date', 'title', 'location', 'url', 'desc' ) );
 if ( empty( $upcoming_cards ) ) {
 	$upcoming_cards = slingshot_evts_event_cards( 6 );
@@ -184,9 +224,9 @@ if ( empty( $upcoming_cards ) ) {
 }
 
 // ── Past events ───────────────────────────────────────────────
-$past_heading = slingshot_pm( 'evts_past_heading', "Where We've Shared Our Expertise" );
-$past_tabs    = slingshot_pm( 'evts_past_tabs',    "All\nConferences\nWorkshops\nMeetups" );
-$past_cards   = slingshot_pm( 'evts_past_cards', [] );
+$past_heading = slingshot_evts_pm( 'evts_past_heading', "Where We've Shared Our Expertise" );
+$past_tabs    = slingshot_evts_pm( 'evts_past_tabs',    "All\nConferences\nWorkshops\nMeetups" );
+$past_cards   = slingshot_evts_pm( 'evts_past_cards', [] );
 $past_cards   = slingshot_evts_filter_rows( $past_cards, array( 'image', 'title', 'date_location', 'url', 'category', 'desc' ) );
 if ( empty( $past_cards ) ) {
 	$past_cards = [
@@ -202,10 +242,10 @@ if ( empty( $past_cards ) ) {
 $past_tab_list = array_values( array_filter( array_map( 'trim', explode( "\n", $past_tabs ) ) ) );
 
 // ── Speakers ──────────────────────────────────────────────────
-$speak_heading  = slingshot_pm( 'evts_speak_heading', 'Speaker Spotlights' );
-$speak_featured = slingshot_pm( 'evts_speak_featured', [] );
+$speak_heading  = slingshot_evts_pm( 'evts_speak_heading', 'Speaker Spotlights' );
+$speak_featured = slingshot_evts_pm( 'evts_speak_featured', [] );
 $speak_featured = slingshot_evts_filter_rows( $speak_featured, array( 'avatar', 'name', 'role', 'bio' ) );
-$speak_rows     = slingshot_pm( 'evts_speak_rows', [] );
+$speak_rows     = slingshot_evts_pm( 'evts_speak_rows', [] );
 $speak_rows     = slingshot_evts_filter_rows( $speak_rows, array( 'avatar', 'name', 'role', 'desc' ) );
 if ( empty( $speak_featured ) ) {
 	$speak_featured = array(
@@ -241,17 +281,17 @@ if ( empty( $speak_rows ) ) {
 }
 
 // ── Form ──────────────────────────────────────────────────────
-$form_heading      = slingshot_pm( 'evts_form_heading', 'Bring Slingshot to Your Audience' );
-$form_desc         = slingshot_pm( 'evts_form_desc', "We're looking for speaking opportunities that bring real value - panels, keynotes, workshops, and podcasts where ideas meet execution. Tell us what you have in mind." );
-$form_card_heading = slingshot_pm( 'evts_form_card_heading', 'Request a Speaker' );
-$form_gf_id        = (int) slingshot_pm( 'evts_form_gf_id', 0 );
-$form_action_url   = slingshot_pm( 'evts_form_action_url', '#' );
-$form_first_ph     = slingshot_pm( 'evts_form_first_placeholder', 'First Name*' );
-$form_last_ph      = slingshot_pm( 'evts_form_last_placeholder', 'Last Name*' );
-$form_email_ph     = slingshot_pm( 'evts_form_email_placeholder', 'Email*' );
-$form_org_ph       = slingshot_pm( 'evts_form_org_placeholder', 'Organization' );
-$form_message_ph   = slingshot_pm( 'evts_form_message_placeholder', "Tell us about your event and what you're looking for..." );
-$form_submit_text  = slingshot_pm( 'evts_form_submit_text', 'Request a Speaker' );
+$form_heading      = slingshot_evts_pm( 'evts_form_heading', 'Bring Slingshot to Your Audience' );
+$form_desc         = slingshot_evts_pm( 'evts_form_desc', "We're looking for speaking opportunities that bring real value - panels, keynotes, workshops, and podcasts where ideas meet execution. Tell us what you have in mind." );
+$form_card_heading = slingshot_evts_pm( 'evts_form_card_heading', 'Request a Speaker' );
+$form_gf_id        = (int) slingshot_evts_pm( 'evts_form_gf_id', 0 );
+$form_action_url   = slingshot_evts_pm( 'evts_form_action_url', '#' );
+$form_first_ph     = slingshot_evts_pm( 'evts_form_first_placeholder', 'First Name*' );
+$form_last_ph      = slingshot_evts_pm( 'evts_form_last_placeholder', 'Last Name*' );
+$form_email_ph     = slingshot_evts_pm( 'evts_form_email_placeholder', 'Email*' );
+$form_org_ph       = slingshot_evts_pm( 'evts_form_org_placeholder', 'Organization' );
+$form_message_ph   = slingshot_evts_pm( 'evts_form_message_placeholder', "Tell us about your event and what you're looking for..." );
+$form_submit_text  = slingshot_evts_pm( 'evts_form_submit_text', 'Request a Speaker' );
 ?>
 <style>
 body.page-template-page-events-figma #header-outer,
