@@ -1473,6 +1473,10 @@ body.page-template-page-legal-figma #footer-outer {
     gap: 18px;
 }
 
+.csi-side-person--no-image {
+    grid-template-columns: 1fr;
+}
+
 .csi-side-person img {
     width: 60px;
     height: 60px;
@@ -1601,6 +1605,10 @@ body.page-template-page-legal-figma #footer-outer {
     align-items: center;
     gap: 25px;
     margin-top: 20px;
+}
+
+.csi-review-person--no-image {
+    gap: 0;
 }
 
 .csi-review-person img {

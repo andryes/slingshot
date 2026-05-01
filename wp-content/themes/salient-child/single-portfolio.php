@@ -99,7 +99,7 @@ wp_enqueue_style(
 	null
 );
 wp_enqueue_style( 'home-style', get_stylesheet_directory_uri() . '/css/home.css', array(), '1.18' );
-wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.4' );
+wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.5' );
 wp_enqueue_script( 'hp-script', get_stylesheet_directory_uri() . '/js/home.js', array( 'jquery' ), '1.6', true );
 
 get_header();
@@ -120,7 +120,7 @@ $media_top    = slingshot_csi_image_url( 'cs_media_top_img', 'cs_media_top_img_u
 $media_middle = slingshot_csi_image_url( 'cs_media_middle_img', 'cs_media_middle_img_url', $img_dir . '/case-southeast-media-middle.png' );
 $media_bottom = slingshot_csi_image_url( 'cs_media_bottom_img', 'cs_media_bottom_img_url', $img_dir . '/case-southeast-media-bottom.png' );
 
-$side_avatar = slingshot_csi_image_url( 'cs_side_avatar', 'cs_side_avatar_url', $img_dir . '/case-southeast-avatar-savannah.png' );
+$side_avatar = slingshot_csi_image_url( 'cs_side_avatar', 'cs_side_avatar_url', '' );
 $side_name   = slingshot_pm( 'cs_side_name', 'Savannah Cherry' );
 $side_role   = slingshot_pm( 'cs_side_role', 'Director of marketing and new business' );
 $side_title  = slingshot_pm( 'cs_side_title', 'Ready to discuss your project with us?' );
@@ -153,7 +153,7 @@ $review_stars  = max( 0, min( 5, (int) slingshot_pm( 'cs_review_stars', 5 ) ) );
 $review_text   = slingshot_pm( 'cs_review_text', '' );
 $review_name   = slingshot_pm( 'cs_review_name', '' );
 $review_role   = slingshot_pm( 'cs_review_role', '' );
-$review_avatar = slingshot_csi_image_url( 'cs_review_avatar', 'cs_review_avatar_url', $img_dir . '/case-southeast-avatar-maria.png' );
+$review_avatar = slingshot_csi_image_url( 'cs_review_avatar', 'cs_review_avatar_url', '' );
 $review_image  = slingshot_csi_image_url( 'cs_review_img', 'cs_review_img_url', $img_dir . '/case-southeast-review-visual.png' );
 
 $cta_heading  = slingshot_pm( 'cs_cta_heading', 'Ready to Launch Something Bold?' );
@@ -284,7 +284,7 @@ $cta_mascot   = slingshot_csi_image_url( 'cs_cta_mascot', 'cs_cta_mascot_url', $
 		</div>
 
 		<aside class="csi-side-card">
-			<div class="csi-side-person">
+			<div class="csi-side-person<?php echo $side_avatar ? '' : ' csi-side-person--no-image'; ?>">
 				<?php if ( $side_avatar ) : ?>
 					<img src="<?php echo esc_url( $side_avatar ); ?>" alt="<?php echo esc_attr( $side_name ); ?>">
 				<?php endif; ?>
@@ -331,7 +331,7 @@ $cta_mascot   = slingshot_csi_image_url( 'cs_cta_mascot', 'cs_cta_mascot_url', $
 		</div>
 
 		<aside class="csi-side-card">
-			<div class="csi-side-person">
+			<div class="csi-side-person<?php echo $side_avatar ? '' : ' csi-side-person--no-image'; ?>">
 				<?php if ( $side_avatar ) : ?>
 					<img src="<?php echo esc_url( $side_avatar ); ?>" alt="<?php echo esc_attr( $side_name ); ?>">
 				<?php endif; ?>
@@ -371,7 +371,7 @@ $cta_mascot   = slingshot_csi_image_url( 'cs_cta_mascot', 'cs_cta_mascot_url', $
 			<?php if ( $review_text ) : ?>
 				<div class="csi-review-text"><?php slingshot_csi_render_paragraphs( $review_text ); ?></div>
 			<?php endif; ?>
-			<div class="csi-review-person">
+			<div class="csi-review-person<?php echo $review_avatar ? '' : ' csi-review-person--no-image'; ?>">
 				<?php if ( $review_avatar ) : ?>
 					<img src="<?php echo esc_url( $review_avatar ); ?>" alt="<?php echo esc_attr( $review_name ); ?>">
 				<?php endif; ?>

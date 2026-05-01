@@ -689,23 +689,6 @@ function slingshot_lp_build_contact_meta() {
 /** @return array<string,mixed> */
 function slingshot_lp_build_work_meta() {
 	$img_base = '/wp-content/themes/salient-child/img/';
-	$project_desc = 'Developed a mobile app that simplifies insurance, enabling easy claims and reducing paperwork.gcc';
-	$project_images = array(
-		$img_base . 'ai-work-caregiver.png',
-		$img_base . 'ai-work-horizon.png',
-		$img_base . 'ai-work-southeast.png',
-	);
-	$projects = array();
-	for ( $i = 0; $i < 18; $i++ ) {
-		$projects[] = array(
-			'image_url'  => $project_images[ $i % count( $project_images ) ],
-			'title'      => 'Horizon Engage',
-			'subtitle'   => $project_desc,
-			'tags'       => 'AI, PRODUCT, MOBILE',
-			'categories' => 'ai, product',
-			'link_url'   => '/work/horizon-engage/',
-		);
-	}
 
 	return [
 		'wrk_hero_heading'     => 'Explore Our Work',
@@ -714,8 +697,129 @@ function slingshot_lp_build_work_meta() {
 		'wrk_hero_cta_text'    => 'Book a call',
 		'wrk_hero_cta_url'     => '/contact/',
 		'wrk_filter_tabs'      => "All\nConsulting\nAI\nTeams\nProduct",
-		'wrk_initial_visible'  => 15,
-		'wrk_projects'         => $projects,
+		'wrk_initial_visible'  => 12,
+		'wrk_projects'         => [
+			[
+				'image_url'  => $img_base . 'ai-work-caregiver.png',
+				'title'      => 'Connected Caregiver',
+				'subtitle'   => 'A mobile experience that helps families stay informed while caring for aging loved ones.',
+				'tags'       => 'Product, Mobile, UX',
+				'categories' => 'product',
+				'link_url'   => '/work/connected-caregiver/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-southeast.png',
+				'title'      => 'Southeast Christian Church',
+				'subtitle'   => 'AI-enabled translation and community tools that help refugee support teams scale their impact.',
+				'tags'       => 'Consulting, AI, Mobile',
+				'categories' => 'consulting, ai',
+				'link_url'   => '/work/southeast/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-horizon.png',
+				'title'      => 'Horizon',
+				'subtitle'   => 'Digital product strategy and implementation for a healthcare engagement platform.',
+				'tags'       => 'Product, AI, Web',
+				'categories' => 'product, ai',
+				'link_url'   => '/work/horizon/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-insight-product.png',
+				'title'      => 'DFS Dashboard',
+				'subtitle'   => 'A data-rich dashboard experience built to make operational decisions easier.',
+				'tags'       => 'Consulting, Product, Data',
+				'categories' => 'consulting, product',
+				'link_url'   => '/work/dfs/',
+			],
+			[
+				'image_url'  => $img_base . 'teams-dedicated-team-photo.png',
+				'title'      => 'Schneider Electric',
+				'subtitle'   => 'Dedicated delivery support for complex enterprise product work.',
+				'tags'       => 'Teams, Product',
+				'categories' => 'teams, product',
+				'link_url'   => '/work/schneider-electric/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-horizon.png',
+				'title'      => 'Document Classification',
+				'subtitle'   => 'AI-assisted document workflows that reduce manual review and speed up routing.',
+				'tags'       => 'AI, Consulting',
+				'categories' => 'ai, consulting',
+				'link_url'   => '/work/document-classification-ai/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-southeast.png',
+				'title'      => 'Zoeller Voice Technology',
+				'subtitle'   => 'Voice-enabled product tools designed around field teams and real customer workflows.',
+				'tags'       => 'AI, Product',
+				'categories' => 'ai, product',
+				'link_url'   => '/work/zoeller-voice/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-caregiver.png',
+				'title'      => 'MetLife Pets',
+				'subtitle'   => 'A product experience that simplifies insurance workflows for customers and teams.',
+				'tags'       => 'Product, Mobile',
+				'categories' => 'product',
+				'link_url'   => '/work/metlife/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-insight-hackathon.png',
+				'title'      => 'Customer Support Automation',
+				'subtitle'   => 'AI workflow support that helps teams answer faster and resolve requests with less friction.',
+				'tags'       => 'AI, Consulting',
+				'categories' => 'ai, consulting',
+				'link_url'   => '/work/ai-customer-support/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-horizon.png',
+				'title'      => 'Levee',
+				'subtitle'   => 'Product design and engineering for a platform built around clear daily operations.',
+				'tags'       => 'Product, Web',
+				'categories' => 'product',
+				'link_url'   => '/work/levee/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-southeast.png',
+				'title'      => 'CheckBAC',
+				'subtitle'   => 'A mobile-first product experience for regulated, high-trust workflows.',
+				'tags'       => 'Product, Mobile',
+				'categories' => 'product',
+				'link_url'   => '/work/checkbac/',
+			],
+			[
+				'image_url'  => $img_base . 'teams-dedicated-team-photo.png',
+				'title'      => 'HealthRev',
+				'subtitle'   => 'A collaborative team engagement focused on shipping product improvements quickly.',
+				'tags'       => 'Teams, Product',
+				'categories' => 'teams, product',
+				'link_url'   => '/work/healthrev/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-caregiver.png',
+				'title'      => 'Thrive Mobile',
+				'subtitle'   => 'A mobile product build shaped around usability, reliability, and repeat engagement.',
+				'tags'       => 'Product, Mobile',
+				'categories' => 'product',
+				'link_url'   => '/work/thrive-mobile/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-insight-product.png',
+				'title'      => 'Corrisoft',
+				'subtitle'   => 'Enterprise product work for operational teams with complex real-world constraints.',
+				'tags'       => 'Consulting, Product',
+				'categories' => 'consulting, product',
+				'link_url'   => '/work/corrisoft/',
+			],
+			[
+				'image_url'  => $img_base . 'ai-work-horizon.png',
+				'title'      => 'NASCEND',
+				'subtitle'   => 'A product engagement focused on workflow clarity and technical execution.',
+				'tags'       => 'Product, Web',
+				'categories' => 'product',
+				'link_url'   => '/work/nascend/',
+			],
+		],
 		'wrk_cta_heading'      => 'Ready to Launch Something Bold?',
 		'wrk_cta_desc'         => "Let's talk about how we help teams like yours bring new products to life—and make them work in the real world.",
 		'wrk_cta_btn_text'     => "Let's Talk",
@@ -756,6 +860,63 @@ function slingshot_lp_build_case_study_meta() {
 		'cs_cta_desc'         => "We partner with ambitious companies to design and build products people love. Let's talk.",
 		'cs_cta_btn_text'     => "Let's Talk",
 		'cs_cta_btn_url'      => '/contact/',
+	];
+}
+
+/** @return array<string,mixed> */
+function slingshot_lp_build_work_internal_product_meta() {
+	$img_base    = '/wp-content/themes/salient-child/img/';
+	$upload_base = '/wp-content/uploads/';
+	$phone_pair  = $upload_base . '2023/01/CCG-Two-phones-left-twist-right-bsck.png';
+	$phone_stack = $upload_base . '2023/01/Four-Phones-left-side-two-right-side-CCG.png';
+	$logo        = $upload_base . '2024/05/Gray-Logos-CCG-.png';
+
+	return [
+		'cs_figma_enabled'         => '1',
+		'cs_hero_client'           => 'Connected Caregiver',
+		'cs_hero_title'            => 'Connected Caregiver',
+		'cs_hero_desc'             => 'Helping family caregivers stay informed about their loved ones through a secure and user-friendly senior health monitoring app.',
+		'cs_hero_img_url'          => $phone_pair,
+		'cs_intro_heading'         => 'Connected Caregiver gives families a clearer way to coordinate care and stay informed.',
+		'cs_intro_text'            => 'Connected Caregiver is a branch within Verustat with a mission to make taking care of loved ones easier and simpler. Slingshot helped the team rethink the mobile app experience around daily clarity, important alerts, and a more intuitive path through the product.',
+		'cs_services'              => "Product Strategy\nUX/UI Design\nMobile Development",
+		'cs_technology'            => "Figma\nWhimsical\nJira\nMobile Prototyping",
+		'cs_media_top_img_url'     => $phone_stack,
+		'cs_solution_heading'      => 'A mobile prototype built around caregiver confidence',
+		'cs_solution_text'         => 'We started with stakeholder alignment and user interviews, then brought the Connected Caregiver team into a collaborative design workshop. The result was a larger, clickable prototype that could support user testing, internal demos, and development handoff.',
+		'cs_challenges'            => "The original app was built quickly and was difficult for caregivers to use\nFamilies needed clearer access to vitals, alerts, and daily care context\nThe team needed a prototype large enough for testing, demos, and internal handoff\nThe experience had to support a freemium path without confusing users",
+		'cs_solutions'             => "Conducted stakeholder and user interviews to refine the product scope\nFacilitated a design workshop with the Connected Caregiver team\nDesigned a simpler mobile prototype around daily caregiver tasks\nCreated a clickable Figma prototype for user testing and internal demos",
+		'cs_gallery'               => [
+			[ 'image_url' => $phone_pair, 'alt' => 'Connected Caregiver mobile screens' ],
+			[ 'image_url' => $phone_stack, 'alt' => 'Connected Caregiver app flow' ],
+		],
+		'cs_onboarding_img_url'    => $phone_stack,
+		'cs_media_middle_img_url'  => $phone_pair,
+		'cs_admin_heading'         => 'Product Direction the Internal Team Could Build From',
+		'cs_admin_text'            => 'The redesigned prototype gave Connected Caregiver a clear UX direction and a practical artifact their internal development team could use. Every major screen, flow, and product decision stayed editable through the case study fields in WordPress.',
+		'cs_admin_img_url'         => $phone_pair,
+		'cs_design_system_img_url' => $phone_stack,
+		'cs_media_bottom_img_url'  => $phone_stack,
+		'cs_side_avatar_url'       => $logo,
+		'cs_side_name'             => 'Slingshot Team',
+		'cs_side_role'             => 'Product Strategy and UX',
+		'cs_side_title'            => 'Ready to shape your next product experience?',
+		'cs_side_text'             => 'Let us talk about how we can turn product uncertainty into a clearer path for design, validation, and delivery.',
+		'cs_side_btn_text'         => 'Request a quote',
+		'cs_side_btn_url'          => '/contact/',
+		'cs_review_label'          => 'Project Outcome',
+		'cs_review_quote'          => 'A clearer path from product idea to usable prototype.',
+		'cs_review_stars'          => 5,
+		'cs_review_text'           => 'The work helped the team align around the next version of the app, validate key flows, and move forward with a prototype designed for real caregiver needs.',
+		'cs_review_name'           => 'Connected Caregiver',
+		'cs_review_role'           => 'Product engagement',
+		'cs_review_avatar_url'     => $logo,
+		'cs_review_img_url'        => $phone_pair,
+		'cs_cta_heading'           => 'Ready to Launch Something Bold?',
+		'cs_cta_desc'              => "Let's talk about how we help teams like yours bring new products to life and make them work in the real world.",
+		'cs_cta_btn_text'          => "Let's Talk",
+		'cs_cta_btn_url'           => '/contact/',
+		'cs_cta_mascot_url'        => $img_base . 'cta-mascot.png',
 	];
 }
 
@@ -1557,7 +1718,7 @@ function slingshot_lp_maybe_seed_work_internal_v1() {
 
 	$post = get_page_by_path( 'connected-caregiver', OBJECT, 'portfolio' );
 	if ( $post instanceof WP_Post ) {
-		foreach ( slingshot_lp_build_work_internal_meta() as $key => $value ) {
+		foreach ( slingshot_lp_build_work_internal_product_meta() as $key => $value ) {
 			update_post_meta( (int) $post->ID, $key, $value );
 		}
 	}
@@ -1565,6 +1726,83 @@ function slingshot_lp_maybe_seed_work_internal_v1() {
 	update_option( SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V1, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_work_internal_v1', 20 );
+
+define( 'SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V2', 'slingshot_lp_figma_work_internal_v2' );
+
+/**
+ * Align both Work internal rows: product case and consulting case.
+ */
+function slingshot_lp_maybe_seed_work_internal_v2() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V2 ) ) {
+		return;
+	}
+
+	$cases = array(
+		'connected-caregiver' => 'slingshot_lp_build_work_internal_product_meta',
+		'southeast'           => 'slingshot_lp_build_work_internal_meta',
+	);
+
+	foreach ( $cases as $slug => $builder ) {
+		$post = get_page_by_path( $slug, OBJECT, 'portfolio' );
+		if ( ! $post instanceof WP_Post || ! is_callable( $builder ) ) {
+			continue;
+		}
+
+		foreach ( call_user_func( $builder ) as $key => $value ) {
+			delete_post_meta( (int) $post->ID, $key );
+			update_post_meta( (int) $post->ID, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V2, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_work_internal_v2', 21 );
+
+define( 'SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V3', 'slingshot_lp_figma_work_content_v3' );
+
+/**
+ * Replace early placeholder Work cards only when the page still has the duplicated seed.
+ */
+function slingshot_lp_maybe_seed_work_page_v3() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V3 ) ) {
+		return;
+	}
+
+	$meta = slingshot_lp_build_work_meta();
+	foreach ( array( 'work', 'our-work' ) as $slug ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+
+		$current_projects = get_post_meta( (int) $page->ID, 'wrk_projects', true );
+		$should_update    = empty( $current_projects );
+
+		if ( is_array( $current_projects ) && ! empty( $current_projects[0] ) ) {
+			$first_title    = (string) ( $current_projects[0]['title'] ?? '' );
+			$first_subtitle = (string) ( $current_projects[0]['subtitle'] ?? '' );
+			$should_update  = ( 'Horizon Engage' === $first_title && false !== strpos( $first_subtitle, 'paperwork.gcc' ) );
+		}
+
+		if ( ! $should_update ) {
+			continue;
+		}
+
+		wp_update_post(
+			array(
+				'ID'         => (int) $page->ID,
+				'post_title' => 'Work',
+			)
+		);
+		update_post_meta( (int) $page->ID, '_wp_page_template', 'page-work-figma.php' );
+		foreach ( $meta as $key => $value ) {
+			update_post_meta( (int) $page->ID, $key, $value );
+		}
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_WORK_CONTENT_OPTION_V3, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_work_page_v3', 22 );
 
 if ( ! function_exists( 'slingshot_lp_default_modal_preview_meta' ) ) {
 	/**
