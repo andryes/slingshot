@@ -1575,6 +1575,178 @@ function slingshot_lp_maybe_seed_ambassadors_meta_v1() {
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_ambassadors_meta_v1', 24 );
 
+if ( ! function_exists( 'slingshot_lp_default_security_checklist_meta' ) ) {
+	function slingshot_lp_default_security_checklist_meta() {
+		$defaults = array(
+			'ldmg_hero_label'    => 'RESOURCES / SECURITY',
+			'ldmg_hero_heading'  => 'The Security Checklist',
+			'ldmg_hero_desc'     => 'Your checklist to comprehensive software security, from secure coding practices to incident response and continuous improvement.',
+			'ldmg_hero_btn_text' => 'Download Now',
+
+			'ldmg_expect_heading' => 'What to Expect in This Checklist',
+			'ldmg_expect_cards'   => array(
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 14.5v-3h3M30.5 14.5v-3h-3M13.5 29.5v3h3M30.5 29.5v3h-3" stroke="#8B52F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="22" r="8" stroke="#8B52F6" stroke-width="2"/></svg>',
+					'heading'  => 'Six Focus Areas',
+					'desc'     => 'including secure coding practices, authentication and authorization, data protection, security testing, infrastructure security, and incident response and monitoring.',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="19" stroke="#F04A6B" stroke-width="2"/><rect x="14.5" y="20" width="15" height="11" rx="3" stroke="#F04A6B" stroke-width="2"/><path d="M18 20v-4a4 4 0 0 1 8 0v4" stroke="#F04A6B" stroke-width="2" stroke-linecap="round"/></svg>',
+					'heading'  => 'Security Quiz',
+					'desc'     => 'Complete the security rating to see how you compare: are you a Malware Magnet or a Cybersecurity Champion?',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26.5 3.5C36.5 8.5 39 21 32 31.5C25.2 41.7 12.5 39.5 7.8 29.5C3.3 20 7.6 9.2 17.5 5.2" stroke="#2D7DFF" stroke-width="2" stroke-linecap="round"/><path d="M15.5 23.5l4.5 4.5 9-13" stroke="#2D7DFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+					'heading'  => 'Safety Rating',
+					'desc'     => "Learn the security best practices you should use to improve your security, allowing you to focus on what's important.",
+				),
+			),
+
+			'ldmg_form_heading'             => 'Download The Checklist',
+			'ldmg_form_name_placeholder'    => 'Name*',
+			'ldmg_form_email_placeholder'   => 'Email*',
+			'ldmg_form_company_placeholder' => 'Company',
+			'ldmg_form_submit'              => 'Download Now',
+			'ldmg_form_gf_id'               => 0,
+			'ldmg_form_dl_url'              => '',
+		);
+
+		$image_map = array(
+			'ldmg_hero_img_a' => array( 'img/security-checklist-hero-a.png', 'Security checklist hero photo left' ),
+			'ldmg_hero_img_b' => array( 'img/security-checklist-hero-b.png', 'Security checklist hero photo right' ),
+		);
+
+		foreach ( $image_map as $field => $image ) {
+			$attachment_id = slingshot_lp_theme_image_attachment_id( $image[0], $image[1] );
+			if ( $attachment_id ) {
+				$defaults[ $field ] = $attachment_id;
+			}
+		}
+
+		$uploads  = wp_upload_dir();
+		$pdf_file = trailingslashit( $uploads['basedir'] ) . '2024/06/Security-Checklist-for-Software.pdf';
+		if ( file_exists( $pdf_file ) ) {
+			$defaults['ldmg_form_dl_url'] = trailingslashit( $uploads['baseurl'] ) . '2024/06/Security-Checklist-for-Software.pdf';
+		}
+
+		return $defaults;
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_SECURITY_CHECKLIST_META_OPTION_V1', 'slingshot_lp_figma_security_checklist_meta_v1' );
+
+/**
+ * Seed the live security checklist pages with editable admin metadata.
+ */
+function slingshot_lp_maybe_seed_security_checklist_meta_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_SECURITY_CHECKLIST_META_OPTION_V1 ) ) {
+		return;
+	}
+
+	foreach ( array( 'security-checklist-software', 'security-checklist' ) as $slug ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+
+		$page_id = (int) $page->ID;
+		update_post_meta( $page_id, '_wp_page_template', 'page-security-checklist-figma.php' );
+		slingshot_lp_seed_missing_post_meta( $page_id, slingshot_lp_default_security_checklist_meta() );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_SECURITY_CHECKLIST_META_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_security_checklist_meta_v1', 25 );
+
+if ( ! function_exists( 'slingshot_lp_default_technologies_meta' ) ) {
+	function slingshot_lp_default_technologies_meta() {
+		return array(
+			'tech_hero_label'          => 'TECHNOLOGIES',
+			'tech_hero_heading'        => 'Technologies We Use',
+			'tech_hero_desc'           => 'We provide full-stack development services across web, mobile, and desktop, utilizing an expansive set of technologies.',
+			'tech_hero_btn_text'       => 'Talk Tech With Us',
+			'tech_hero_btn_url'        => '/contact/?looking=Technology',
+			'tech_hero_secondary_text' => 'See Our Work',
+			'tech_hero_secondary_url'  => '/work/',
+			'tech_intro_heading'       => 'The Right Stack for the Job',
+			'tech_intro_desc'          => "We are tool-agnostic and outcome-focused. The stack is chosen around your product, team, data, scale, and long-term maintainability, not around what's fashionable this week.",
+			'tech_categories'          => array(
+				array(
+					'kicker' => '01',
+					'title'  => 'Mobile',
+					'desc'   => 'Cross-platform and native mobile technologies for iOS, Android, and shared-code product teams.',
+					'items'  => "Apple|5223\nAndroid|5219\n.NET MAUI|453947\nFlutter|453956\nReact Native|453940\nXamarin|5253\nSwift|453937\nObjective-C|453946\nJava|453953\nKotlin|453952",
+				),
+				array(
+					'kicker' => '02',
+					'title'  => 'Web',
+					'desc'   => 'Modern frontend and backend frameworks for products, portals, platforms, and operational systems.',
+					'items'  => ".NET Core|453950\nReact|453981\nAngular|453962\nNode.js|453945\nPHP|453943\nC#|453960\nVue.js|453934\nPython|453941\nDjango|453930",
+				),
+				array(
+					'kicker' => '03',
+					'title'  => 'Cloud',
+					'desc'   => 'Cloud services and infrastructure patterns that help products scale, integrate, and stay resilient.',
+					'items'  => "AWS|453965\nAzure AI|453961",
+				),
+				array(
+					'kicker' => '04',
+					'title'  => 'Database',
+					'desc'   => 'Relational, document, and cloud-native data stores selected around product needs and operating models.',
+					'items'  => "DynamoDB|453957\nMicrosoft SQL Server|453951\nAmazon DocumentDB|453963\nMySQL|453949\nMongoDB|453948\nPostgreSQL|453942",
+				),
+				array(
+					'kicker' => '05',
+					'title'  => 'Content Management Systems',
+					'desc'   => 'Flexible CMS platforms for marketing sites, content operations, and structured digital experiences.',
+					'items'  => "WordPress|453931\nWebflow|453933\nSanity.io|453938",
+				),
+				array(
+					'kicker' => '06',
+					'title'  => 'Artificial Intelligence',
+					'desc'   => 'AI platforms, model providers, and tooling for practical automation, insight, and product intelligence.',
+					'items'  => "OpenAI|453944\nAzure AI|453958\nTensorFlow|453936\nGemini|453955\nAmazon Bedrock|453964\nLlama|454017",
+				),
+				array(
+					'kicker' => '07',
+					'title'  => 'DevOps',
+					'desc'   => 'Deployment, automation, and infrastructure tools that make software delivery more reliable.',
+					'items'  => "Docker|453932\nTerraform|453935\nGitHub Actions|453954",
+				),
+			),
+			'tech_cta_heading'  => 'Want to See Our Work?',
+			'tech_cta_desc'     => 'Explore case studies showing how strategy, design, engineering, and modern platforms come together.',
+			'tech_cta_btn_text' => "Let's Go!",
+			'tech_cta_btn_url'  => '/work/',
+		);
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_TECHNOLOGIES_META_OPTION_V1', 'slingshot_lp_figma_technologies_meta_v1' );
+
+/**
+ * Seed the live technologies pages with editable admin metadata.
+ */
+function slingshot_lp_maybe_seed_technologies_meta_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_TECHNOLOGIES_META_OPTION_V1 ) ) {
+		return;
+	}
+
+	foreach ( array( 'technologies', 'edits_technologies-we-use' ) as $slug ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+
+		$page_id = (int) $page->ID;
+		update_post_meta( $page_id, '_wp_page_template', 'page-technologies-figma.php' );
+		slingshot_lp_seed_missing_post_meta( $page_id, slingshot_lp_default_technologies_meta() );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_TECHNOLOGIES_META_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_technologies_meta_v1', 26 );
+
 if ( ! function_exists( 'slingshot_lp_default_thank_you_meta' ) ) {
 	function slingshot_lp_default_thank_you_meta() {
 		return array(
