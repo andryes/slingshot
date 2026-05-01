@@ -34,6 +34,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'page-events-figma.php',
 		'page-event-figma.php',
 		'page-blog-figma.php',
+		'page-modal-preview-figma.php',
 		'page-internal-figma.php',
 		'page-internal-blog-figma.php',
 		'page-register-figma.php',
@@ -41,6 +42,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 	$all_redesign_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => $all_redesign_templates ] ];
 	$all_redesign_post_sp = [ 'post_types' => [ 'post' ] ];
+	$modal_preview_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-modal-preview-figma.php' ] ] ];
 
 	$meta_boxes[] = $figma_sp + [
 		'title'  => 'Figma Template · Fallback',
@@ -81,6 +83,29 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'title'  => 'Global Modals · Contact / Subscribe / Video',
 		'id'     => 'lp_global_modals_post',
 		'fields' => $global_modal_fields,
+	];
+
+	$meta_boxes[] = $modal_preview_sp + [
+		'title'  => 'Modal Preview · Page shell',
+		'id'     => 'lp_modal_preview_shell',
+		'fields' => [
+			[
+				'id'      => 'mp_type',
+				'name'    => 'Preview type',
+				'type'    => 'select',
+				'options' => [
+					'subscribe' => 'Subscribe modal',
+					'contact'   => 'Contact modal',
+					'video'     => 'Video modal',
+				],
+				'std'     => 'subscribe',
+			],
+			[ 'id' => 'mp_label',       'name' => 'Page label', 'type' => 'text' ],
+			[ 'id' => 'mp_heading',     'name' => 'Page heading', 'type' => 'text' ],
+			[ 'id' => 'mp_desc',        'name' => 'Page description', 'type' => 'textarea', 'rows' => 3 ],
+			[ 'id' => 'mp_button_text', 'name' => 'Button label', 'type' => 'text' ],
+			[ 'id' => 'mp_auto_open',   'name' => 'Auto-open modal on page load', 'type' => 'checkbox', 'std' => 1 ],
+		],
 	];
 
 	$help_service_fields = [

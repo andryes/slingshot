@@ -1565,3 +1565,93 @@ function slingshot_lp_maybe_seed_work_internal_v1() {
 	update_option( SLINGSHOT_LP_FIGMA_WORK_INTERNAL_OPTION_V1, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_seed_work_internal_v1', 20 );
+
+if ( ! function_exists( 'slingshot_lp_default_modal_preview_meta' ) ) {
+	/**
+	 * Defaults for the three modal review pages from the spreadsheet.
+	 *
+	 * @param string $type Modal type.
+	 * @return array<string, mixed>
+	 */
+	function slingshot_lp_default_modal_preview_meta( $type ) {
+		$defaults = array(
+			'subscribe' => array(
+				'mp_type'        => 'subscribe',
+				'mp_label'       => 'NEWSLETTER MODAL',
+				'mp_heading'     => 'Subscribe',
+				'mp_desc'        => 'A live, editable preview of the newsletter subscription modal.',
+				'mp_button_text' => 'Open Subscribe Modal',
+				'mp_auto_open'   => 1,
+			),
+			'contact'   => array(
+				'mp_type'        => 'contact',
+				'mp_label'       => 'CONTACT MODAL',
+				'mp_heading'     => 'Contact Form',
+				'mp_desc'        => 'A live, editable preview of the contact form modal.',
+				'mp_button_text' => 'Open Contact Modal',
+				'mp_auto_open'   => 1,
+			),
+			'video'     => array(
+				'mp_type'            => 'video',
+				'mp_label'           => 'VIDEO MODAL',
+				'mp_heading'         => 'Video Player',
+				'mp_desc'            => 'A live, editable preview of the video modal.',
+				'mp_button_text'     => 'Open Video Modal',
+				'mp_auto_open'       => 1,
+				'sl_video_modal_url' => 'https://www.youtube.com/watch?v=eR21Z82VNqA',
+			),
+		);
+
+		return isset( $defaults[ $type ] ) ? $defaults[ $type ] : $defaults['subscribe'];
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_MODAL_PREVIEW_OPTION_V1', 'slingshot_lp_figma_modal_preview_v1' );
+
+/**
+ * Replace missing Figma-image fallback pages with live, admin-managed modal previews.
+ */
+function slingshot_lp_maybe_seed_modal_preview_pages_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_MODAL_PREVIEW_OPTION_V1 ) ) {
+		return;
+	}
+
+	$pages = array(
+		'subscribe'          => array( 'title' => 'Subscribe', 'type' => 'subscribe' ),
+		'contact-form-modal' => array( 'title' => 'Contact Form Modal', 'type' => 'contact' ),
+		'video-modal'        => array( 'title' => 'Video Modal', 'type' => 'video' ),
+	);
+
+	foreach ( $pages as $slug => $cfg ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			$page_id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $cfg['title'],
+					'post_name'    => $slug,
+					'post_content' => '',
+				),
+				true
+			);
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+		} else {
+			$page_id = (int) $page->ID;
+			wp_update_post(
+				array(
+					'ID'         => $page_id,
+					'post_title' => $cfg['title'],
+				)
+			);
+		}
+
+		update_post_meta( $page_id, '_wp_page_template', 'page-modal-preview-figma.php' );
+		slingshot_lp_seed_missing_post_meta( $page_id, slingshot_lp_default_modal_preview_meta( $cfg['type'] ) );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_MODAL_PREVIEW_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_modal_preview_pages_v1', 24 );
