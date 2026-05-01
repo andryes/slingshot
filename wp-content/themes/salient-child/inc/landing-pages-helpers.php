@@ -137,11 +137,42 @@ function slingshot_pm( $field, $default = '' ) {
  * @return string
  */
 function slingshot_pm_image( $field, $default_url = '', $size = 'large' ) {
-	$id = slingshot_pm( $field, 0 );
-	if ( ! $id ) {
+	$image = slingshot_pm( $field, 0 );
+	if ( ! $image ) {
 		return $default_url;
 	}
-	$url = wp_get_attachment_image_url( (int) $id, $size );
+
+	if ( is_array( $image ) ) {
+		if ( ! empty( $image['ID'] ) ) {
+			$url = wp_get_attachment_image_url( (int) $image['ID'], $size );
+			if ( $url ) {
+				return $url;
+			}
+		}
+		if ( ! empty( $image['sizes'][ $size ]['url'] ) ) {
+			return $image['sizes'][ $size ]['url'];
+		}
+		if ( 'full' === $size && ! empty( $image['full_url'] ) ) {
+			return $image['full_url'];
+		}
+		if ( ! empty( $image['url'] ) ) {
+			return $image['url'];
+		}
+		if ( ! empty( $image['full_url'] ) ) {
+			return $image['full_url'];
+		}
+		return $default_url;
+	}
+
+	$id = is_numeric( $image ) ? (int) $image : 0;
+	if ( ! $id && is_string( $image ) ) {
+		$image = trim( $image );
+		if ( '' !== $image ) {
+			return $image;
+		}
+	}
+
+	$url = $id ? wp_get_attachment_image_url( $id, $size ) : '';
 	return $url ? $url : $default_url;
 }
 

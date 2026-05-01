@@ -1302,6 +1302,76 @@ if ( ! function_exists( 'slingshot_lp_seed_missing_post_meta' ) ) {
 	}
 }
 
+if ( ! function_exists( 'slingshot_lp_theme_image_attachment_id' ) ) {
+	/**
+	 * Import a committed child-theme image into the media library once.
+	 *
+	 * @param string $relative_path Path relative to the child theme directory.
+	 * @param string $title         Attachment title.
+	 * @return int Attachment ID, or 0 when the source is unavailable.
+	 */
+	function slingshot_lp_theme_image_attachment_id( $relative_path, $title = '' ) {
+		$relative_path = ltrim( (string) $relative_path, '/' );
+		if ( '' === $relative_path ) {
+			return 0;
+		}
+
+		$existing = get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_status'    => 'inherit',
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+				'meta_key'       => '_slingshot_theme_source',
+				'meta_value'     => $relative_path,
+			)
+		);
+		if ( ! empty( $existing ) ) {
+			return (int) $existing[0];
+		}
+
+		$source = trailingslashit( get_stylesheet_directory() ) . $relative_path;
+		if ( ! file_exists( $source ) || ! is_readable( $source ) ) {
+			return 0;
+		}
+
+		$bits = file_get_contents( $source );
+		if ( false === $bits ) {
+			return 0;
+		}
+
+		$filename = wp_basename( $source );
+		$upload   = wp_upload_bits( $filename, null, $bits );
+		if ( ! empty( $upload['error'] ) || empty( $upload['file'] ) ) {
+			return 0;
+		}
+
+		$filetype = wp_check_filetype( $filename, null );
+		$attachment_id = wp_insert_attachment(
+			array(
+				'post_mime_type' => $filetype['type'] ? $filetype['type'] : 'image/png',
+				'post_title'     => $title ? $title : preg_replace( '/\.[^.]+$/', '', $filename ),
+				'post_content'   => '',
+				'post_status'    => 'inherit',
+			),
+			$upload['file']
+		);
+
+		if ( is_wp_error( $attachment_id ) ) {
+			return 0;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		$metadata = wp_generate_attachment_metadata( $attachment_id, $upload['file'] );
+		if ( ! is_wp_error( $metadata ) && ! empty( $metadata ) ) {
+			wp_update_attachment_metadata( $attachment_id, $metadata );
+		}
+		update_post_meta( $attachment_id, '_slingshot_theme_source', $relative_path );
+
+		return (int) $attachment_id;
+	}
+}
+
 define( 'SLINGSHOT_LP_FIGMA_LIVE_URL_RETARGET_OPTION_V1', 'slingshot_lp_figma_live_url_retarget_v1' );
 
 /**
@@ -1388,6 +1458,122 @@ function slingshot_lp_maybe_retarget_live_urls_v1() {
 	update_option( SLINGSHOT_LP_FIGMA_LIVE_URL_RETARGET_OPTION_V1, '1', true );
 }
 add_action( 'init', 'slingshot_lp_maybe_retarget_live_urls_v1', 22 );
+
+if ( ! function_exists( 'slingshot_lp_default_ambassadors_meta' ) ) {
+	function slingshot_lp_default_ambassadors_meta() {
+		$defaults = array(
+			'amb_hero_label'    => 'SLINGSHOT AMBASSADORS',
+			'amb_hero_heading'  => "Be the Voice of What's Next",
+			'amb_hero_desc'     => 'Slingshot Ambassadors are innovation champions, leaders, founders, product owners, and bold thinkers helping shape the future of tech, strategy, and business outcomes.',
+			'amb_hero_btn_text' => 'Join the Ambassador Circle',
+			'amb_hero_btn_url'  => '#ambassador-form',
+
+			'amb_ben_heading' => "You've Helped Build What's Next—Now Help Amplify It",
+			'amb_ben_desc'    => "As a Slingshot Ambassador, you've seen firsthand what's possible when vision meets capability. Now, you can amplify that momentum, helping more people bring big ideas to life.\n\nThis isn't about being a fan. It's about being part of a forward-looking group of product-minded, change-focused professionals who want to influence what innovation looks like across industries.\n\nWhether you're a CEO, a product leader, or a strategic partner, you belong here.",
+			'amb_ben_cards'   => array(
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="13" r="3" stroke="#23B7B4" stroke-width="2"/><circle cx="13" cy="29" r="3" stroke="#23B7B4" stroke-width="2"/><circle cx="31" cy="29" r="3" stroke="#23B7B4" stroke-width="2"/><path d="M20.5 15.8 14.6 26M23.5 15.8 29.4 26M16 29h12" stroke="#23B7B4" stroke-width="2" stroke-linecap="round"/></svg>',
+					'heading'  => 'Early Access to Innovation',
+					'desc'     => 'Be first to explore new Slingshot tech pilots, design tools, and product launches',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="14" stroke="#7A4FEB" stroke-width="2"/><path d="M22 14v16M18 18.5c0-1.9 1.7-3 4.1-3 2.1 0 3.8.8 4.5 2.2M17.8 26.5c.9 1.5 2.6 2.3 4.8 2.3 2.5 0 4.2-1.1 4.2-3 0-1.6-1.3-2.6-4.2-3.1-2.9-.6-4.5-1.6-4.5-3.3" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/></svg>',
+					'heading'  => '$1K Referral Bonus + Public Recognition',
+					'desc'     => 'Your intros matter—and when they lead to partnerships, we celebrate them (and you)',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><path d="M15 27c-2.3-2.2-3.4-4.7-3.4-7.6 0-5.6 4.5-10.1 10.1-10.1 4.5 0 8.3 2.8 9.6 6.8" stroke="#EF6D63" stroke-width="2" stroke-linecap="round"/><path d="M28.5 22.5l2 1.1 2.1-1.1 1.3 2-1.8 1.6.2 2.4-2.3.5-1-2.1-2.4-.2-.5-2.3 2.1-1 .3-2.4z" stroke="#EF6D63" stroke-width="1.8" stroke-linejoin="round"/><path d="M17 31c1.1-2.6 2.8-3.9 5-3.9 1.4 0 2.6.5 3.6 1.5" stroke="#EF6D63" stroke-width="2" stroke-linecap="round"/></svg>',
+					'heading'  => 'Innovation Peer Circle',
+					'desc'     => 'Connect with a network of visionaries across industries, roles, and disciplines',
+				),
+				array(
+					'icon_svg' => '<svg width="44" height="44" viewBox="0 0 44 44" fill="none"><path d="M11 31c1.5-4.2 4.1-6.4 7.8-6.4M18.8 22.4a4.6 4.6 0 1 0 0-9.2 4.6 4.6 0 0 0 0 9.2zM27 31V16h7v15M24 31h13M30.5 16v-5" stroke="#4D86D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+					'heading'  => 'Direct Access to Slingshot Leaders',
+					'desc'     => 'Influence our direction through strategic feedback and idea exchanges',
+				),
+			),
+
+			'amb_con_heading' => 'How You Contribute',
+			'amb_con_cards'   => array(
+				array(
+					'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><circle cx="16" cy="17" r="4" stroke="#7A4FEB" stroke-width="2"/><circle cx="28" cy="16" r="3" stroke="#26B4B0" stroke-width="2"/><path d="M9 31c1.5-4.2 3.9-6.3 7-6.3s5.5 2.1 7 6.3M24 29c1.1-2.6 2.5-3.9 4.2-3.9 1.8 0 3.3 1.3 4.4 3.9" stroke="#282828" stroke-width="2" stroke-linecap="round"/></svg>',
+					'heading'  => 'Introduce Forward - Thinking Leaders',
+					'desc'     => 'Connect your network to a partner who can deliver on big ideas',
+				),
+				array(
+					'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><path d="M13 15h16M13 21h16M13 27h10" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/><path d="M29 27l3 3 5-6" stroke="#26B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+					'heading'  => 'Share What Works',
+					'desc'     => "Your wins help others see what's possible—and how to get there faster",
+				),
+				array(
+					'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><path d="M21 11v20M11 21h20" stroke="#7A4FEB" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="21" r="12" stroke="#26B4B0" stroke-width="2"/></svg>',
+					'heading'  => "Shape What's Next",
+					'desc'     => 'Help guide future services and priorities through honest, strategic feedback',
+				),
+				array(
+					'icon_svg' => '<svg width="42" height="42" viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="12" fill="#fff"/><path d="M21 12l2.8 7.1 7.6.5-5.9 4.8 1.9 7.4-6.4-4.1-6.4 4.1 1.9-7.4-5.9-4.8 7.6-.5L21 12z" stroke="#7A4FEB" stroke-width="2" stroke-linejoin="round"/></svg>',
+					'heading'  => 'Champion Innovation in Your Space',
+					'desc'     => "Whether it's in healthcare, fintech, logistics, or SaaS—your voice matters",
+				),
+			),
+
+			'amb_form_heading'             => "Become Part of a Circle That's Building Bold",
+			'amb_form_desc'                => "We're inviting advocates, leaders, and innovators to help shape the next generation of digital impact together.",
+			'amb_form_who_label'           => 'Who Should Join?',
+			'amb_form_who_bullets'         => "You've worked with Slingshot as a client, collaborator, or strategic partner.\nYou're leading, building, or influencing technology, product, or business decisions.\nYou care about solving real problems, building smart, and sharing what works.\nYou want to help shape innovation, not just react to it.",
+			'amb_form_card_heading'        => 'Request a Speaker',
+			'amb_form_gf_id'               => 0,
+			'amb_form_action_url'          => '#',
+			'amb_form_name_placeholder'    => 'Name*',
+			'amb_form_org_placeholder'     => 'Organization',
+			'amb_form_email_placeholder'   => 'Email*',
+			'amb_form_phone_placeholder'   => 'Phone*',
+			'amb_form_event_placeholder'   => 'Event*',
+			'amb_form_message_placeholder' => 'What are you looking for?',
+			'amb_form_submit'              => 'Submit Request',
+		);
+
+		$image_map = array(
+			'amb_hero_img'   => array( 'img/ambassadors-hero-a.png', 'Ambassadors hero photo left' ),
+			'amb_hero_img_b' => array( 'img/ambassadors-hero-b.png', 'Ambassadors hero photo right' ),
+			'amb_con_img'    => array( 'img/ambassadors-contribute.png', 'Ambassadors contribution image' ),
+		);
+
+		foreach ( $image_map as $field => $image ) {
+			$attachment_id = slingshot_lp_theme_image_attachment_id( $image[0], $image[1] );
+			if ( $attachment_id ) {
+				$defaults[ $field ] = $attachment_id;
+			}
+		}
+
+		return $defaults;
+	}
+}
+
+define( 'SLINGSHOT_LP_FIGMA_AMBASSADORS_META_OPTION_V1', 'slingshot_lp_figma_ambassadors_meta_v1' );
+
+/**
+ * Seed the live ambassador pages with editable admin metadata.
+ */
+function slingshot_lp_maybe_seed_ambassadors_meta_v1() {
+	if ( get_option( SLINGSHOT_LP_FIGMA_AMBASSADORS_META_OPTION_V1 ) ) {
+		return;
+	}
+
+	foreach ( array( 'slingshot-ambassadors', 'ambassadors' ) as $slug ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( ! $page instanceof WP_Post ) {
+			continue;
+		}
+
+		$page_id = (int) $page->ID;
+		update_post_meta( $page_id, '_wp_page_template', 'page-ambassadors-figma.php' );
+		slingshot_lp_seed_missing_post_meta( $page_id, slingshot_lp_default_ambassadors_meta() );
+	}
+
+	update_option( SLINGSHOT_LP_FIGMA_AMBASSADORS_META_OPTION_V1, '1', true );
+}
+add_action( 'init', 'slingshot_lp_maybe_seed_ambassadors_meta_v1', 24 );
 
 if ( ! function_exists( 'slingshot_lp_default_thank_you_meta' ) ) {
 	function slingshot_lp_default_thank_you_meta() {
