@@ -40,6 +40,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'page-redesign-builder.php',
 	];
 	$all_redesign_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => $all_redesign_templates ] ];
+	$all_redesign_post_sp = [ 'post_types' => [ 'post' ] ];
 
 	$meta_boxes[] = $figma_sp + [
 		'title'  => 'Figma Template · Fallback',
@@ -49,29 +50,37 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		],
 	];
 
+	$global_modal_fields = [
+		[ 'id' => 'sl_contact_modal_heading', 'name' => 'Contact modal heading', 'type' => 'text', 'std' => 'Hit us up' ],
+		[ 'id' => 'sl_contact_modal_looking_options', 'name' => 'Contact modal "What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8, 'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
+		[ 'id' => 'sl_contact_modal_submit', 'name' => 'Contact modal submit label', 'type' => 'text', 'std' => "Let's Talk →" ],
+		[ 'id' => 'sl_contact_modal_gf_id', 'name' => 'Contact modal Gravity Form ID', 'type' => 'number', 'min' => 0, 'std' => 0, 'desc' => 'Leave 0 to use the editable fallback fields below.' ],
+		[ 'id' => 'sl_contact_modal_select_placeholder', 'name' => 'Contact modal select placeholder', 'type' => 'text', 'std' => 'What are you looking for?' ],
+		[ 'id' => 'sl_contact_modal_first_placeholder', 'name' => 'Contact modal first name placeholder', 'type' => 'text', 'std' => 'First Name*' ],
+		[ 'id' => 'sl_contact_modal_last_placeholder', 'name' => 'Contact modal last name placeholder', 'type' => 'text', 'std' => 'Last Name*' ],
+		[ 'id' => 'sl_contact_modal_company_placeholder', 'name' => 'Contact modal company placeholder', 'type' => 'text', 'std' => 'Company' ],
+		[ 'id' => 'sl_contact_modal_email_placeholder', 'name' => 'Contact modal email placeholder', 'type' => 'text', 'std' => 'Email*' ],
+		[ 'id' => 'sl_contact_modal_phone_placeholder', 'name' => 'Contact modal phone placeholder', 'type' => 'text', 'std' => 'Phone*' ],
+		[ 'id' => 'sl_contact_modal_message_placeholder', 'name' => 'Contact modal message placeholder', 'type' => 'textarea', 'rows' => 3, 'std' => "How can we help?\nTell us a little bit about what you have going on!" ],
+		[ 'id' => 'sl_subscribe_modal_heading', 'name' => 'Subscribe modal heading', 'type' => 'textarea', 'rows' => 3, 'std' => 'Get the latest news from Slingshot with our bi-weekly newsletter.' ],
+		[ 'id' => 'sl_subscribe_modal_first_placeholder', 'name' => 'Subscribe first name placeholder', 'type' => 'text', 'std' => 'First Name*' ],
+		[ 'id' => 'sl_subscribe_modal_last_placeholder', 'name' => 'Subscribe last name placeholder', 'type' => 'text', 'std' => 'Last Name*' ],
+		[ 'id' => 'sl_subscribe_modal_email_placeholder', 'name' => 'Subscribe email placeholder', 'type' => 'text', 'std' => 'Email*' ],
+		[ 'id' => 'sl_subscribe_modal_submit', 'name' => 'Subscribe modal submit label', 'type' => 'text', 'std' => 'Subscribe →' ],
+		[ 'id' => 'sl_subscribe_modal_gf_id', 'name' => 'Subscribe modal Gravity Form ID', 'type' => 'number', 'min' => 0, 'std' => 0, 'desc' => 'Leave 0 to use the editable fallback fields.' ],
+		[ 'id' => 'sl_video_modal_url', 'name' => 'Video modal URL (YouTube/Vimeo/file)', 'type' => 'text', 'desc' => 'Used by play buttons when no per-button video URL is set.' ],
+	];
+
 	$meta_boxes[] = $all_redesign_sp + [
 		'title'  => 'Global Modals · Contact / Subscribe / Video',
 		'id'     => 'lp_global_modals',
-		'fields' => [
-			[ 'id' => 'sl_contact_modal_heading', 'name' => 'Contact modal heading', 'type' => 'text', 'std' => 'Hit us up' ],
-			[ 'id' => 'sl_contact_modal_looking_options', 'name' => 'Contact modal "What are you looking for?" options (one per line)', 'type' => 'textarea', 'rows' => 8, 'std' => "General Inquiry\nProduct Development\nMobile App Development\nWeb Development\nDesign\nAI / Machine Learning\nTeam Augmentation\nConsulting" ],
-			[ 'id' => 'sl_contact_modal_submit', 'name' => 'Contact modal submit label', 'type' => 'text', 'std' => "Let's Talk →" ],
-			[ 'id' => 'sl_contact_modal_gf_id', 'name' => 'Contact modal Gravity Form ID', 'type' => 'number', 'min' => 0, 'std' => 0, 'desc' => 'Leave 0 to use the editable fallback fields below.' ],
-			[ 'id' => 'sl_contact_modal_select_placeholder', 'name' => 'Contact modal select placeholder', 'type' => 'text', 'std' => 'What are you looking for?' ],
-			[ 'id' => 'sl_contact_modal_first_placeholder', 'name' => 'Contact modal first name placeholder', 'type' => 'text', 'std' => 'First Name*' ],
-			[ 'id' => 'sl_contact_modal_last_placeholder', 'name' => 'Contact modal last name placeholder', 'type' => 'text', 'std' => 'Last Name*' ],
-			[ 'id' => 'sl_contact_modal_company_placeholder', 'name' => 'Contact modal company placeholder', 'type' => 'text', 'std' => 'Company' ],
-			[ 'id' => 'sl_contact_modal_email_placeholder', 'name' => 'Contact modal email placeholder', 'type' => 'text', 'std' => 'Email*' ],
-			[ 'id' => 'sl_contact_modal_phone_placeholder', 'name' => 'Contact modal phone placeholder', 'type' => 'text', 'std' => 'Phone*' ],
-			[ 'id' => 'sl_contact_modal_message_placeholder', 'name' => 'Contact modal message placeholder', 'type' => 'textarea', 'rows' => 3, 'std' => "How can we help?\nTell us a little bit about what you have going on!" ],
-			[ 'id' => 'sl_subscribe_modal_heading', 'name' => 'Subscribe modal heading', 'type' => 'textarea', 'rows' => 3, 'std' => 'Get the latest news from Slingshot with our bi-weekly newsletter.' ],
-			[ 'id' => 'sl_subscribe_modal_first_placeholder', 'name' => 'Subscribe first name placeholder', 'type' => 'text', 'std' => 'First Name*' ],
-			[ 'id' => 'sl_subscribe_modal_last_placeholder', 'name' => 'Subscribe last name placeholder', 'type' => 'text', 'std' => 'Last Name*' ],
-			[ 'id' => 'sl_subscribe_modal_email_placeholder', 'name' => 'Subscribe email placeholder', 'type' => 'text', 'std' => 'Email*' ],
-			[ 'id' => 'sl_subscribe_modal_submit', 'name' => 'Subscribe modal submit label', 'type' => 'text', 'std' => 'Subscribe →' ],
-			[ 'id' => 'sl_subscribe_modal_gf_id', 'name' => 'Subscribe modal Gravity Form ID', 'type' => 'number', 'min' => 0, 'std' => 0, 'desc' => 'Leave 0 to use the editable fallback fields.' ],
-			[ 'id' => 'sl_video_modal_url', 'name' => 'Video modal URL (YouTube/Vimeo/file)', 'type' => 'text', 'desc' => 'Used by play buttons when no per-button video URL is set.' ],
-		],
+		'fields' => $global_modal_fields,
+	];
+
+	$meta_boxes[] = $all_redesign_post_sp + [
+		'title'  => 'Global Modals · Contact / Subscribe / Video',
+		'id'     => 'lp_global_modals_post',
+		'fields' => $global_modal_fields,
 	];
 
 	$help_service_fields = [
@@ -1279,6 +1288,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	$op_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-open-position-figma.php' ] ] ];
 	$blg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-blog-figma.php' ] ] ];
 	$ibl_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-internal-blog-figma.php' ] ] ];
+	$ibl_post_sp = [ 'post_types' => [ 'post' ] ];
 	$int_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-internal-figma.php' ] ] ];
 	$reg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-register-figma.php' ] ] ];
 
@@ -1669,38 +1679,42 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Internal Blog Figma ───────────────────────────────────────────────────
-	$meta_boxes[] = $ibl_sp + [
-		'title'  => 'Internal Blog · Header',
-		'id'     => 'lp_ibl_header',
-		'fields' => [
-			[ 'id' => 'ibl_label',     'name' => 'Label', 'type' => 'text', 'std' => 'INSIGHTS' ],
-			[ 'id' => 'ibl_title',     'name' => 'Title (overrides page title)', 'type' => 'text' ],
-			[ 'id' => 'ibl_author',    'name' => 'Author', 'type' => 'text' ],
-			[ 'id' => 'ibl_date',      'name' => 'Published date', 'type' => 'text' ],
-			[ 'id' => 'ibl_read_time', 'name' => 'Read time', 'type' => 'text', 'std' => '5 min read' ],
-			[ 'id' => 'ibl_hero_img',  'name' => 'Hero image', 'type' => 'single_image', 'force_delete' => false ],
-		],
-	];
+	foreach ( array( 'page' => $ibl_sp, 'post' => $ibl_post_sp ) as $ibl_target_key => $ibl_target_sp ) {
+		$ibl_box_suffix = 'post' === $ibl_target_key ? '_post' : '';
 
-	$meta_boxes[] = $ibl_sp + [
-		'title'  => 'Internal Blog · Intro Block',
-		'id'     => 'lp_ibl_intro',
-		'fields' => [
-			[ 'id' => 'ibl_intro_bullets',       'name' => 'Key takeaway bullets (one per line)', 'type' => 'textarea', 'rows' => 5, 'desc' => 'Leave empty to hide the intro card entirely.' ],
-			[ 'id' => 'ibl_intro_subscribe_desc', 'name' => 'Subscribe blurb text', 'type' => 'text', 'std' => 'Get practical updates from the Slingshot team.' ],
-		],
-	];
+		$meta_boxes[] = $ibl_target_sp + [
+			'title'  => 'Internal Blog · Header',
+			'id'     => 'lp_ibl_header' . $ibl_box_suffix,
+			'fields' => [
+				[ 'id' => 'ibl_label',     'name' => 'Label', 'type' => 'text', 'std' => 'INSIGHTS' ],
+				[ 'id' => 'ibl_title',     'name' => 'Title (overrides page title)', 'type' => 'text' ],
+				[ 'id' => 'ibl_author',    'name' => 'Author', 'type' => 'text' ],
+				[ 'id' => 'ibl_date',      'name' => 'Published date', 'type' => 'text' ],
+				[ 'id' => 'ibl_read_time', 'name' => 'Read time', 'type' => 'text', 'std' => '5 min read' ],
+				[ 'id' => 'ibl_hero_img',  'name' => 'Hero image', 'type' => 'single_image', 'force_delete' => false ],
+			],
+		];
 
-	$meta_boxes[] = $ibl_sp + [
-		'title'  => 'Internal Blog · Bottom CTA',
-		'id'     => 'lp_ibl_cta',
-		'fields' => [
-			[ 'id' => 'ibl_cta_heading',  'name' => 'Heading', 'type' => 'text', 'std' => 'Ready to Launch Something Bold?' ],
-			[ 'id' => 'ibl_cta_desc',     'name' => 'Description', 'type' => 'textarea' ],
-			[ 'id' => 'ibl_cta_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => "Let's Talk" ],
-			[ 'id' => 'ibl_cta_btn_url',  'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
-		],
-	];
+		$meta_boxes[] = $ibl_target_sp + [
+			'title'  => 'Internal Blog · Intro Block',
+			'id'     => 'lp_ibl_intro' . $ibl_box_suffix,
+			'fields' => [
+				[ 'id' => 'ibl_intro_bullets',       'name' => 'Key takeaway bullets (one per line)', 'type' => 'textarea', 'rows' => 5, 'desc' => 'Leave empty to hide the intro card entirely.' ],
+				[ 'id' => 'ibl_intro_subscribe_desc', 'name' => 'Subscribe blurb text', 'type' => 'text', 'std' => 'Get practical updates from the Slingshot team.' ],
+			],
+		];
+
+		$meta_boxes[] = $ibl_target_sp + [
+			'title'  => 'Internal Blog · Bottom CTA',
+			'id'     => 'lp_ibl_cta' . $ibl_box_suffix,
+			'fields' => [
+				[ 'id' => 'ibl_cta_heading',  'name' => 'Heading', 'type' => 'text', 'std' => 'Ready to Launch Something Bold?' ],
+				[ 'id' => 'ibl_cta_desc',     'name' => 'Description', 'type' => 'textarea' ],
+				[ 'id' => 'ibl_cta_btn_text', 'name' => 'Button label', 'type' => 'text', 'std' => "Let's Talk" ],
+				[ 'id' => 'ibl_cta_btn_url',  'name' => 'Button URL', 'type' => 'text', 'std' => '/contact/' ],
+			],
+		];
+	}
 
 	// ── Internal Figma ────────────────────────────────────────────────────────
 	$meta_boxes[] = $int_sp + [
