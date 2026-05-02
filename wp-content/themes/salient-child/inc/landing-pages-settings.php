@@ -7,10 +7,10 @@
 
 add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 
-	$con_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-consulting.php' ] ] ];
-	$boot_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-bootcamp.php' ] ] ];
-	$ai_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ai.php' ] ] ];
-	$figma_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php', 'page-careers-figma.php', 'page-redesign-builder.php' ] ] ];
+	$con_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-consulting.php' ] ] ];
+	$boot_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-bootcamp.php' ] ] ];
+	$ai_sp   = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-ai.php' ] ] ];
+	$figma_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-service-figma.php', 'page-careers-figma.php', 'page-redesign-builder.php' ] ] ];
 	$all_redesign_templates = [
 		'page-consulting.php',
 		'page-bootcamp.php',
@@ -40,9 +40,9 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 		'page-register-figma.php',
 		'page-redesign-builder.php',
 	];
-	$all_redesign_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => $all_redesign_templates ] ];
+	$all_redesign_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => $all_redesign_templates ] ];
 	$all_redesign_post_sp = [ 'post_types' => [ 'post' ] ];
-	$modal_preview_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-modal-preview-figma.php' ] ] ];
+	$modal_preview_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-modal-preview-figma.php' ] ] ];
 
 	$meta_boxes[] = $figma_sp + [
 		'title'  => 'Figma Template · Fallback',
@@ -741,10 +741,10 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Teams post-meta base arrays (attached to specific page templates) ─────
-	$teams_pm    = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams.php' ] ] ];
-	$ded_pm      = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams-dedicated.php' ] ] ];
-	$staug_pm    = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams-staffaug.php' ] ] ];
-	$wp_pm       = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-teams-whitepaper.php' ] ] ];
+	$teams_pm    = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-teams.php' ] ] ];
+	$ded_pm      = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-teams-dedicated.php' ] ] ];
+	$staug_pm    = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-teams-staffaug.php' ] ] ];
+	$wp_pm       = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-teams-whitepaper.php' ] ] ];
 
 	$skill_fields = [
 		[ 'id' => 'skill_name', 'name' => 'Skill name', 'type' => 'text' ],
@@ -1308,14 +1308,14 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Service Figma pages (product / web / design / mobile) ────────────────
-	$svc_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-service-figma.php' ] ] ];
-	$car_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-careers-figma.php' ] ] ];
-	$op_sp   = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-open-position-figma.php' ] ] ];
-	$blg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-blog-figma.php' ] ] ];
-	$ibl_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-internal-blog-figma.php' ] ] ];
+	$svc_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-service-figma.php' ] ] ];
+	$car_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-careers-figma.php' ] ] ];
+	$op_sp   = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-open-position-figma.php' ] ] ];
+	$blg_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-blog-figma.php' ] ] ];
+	$ibl_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-internal-blog-figma.php' ] ] ];
 	$ibl_post_sp = [ 'post_types' => [ 'post' ] ];
-	$int_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-internal-figma.php' ] ] ];
-	$reg_sp  = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-register-figma.php' ] ] ];
+	$int_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-internal-figma.php' ] ] ];
+	$reg_sp  = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-register-figma.php' ] ] ];
 
 	$svc_built_item_fields = [
 		[ 'id' => 'icon_key',  'name' => 'Icon key (optional)', 'type' => 'text', 'desc' => 'Use one of: web, mobile, design, strategy, prototype, systems, planning, rocket, support, ai, cart, dashboard, human, integration, workflow, security.' ],
@@ -1787,7 +1787,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Contact Figma ─────────────────────────────────────────────────────────
-	$cnt_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-contact-figma.php' ] ] ];
+	$cnt_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-contact-figma.php' ] ] ];
 
 	$cnt_office_fields = [
 		[ 'id' => 'label',        'name' => 'City label',   'type' => 'text' ],
@@ -1835,7 +1835,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Thank You Figma ───────────────────────────────────────────────────────
-	$ty_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-thank-you-figma.php' ] ] ];
+	$ty_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-thank-you-figma.php' ] ] ];
 
 	$ty_next_fields = [
 		[ 'id' => 'icon_svg', 'name' => 'Icon SVG', 'type' => 'textarea', 'rows' => 3 ],
@@ -1897,7 +1897,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Work Figma ────────────────────────────────────────────────────────────
-	$wrk_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-work-figma.php' ] ] ];
+	$wrk_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-work-figma.php' ] ] ];
 
 	$wrk_project_fields = [
 		[ 'id' => 'image',      'name' => 'Project image', 'type' => 'single_image', 'force_delete' => false ],
@@ -1956,7 +1956,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Case Study Figma ──────────────────────────────────────────────────────
-	$cs_sp      = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-case-study-figma.php' ] ] ];
+	$cs_sp      = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-case-study-figma.php' ] ] ];
 	$cs_port_sp = [ 'post_types' => [ 'portfolio' ] ];
 
 	$cs_section_fields = [
@@ -2162,7 +2162,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Legal Figma ───────────────────────────────────────────────────────────
-	$leg_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-legal-figma.php' ] ] ];
+	$leg_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-legal-figma.php' ] ] ];
 
 	$meta_boxes[] = $leg_sp + [
 		'title'  => 'Legal · Header',
@@ -2176,7 +2176,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── About Us Figma ───────────────────────────────────────────────────────
-	$abt_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-about-figma.php' ] ] ];
+	$abt_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-about-figma.php' ] ] ];
 
 	$meta_boxes[] = $abt_sp + [
 		'title'  => 'About · Hero',
@@ -2303,7 +2303,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Achievements Figma ───────────────────────────────────────────────────
-	$achv_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-achievements-figma.php' ] ] ];
+	$achv_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-achievements-figma.php' ] ] ];
 
 	$meta_boxes[] = $achv_sp + [
 		'title'  => 'Achievements · Hero',
@@ -2395,7 +2395,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Ambassadors Figma ────────────────────────────────────────────────────
-	$amb_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-ambassadors-figma.php' ] ] ];
+	$amb_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-ambassadors-figma.php' ] ] ];
 
 	$meta_boxes[] = $amb_sp + [
 		'title'  => 'Ambassadors · Hero',
@@ -2477,7 +2477,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Technologies Figma ───────────────────────────────────────────────────
-	$tech_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-technologies-figma.php' ] ] ];
+	$tech_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-technologies-figma.php' ] ] ];
 
 	$meta_boxes[] = $tech_sp + [
 		'title'  => 'Technologies · Hero',
@@ -2541,7 +2541,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Security Checklist Figma ──────────────────────────────────────────────
-	$ldmg_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-security-checklist-figma.php' ] ] ];
+	$ldmg_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-security-checklist-figma.php' ] ] ];
 
 	$meta_boxes[] = $ldmg_sp + [
 		'title'  => 'Lead Magnet · Hero',
@@ -2592,7 +2592,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Events Figma (listing) ────────────────────────────────────────────────
-	$evts_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-events-figma.php' ] ] ];
+	$evts_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-events-figma.php' ] ] ];
 
 	$meta_boxes[] = $evts_sp + [
 		'title'  => 'Events · Hero',
@@ -2714,7 +2714,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	// ── Event Figma (single event series) ────────────────────────────────────
-	$evt_sp = [ 'post_types' => [ 'page' ], 'show' => [ 'template' => [ 'page-event-figma.php' ] ] ];
+	$evt_sp = [ 'post_types' => [ 'page' ], 'include' => [ 'template' => [ 'page-event-figma.php' ] ] ];
 
 	$meta_boxes[] = $evt_sp + [
 		'title'  => 'Event · Hero',

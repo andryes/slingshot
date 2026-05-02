@@ -251,7 +251,7 @@ add_filter(
 	static function ( $meta_boxes ) {
 		$sp = array(
 			'post_types' => array( 'page' ),
-			'show'       => array( 'template' => array( 'page-redesign-builder.php' ) ),
+			'include'    => array( 'template' => array( 'page-redesign-builder.php' ) ),
 		);
 
 		$meta_boxes[] = $sp + array(
