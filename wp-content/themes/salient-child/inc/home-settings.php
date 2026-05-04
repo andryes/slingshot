@@ -33,6 +33,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'home_hero_cta_url',    'name' => 'CTA URL',             'type' => 'text',          'std' => '/contact' ],
 			[ 'id' => 'home_hero_card_image', 'name' => 'Card photo',          'type' => 'single_image', 'force_delete' => false ],
 			[ 'id' => 'home_hero_card_text',  'name' => 'Card overlay text',   'type' => 'text',         'std' => '20 Years of Software &amp; Tech Expertise, at Your Service' ],
+			[ 'id' => 'sl_video_modal_url',   'name' => 'Video URL',           'type' => 'text',         'std' => '/wp-content/uploads/2019/12/Slingshot-1.mp4', 'desc' => 'YouTube, Vimeo, or direct video file URL opened by the hero play button.' ],
 		],
 	];
 
@@ -46,7 +47,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 				'name' => 'Logos strip HTML',
 				'type' => 'textarea',
 				'rows' => 8,
-				'desc' => 'Optional. Paste ready slider markup here, e.g. <span class="logo-item"><img src="..." alt="..."></span>. When filled, this HTML is used instead of the logo rows below.',
+				'desc' => 'Paste ready slider markup here',
 			],
 			[
 				'id'         => 'home_logos',
@@ -278,7 +279,7 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 	];
 
 	$meta_boxes[] = $sp + [
-		'title'  => '10 · Global Modals (Contact / Subscribe / Video)',
+		'title'  => '10 · Global Modals (Contact / Subscribe)',
 		'id'     => 'home_global_modals_mb',
 		'fields' => [
 			[ 'id' => 'sl_contact_modal_heading', 'name' => 'Contact modal heading', 'type' => 'text', 'std' => 'Hit us up' ],
@@ -298,7 +299,6 @@ add_filter( 'rwmb_meta_boxes', function ( $meta_boxes ) {
 			[ 'id' => 'sl_subscribe_modal_email_placeholder', 'name' => 'Subscribe email placeholder', 'type' => 'text', 'std' => 'Email*' ],
 			[ 'id' => 'sl_subscribe_modal_submit', 'name' => 'Subscribe modal submit label', 'type' => 'text', 'std' => 'Subscribe →' ],
 			[ 'id' => 'sl_subscribe_modal_gf_id', 'name' => 'Subscribe modal Gravity Form ID', 'type' => 'number', 'min' => 0, 'std' => 0, 'desc' => 'Leave 0 to use the editable fallback fields.' ],
-			[ 'id' => 'sl_video_modal_url', 'name' => 'Video modal URL (YouTube/Vimeo/file)', 'type' => 'text', 'desc' => 'Used by the home hero play button.' ],
 		],
 	];
 
