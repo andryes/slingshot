@@ -1,6 +1,7 @@
 ~*
 
 .DS_Store
+.claude/
 
 *.log
 *.sql
@@ -25,6 +26,7 @@ node_modules/
 /wp-content/uploads/
 
 wp-config.php
+adminer.php
 nginx.conf
 robots.txt
 sitemap.xml
