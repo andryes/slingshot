@@ -418,7 +418,7 @@ $logos_items_html = hp_logo_items_html( $logos_html, $logos );
 $services_label    = hp_setting( 'home_services_label',    'What We Do' );
 $services_title    = hp_setting( 'home_services_title',    'We help companies move faster, think bigger, and build smarter with modern solutions that drive real business momentum.' );
 if ( 'We help companies move faster, think bigger, and build smarter with modern solutions that drive real business momentum.' === wp_strip_all_tags( html_entity_decode( (string) $services_title ) ) ) {
-	$services_title = 'We help companies<br>move faster, think bigger,<br>and build smarter with<br>modern solutions that drive<br>real business momentum.';
+	$services_title = 'We help companies <br>move faster, think bigger, <br>and build smarter with <br>modern solutions that drive <br>real business momentum.';
 }
 $services_cta_text = hp_setting( 'home_services_cta_text', 'Our Services' );
 $services_cta_url  = hp_setting( 'home_services_cta_url',  '/services' );
