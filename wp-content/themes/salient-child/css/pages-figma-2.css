@@ -3554,11 +3554,15 @@ body.page-template-page-events-figma .evts-hero-photo-a {
 }
 
 body.page-template-page-events-figma .evts-hero-photo-b {
-    width: 302px;
-    height: 302px;
-    top: 0;
+    width: 346px;
+    height: 256px;
+    top: 46px;
     right: 0;
     bottom: auto;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 body.page-template-page-events-figma .evts-hero-photo-a img,
@@ -3567,6 +3571,10 @@ body.page-template-page-events-figma .evts-hero-photo-b img {
     height: 100%;
     display: block;
     object-fit: cover;
+}
+
+body.page-template-page-events-figma .evts-hero-photo-b img {
+    object-fit: contain;
 }
 
 body.page-template-page-events-figma .evts-upcoming-section,
@@ -3615,6 +3623,7 @@ body.page-template-page-events-figma .evts-past-card:hover {
 
 body.page-template-page-events-figma .evts-upcoming-img,
 body.page-template-page-events-figma .evts-past-img {
+    position: relative;
     height: auto;
     aspect-ratio: 16 / 10;
     overflow: hidden;
@@ -3628,6 +3637,24 @@ body.page-template-page-events-figma .evts-past-img img {
     height: 100%;
     display: block;
     object-fit: cover;
+}
+
+body.page-template-page-events-figma .evts-card-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    min-height: 28px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,.66);
+    border-radius: 999px;
+    background: rgba(255,255,255,.9);
+    color: #282828;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0;
 }
 
 body.page-template-page-events-figma .evts-upcoming-body,

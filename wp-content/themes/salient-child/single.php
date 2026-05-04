@@ -68,6 +68,23 @@ if ( ! function_exists( 'slingshot_single_has_local_thumbnail' ) ) {
 	}
 }
 
+if ( ! function_exists( 'slingshot_single_topic_filter_url' ) ) {
+	/**
+	 * Send topic chips back to the redesigned blog index with a matching filter.
+	 *
+	 * @param WP_Term $term Category or tag term.
+	 * @return string
+	 */
+	function slingshot_single_topic_filter_url( $term ) {
+		if ( ! $term instanceof WP_Term ) {
+			return home_url( '/blog/' );
+		}
+
+		$arg = 'post_tag' === $term->taxonomy ? 'tag' : 'topic';
+		return add_query_arg( $arg, strtolower( (string) $term->slug ), home_url( '/blog/' ) );
+	}
+}
+
 get_header();
 
 while ( have_posts() ) :
@@ -79,6 +96,9 @@ while ( have_posts() ) :
 	$author_bio    = trim( (string) get_the_author_meta( 'description', $author_id ) );
 	$author_avatar = slingshot_single_author_avatar_url( $author_id );
 	$categories    = get_the_category( $post_id );
+	$post_tags     = get_the_tags( $post_id );
+	$post_tags     = is_array( $post_tags ) ? $post_tags : array();
+	$topic_terms   = array_merge( $categories, $post_tags );
 	$category_ids  = array_map( static function ( $cat ) {
 		return (int) $cat->term_id;
 	}, $categories );
@@ -132,8 +152,8 @@ while ( have_posts() ) :
 			<div class="sgl-hero-inner">
 				<div class="sgl-hero-cats">
 					<span class="sgl-hero-cat"><?php echo esc_html( $label ); ?></span>
-					<?php foreach ( array_slice( $categories, 0, 2 ) as $category ) : ?>
-						<span class="sgl-hero-cat"><?php echo esc_html( $category->name ); ?></span>
+					<?php foreach ( array_slice( $topic_terms, 0, 3 ) as $topic ) : ?>
+						<a class="sgl-hero-cat" href="<?php echo esc_url( slingshot_single_topic_filter_url( $topic ) ); ?>"><?php echo esc_html( $topic->name ); ?></a>
 					<?php endforeach; ?>
 				</div>
 				<h1 class="sgl-hero-title"><?php echo esc_html( $title ); ?></h1>
@@ -189,12 +209,12 @@ while ( have_posts() ) :
 					</div>
 				<?php endif; ?>
 
-				<?php if ( ! empty( $categories ) ) : ?>
+				<?php if ( ! empty( $topic_terms ) ) : ?>
 					<div class="sgl-sidebar-card">
 						<h2 class="sgl-sidebar-heading"><?php esc_html_e( 'Topics', 'salient-child' ); ?></h2>
 						<div class="sgl-topic-list">
-							<?php foreach ( $categories as $category ) : ?>
-								<a class="sgl-topic-link" href="<?php echo esc_url( get_category_link( $category ) ); ?>"><?php echo esc_html( $category->name ); ?></a>
+							<?php foreach ( $topic_terms as $topic ) : ?>
+								<a class="sgl-topic-link" href="<?php echo esc_url( slingshot_single_topic_filter_url( $topic ) ); ?>"><?php echo esc_html( $topic->name ); ?></a>
 							<?php endforeach; ?>
 						</div>
 					</div>

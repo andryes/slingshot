@@ -55,7 +55,7 @@ body.sl-redesign-builder-page .wpb_row {
 .sl-blog-index {
 	max-width: 1440px;
 	margin: 0 auto;
-	padding: 28px 24px 88px;
+	padding: 112px 24px 88px;
 }
 
 .sl-blog-hero {
@@ -323,7 +323,7 @@ body.sl-redesign-builder-page .wpb_row {
 
 @media (max-width: 680px) {
 	.sl-blog-index {
-		padding: 22px 14px 48px;
+		padding: 92px 14px 48px;
 	}
 	.sl-blog-hero__title {
 		font-size: 36px;

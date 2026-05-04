@@ -8,7 +8,7 @@ wp_enqueue_style( 'pages-figma-jakarta',  'https://fonts.googleapis.com/css2?fam
 wp_enqueue_style( 'home-style',           get_stylesheet_directory_uri() . '/css/home.css',          array(), '1.18' );
 wp_enqueue_style( 'service-figma-style',  get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
 wp_enqueue_style( 'pages-figma-style',    get_stylesheet_directory_uri() . '/css/pages-figma.css',   array(), '1.0' );
-wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '1.9' );
+wp_enqueue_style( 'pages-figma-2-style',  get_stylesheet_directory_uri() . '/css/pages-figma-2.css', array(), '2.1' );
 wp_enqueue_script( 'hp-script',           get_stylesheet_directory_uri() . '/js/home.js',            array( 'jquery' ), '1.6', true );
 
 get_header();
@@ -118,27 +118,64 @@ if ( ! function_exists( 'slingshot_evts_venue_label' ) ) {
 	}
 }
 
+if ( ! function_exists( 'slingshot_evts_event_excerpt' ) ) {
+	function slingshot_evts_event_excerpt( $event_id ) {
+		$excerpt = trim( wp_strip_all_tags( get_the_excerpt( $event_id ) ) );
+		if ( $excerpt ) {
+			return $excerpt;
+		}
+
+		return wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $event_id ) ), 24, '...' );
+	}
+}
+
+if ( ! function_exists( 'slingshot_evts_event_primary_term' ) ) {
+	function slingshot_evts_event_primary_term( $event_id ) {
+		$terms = get_the_terms( $event_id, 'tribe_events_cat' );
+		if ( is_wp_error( $terms ) || empty( $terms ) ) {
+			return null;
+		}
+
+		return array_values( $terms )[0];
+	}
+}
+
 if ( ! function_exists( 'slingshot_evts_event_cards' ) ) {
-	function slingshot_evts_event_cards( $limit = 6 ) {
-		$events = get_posts(
-			array(
-				'post_type'      => 'tribe_events',
-				'post_status'    => 'publish',
-				'posts_per_page' => $limit,
-				'meta_key'       => '_EventStartDate',
-				'orderby'        => 'meta_value',
-				'order'          => 'ASC',
-				'meta_type'      => 'DATETIME',
-				'meta_query'     => array(
-					array(
-						'key'     => '_EventStartDate',
-						'value'   => current_time( 'mysql' ),
-						'compare' => '>=',
-						'type'    => 'DATETIME',
-					),
-				),
-			)
+	function slingshot_evts_event_cards( $limit = 6, $scope = 'upcoming' ) {
+		$args = array(
+			'post_type'      => 'tribe_events',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'meta_key'       => '_EventStartDate',
+			'orderby'        => 'meta_value',
+			'order'          => 'ASC',
+			'meta_type'      => 'DATETIME',
 		);
+
+		if ( 'past' === $scope ) {
+			$args['order']      = 'DESC';
+			$args['meta_query'] = array(
+				array(
+					'key'     => '_EventStartDate',
+					'value'   => current_time( 'mysql' ),
+					'compare' => '<',
+					'type'    => 'DATETIME',
+				),
+			);
+		} elseif ( 'all' === $scope ) {
+			$args['order'] = 'DESC';
+		} else {
+			$args['meta_query'] = array(
+				array(
+					'key'     => '_EventStartDate',
+					'value'   => current_time( 'mysql' ),
+					'compare' => '>=',
+					'type'    => 'DATETIME',
+				),
+			);
+		}
+
+		$events = get_posts( $args );
 
 		$fallback_images = array( '455236', '455177', '455176', '455239', '455323', '455325' );
 		$cards           = array();
@@ -147,23 +184,67 @@ if ( ! function_exists( 'slingshot_evts_event_cards' ) ) {
 			$start    = get_post_meta( $event_id, '_EventStartDate', true );
 			$date     = $start ? wp_date( 'F j, Y', strtotime( $start ) ) : get_the_date( 'F j, Y', $event_id );
 			$venue    = slingshot_evts_venue_label( get_post_meta( $event_id, '_EventVenueID', true ) );
+			$term     = slingshot_evts_event_primary_term( $event_id );
 			$image    = get_the_post_thumbnail_url( $event_id, 'large' );
 			if ( ! $image && isset( $fallback_images[ $index ] ) ) {
 				$image = slingshot_evts_img_url( $fallback_images[ $index ], 'large' );
 			}
 
 			$cards[] = array(
-				'image_url' => $image,
-				'date'      => strtoupper( $venue ? $date . ' · ' . $venue : $date ),
-				'title'     => get_the_title( $event_id ),
-				'desc'      => wp_strip_all_tags( get_the_excerpt( $event_id ) ),
-				'location'  => $venue,
-				'url'       => get_permalink( $event_id ),
-				'cta'       => 'Register',
+				'event_id'      => $event_id,
+				'source'        => 'tribe_events',
+				'image_url'     => $image,
+				'date'          => strtoupper( $venue ? $date . ' · ' . $venue : $date ),
+				'date_location' => $venue ? $date . ' · ' . $venue : $date,
+				'title'         => get_the_title( $event_id ),
+				'desc'          => slingshot_evts_event_excerpt( $event_id ),
+				'location'      => $venue,
+				'url'           => get_permalink( $event_id ),
+				'cta'           => 'Register',
+				'category'      => $term ? $term->name : 'Event',
+				'category_slug' => $term ? $term->slug : 'event',
 			);
 		}
 
 		return $cards;
+	}
+}
+
+if ( ! function_exists( 'slingshot_evts_tab_list_from_cards' ) ) {
+	function slingshot_evts_tab_list_from_cards( $cards, $fallback_tabs = '' ) {
+		$tabs = array(
+			'all' => array(
+				'label' => 'All',
+				'slug'  => 'all',
+			),
+		);
+
+		foreach ( $cards as $card ) {
+			$label = trim( (string) ( $card['category'] ?? '' ) );
+			if ( ! $label ) {
+				continue;
+			}
+			$slug = trim( (string) ( $card['category_slug'] ?? sanitize_title( $label ) ) );
+			if ( ! $slug ) {
+				$slug = sanitize_title( $label );
+			}
+			$tabs[ $slug ] = array(
+				'label' => $label,
+				'slug'  => $slug,
+			);
+		}
+
+		if ( count( $tabs ) < 2 && $fallback_tabs ) {
+			foreach ( array_filter( array_map( 'trim', explode( "\n", $fallback_tabs ) ) ) as $label ) {
+				$slug          = 'all' === strtolower( $label ) ? 'all' : sanitize_title( $label );
+				$tabs[ $slug ] = array(
+					'label' => $label,
+					'slug'  => $slug,
+				);
+			}
+		}
+
+		return array_values( $tabs );
 	}
 }
 
@@ -183,10 +264,10 @@ if ( ! $hero_img_b ) {
 
 // ── Upcoming ──────────────────────────────────────────────────
 $upcoming_heading = slingshot_evts_pm( 'evts_upcoming_heading', 'Upcoming Speaking Engagements' );
-$upcoming_cards   = slingshot_evts_pm( 'evts_upcoming_cards', [] );
-$upcoming_cards   = slingshot_evts_filter_rows( $upcoming_cards, array( 'image', 'date', 'title', 'location', 'url', 'desc' ) );
+$upcoming_cards   = slingshot_evts_event_cards( 6, 'upcoming' );
 if ( empty( $upcoming_cards ) ) {
-	$upcoming_cards = slingshot_evts_event_cards( 6 );
+	$upcoming_cards = slingshot_evts_pm( 'evts_upcoming_cards', [] );
+	$upcoming_cards = slingshot_evts_filter_rows( $upcoming_cards, array( 'image', 'date', 'title', 'location', 'url', 'desc' ) );
 }
 if ( empty( $upcoming_cards ) ) {
 	$upcoming_cards = [
@@ -226,8 +307,14 @@ if ( empty( $upcoming_cards ) ) {
 // ── Past events ───────────────────────────────────────────────
 $past_heading = slingshot_evts_pm( 'evts_past_heading', "Where We've Shared Our Expertise" );
 $past_tabs    = slingshot_evts_pm( 'evts_past_tabs',    "All\nConferences\nWorkshops\nMeetups" );
-$past_cards   = slingshot_evts_pm( 'evts_past_cards', [] );
-$past_cards   = slingshot_evts_filter_rows( $past_cards, array( 'image', 'title', 'date_location', 'url', 'category', 'desc' ) );
+$past_cards   = slingshot_evts_event_cards( 9, 'past' );
+if ( empty( $past_cards ) ) {
+	$past_cards = slingshot_evts_event_cards( 9, 'all' );
+}
+if ( empty( $past_cards ) ) {
+	$past_cards = slingshot_evts_pm( 'evts_past_cards', [] );
+	$past_cards = slingshot_evts_filter_rows( $past_cards, array( 'image', 'title', 'date_location', 'url', 'category', 'desc' ) );
+}
 if ( empty( $past_cards ) ) {
 	$past_cards = [
 		[ 'image' => '455236', 'img_bg' => 'linear-gradient(135deg,#2A1878,#6D44B7)', 'title' => 'Louisville AI Exchange: Applied AI for Product Teams', 'date_location' => 'April 2026 · Louisville, KY', 'url' => '/event/louisville-ai-exchange-techfest/', 'category' => 'Meetups', 'desc' => 'Community discussion, practical examples, and product strategy for teams building with AI.' ],
@@ -239,7 +326,7 @@ if ( empty( $past_cards ) ) {
 	];
 }
 
-$past_tab_list = array_values( array_filter( array_map( 'trim', explode( "\n", $past_tabs ) ) ) );
+$past_tab_list = slingshot_evts_tab_list_from_cards( $past_cards, $past_tabs );
 
 // ── Speakers ──────────────────────────────────────────────────
 $speak_heading  = slingshot_evts_pm( 'evts_speak_heading', 'Speaker Spotlights' );
@@ -294,6 +381,11 @@ $form_message_ph   = slingshot_evts_pm( 'evts_form_message_placeholder', "Tell u
 $form_submit_text  = slingshot_evts_pm( 'evts_form_submit_text', 'Request a Speaker' );
 ?>
 <style>
+html { overflow-x:hidden !important; overflow-y:auto !important; height:auto !important; }
+body.page-template-page-events-figma,
+body.post-type-archive-tribe_events,
+body.page-template-page-events-figma #ajax-content-wrap,
+body.post-type-archive-tribe_events #ajax-content-wrap { overflow:visible !important; height:auto !important; min-height:100%; }
 body.page-template-page-events-figma #header-outer,
 body.page-template-page-events-figma #header-space { display:none !important; }
 </style>
@@ -350,6 +442,9 @@ body.page-template-page-events-figma #header-space { display:none !important; }
 					<?php if ( $img ) : ?>
 					<img src="<?php echo esc_url( $img ); ?>" alt="">
 					<?php endif; ?>
+					<?php if ( ! empty( $card['category'] ) ) : ?>
+					<span class="evts-card-tag"><?php echo esc_html( $card['category'] ); ?></span>
+					<?php endif; ?>
 				</div>
 				<div class="evts-upcoming-body">
 					<?php if ( ! empty( $card['date'] ) ) : ?>
@@ -377,9 +472,12 @@ body.page-template-page-events-figma #header-space { display:none !important; }
 			<h2 class="fig-section-heading"><?php echo esc_html( $past_heading ); ?></h2>
 			<?php if ( count( $past_tab_list ) > 1 ) : ?>
 			<div class="blg-filters-bar evts-past-filters">
-				<?php foreach ( $past_tab_list as $tab ) : ?>
-				<button type="button" class="blg-filter-btn evts-past-tab <?php echo $tab === 'All' ? 'is-active' : ''; ?>" data-evts-cat="<?php echo esc_attr( $tab ); ?>">
-					<?php echo esc_html( $tab ); ?>
+				<?php foreach ( $past_tab_list as $tab ) :
+					$tab_label = is_array( $tab ) ? ( $tab['label'] ?? '' ) : $tab;
+					$tab_slug  = is_array( $tab ) ? ( $tab['slug'] ?? sanitize_title( $tab_label ) ) : sanitize_title( $tab_label );
+				?>
+				<button type="button" class="blg-filter-btn evts-past-tab <?php echo 'all' === $tab_slug ? 'is-active' : ''; ?>" data-evts-cat="<?php echo esc_attr( $tab_slug ); ?>">
+					<?php echo esc_html( $tab_label ); ?>
 				</button>
 				<?php endforeach; ?>
 			</div>
@@ -387,15 +485,19 @@ body.page-template-page-events-figma #header-space { display:none !important; }
 		</div>
 		<div class="evts-past-grid" id="evts-past-grid">
 			<?php foreach ( $past_cards as $card ) :
-				$img = ! empty( $card['image_url'] ) ? $card['image_url'] : slingshot_evts_img_url( $card['image'] ?? '', 'medium_large' );
-				$bg  = $card['img_bg'] ?? 'linear-gradient(135deg,#1a0945,#3a1278)';
-				$cat = $card['category'] ?? 'All';
-				$url = slingshot_lp_h_attr( $card['url'] ?? '#' );
+				$img      = ! empty( $card['image_url'] ) ? $card['image_url'] : slingshot_evts_img_url( $card['image'] ?? '', 'medium_large' );
+				$bg       = $card['img_bg'] ?? 'linear-gradient(135deg,#1a0945,#3a1278)';
+				$cat      = $card['category'] ?? 'All';
+				$cat_slug = $card['category_slug'] ?? sanitize_title( $cat );
+				$url      = slingshot_lp_h_attr( $card['url'] ?? '#' );
 			?>
-			<a href="<?php echo $url; ?>" class="evts-past-card" data-evts-cat="<?php echo esc_attr( $cat ); ?>">
+			<a href="<?php echo $url; ?>" class="evts-past-card" data-evts-cat="<?php echo esc_attr( $cat_slug ); ?>">
 				<div class="evts-past-img" style="<?php echo $img ? '' : 'background:' . esc_attr( $bg ); ?>">
 					<?php if ( $img ) : ?>
 					<img src="<?php echo esc_url( $img ); ?>" alt="">
+					<?php endif; ?>
+					<?php if ( ! empty( $card['category'] ) ) : ?>
+					<span class="evts-card-tag"><?php echo esc_html( $card['category'] ); ?></span>
 					<?php endif; ?>
 				</div>
 				<div class="evts-past-body">
@@ -508,7 +610,7 @@ body.page-template-page-events-figma #header-space { display:none !important; }
 			btn.classList.add('is-active');
 			var cat = btn.getAttribute('data-evts-cat');
 			cards.forEach(function(card){
-				if ( cat === 'All' || card.getAttribute('data-evts-cat') === cat ) {
+				if ( cat === 'all' || card.getAttribute('data-evts-cat') === cat ) {
 					card.style.display = '';
 				} else {
 					card.style.display = 'none';

@@ -11,7 +11,7 @@ wp_enqueue_style(
 );
 wp_enqueue_style( 'home-style',        get_stylesheet_directory_uri() . '/css/home.css',        array(), '1.18' );
 wp_enqueue_style( 'service-figma-style', get_stylesheet_directory_uri() . '/css/service-figma.css', array(), '1.6' );
-wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.9' );
+wp_enqueue_style( 'pages-figma-style', get_stylesheet_directory_uri() . '/css/pages-figma.css', array(), '1.10' );
 wp_enqueue_script( 'hp-script',        get_stylesheet_directory_uri() . '/js/home.js',           array( 'jquery' ), '1.6', true );
 
 get_header();

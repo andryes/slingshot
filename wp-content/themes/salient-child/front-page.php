@@ -12,7 +12,7 @@ wp_enqueue_style(
 wp_enqueue_style(
 	'hp-style',
 	get_stylesheet_directory_uri() . '/css/home.css',
-	array(), '1.24'
+	array(), '1.26'
 );
 wp_enqueue_script(
 	'hp-script',
@@ -131,6 +131,116 @@ function hp_allowed_logos_html() {
 			'rel'         => true,
 		],
 	];
+}
+
+/**
+ * Homepage-specific white client logos matched to the Figma hero strip.
+ *
+ * @param string $name Client display name from the editable logo rows.
+ * @return string
+ */
+function hp_client_logo_url( $name ) {
+	$logos = [
+		'connected caregiver'       => '/wp-content/uploads/2024/06/White-Logos_CCG.png',
+		'churchill downs'           => '/wp-content/uploads/2024/06/white-logo-v2_Churchill-Downs.png',
+		'healthrev'                 => '/wp-content/uploads/2024/06/white-logo-v2_HealthRev.png',
+		'healthrey'                 => '/wp-content/uploads/2024/06/white-logo-v2_HealthRev.png',
+		'paysign'                   => '/wp-content/uploads/2024/06/White-Logos_Paysign.png',
+		'projectteam'               => '/wp-content/uploads/2024/06/White-Logos_Project-Team.png',
+		'project team'              => '/wp-content/uploads/2024/06/White-Logos_Project-Team.png',
+		'schneider electric'        => '/wp-content/uploads/2024/06/White-Logos_Schenedier-Electric.png',
+		'zoeller'                   => '/wp-content/uploads/2024/06/zoeller-just-pump-company-white.png',
+		'zoeller group'             => '/wp-content/uploads/2024/06/zoeller-just-pump-company-white.png',
+		'univ. of louisville'       => '/wp-content/uploads/2022/09/uofl.svg',
+		'university of louisville'  => '/wp-content/uploads/2022/09/uofl.svg',
+	];
+	$key   = strtolower( trim( wp_strip_all_tags( $name ) ) );
+	return $logos[ $key ] ?? slingshot_client_logo_url( $name );
+}
+
+/**
+ * Render the editable client logo strip once so it can be duplicated into a
+ * seamless marquee without changing the admin data model.
+ *
+ * @param string $logos_html Optional free-form logos markup.
+ * @param array<int,array<string,mixed>> $logos Meta Box logo rows.
+ * @return string
+ */
+function hp_logo_items_html( $logos_html, $logos ) {
+	if ( $logos_html ) {
+		return wp_kses( $logos_html, hp_allowed_logos_html() );
+	}
+
+	ob_start();
+	foreach ( $logos as $logo ) {
+		$logo_text   = (string) ( $logo['text'] ?? '' );
+		$logo_img_id = ! empty( $logo['image'] ) ? (int) $logo['image'] : 0;
+		$logo_img_url = $logo_img_id ? wp_get_attachment_image_url( $logo_img_id, 'full' ) : '';
+		if ( ! $logo_img_url ) {
+			$logo_img_url = hp_client_logo_url( $logo_text );
+		}
+		$logo_class = $logo_text ? sanitize_html_class( sanitize_title( $logo_text ) ) : 'client-logo';
+		?>
+		<span class="logo-item home-logo--<?php echo esc_attr( $logo_class ); ?>">
+			<?php if ( $logo_img_url ) : ?>
+				<img src="<?php echo esc_url( $logo_img_url ); ?>" alt="<?php echo esc_attr( $logo_text ? $logo_text : 'Client logo' ); ?>" loading="lazy">
+			<?php else : ?>
+				<?php echo esc_html( $logo_text ); ?>
+			<?php endif; ?>
+		</span>
+		<?php
+	}
+	return (string) ob_get_clean();
+}
+
+/**
+ * Get visible topic chips for a blog card from real WordPress tags first.
+ * Categories remain only as a fallback for older posts that have not been
+ * tagged yet.
+ *
+ * @param int $post_id Post ID.
+ * @return array<int,string>
+ */
+function hp_blog_card_tag_labels( $post_id ) {
+	$labels = array();
+	$terms  = get_the_tags( $post_id );
+
+	if ( is_array( $terms ) && ! empty( $terms ) ) {
+		foreach ( $terms as $term ) {
+			if ( $term instanceof WP_Term ) {
+				$labels[] = $term->name;
+			}
+		}
+	} else {
+		$cats = get_the_category( $post_id );
+		if ( is_array( $cats ) && ! empty( $cats ) ) {
+			foreach ( array_slice( $cats, 0, 3 ) as $cat ) {
+				$labels[] = $cat->name;
+			}
+		}
+	}
+
+	$labels = array_values( array_unique( array_filter( array_map( 'trim', $labels ) ) ) );
+	$preferred_order = array(
+		'ai'      => 0,
+		'product' => 1,
+		'mobile'  => 2,
+	);
+	usort(
+		$labels,
+		static function ( $a, $b ) use ( $preferred_order ) {
+			$a_key = sanitize_title( $a );
+			$b_key = sanitize_title( $b );
+			$a_pos = $preferred_order[ $a_key ] ?? 100;
+			$b_pos = $preferred_order[ $b_key ] ?? 100;
+			if ( $a_pos === $b_pos ) {
+				return strcasecmp( $a, $b );
+			}
+			return $a_pos <=> $b_pos;
+		}
+	);
+
+	return array_slice( $labels, 0, 3 );
 }
 
 /**
@@ -287,6 +397,10 @@ if ( ! $hero_card_img ) {
 	$hero_card_img = $img_dir . '/ai-insight-david.png';
 }
 $hero_card_text  = hp_setting( 'home_hero_card_text', '20 Years of Software &amp; Tech Expertise, at Your Service' );
+$hero_video_url  = (string) hp_setting( 'sl_video_modal_url', '/wp-content/uploads/2019/12/Slingshot-1.mp4' );
+if ( '' === trim( $hero_video_url ) ) {
+	$hero_video_url = '/wp-content/uploads/2019/12/Slingshot-1.mp4';
+}
 
 // Logos
 $logos_html = trim( (string) hp_setting( 'home_logos_html', '' ) );
@@ -298,6 +412,7 @@ if ( empty( $logos ) ) {
 		'ProjectTeam', 'Schneider Electric', 'Zoeller', 'Univ. of Louisville',
 	] );
 }
+$logos_items_html = hp_logo_items_html( $logos_html, $logos );
 
 // Services
 $services_label    = hp_setting( 'home_services_label',    'What We Do' );
@@ -460,11 +575,6 @@ $cta_btn_url  = hp_setting( 'home_cta_btn_url',  '/contact' );
 
 /* ── Queries ─────────────────────────────────────── */
 $work_ids = hp_post_ids_setting( 'home_work_posts' );
-$work_uses_design_defaults = empty( $work_ids );
-if ( $work_uses_design_defaults ) {
-	$work_ids = hp_ids_by_slugs( 'portfolio', [ 'horizon', 'southeast', 'hide-ccg', 'healthrev', 'paysign', 'churchill-downs' ] );
-	$work_ids = hp_fill_post_ids( 'portfolio', $work_ids, 6 );
-}
 $work_design_cards = [
 	'horizon'  => [
 		'title' => 'Horizon Engage',
@@ -500,23 +610,15 @@ if ( ! empty( $work_ids ) ) {
 $work_query = new WP_Query( $work_query_args );
 
 $blog_ids = hp_post_ids_setting( 'home_blog_posts' );
-$blog_uses_design_defaults = empty( $blog_ids );
-if ( $blog_uses_design_defaults ) {
-	$blog_ids = hp_ids_by_slugs( 'post', [ 'replaced-by-ai-video', 'ai-hackathon', 'jumpstart-ai-product-development' ] );
-	$blog_ids = hp_fill_post_ids( 'post', $blog_ids, 6 );
-}
 $blog_design_cards = [
 	'replaced-by-ai-video' => [
 		'image' => $img_dir . '/ai-insight-david.png',
-		'tags'  => [ 'AI', 'Product', 'Mobile' ],
 	],
 	'ai-hackathon' => [
 		'image' => $img_dir . '/ai-insight-hackathon.png',
-		'tags'  => [ 'AI', 'Product', 'Mobile' ],
 	],
 	'jumpstart-ai-product-development' => [
 		'image' => $img_dir . '/ai-insight-product.png',
-		'tags'  => [ 'AI', 'Product', 'Mobile' ],
 	],
 ];
 $blog_query_args = [
@@ -633,7 +735,7 @@ body.home #header-space {
 					>
 					<div class="home-hero-card-overlay">
 						<p class="home-hero-card-text"><?php echo wp_kses_post( $hero_card_text ); ?></p>
-						<button class="home-hero-play-btn" aria-label="Play video">
+						<button class="home-hero-play-btn" aria-label="Play video" data-sl-video="<?php echo esc_url( $hero_video_url ); ?>">
 							<svg width="16" height="18" viewBox="0 0 16 18" fill="none">
 								<path d="M1 1L15 9L1 17V1Z" fill="#1B1060"/>
 							</svg>
@@ -644,32 +746,15 @@ body.home #header-space {
 
 		</div><!-- .home-hero-inner -->
 
-		<!-- Logos strip -->
-		<div class="home-logos-strip-wrapper">
-			<div class="home-logos-strip">
-				<?php if ( $logos_html ) : ?>
-					<?php echo wp_kses( $logos_html, hp_allowed_logos_html() ); ?>
-				<?php else : ?>
-				<?php foreach ( $logos as $logo ) : ?>
-					<?php
-					$logo_text = (string) ( $logo['text'] ?? '' );
-					$logo_img_id = ! empty( $logo['image'] ) ? (int) $logo['image'] : 0;
-					$logo_img_url = $logo_img_id ? wp_get_attachment_image_url( $logo_img_id, 'full' ) : '';
-					if ( ! $logo_img_url ) {
-						$logo_img_url = slingshot_client_logo_url( $logo_text );
-					}
-					?>
-					<span class="logo-item">
-						<?php if ( $logo_img_url ) : ?>
-							<img src="<?php echo esc_url( $logo_img_url ); ?>" alt="<?php echo esc_attr( $logo_text ? $logo_text : 'Client logo' ); ?>" loading="lazy">
-						<?php else : ?>
-							<?php echo esc_html( $logo_text ); ?>
-						<?php endif; ?>
-					</span>
-				<?php endforeach; ?>
-				<?php endif; ?>
+			<!-- Logos strip -->
+			<div class="home-logos-strip-wrapper">
+				<div class="home-logos-strip" aria-label="<?php esc_attr_e( 'Client logos', 'salient-child' ); ?>">
+					<div class="home-logos-marquee">
+						<div class="home-logos-track"><?php echo $logos_items_html; ?></div>
+						<div class="home-logos-track" aria-hidden="true"><?php echo $logos_items_html; ?></div>
+					</div>
+				</div>
 			</div>
-		</div>
 
 	</section><!-- .home-hero-section -->
 
@@ -714,13 +799,11 @@ body.home #header-space {
 							<p class="service-card-desc"><?php echo esc_html( $card_desc ); ?></p>
 						<?php endif; ?>
 					</div>
-					<?php if ( $card_style === 'featured' ) : ?>
 					<div class="service-card-arrow">
 						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
 							<path d="M1 13L13 1M13 1H5M13 1V9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 					</div>
-					<?php endif; ?>
 				</a>
 				<?php endforeach; ?>
 			</div><!-- .home-services-grid -->
@@ -743,7 +826,7 @@ body.home #header-space {
 						<?php while ( $work_query->have_posts() ) : $work_query->the_post(); ?>
 							<?php
 							$work_slug     = get_post_field( 'post_name', get_the_ID() );
-							$work_override = ( $work_uses_design_defaults && isset( $work_design_cards[ $work_slug ] ) ) ? $work_design_cards[ $work_slug ] : [];
+							$work_override = isset( $work_design_cards[ $work_slug ] ) ? $work_design_cards[ $work_slug ] : [];
 							$work_img_url  = ! empty( $work_override['image'] ) ? $work_override['image'] : hp_portfolio_image_url( get_the_ID() );
 							$work_card_title = ! empty( $work_override['title'] ) ? $work_override['title'] : get_the_title();
 							$work_card_desc  = ! empty( $work_override['desc'] ) ? $work_override['desc'] : hp_portfolio_excerpt( get_the_ID() );
@@ -1053,15 +1136,9 @@ body.home #header-space {
 						<?php while ( $blog_query->have_posts() ) : $blog_query->the_post(); ?>
 							<?php
 							$blog_slug     = get_post_field( 'post_name', get_the_ID() );
-							$blog_override = ( $blog_uses_design_defaults && isset( $blog_design_cards[ $blog_slug ] ) ) ? $blog_design_cards[ $blog_slug ] : [];
+							$blog_override = isset( $blog_design_cards[ $blog_slug ] ) ? $blog_design_cards[ $blog_slug ] : [];
 							$blog_img_url  = ! empty( $blog_override['image'] ) ? $blog_override['image'] : get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
-							$blog_card_tags = ! empty( $blog_override['tags'] ) ? $blog_override['tags'] : [];
-							if ( empty( $blog_card_tags ) ) {
-								$cats = get_the_category();
-								if ( $cats ) {
-									$blog_card_tags = array_map( fn( $cat ) => $cat->name, array_slice( $cats, 0, 2 ) );
-								}
-							}
+							$blog_card_tags = hp_blog_card_tag_labels( get_the_ID() );
 							?>
 							<a href="<?php the_permalink(); ?>" class="blog-card">
 								<div class="blog-card-image">

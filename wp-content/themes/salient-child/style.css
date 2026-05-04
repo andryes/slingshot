@@ -7,3 +7,7 @@ Author: Administrator
 */
 @import url("../salient/style.css");
 /* Your awesome customization starts here */
+
+.home-hero-section .home-hero-inner img {
+    margin-top: -4px;
+}

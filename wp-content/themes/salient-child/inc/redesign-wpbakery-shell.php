@@ -97,6 +97,74 @@ function slingshot_redesign_print_builder_layout_styles() {
 	<?php
 }
 
+if ( ! function_exists( 'slingshot_redesign_topic_tokens' ) ) {
+	function slingshot_redesign_topic_tokens( $term ) {
+		if ( ! $term instanceof WP_Term ) {
+			return array();
+		}
+
+		$tokens = array_filter(
+			array(
+				sanitize_title( $term->slug ),
+				sanitize_title( $term->name ),
+			)
+		);
+
+		$words = preg_split( '/\s+/', strtolower( trim( (string) $term->name ) ) );
+		if ( is_array( $words ) && count( $words ) > 1 ) {
+			$initials = implode(
+				'',
+				array_map(
+					static function ( $word ) {
+						return substr( $word, 0, 1 );
+					},
+					array_filter( $words )
+				)
+			);
+			if ( $initials ) {
+				$tokens[] = sanitize_title( $initials );
+			}
+		}
+
+		return array_values( array_unique( array_filter( $tokens ) ) );
+	}
+}
+
+if ( ! function_exists( 'slingshot_redesign_resolve_topic_term' ) ) {
+	function slingshot_redesign_resolve_topic_term( $topic ) {
+		$topic = sanitize_title( $topic );
+		if ( '' === $topic ) {
+			return null;
+		}
+
+		foreach ( array( 'category', 'post_tag' ) as $taxonomy ) {
+			$term = get_term_by( 'slug', $topic, $taxonomy );
+			if ( $term instanceof WP_Term ) {
+				return $term;
+			}
+		}
+
+		foreach ( array( 'category', 'post_tag' ) as $taxonomy ) {
+			$terms = get_terms(
+				array(
+					'taxonomy'   => $taxonomy,
+					'hide_empty' => true,
+				)
+			);
+			if ( is_wp_error( $terms ) ) {
+				continue;
+			}
+			foreach ( $terms as $term ) {
+				if ( in_array( $topic, slingshot_redesign_topic_tokens( $term ), true ) ) {
+					return $term;
+				}
+			}
+		}
+
+		return null;
+	}
+}
+
 /**
  * Render working blog index for the redesign shell.
  *
@@ -109,22 +177,54 @@ function slingshot_redesign_render_blog_index( $post_id ) {
 		$ppp = 10;
 	}
 
-	$active_topic = isset( $_GET['topic'] ) ? sanitize_title( wp_unslash( $_GET['topic'] ) ) : '';
+	$active_topic = '';
+	if ( isset( $_GET['topic'] ) ) {
+		$active_topic = sanitize_title( wp_unslash( $_GET['topic'] ) );
+	} elseif ( isset( $_GET['filter'] ) ) {
+		$active_topic = sanitize_title( wp_unslash( $_GET['filter'] ) );
+	}
+	$active_tag    = isset( $_GET['tag'] ) ? sanitize_title( wp_unslash( $_GET['tag'] ) ) : '';
 	$active_search = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '';
+	$active_term   = $active_tag !== '' ? get_term_by( 'slug', $active_tag, 'post_tag' ) : slingshot_redesign_resolve_topic_term( $active_topic );
 
-	$query = new WP_Query(
-		array(
-			'post_type'           => 'post',
-			'post_status'         => 'publish',
-			'posts_per_page'      => $ppp,
-			'paged'               => $paged,
-			'ignore_sticky_posts' => true,
-			'orderby'             => 'date',
-			'order'               => 'DESC',
-			'category_name'       => $active_topic,
-			's'                   => $active_search,
-		)
+	$query_args = array(
+		'post_type'           => 'post',
+		'post_status'         => 'publish',
+		'posts_per_page'      => $ppp,
+		'paged'               => $paged,
+		'ignore_sticky_posts' => true,
+		'orderby'             => 'date',
+		'order'               => 'DESC',
+		's'                   => $active_search,
 	);
+
+	if ( $active_term instanceof WP_Term ) {
+		$query_args['tax_query'] = array(
+			array(
+				'taxonomy' => $active_term->taxonomy,
+				'field'    => 'term_id',
+				'terms'    => array( (int) $active_term->term_id ),
+			),
+		);
+	} elseif ( '' !== $active_tag ) {
+		$query_args['post__in'] = array( 0 );
+	} elseif ( '' !== $active_topic ) {
+		$query_args['tax_query'] = array(
+			'relation' => 'OR',
+			array(
+				'taxonomy' => 'category',
+				'field'    => 'slug',
+				'terms'    => array( $active_topic ),
+			),
+			array(
+				'taxonomy' => 'post_tag',
+				'field'    => 'slug',
+				'terms'    => array( $active_topic ),
+			),
+		);
+	}
+
+	$query = new WP_Query( $query_args );
 
 	$title = (string) get_post_meta( $post_id, 'sl_blog_heading', true );
 	if ( $title === '' ) {
@@ -158,14 +258,34 @@ function slingshot_redesign_render_blog_index( $post_id ) {
 		$hero_img_right = get_the_post_thumbnail_url( (int) $hero_posts[1]->ID, 'large' );
 	}
 
-	$chip_terms = get_categories(
+	$chip_terms = get_terms(
 		array(
-			'taxonomy'   => 'category',
+			'taxonomy'   => 'post_tag',
 			'hide_empty' => true,
-			'number'     => 8,
-			'orderby'    => 'count',
-			'order'      => 'DESC',
+			'orderby'    => 'name',
+			'order'      => 'ASC',
 		)
+	);
+	if ( is_wp_error( $chip_terms ) ) {
+		$chip_terms = array();
+	}
+	usort(
+		$chip_terms,
+		static function ( $a, $b ) {
+			$preferred = array(
+				'ai'      => 0,
+				'product' => 1,
+				'mobile'  => 2,
+			);
+			$a_rank = array_key_exists( $a->slug, $preferred ) ? $preferred[ $a->slug ] : 100;
+			$b_rank = array_key_exists( $b->slug, $preferred ) ? $preferred[ $b->slug ] : 100;
+
+			if ( $a_rank === $b_rank ) {
+				return strcasecmp( $a->name, $b->name );
+			}
+
+			return $a_rank <=> $b_rank;
+		}
 	);
 	?>
 	<section class="sl-blog-index">
@@ -190,17 +310,25 @@ function slingshot_redesign_render_blog_index( $post_id ) {
 		</div>
 
 		<div class="sl-blog-filters">
-			<a class="sl-blog-chip <?php echo $active_topic === '' ? 'is-active' : ''; ?>" href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">All</a>
+			<a class="sl-blog-chip <?php echo $active_topic === '' && $active_tag === '' ? 'is-active' : ''; ?>" href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">All</a>
 			<?php foreach ( $chip_terms as $term ) : ?>
+				<?php
+				$is_active_filter = (
+					$active_tag !== '' &&
+					$active_term instanceof WP_Term &&
+					(int) $active_term->term_id === (int) $term->term_id &&
+					'post_tag' === $active_term->taxonomy
+				);
+				if ( ! $is_active_filter && '' !== $active_topic && '' === $active_tag ) {
+					$is_active_filter = in_array( $active_topic, slingshot_redesign_topic_tokens( $term ), true );
+				}
+				?>
 				<a
-					class="sl-blog-chip <?php echo $active_topic === $term->slug ? 'is-active' : ''; ?>"
-					href="<?php echo esc_url( add_query_arg( 'topic', $term->slug, home_url( '/blog/' ) ) ); ?>"
+					class="sl-blog-chip <?php echo $is_active_filter ? 'is-active' : ''; ?>"
+					href="<?php echo esc_url( add_query_arg( 'tag', $term->slug, home_url( '/blog/' ) ) ); ?>"
 				><?php echo esc_html( $term->name ); ?></a>
 			<?php endforeach; ?>
-			<form class="sl-blog-search" method="get" action="<?php echo esc_url( home_url( '/blog/' ) ); ?>">
-				<?php if ( $active_topic !== '' ) : ?>
-					<input type="hidden" name="topic" value="<?php echo esc_attr( $active_topic ); ?>">
-				<?php endif; ?>
+			<form class="sl-blog-search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 				<input type="search" name="s" value="<?php echo esc_attr( $active_search ); ?>" placeholder="Search">
 			</form>
 		</div>
@@ -238,6 +366,13 @@ function slingshot_redesign_render_blog_index( $post_id ) {
 					'type'      => 'array',
 					'prev_text' => '&larr;',
 					'next_text' => '&rarr;',
+					'add_args'  => array_filter(
+						array(
+							'topic' => $active_topic !== '' && $active_tag === '' ? ( $active_term instanceof WP_Term ? $active_term->slug : $active_topic ) : '',
+							'tag'   => $active_tag !== '' ? ( $active_term instanceof WP_Term ? $active_term->slug : $active_tag ) : '',
+							's'     => $active_search,
+						)
+					),
 				)
 			);
 			if ( ! empty( $links ) ) :

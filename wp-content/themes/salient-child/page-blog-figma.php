@@ -30,8 +30,40 @@ $blog_q = new WP_Query( array(
 	'orderby'        => 'date',
 	'order'          => 'DESC',
 ) );
+
+if ( ! function_exists( 'slingshot_blg_filter_tokens' ) ) {
+	function slingshot_blg_filter_tokens( $terms ) {
+		$tokens = array();
+		foreach ( (array) $terms as $term ) {
+			if ( ! $term instanceof WP_Term ) {
+				continue;
+			}
+			$name = strtolower( trim( $term->name ) );
+			$slug = strtolower( trim( $term->slug ) );
+			if ( $slug ) {
+				$tokens[] = $slug;
+			}
+			if ( $name ) {
+				$tokens[] = sanitize_title( $name );
+				$words = preg_split( '/\\s+/', $name );
+				if ( is_array( $words ) && count( $words ) > 1 ) {
+					$initials = implode( '', array_map( static function ( $word ) {
+						return substr( $word, 0, 1 );
+					}, array_filter( $words ) ) );
+					if ( $initials ) {
+						$tokens[] = $initials;
+					}
+				}
+			}
+		}
+		return implode( ' ', array_values( array_unique( array_filter( $tokens ) ) ) );
+	}
+}
 ?>
 <style>
+html { overflow-x:hidden !important; overflow-y:auto !important; height:auto !important; }
+body.page-template-page-blog-figma,
+body.page-template-page-blog-figma #ajax-content-wrap { overflow:visible !important; height:auto !important; min-height:100%; }
 body.page-template-page-blog-figma #header-outer,
 body.page-template-page-blog-figma #header-space { display:none !important; }
 </style>
@@ -88,7 +120,9 @@ body.page-template-page-blog-figma #header-space { display:none !important; }
 				while ( $blog_q->have_posts() ) :
 					$blog_q->the_post();
 					$cats     = get_the_category();
-					$cat_str  = implode( ' ', array_map( function($c){ return strtolower( $c->slug ); }, $cats ) );
+					$tags     = get_the_tags();
+					$tags     = is_array( $tags ) ? $tags : array();
+					$cat_str  = slingshot_blg_filter_tokens( array_merge( $cats, $tags ) );
 					$hidden   = $idx >= $initial ? ' is-hidden' : '';
 					?>
 					<a href="<?php the_permalink(); ?>" class="blg-card<?php echo esc_attr( $hidden ); ?>" data-cats="<?php echo esc_attr( $cat_str ?: 'all' ); ?>">
@@ -177,19 +211,37 @@ body.page-template-page-blog-figma #header-space { display:none !important; }
 	var loadBtn = document.getElementById('blgLoadMore');
 	var initial = <?php echo (int) slingshot_pm( 'blg_initial_visible', 12 ); ?>;
 
+	function applyFilter(filter) {
+		filter = (filter || 'all').toLowerCase();
+		cards.forEach(function(card){
+			var cats = (card.getAttribute('data-cats')||'').toLowerCase();
+			var match = filter === 'all' || cats.split(' ').indexOf(filter) !== -1;
+			card.classList.toggle('is-hidden', !match);
+		});
+		if (loadBtn) loadBtn.classList.add('is-hidden');
+	}
+
 	btns.forEach(function(btn){
 		btn.addEventListener('click', function(){
 			btns.forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
 			btn.classList.add('is-active'); btn.setAttribute('aria-selected','true');
-			var filter = btn.getAttribute('data-filter');
-			cards.forEach(function(card){
-				var cats = (card.getAttribute('data-cats')||'').toLowerCase();
-				var match = filter === 'all' || cats.split(' ').indexOf(filter) !== -1;
-				card.classList.toggle('is-hidden', !match);
-			});
-			if (loadBtn) loadBtn.classList.add('is-hidden');
+			applyFilter(btn.getAttribute('data-filter'));
 		});
 	});
+
+	var params = new URLSearchParams(window.location.search);
+	var requestedFilter = (params.get('filter') || params.get('topic') || params.get('tag') || '').toLowerCase();
+	if (requestedFilter) {
+		var matchedButton = Array.prototype.find.call(btns, function(btn){
+			return (btn.getAttribute('data-filter') || '').toLowerCase() === requestedFilter;
+		});
+		if (matchedButton) {
+			matchedButton.click();
+		} else {
+			btns.forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+			applyFilter(requestedFilter);
+		}
+	}
 
 	if (loadBtn) {
 		loadBtn.addEventListener('click', function(){

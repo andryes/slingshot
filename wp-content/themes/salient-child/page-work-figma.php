@@ -37,6 +37,9 @@ $default_project_images = array(
 );
 ?>
 <style>
+	html { overflow-x:hidden !important; overflow-y:auto !important; height:auto !important; }
+	body.page-template-page-work-figma,
+	body.page-template-page-work-figma #ajax-content-wrap { overflow:visible !important; height:auto !important; min-height:100%; }
 	body.page-template-page-work-figma #header-outer,
 	body.page-template-page-work-figma #header-space { display:none !important; }
 </style>

@@ -340,13 +340,21 @@
 
 /* Right — video card */
 .home-hero-card {
-    border-radius: 20px;
+    --hp-hero-card-radius: 20px;
+    border-radius: var(--hp-hero-card-radius);
     overflow: hidden;
     position: relative;
     aspect-ratio: 4/3;
     box-shadow: 0 24px 64px rgba(0,0,0,.45);
+    border: 0;
+    isolation: isolate;
+    clip-path: inset(0 round var(--hp-hero-card-radius));
+    transform: translateZ(0);
+    background-clip: padding-box;
 }
 .home-hero-card img {
+    position: absolute;
+    inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
@@ -361,6 +369,8 @@
     justify-content: space-between;
     gap: 16px;
     padding: 28px;
+    border-radius: inherit;
+    overflow: hidden;
 }
 .home-hero-card-text {
     color: #fff;
@@ -374,6 +384,9 @@
     border-radius: 50%;
     background: rgba(255,255,255,.92);
     border: none;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     transition: transform .2s;
@@ -402,29 +415,46 @@
 .home-logos-strip .logo-item,
 .home-logos-strip > span,
 .home-logos-strip > a {
-    color: rgba(255,255,255,.74);
+    color: rgba(255,255,255,.94);
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: .01em;
+    letter-spacing: 0;
     text-transform: none;
     white-space: nowrap;
-    transition: color .2s;
-    min-height: 28px;
+    transition: opacity .2s;
+    min-height: 38px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
 }
 .home-logos-strip .logo-item:hover,
 .home-logos-strip > span:hover,
-.home-logos-strip > a:hover { color: rgba(255,255,255,.95); }
+.home-logos-strip > a:hover { opacity: .82; }
 .home-logos-strip .logo-item img,
 .home-logos-strip > span img,
 .home-logos-strip > a img {
-    height: 28px;
-    width: auto;
+    width: var(--home-logo-w, auto);
+    max-width: var(--home-logo-max-w, 132px);
+    height: auto;
+    max-height: var(--home-logo-max-h, 36px);
     display: block;
-    opacity: .92;
-    filter: grayscale(1) brightness(2.2);
+    opacity: .98;
+    filter: none;
+    object-fit: contain;
 }
+
+.home-logo--connected-caregiver { --home-logo-w: 128px; --home-logo-max-h: 38px; }
+.home-logo--churchill-downs { --home-logo-w: 138px; --home-logo-max-h: 40px; }
+.home-logo--healthrev,
+.home-logo--healthrey { --home-logo-w: 130px; --home-logo-max-h: 30px; }
+.home-logo--paysign { --home-logo-w: 126px; --home-logo-max-h: 30px; }
+.home-logo--projectteam,
+.home-logo--project-team { --home-logo-w: 128px; --home-logo-max-h: 24px; }
+.home-logo--schneider-electric { --home-logo-w: 152px; --home-logo-max-h: 38px; }
+.home-logo--zoeller,
+.home-logo--zoeller-group { --home-logo-w: 134px; --home-logo-max-h: 38px; }
+.home-logo--univ-of-louisville,
+.home-logo--university-of-louisville { --home-logo-w: 116px; --home-logo-max-h: 38px; }
 
 /* ─── What We Do ─────────────────────────────────── */
 .home-services-section {
@@ -627,7 +657,8 @@
 .home-work-track {
     display: flex;
     gap: 24px;
-    overflow: hidden;
+    transition: transform .4s ease;
+    will-change: transform;
 }
 .work-card {
     flex: 0 0 calc((100% - 24px) / 2.12);
@@ -806,8 +837,8 @@
 .home-events-cards {
     display: flex;
     gap: 16px;
-    overflow: hidden;
     transition: transform .4s ease;
+    will-change: transform;
 }
 .event-card {
     flex: 0 0 calc((100% - 16px) / 2.06);
@@ -874,8 +905,8 @@
 .home-blog-cards {
     display: flex;
     gap: 16px;
-    overflow: hidden;
     transition: transform .4s ease;
+    will-change: transform;
 }
 .blog-card {
     flex: 0 0 calc((100% - 16px) / 2.06);
@@ -1232,11 +1263,11 @@ body.home #ajax-content-wrap {
     }
 
     .home-hero-card {
+        --hp-hero-card-radius: 16px;
         width: 480px;
         max-width: 100%;
         aspect-ratio: 6 / 5;
         margin-left: auto;
-        border-radius: 16px;
         box-shadow: none;
     }
 
@@ -1252,6 +1283,7 @@ body.home #ajax-content-wrap {
         -webkit-backdrop-filter: blur(20px);
         align-items: center;
         padding: 28px 40px;
+        border-radius: 0 0 var(--hp-hero-card-radius) var(--hp-hero-card-radius);
     }
 
     .home-hero-card-text {
@@ -1282,19 +1314,20 @@ body.home #ajax-content-wrap {
     .home-logos-strip .logo-item,
     .home-logos-strip > span,
     .home-logos-strip > a {
-        font-size: 23px;
+        font-size: 13px;
         font-weight: 700;
-        min-height: 34px;
-        color: rgba(255,255,255,.82);
-        opacity: .9;
+        min-height: 38px;
+        color: rgba(255,255,255,.94);
+        opacity: 1;
     }
 
     .home-logos-strip .logo-item img,
     .home-logos-strip > span img,
     .home-logos-strip > a img {
-        max-height: 34px;
-        height: 34px;
-        width: auto;
+        width: var(--home-logo-w, auto);
+        max-width: var(--home-logo-max-w, 132px);
+        height: auto;
+        max-height: var(--home-logo-max-h, 36px);
     }
 
     .home-services-section {
@@ -1816,5 +1849,207 @@ body.home #ajax-content-wrap {
     .event-card,
     .blog-card {
         border-radius: 14px;
+    }
+}
+
+/* ─── Interactive polish + exact home behavior ───────────── */
+.home-work-carousel,
+.home-events-carousel,
+.home-blog-carousel {
+    overflow: hidden;
+}
+
+.carousel-nav-btn.disabled,
+.carousel-nav-btn:disabled {
+    opacity: .45;
+    cursor: default;
+    pointer-events: none;
+}
+
+.home-logos-strip {
+    overflow: hidden;
+    scrollbar-width: none;
+}
+
+.home-logos-marquee {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+    animation: hp-logo-marquee 32s linear 3s infinite;
+}
+
+.home-logos-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 52px;
+    flex: 0 0 calc(100% + 30px);
+    min-width: calc(100% + 30px);
+    padding-right: 0;
+}
+
+.home-logos-strip:hover .home-logos-marquee {
+    animation-play-state: paused;
+}
+
+.home-logos-strip .logo-item,
+.home-logos-strip > span,
+.home-logos-strip > a {
+    flex: 0 0 auto;
+}
+
+@keyframes hp-logo-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-logos-marquee {
+        animation: none;
+    }
+}
+
+.service-card {
+    position: relative;
+}
+
+.service-card.dark:hover,
+.service-card.dark:focus-visible {
+    background: #fff;
+    border-color: #fff;
+}
+
+.service-card.dark:hover .service-card-title,
+.service-card.dark:focus-visible .service-card-title {
+    color: #242333;
+}
+
+.service-card.dark .service-card-desc {
+    display: block;
+    max-height: 0;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    color: #242333;
+    transition: max-height .2s ease, margin .2s ease, opacity .2s ease;
+}
+
+.service-card.dark:hover .service-card-desc,
+.service-card.dark:focus-visible .service-card-desc {
+    max-height: 96px;
+    margin: 10px 0 0;
+    opacity: 1;
+}
+
+.service-card.dark:hover .service-card-icon svg *,
+.service-card.dark:focus-visible .service-card-icon svg * {
+    stroke: #6d44b7;
+}
+
+.service-card:hover .service-card-arrow,
+.service-card:focus-visible .service-card-arrow {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.service-card.dark .service-card-arrow {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background: #f0eff8;
+    opacity: 0;
+    transform: scale(.9);
+}
+
+.service-card.dark:hover .service-card-arrow,
+.service-card.dark:focus-visible .service-card-arrow {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.service-card.dark .service-card-arrow svg path {
+    stroke: #242333;
+}
+
+.home-about-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(32,17,91,.1) 0%, rgba(55,24,112,.34) 46%, rgba(72,26,126,.78) 100%);
+    pointer-events: none;
+}
+
+.home-about-left img {
+    z-index: 0;
+    opacity: 1;
+    filter: grayscale(.05);
+}
+
+@media (min-width: 1101px) {
+    .home-hero-section {
+        background:
+            radial-gradient(ellipse 520px 760px at 101% 8%, rgba(71,137,205,.7) 0 38%, transparent 62%),
+            radial-gradient(ellipse 640px 430px at 47% -3%, rgba(255,255,255,.18) 0 36%, transparent 63%),
+            radial-gradient(ellipse 680px 760px at 54% 103%, rgba(78,61,184,.74) 0 44%, transparent 70%),
+            radial-gradient(ellipse 520px 700px at 19% 88%, rgba(156,77,209,.72) 0 42%, transparent 70%),
+            linear-gradient(132deg, #5520c1 0%, #2f1a91 43%, #143b82 100%);
+    }
+
+    .home-services-section {
+        background:
+            radial-gradient(ellipse 680px 780px at 54% -12%, rgba(75,60,181,.72) 0 43%, transparent 70%),
+            radial-gradient(ellipse 500px 660px at 19% 29%, rgba(152,80,207,.66) 0 42%, transparent 70%),
+            radial-gradient(ellipse 620px 700px at 92% 72%, rgba(76,135,195,.52) 0 42%, transparent 72%),
+            linear-gradient(132deg, #5520c1 0%, #2f1a91 43%, #143b82 100%);
+    }
+
+    .hp-blob {
+        filter: blur(54px);
+        opacity: .72;
+    }
+
+    .hp-blob-1 {
+        width: 560px;
+        height: 560px;
+        top: -120px;
+        right: -120px;
+        background: rgba(84,146,208,.36);
+    }
+
+    .hp-blob-2 {
+        width: 540px;
+        height: 540px;
+        top: 520px;
+        right: 370px;
+        background: rgba(80,63,184,.45);
+    }
+
+    .hp-blob-3 {
+        width: 500px;
+        height: 500px;
+        bottom: -150px;
+        right: 30px;
+        background: rgba(78,133,191,.28);
+    }
+
+    .hp-blob-4 {
+        width: 520px;
+        height: 520px;
+        top: 820px;
+        left: 80px;
+        background: rgba(163,80,212,.4);
+    }
+
+    .home-hero-card {
+        background: #151515;
+    }
+
+    .home-hero-card img {
+        height: calc(100% + 34px);
+        transform: translateY(-28px) scale(1.03);
+        transform-origin: center top;
     }
 }
